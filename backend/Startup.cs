@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using FluentValidation.AspNetCore;
+using System.Reflection;
 
 namespace Api
 {
@@ -21,7 +23,15 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllersWithViews();
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(ns => {
+                    ns.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+                })
+                .AddFluentValidation(fv => {
+                    fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                    fv.RunDefaultMvcValidationAfterFluentValidationExecutes = false;
+                });
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -64,6 +74,9 @@ namespace Api
                 if (env.IsDevelopment())
                 {
                     // spa.UseReactDevelopmentServer(npmScript: "start");
+
+                    // TODO: Replace this hardcoded value with one pulled from environment variables
+                    //       or find a way to detect running port
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
                 }
             });
