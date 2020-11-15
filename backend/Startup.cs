@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FluentValidation.AspNetCore;
-using System.Reflection;
+using Microsoft.EntityFrameworkCore.Design;
 
 namespace Api
 {
@@ -38,6 +39,8 @@ namespace Api
             {
                 configuration.RootPath = "../frontend/build";
             });
+
+            services.AddDbContext<Models.DBContext>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
