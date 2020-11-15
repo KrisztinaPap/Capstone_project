@@ -1,0 +1,10 @@
+{
+  "name": "capstone-build-tools",
+  "private": true,
+  "scripts": {
+    "start": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
+    "preinstall": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
+
+    "start:all": "node ./scripts/start_all"
+  }
+}
