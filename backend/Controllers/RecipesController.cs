@@ -17,9 +17,12 @@ namespace Api.Controllers
     {
       private readonly ILogger<RecipesController> _logger;
 
-      public RecipesController(ILogger<RecipesController> logger)
+      private readonly DBContext _context;
+
+      public RecipesController(ILogger<RecipesController> logger, DBContext context)
       {
           _logger = logger;
+          _context = context;
       }
 
       [HttpGet]
@@ -37,7 +40,6 @@ namespace Api.Controllers
         {
           return BadRequest(result);
         }
-
 
         return recipe;
       }
