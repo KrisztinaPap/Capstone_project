@@ -29,12 +29,55 @@ namespace Api.Models
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
 
-    [Column(TypeName = "varchar(30)")]
+    [Required]
+    [Column(TypeName = "varchar(50)")]
     public string Name { get; private set; }
 
+    [Required]
     [Column(TypeName = "int(10)")]
     public int Fat { get; set; }
+    
+    [Required]
+    [Column(TypeName = "int(10)")]
+    public int Protein { get; set; }
+    
+    [Required]
+    [Column(TypeName = "int(10)")]
+    public int Carbohydrates { get; set; }
+    
+    [Required]
+    [Column(TypeName = "int(10)")]
+    public int Calories { get; set; }
+    
+    [Required]
+    [Column(TypeName = "json")]
+    public JsonObject Instructions { get; set; }
+    
+    [Column(TypeName = "json")]
+    public JsonObject Tags { get; set; }
+    
+    [Column(TypeName = "varchar(100)")]
+    public string Image { get; set; }
 
+    [Required]
+    [Column(TypeName = "date")]
+    public DateTime date_modified { get; set; }
+    
+    [Required]
+    [Column(TypeName = "date")]
+    public DateTime date_created { get; set; }
+    
+    [Required]
+    [Column(TypeName = "decimal(10)")]
+    public decimal prep_time { get; set; }
+    
+    [Required]
+    [Column(TypeName = "int(10)")]
+    public int Servings { get; set; }
+    
+    [Column(TypeName = "varchar(500)")]
+    public string Notes { get; set; }
+    
     public Recipe(string name) {
       Name = name;
     }
