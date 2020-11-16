@@ -1,6 +1,7 @@
 using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 namespace Api.Models
 {
@@ -8,22 +9,7 @@ namespace Api.Models
   {
     public virtual DbSet<Recipe> Recipies { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-      if (!optionsBuilder.IsConfigured)
-      {
-        string connection =
-          "server=localhost;" +
-          "port=3306;" +
-          "user=root;" +
-          "password=ROOTPASS;" +
-          "database=puddlejumper_capstone;";
-
-        string version = "10.4.14-MariaDB";
-
-        optionsBuilder.UseMySql(connection, x => x.ServerVersion(version));
-      }
-    }
+    public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
