@@ -6,7 +6,7 @@ namespace Api.Models
 {
   public class DBContext : DbContext
   {
-    public virtual DbSet<Recipe> Recipies { get; set; }
+    public virtual DbSet<Recipe> Recipes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

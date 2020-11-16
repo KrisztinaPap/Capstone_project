@@ -21,7 +21,7 @@ namespace Api.Models
     }
   }
 
-  [Table("Recipies")]
+  [Table("Recipes")]
   public class Recipe {
 
     [Key]
