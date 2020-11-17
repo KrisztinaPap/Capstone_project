@@ -28,7 +28,5 @@ namespace Api.Models
     
     public virtual ICollection<Meal> Meals { get; set; } = new HashSet<Meal>();
     
-    // NEEDED A COMMENT
-
   }
 }
