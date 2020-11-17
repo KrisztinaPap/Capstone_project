@@ -32,7 +32,7 @@ namespace Api.Models
     public string Name { get; set; }
     
     [Required]
-    [Column(TypeName = "decimal(10)")]
+    [Column(TypeName = "decimal(10, 3)")]
     public decimal Quantity { get; set; }
     
     public virtual UOM UOM { get; set; }

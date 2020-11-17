@@ -17,7 +17,6 @@ namespace Api.Models
           "server=localhost;" +
           "port=3306;" +
           "user=root;" +
-          "password=ROOTPASS;" +
           "database=puddlejumper_capstone;";
 
         string version = "10.4.14-MariaDB";

@@ -72,7 +72,7 @@ namespace Api.Models
     public DateTime DateCreated { get; set; }
     
     [Required]
-    [Column(TypeName = "decimal(10, 3")]
+    [Column(TypeName = "decimal(10, 3)")]
     public decimal PrepTime { get; set; }
     
     [Required]
