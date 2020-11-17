@@ -8,7 +8,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
@@ -16,6 +15,15 @@ namespace Api
 {
   public class Startup
   {
+    private const string DBHost = "DB_HOST";
+    private const string DBVersion = "DB_VERSION";
+    private const string DBPort = "DB_PORT";
+    private const string DBUser = "DB_USER";
+    private const string DBPass = "DB_PASS";
+    private const string DBName = "DB_HOST";
+
+    private const string FrontendPort="FRONTEND_PORT";
+
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
@@ -48,24 +56,17 @@ namespace Api
       // Configure DBContext using Environment Variables.
       services.AddDbContext<Models.DBContext>(options =>
         {
-          string host = Configuration.GetValue("DB_HOST", "localhost");
-          string port = Configuration.GetValue("DB_PORT", "3306");
-          string version = Configuration.GetValue("DB_VERSION", "10.4.14");
+          string host = Configuration.GetValue(DBHost, "localhost");
+          string port = Configuration.GetValue(DBPort, "3306");
+          string version = Configuration.GetValue(DBVersion, "10.4.14");
 
-          string user = Configuration.GetValue<string>("DB_USER", null);
-          string password = Configuration.GetValue<string>("DB_PASS", null);
-          string name = Configuration.GetValue("DB_NAME", "puddlejumper_capstone");
+          string user = Configuration.GetValue(DBUser, "root");
+          string password = Configuration.GetValue<string>(DBPass, null);
+          string name = Configuration.GetValue(DBName, "puddlejumper_capstone");
 
           string connection = $"server={host};port={port};database={name};";
-          if(user != null)
-          {
-            connection = string.Concat(connection, $"user={user};");
-          }
-
-          if(password != null)
-          {
-            connection = string.Concat(connection, $"password={password}");
-          }
+          connection += (user != null) ? $"user={user};" : string.Empty;
+          connection += (password != null) ? $"password={password}" : string.Empty;
 
           options.UseMySql(connection, x => x.ServerVersion(Version.Parse(version), ServerType.MariaDb));
         });
@@ -104,11 +105,18 @@ namespace Api
 
         if (env.IsDevelopment())
         {
+            // If VisualStudio Debugging becomes an issue
+            // enable server start via Debugger.IsAttached check
+            // See: https://stackoverflow.com/questions/48461396/how-to-detect-if-debugging/48471950#48471950
+
+            // TODO: Keeping this line around just in case we want the VS
+            //       debugger to activate the front end.
+            //       Remove before project end.
+
             // spa.UseReactDevelopmentServer(npmScript: "start");
 
-            // TODO: Replace this hardcoded value with one pulled from environment variables
-            //       or find a way to detect running port
-            spa.UseProxyToSpaDevelopmentServer("http://localhost:3000");
+            int spaServerPort = Configuration.GetValue(FrontendPort, 3000);
+            spa.UseProxyToSpaDevelopmentServer(new UriBuilder("http", "localhost", 3000).Uri);
         }
       });
     }
