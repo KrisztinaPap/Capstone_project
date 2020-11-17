@@ -21,7 +21,7 @@ const Profile = () => {
         <label htmlFor="newPassword">New Password:</label>
         <input
           type="text"
-          id="NewPassword"
+          id="newPassword"
         />
 
         <label htmlFor="newPassword2">Re-enter New Password:</label>
