@@ -32,7 +32,7 @@ namespace Api.Models
       {
         entity.HasMany(a => a.Ingredients)
           .WithOne()
-          .HasForeignKey(key => key.recipe_id)
+          .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Restrict);
       });
 
