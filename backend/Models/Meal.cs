@@ -27,5 +27,9 @@ namespace Api.Models
     [Column(TypeName = "varchar(50)")]
     public string MealTime { get; set; }
 
+    
+    public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
+    
+    
   }
 }

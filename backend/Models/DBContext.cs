@@ -36,10 +36,22 @@ namespace Api.Models
           .OnDelete(DeleteBehavior.Restrict);
       });
 
-      modelBuilder.Entity<MealTime>(entity =>
+      modelBuilder.Entity<MealRecipe>(entity =>
       {
+        // Making composite key
+        // TODO: Add to citations
+        // https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
+        entity.HasKey(x => new {x.MealId, x.RecipeId});
         
-          
+        entity.HasOne(a => a.Meal)
+          .WithMany(b => b.MealRecipes)
+          .HasForeignKey(c => c.MealId)
+          .OnDelete(DeleteBehavior.Cascade);
+
+        entity.HasOne(a => a.Recipe)
+          .WithMany(b => b.MealRecipes)
+          .HasForeignKey(c => c.RecipeId)
+          .OnDelete(DeleteBehavior.Cascade);
       });
 
     }

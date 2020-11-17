@@ -89,7 +89,7 @@ namespace Api.Models
     
     public virtual ICollection<Ingredient> Ingredients { get; private set; } = new HashSet<Ingredient>();
     
-
-
+    public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
+    
   }
 }
