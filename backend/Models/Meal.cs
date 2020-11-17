@@ -25,10 +25,12 @@ namespace Api.Models
     
     [Required]    
     [Column(TypeName = "varchar(50)")]
-    public string MealTime { get; set; }
+    public string MealTimeId { get; set; }
 
     
     public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
+    
+    public virtual MealTime MealTime { get; set; }
     
     
   }

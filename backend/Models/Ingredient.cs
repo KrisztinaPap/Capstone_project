@@ -25,7 +25,7 @@ namespace Api.Models
     
     [Required]    
     [Column(TypeName = "varchar(30)")]
-    public string UOM { get; set; }
+    public string UOMId { get; set; }
     
     [Required]
     [Column(TypeName = "varchar(50)")]
@@ -34,5 +34,7 @@ namespace Api.Models
     [Required]
     [Column(TypeName = "decimal(10)")]
     public decimal Quantity { get; set; }
+    
+    public virtual UOM UOM { get; set; }
   }
 }

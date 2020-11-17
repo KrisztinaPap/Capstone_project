@@ -11,8 +11,8 @@ using FluentValidation;
 namespace Api.Models
 {
 
-  [Table("Recipe_Categories")]
-  public class recipe_category {
+  [Table("RecipeCategories")]
+  public class RecipeCategory {
 
     [Key]
     [Column(TypeName = "int(10)")]
@@ -22,5 +22,8 @@ namespace Api.Models
     [Required]
     [Column(TypeName = "varchar(50)")]
     public string Name { get; set; }
+    
+    public virtual ICollection<Recipe> Recipes { get; set; } = new HashSet<Recipe>();
+    
   }
 }

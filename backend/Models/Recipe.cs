@@ -26,9 +26,12 @@ namespace Api.Models
   public class Recipe {
 
     [Key]
-    [Column(TypeName = "int")]
+    [Column(TypeName = "int(10)")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private set; }
+    
+    [Column(TypeName = "int(10)")]
+    public int CategoryId { get; private set; }
 
     [Required]
     [Column(TypeName = "varchar(50)")]
@@ -90,6 +93,8 @@ namespace Api.Models
     public virtual ICollection<Ingredient> Ingredients { get; private set; } = new HashSet<Ingredient>();
     
     public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
+    
+    public virtual RecipeCategory RecipeCategory { get; set; }
     
   }
 }

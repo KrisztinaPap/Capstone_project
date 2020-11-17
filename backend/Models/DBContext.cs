@@ -54,6 +54,38 @@ namespace Api.Models
           .OnDelete(DeleteBehavior.Cascade);
       });
 
+      modelBuilder.Entity<Plan>(entity =>
+      {
+        entity.HasMany(a => a.Meals)
+          .WithOne()
+          .HasForeignKey(b => b.PlanId)
+          .OnDelete(DeleteBehavior.Cascade);
+      });
+
+      modelBuilder.Entity<Meal>(entity =>
+      {
+        entity.HasOne(a => a.MealTime)
+          .WithMany()
+          .HasForeignKey(b => b.MealTimeId)
+          .OnDelete(DeleteBehavior.Restrict);
+      });
+
+      modelBuilder.Entity<RecipeCategory>(entity =>
+      {
+        entity.HasMany(a => a.Recipes)
+          .WithOne(b => b.RecipeCategory)
+          .HasForeignKey(c => c.CategoryId)
+          .OnDelete(DeleteBehavior.Restrict);
+      });
+
+      modelBuilder.Entity<Ingredient>(entity =>
+      {
+        entity.HasOne(a => a.UOM)
+          .WithMany()
+          .HasForeignKey(c => c.UOMId)
+          .OnDelete(DeleteBehavior.Restrict);
+      });
+
     }
   }
 }

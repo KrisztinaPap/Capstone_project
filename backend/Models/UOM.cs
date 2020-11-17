@@ -12,7 +12,7 @@ namespace Api.Models
 {
 
   [Table("UOM")]
-  public class uom {
+  public class UOM {
 
     // This is a shortname (g, c, p, f, kcal, etc)
     [Key]
