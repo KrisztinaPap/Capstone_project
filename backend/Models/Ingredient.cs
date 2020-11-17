@@ -24,8 +24,8 @@ namespace Api.Models
     public int recipe_id { get; set; }
     
     [Required]    
-    [Column(TypeName = "int(10)")]
-    public int uom_id { get; set; }
+    [Column(TypeName = "varchar(30)")]
+    public string uom { get; set; }
     
     [Required]
     [Column(TypeName = "varchar(50)")]

@@ -11,16 +11,15 @@ using FluentValidation;
 namespace Api.Models
 {
 
-  [Table("UOM")]
-  public class uom {
+  [Table("MealTime")]
+  public class MealTime {
 
-    // This is a shortname (g, c, p, f, kcal, etc)
     [Key]
-    [Column(TypeName = "varchar(20)")]
-    public string Id { get; private set; }
-    
-    [Required]
-    [Column(TypeName = "varchar(50)")]
+    [Column(TypeName = "varchar(10)")]
+    public string Id { get; set; }
+
+    [Column(TypeName = "varchar(30)")]
     public string Name { get; set; }
+    
   }
 }

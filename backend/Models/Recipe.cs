@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Api.Controllers;
 using FluentValidation;
 
 namespace Api.Models
@@ -68,7 +69,7 @@ namespace Api.Models
     public DateTime date_created { get; set; }
     
     [Required]
-    [Column(TypeName = "decimal(10)")]
+    [Column(TypeName = "decimal(10, 3")]
     public decimal prep_time { get; set; }
     
     [Required]
