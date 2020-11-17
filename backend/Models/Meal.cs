@@ -21,13 +21,11 @@ namespace Api.Models
     
     [Required]
     [Column(TypeName = "int(10)")]
-    public int plan_id { get; set; }
+    public int PlanId { get; set; }
     
-    
-    // TODO: Should this be string?
     [Required]    
     [Column(TypeName = "varchar(50)")]
-    public string meal_time { get; set; }
+    public string MealTime { get; set; }
 
   }
 }

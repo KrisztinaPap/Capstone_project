@@ -7,6 +7,7 @@ namespace Api.Models
   public class DBContext : DbContext
   {
     public virtual DbSet<Recipe> Recipes { get; set; }
+    
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,6 +28,20 @@ namespace Api.Models
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      modelBuilder.Entity<Recipe>(entity =>
+      {
+        entity.HasMany(a => a.Ingredients)
+          .WithOne()
+          .HasForeignKey(key => key.recipe_id)
+          .OnDelete(DeleteBehavior.Restrict);
+      });
+
+      modelBuilder.Entity<MealTime>(entity =>
+      {
+        
+          
+      });
+
     }
   }
 }

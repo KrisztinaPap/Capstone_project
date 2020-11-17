@@ -21,11 +21,11 @@ namespace Api.Models
     
     [Required]
     [Column(TypeName = "int(10)")]
-    public int recipe_id { get; set; }
+    public int RecipeId { get; set; }
     
     [Required]    
     [Column(TypeName = "varchar(30)")]
-    public string uom { get; set; }
+    public string UOM { get; set; }
     
     [Required]
     [Column(TypeName = "varchar(50)")]

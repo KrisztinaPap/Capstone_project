@@ -62,15 +62,15 @@ namespace Api.Models
 
     [Required]
     [Column(TypeName = "date")]
-    public DateTime date_modified { get; set; }
+    public DateTime DateModified { get; set; }
     
     [Required]
     [Column(TypeName = "date")]
-    public DateTime date_created { get; set; }
+    public DateTime DateCreated { get; set; }
     
     [Required]
     [Column(TypeName = "decimal(10, 3")]
-    public decimal prep_time { get; set; }
+    public decimal PrepTime { get; set; }
     
     [Required]
     [Column(TypeName = "int(10)")]
@@ -85,5 +85,11 @@ namespace Api.Models
 
     // TODO: More investigation, but required by EF
     protected Recipe() {}
+
+    
+    public virtual ICollection<Ingredient> Ingredients { get; private set; } = new HashSet<Ingredient>();
+    
+
+
   }
 }

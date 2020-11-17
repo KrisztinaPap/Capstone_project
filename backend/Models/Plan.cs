@@ -21,11 +21,11 @@ namespace Api.Models
     
     [Required]
     [Column(TypeName = "varchar(50)")]
-    public int user_id { get; set; }
+    public int UserId { get; set; }
     
     
     [Column(TypeName = "date")]
-    public DateTime day { get; set; }
+    public DateTime Day { get; set; }
 
   }
 }

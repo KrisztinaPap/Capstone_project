@@ -21,19 +21,19 @@ namespace Api.Models
     
     [Required]
     [Column(TypeName = "varchar(50)")]
-    public string name { get; set; }
+    public string Name { get; set; }
     
     [Required]    
     [Column(TypeName = "varchar(50)")]
-    public string password { get; set; }
+    public string Password { get; set; }
     
     [Required]    
     [Column(TypeName = "varchar(50)")]
-    public string password_salt { get; set; }
+    public string PasswordSalt { get; set; }
 
     [Required] 
     [Column(TypeName = "varchar(50)")]
-    public string email { get; set; }
+    public string Email { get; set; }
 
   }
 }
