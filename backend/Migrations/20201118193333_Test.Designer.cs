@@ -3,14 +3,16 @@ using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20201118193333_Test")]
+    partial class Test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -285,7 +287,6 @@ namespace Api.Migrations
 * Cook Potatoes
 * Smother in Hot Sauce",
                             Name = "Chicken and Potatoes with Hot Sauce",
-                            Notes = "* Marinate Chicken for at least 12 hours for maximum flavor",
                             PrepTime = 35m,
                             Protein = 70,
                             Servings = 2,
@@ -300,13 +301,10 @@ namespace Api.Migrations
                             DateCreated = new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             DateModified = new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
-                            Instructions = @"* Cook Steak on BBQ
-* Cook Potatoes to personal preference
-* Serve and Enjoy!",
+                            Instructions = @"* Cook Chicken
+* Cook Potatoes
+* Smother in Hot Sauce",
                             Name = "Steak and Sweet Potatoes",
-                            Notes = @"* Marinate Steak for at least 12 hours for maximum flavor
-* Can be cooked on the stovetop but is better when BBQ'd
-* Potatoes can be diced, sliced, or baked. Personal preference.",
                             PrepTime = 25m,
                             Protein = 70,
                             Servings = 2,
