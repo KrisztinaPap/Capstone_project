@@ -3,35 +3,55 @@ import React from 'react';
 const Signup = () => {
   return (
     <>
-      <h1>Create Profile (Signup)</h1>
-
-      <form>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="text"
-          id="email"
-        />
-
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-        />
-
-        <label htmlFor="password">Password:</label>
-        <input
-          type="text"
-          id="password"
-        />
-
-        <label htmlFor="password2">Re-enter Password:</label>
-        <input
-          type="text"
-          id="password2"
-        />
-
-        <input type="submit" value="Submit" />
-        </form>
+      <div className="container">
+        <div className="block text-center my-4">
+          <h1 className="font-bold">Create Profile (Signup)</h1>
+        </div>
+        <div className="w-full max-w-xs mx-auto">
+          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <div>
+              <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                id="email"
+              />
+            </div>
+            <div>
+              <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                id="name"
+              />
+            </div>
+            <div>
+              <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password:</label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                id="password"
+              />
+            </div>
+            <div className="mb-6">
+              <label htmlFor="password2" className="block text-gray-700 text-sm font-bold mb-2">Re-enter Password:</label>
+              <input
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                type="text"
+                id="password2"
+                />
+            </div>
+            <div className="flex justify-center">
+              <button
+                className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow"
+                type="submit">
+                  Submit
+              </button>
+            </div>
+             
+          </form>
+        </div>
+      </div>
     </>
   );
 }
