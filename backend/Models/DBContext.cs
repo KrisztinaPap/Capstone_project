@@ -91,6 +91,19 @@ namespace Api.Models
           .WithMany(b => b.MealRecipes)
           .HasForeignKey(c => c.RecipeId)
           .OnDelete(DeleteBehavior.Cascade);
+
+        entity.HasData(
+          new MealRecipe()
+          {
+            MealId = -1,
+            RecipeId = -1
+          },
+          new MealRecipe()
+          {
+            MealId = -2,
+            RecipeId = -2
+          }
+        );
       });
 
       modelBuilder.Entity<Plan>(entity =>
@@ -116,6 +129,21 @@ namespace Api.Models
           .WithMany()
           .HasForeignKey(b => b.MealTimeId)
           .OnDelete(DeleteBehavior.Restrict);
+
+        entity.HasData(
+          new Meal()
+          {
+            Id = -1,
+            PlanId = -1,
+            MealTimeId = "-2"
+          },
+          new Meal()
+          {
+            Id = -2,
+            PlanId = -1,
+            MealTimeId = "-3"
+          }
+        );
       });
 
       modelBuilder.Entity<RecipeCategory>(entity =>
