@@ -84,6 +84,57 @@ namespace Api.Models
           .WithMany()
           .HasForeignKey(c => c.UOMId)
           .OnDelete(DeleteBehavior.Restrict);
+
+        entity.HasData(
+          new Ingredient()
+          {
+            Id = -1,
+            RecipeId = -1,
+            Name = "Chicken Breast",
+            Quantity = 3,
+            UOMId = "lb",
+          },
+          new Ingredient()
+          {
+            Id = -2,
+            RecipeId = -1,
+            Name = "Hot Sauce",
+            Quantity = 1,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -3,
+            RecipeId = -1,
+            Name = "Poatato",
+            Quantity = 4,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -4,
+            RecipeId = -2,
+            Name = "Striploin",
+            Quantity = 2,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -5,
+            RecipeId = -2,
+            Name = "Sweet Potato",
+            Quantity = 3,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -6,
+            RecipeId = -2,
+            Name = "Barbeque Sauce",
+            Quantity = 4,
+            UOMId = "tbsp"
+          }
+        );
       });
 
       modelBuilder.Entity<UOM>(entity =>
@@ -133,6 +184,11 @@ namespace Api.Models
           {
             Id = "kg",
             Name = "Kilogram"
+          },
+          new UOM()
+          {
+            Id = "ea",
+            Name = "Each"
           }
         );
       });
