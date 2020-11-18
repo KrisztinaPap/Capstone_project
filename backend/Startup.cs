@@ -20,7 +20,7 @@ namespace Api
     private const string DBPort = "DB_PORT";
     private const string DBUser = "DB_USER";
     private const string DBPass = "DB_PASS";
-    private const string DBName = "DB_HOST";
+    private const string DBName = "DB_NAME";
 
     private const string FrontendPort="FRONTEND_PORT";
 
@@ -66,7 +66,7 @@ namespace Api
 
           string connection = $"server={host};port={port};database={name};";
           connection += (user != null) ? $"user={user};" : string.Empty;
-          connection += (password != null) ? $"password={password}" : string.Empty;
+          connection += (password != null) ? $"password={password};" : string.Empty;
 
           options.UseMySql(connection, x => x.ServerVersion(Version.Parse(version), ServerType.MariaDb));
         });
