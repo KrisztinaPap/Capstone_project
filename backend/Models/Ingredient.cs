@@ -17,7 +17,7 @@ namespace Api.Models
     [Key]
     [Column(TypeName = "int(10)")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public int Id { get; set; }
     
     [Required]
     [Column(TypeName = "int(10)")]
