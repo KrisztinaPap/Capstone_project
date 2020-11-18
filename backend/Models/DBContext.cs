@@ -34,6 +34,45 @@ namespace Api.Models
           .WithOne()
           .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Restrict);
+
+        entity.HasData(
+          new Recipe()
+          {
+            Id = -1,
+            CategoryId = -1,
+            Name = "Chicken and Potatoes with Hot Sauce",
+            Fat = 30,
+            Protein = 70,
+            Carbohydrates = 100,
+            Calories = 860,
+            // TODO: Instructions =
+            // TODO: Tags =
+            Image = null,
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 35,
+            Servings = 2,
+            // TODO: Notes
+          },
+          new Recipe()
+          {
+            Id = -2,
+            CategoryId = -2,
+            Name = "Steak and Sweet Potatoes",
+            Fat = 10,
+            Protein = 70,
+            Carbohydrates = 115,
+            Calories = 770,
+            // TODO: Instructions =
+            // TODO: Tags =
+            Image = null,
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 25,
+            Servings = 2,
+            // TODO: Notes            
+          }
+        );
       });
 
       modelBuilder.Entity<MealRecipe>(entity =>
