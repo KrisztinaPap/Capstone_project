@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
 
@@ -32,13 +33,13 @@ const Login = () => {
                 type="submit">
                 Submit
               </button>
-              <a class="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600" href="/signup">
+              <Link to="/signup" className="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600">
                 No account? Sign up
-              </a>
+              </Link>
             </div>
-            </form>
-          </div>
+          </form>
         </div>
+      </div>
     </>
   );
 }
