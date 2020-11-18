@@ -36,5 +36,10 @@ namespace Api.Models
     public decimal Quantity { get; set; }
     
     public virtual UOM UOM { get; set; }
+
+    public Ingredient()
+    {
+    }
+
   }
 }

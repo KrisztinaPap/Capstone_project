@@ -87,7 +87,7 @@ namespace Api.Models
     }
 
     // TODO: More investigation, but required by EF
-    protected Recipe() {}
+    //protected Recipe() {}
 
     
     public virtual ICollection<Ingredient> Ingredients { get; private set; } = new HashSet<Ingredient>();
@@ -95,6 +95,9 @@ namespace Api.Models
     public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
     
     public virtual RecipeCategory RecipeCategory { get; set; }
-    
+
+    public Recipe()
+    {
+    }
   }
 }

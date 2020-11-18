@@ -21,5 +21,9 @@ namespace Api.Models
 
     public virtual Meal Meal { get; set; }
     public virtual Recipe Recipe { get; set; }
+
+    public MealRecipe()
+    {
+    }
   }
 }

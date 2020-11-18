@@ -31,7 +31,11 @@ namespace Api.Models
     public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
     
     public virtual MealTime MealTime { get; set; }
-    
-    
+
+    public Meal()
+    {
+    }
+
+
   }
 }

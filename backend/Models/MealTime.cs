@@ -20,6 +20,9 @@ namespace Api.Models
 
     [Column(TypeName = "varchar(30)")]
     public string Name { get; set; }
-    
+
+    public MealTime()
+    {
+    }
   }
 }

@@ -35,5 +35,9 @@ namespace Api.Models
     [Column(TypeName = "varchar(50)")]
     public string Email { get; set; }
 
+    public User()
+    {
+    }
+
   }
 }

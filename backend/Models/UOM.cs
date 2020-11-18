@@ -22,5 +22,9 @@ namespace Api.Models
     [Required]
     [Column(TypeName = "varchar(50)")]
     public string Name { get; set; }
+
+    public UOM()
+    {
+    }
   }
 }

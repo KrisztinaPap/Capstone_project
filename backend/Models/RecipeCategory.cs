@@ -24,6 +24,9 @@ namespace Api.Models
     public string Name { get; set; }
     
     public virtual ICollection<Recipe> Recipes { get; set; } = new HashSet<Recipe>();
-    
+
+    public RecipeCategory()
+    {
+    }
   }
 }
