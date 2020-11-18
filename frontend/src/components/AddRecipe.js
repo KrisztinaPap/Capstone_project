@@ -19,18 +19,38 @@ const AddRecipe = () => {
     // This function will add an input field to the ingredient section once called upon.
     event.preventDefault();
     const ingredientSection = document.getElementById("ingredientSection");
-    let childCount = ingredientSection.childElementCount();
+    let childCount = ingredientSection.childElementCount;
     const newInput = document.createElement("INPUT");
     const newLabel = document.createElement("LABEL");
 
     // Set the attributes for the input fields.
-    newLabel.setAttribute("for", `ingredient${childCount}`);
-    newInput.setAttribute("id",`ingredient${childCount}`);
+    newLabel.setAttribute("for", `ingredient${childCount/2 + 1}`);
+    newLabel.innerHTML = `Ingredient ${childCount/2 + 1}`;
+    newInput.setAttribute("id",`ingredient${childCount/2 + 1}`);
     newInput.setAttribute("type","text");
 
     // Add the new input to the section
     ingredientSection.appendChild(newLabel);
     ingredientSection.appendChild(newInput);
+  }
+
+  function AddInstructionStep(event) {
+    // This function will add an input field to the instruction section once called upon.
+    event.preventDefault();
+    const instructionSection = document.getElementById("instructionSection");
+    let childCount = instructionSection.childElementCount;
+    const newInput = document.createElement("INPUT");
+    const newLabel = document.createElement("LABEL");
+
+    // Set the attributes for the input fields.
+    newLabel.setAttribute("for", `instruction${childCount/2 + 1}`);
+    newLabel.innerHTML = `Instruction ${childCount/2 + 1}`;
+    newInput.setAttribute("id",`instruction${childCount/2 + 1}`);
+    newInput.setAttribute("type","text");
+
+    // Add the new input to the section
+    instructionSection.appendChild(newLabel);
+    instructionSection.appendChild(newInput);
   }
 
   function ShowMacros(event) {
@@ -70,8 +90,16 @@ const AddRecipe = () => {
             <label htmlFor="ingredient1">Ingredients(*):</label>
             <input type="text" id="ingredient1" />
           </section>
-          <label htmlFor="instructions">Instructions(*):</label>
-          <input type="text" id="instructions" />
+          <form onSubmit={AddIngredients}>
+            <input type="submit" value="+" />
+          </form>
+          <section id="instructionSection">
+            <label htmlFor="instruction1">Instructions(*):</label>
+            <input type="text" id="instruction1" />
+          </section>
+          <form onSubmit={AddInstructionStep}>
+            <input type="submit" value="+" />
+          </form>
         </section>
         <section id="addRecipeLogistics">
           <label htmlFor="addRecipePrepTime">Prep. Time(*):</label>
