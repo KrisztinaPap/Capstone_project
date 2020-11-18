@@ -76,6 +76,34 @@ namespace Api.Models
           .WithOne(b => b.RecipeCategory)
           .HasForeignKey(c => c.CategoryId)
           .OnDelete(DeleteBehavior.Restrict);
+
+        entity.HasData(
+          new RecipeCategory()
+          {
+            Id = -1,
+            Name = "Chicken"
+          },
+          new RecipeCategory()
+          {
+            Id = -2,
+            Name = "Beef"
+          },
+          new RecipeCategory()
+          {
+            Id = -3,
+            Name = "Fish"
+          },
+          new RecipeCategory()
+          {
+            Id = -4,
+            Name = "Vegetarian"
+          },
+          new RecipeCategory()
+          {
+            Id = -4,
+            Name = "Vegan"
+          }
+        );
       });
 
       modelBuilder.Entity<Ingredient>(entity =>
