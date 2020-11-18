@@ -1,18 +1,53 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
+import axios from 'axios';
 
 const AddRecipe = () => {
+  //Initialize States
 
   function SubmitRecipe(event) {
     // This function will send the POST request to database to insert the new recipe.
     event.preventDefault();
+    // Request to insert the recipe to the database.
+    axios({
+      // Specify the method to use
+      method: 'post',
+      // Specify the URL to send to.
+      url: '',
+      params: {
+        RecipeCategory: ,
+        Name: ,
+        Fats: ,
+        Proteins: ,
+        Carbs: ,
+        Calories: ,
+        Instructions: ,
+        Tags: ,
+        Image: ,
+        Date_Modified: ,
+        Date_Created: ,
+        Prep_Time: ,
+        Servings: ,
+        Notes: ,
+        // Leave the ingredients out of the table
+      }
+    });
 
+    // Request to insert the ingredients to the database.
+    axios({
+      method: 'post',
+      url: '',
+      params: {
+        Name: '',
+        Quantity: "",
+        RecipeID: "",
+      }
+    });
   };
 
   function PhotoUpload(event) {
     // This function will handle uploading the image file corresponding to the new recipe being added.
     event.preventDefault();
-
   };
 
   function AddIngredients(event) {
@@ -56,13 +91,19 @@ const AddRecipe = () => {
   function ShowMacros(event) {
     // This function will handle showing the macros input fields when the checkbox is ticked.
     event.preventDefault();
-
+    
     // Grab the macro DOM elements
     const carb = document.getElementById("addCarb");
     const protein = document.getElementById("addProtein");
     const fat = document.getElementById("addFat");
-
-    // Remove the hidden class from them.
+    if(event.target.checked == true)
+    {
+      // Remove the hidden class from the elements.
+    }
+    else
+    {
+      // Add the hidden class to the elements.
+    }
   };
 
   return (
@@ -111,7 +152,7 @@ const AddRecipe = () => {
         </section>
         <section id="addRecipeAdditional">
           <label htmlFor="addCalories">Calories</label>
-          <input type="checkbox" id="addRecipeMacros" />
+          <input type="checkbox" id="addRecipeMacros" onChange={ShowMacros}/>
           <label htmlFor="addRecipeMacros">Macros</label>
           <label htmlFor="addCarb">Carbohydrates</label>
           <input type="text" id="addCarb" />
