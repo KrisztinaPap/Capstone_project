@@ -1,12 +1,21 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import axios from 'axios';
+import { Editor } from "react-draft-wysiwyg";
+import { EditorState } from 'draft-js';
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const AddRecipe = () => {
   //Initialize States
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+
+  function onEditorStateChange(event) {
+    // This function will update the editorState.
+    setEditorState(event.blocks[0].text);
+  };
 
   function SubmitRecipe(event) {
-    // This function will send the POST request to database to insert the new recipe.
+    /* // This function will send the POST request to database to insert the new recipe.
     event.preventDefault();
     // Request to insert the recipe to the database.
     axios({
@@ -42,7 +51,7 @@ const AddRecipe = () => {
         Quantity: "",
         RecipeID: "",
       }
-    });
+    }); */
   };
 
   function PhotoUpload(event) {
@@ -67,25 +76,6 @@ const AddRecipe = () => {
     // Add the new input to the section
     ingredientSection.appendChild(newLabel);
     ingredientSection.appendChild(newInput);
-  }
-
-  function AddInstructionStep(event) {
-    // This function will add an input field to the instruction section once called upon.
-    event.preventDefault();
-    const instructionSection = document.getElementById("instructionSection");
-    let childCount = instructionSection.childElementCount;
-    const newInput = document.createElement("INPUT");
-    const newLabel = document.createElement("LABEL");
-
-    // Set the attributes for the input fields.
-    newLabel.setAttribute("for", `instruction${childCount/2 + 1}`);
-    newLabel.innerHTML = `Instruction ${childCount/2 + 1}`;
-    newInput.setAttribute("id",`instruction${childCount/2 + 1}`);
-    newInput.setAttribute("type","text");
-
-    // Add the new input to the section
-    instructionSection.appendChild(newLabel);
-    instructionSection.appendChild(newInput);
   }
 
   function ShowMacros(event) {
@@ -135,12 +125,15 @@ const AddRecipe = () => {
             <input type="submit" value="+" />
           </form>
           <section id="instructionSection">
-            <label htmlFor="instruction1">Instructions(*):</label>
-            <input type="text" id="instruction1" />
+            <h3>Instructions:</h3>
+            <p>Enter the instructions to your new recipe below!</p>
+            <Editor
+              toolbarClassName="toolbarClassName"
+              wrapperClassName="wrapperClassName"
+              editorClassName="editorClassName"
+              onChange={onEditorStateChange}
+            />
           </section>
-          <form onSubmit={AddInstructionStep}>
-            <input type="submit" value="+" />
-          </form>
         </section>
         <section id="addRecipeLogistics">
           <label htmlFor="addRecipePrepTime">Prep. Time(*):</label>
