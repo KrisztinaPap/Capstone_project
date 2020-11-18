@@ -5,7 +5,7 @@ const Login = () => {
   return (
     <>
       <div className="container">
-        <div className="block text-center"> 
+        <div className="block text-center my-4"> 
           <h1>Login</h1>
         </div>
         <div className="w-full max-w-xs mx-auto">
@@ -32,6 +32,9 @@ const Login = () => {
                 type="submit">
                 Submit
               </button>
+              <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-600" href="#">
+                No account? Sign up
+              </a>
             </div>
             </form>
           </div>
