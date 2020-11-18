@@ -7,6 +7,7 @@ namespace Api.Models
   public class DBContext : DbContext
   {
     public virtual DbSet<Recipe> Recipes { get; set; }
+
     
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -85,6 +86,58 @@ namespace Api.Models
           .OnDelete(DeleteBehavior.Restrict);
       });
 
+      modelBuilder.Entity<UOM>(entity =>
+      {
+        entity.HasData(
+          new UOM()
+          {
+            Id = "g",
+            Name = "Gram"
+          },
+          new UOM()
+          {
+            Id = "oz",
+            Name = "Ounce"
+          },
+          new UOM()
+          {
+            Id = "ml",
+            Name = "Milliliter"
+          },
+          new UOM()
+          {
+            Id = "L",
+            Name = "Liter"
+          },
+          new UOM()
+          {
+            Id = "Cup",
+            Name = "Cup"
+          },
+          new UOM()
+            {
+              Id = "tsp",
+              Name = "Teaspoon"
+            },
+          new UOM()
+            {
+              Id = "tbsp",
+              Name = "Tablespoon"
+            },
+          new UOM()
+            {
+              Id = "lb",
+              Name = "Pound"
+            },
+          new UOM()
+          {
+            Id = "kg",
+            Name = "Kilogram"
+          }
+        );
+      });
+      
+      
     }
   }
 }
