@@ -60,6 +60,15 @@ namespace Api.Models
           .WithOne()
           .HasForeignKey(b => b.PlanId)
           .OnDelete(DeleteBehavior.Cascade);
+
+        entity.HasData(
+          new Plan()
+          {
+            Id = -1,
+            UserId = -1,
+            Day = DateTime.Today
+          }
+        );
       });
 
       modelBuilder.Entity<Meal>(entity =>
