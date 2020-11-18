@@ -15,9 +15,9 @@ namespace Api.Models
   public class MealRecipe
   {
 
-    [Column(TypeName = "int(10)")] public int MealId { get; private set; }
+    [Column(TypeName = "int(10)")] public int MealId { get; set; }
 
-    [Column(TypeName = "int(10)")] public int RecipeId { get; private set; }
+    [Column(TypeName = "int(10)")] public int RecipeId { get; set; }
 
     public virtual Meal Meal { get; set; }
     public virtual Recipe Recipe { get; set; }
