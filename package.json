@@ -10,7 +10,8 @@
     "db:setup": "cd ./backend && dotnet ef database drop --force && dotnet ef database update",
     "db:drop": "cd ./backend && dotnet ef database drop --force",
 
-    "migrate:remove": "cd ./backend && dotnet ef database remove --force",
+    "migrate": "cd ./backend && dotnet ef migrations add",
+    "migrate:remove": "cd ./backend && dotnet ef migrations remove --force",
     "migrate:up": "cd ./backend && dotnet ef database update"
   }
 }
