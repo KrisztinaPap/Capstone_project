@@ -28,14 +28,14 @@ namespace Api.Models
     [Key]
     [Column(TypeName = "int(10)")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private set; }
+    public int Id { get; set; }
     
     [Column(TypeName = "int(10)")]
-    public int CategoryId { get; private set; }
+    public int CategoryId { get; set; }
 
     [Required]
     [Column(TypeName = "varchar(50)")]
-    public string Name { get; private set; }
+    public string Name { get; set; }
 
     [Required]
     [Column(TypeName = "int(10)")]
