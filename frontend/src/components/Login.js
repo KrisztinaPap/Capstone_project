@@ -32,7 +32,7 @@ const Login = () => {
                 type="submit">
                 Submit
               </button>
-              <a class="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600" href="#">
+              <a class="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600" href="/signup">
                 No account? Sign up
               </a>
             </div>

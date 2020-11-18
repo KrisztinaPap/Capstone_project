@@ -41,12 +41,15 @@ const Signup = () => {
                 id="password2"
                 />
             </div>
-            <div className="flex justify-center">
+            <div className="flex items-center justify-between">
               <button
                 className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow"
                 type="submit">
-                  Submit
+                Submit
               </button>
+              <a class="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600 ml-4" href="/login">
+                Have an account? Log in
+              </a>
             </div>
              
           </form>
