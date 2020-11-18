@@ -283,6 +283,28 @@ namespace Api.Models
         );
       });
       
+      modelBuilder.Entity<MealTime>(entity =>
+      {
+        entity.HasData(
+          new MealTime()
+          {
+            // TODO:
+            // I think Id should be int instead of string. Discuss this w/ backend.
+            Id = "-1",
+            Name = "Breakfast"
+          },
+          new MealTime()
+          {
+            Id = "-2",
+            Name = "Lunch"
+          },
+          new MealTime()
+          {
+            Id = "-3",
+            Name = "Dinner"
+          }
+        );
+      });
       
     }
   }
