@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 
 namespace Api.Models
 {
@@ -33,8 +35,14 @@ namespace Api.Models
         entity.HasMany(a => a.Ingredients)
           .WithOne()
           .HasForeignKey(key => key.RecipeId)
-          .OnDelete(DeleteBehavior.Restrict);
-
+          .OnDelete(DeleteBehavior.Cascade);
+        
+        entity.Property(e => e.Tags)
+          .HasConversion(
+            v => JsonConvert.SerializeObject(v),
+            v => JsonConvert.DeserializeObject<List<string>>(v))
+          .HasColumnType("json");
+       
         entity.HasData(
           new Recipe()
           {
@@ -45,14 +53,20 @@ namespace Api.Models
             Protein = 70,
             Carbohydrates = 100,
             Calories = 860,
-            // TODO: Instructions =
-            // TODO: Tags =
+            Instructions = string.Join("\n",
+              "* Cook Chicken",
+              "* Cook Potatoes",
+              "* Smother in Hot Sauce"
+            ),
+            Tags = new List<string>() {"Spicy"},
             Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 35,
             Servings = 2,
-            // TODO: Notes
+            Notes = string.Join("\n",
+              "* Marinate Chicken for at least 12 hours for maximum flavor"
+              )
           },
           new Recipe()
           {
@@ -63,14 +77,22 @@ namespace Api.Models
             Protein = 70,
             Carbohydrates = 115,
             Calories = 770,
-            // TODO: Instructions =
-            // TODO: Tags =
+            Instructions = string.Join("\n",
+              "* Cook Steak on BBQ",
+              "* Cook Potatoes to personal preference",
+              "* Serve and Enjoy!"
+            ),
+            Tags = new List<string>() {"BBQ"},
             Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
             Servings = 2,
-            // TODO: Notes            
+            Notes = string.Join("\n",
+              "* Marinate Steak for at least 12 hours for maximum flavor",
+              "* Can be cooked on the stovetop but is better when BBQ'd",
+              "* Potatoes can be diced, sliced, or baked. Personal preference."
+            )            
           }
         );
       });
@@ -176,7 +198,7 @@ namespace Api.Models
           },
           new RecipeCategory()
           {
-            Id = -4,
+            Id = -5,
             Name = "Vegan"
           }
         );

@@ -54,11 +54,11 @@ namespace Api.Models
     public int Calories { get; set; }
     
     [Required]
-    [Column(TypeName = "json")]
-    public JsonObject Instructions { get; set; }
+    [Column(TypeName = "longtext")]
+    public string Instructions { get; set; }
     
     [Column(TypeName = "json")]
-    public JsonObject Tags { get; set; }
+    public List<string> Tags { get; set; }
     
     [Column(TypeName = "varchar(100)")]
     public string Image { get; set; }
