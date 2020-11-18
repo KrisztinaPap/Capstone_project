@@ -6,7 +6,7 @@ const Login = () => {
     <>
       <div className="container">
         <div className="block text-center my-4"> 
-          <h1>Login</h1>
+          <h1 className="font-bold">Login</h1>
         </div>
         <div className="w-full max-w-xs mx-auto">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
@@ -28,11 +28,11 @@ const Login = () => {
             </div>
             <div className="flex items-center justify-between">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow"
                 type="submit">
                 Submit
               </button>
-              <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-600" href="#">
+              <a class="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600" href="#">
                 No account? Sign up
               </a>
             </div>
