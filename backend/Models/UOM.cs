@@ -17,7 +17,7 @@ namespace Api.Models
     // This is a shortname (g, c, p, f, kcal, etc)
     [Key]
     [Column(TypeName = "varchar(20)")]
-    public string Id { get; private set; }
+    public string Id { get; set; }
     
     [Required]
     [Column(TypeName = "varchar(50)")]
