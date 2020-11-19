@@ -9,11 +9,20 @@ import Profile from './components/Profile';
 import Recipes from './components/Recipes';
 import Recipe from './components/Recipe';
 import AddRecipe from './components/AddRecipe';
+import UserContext from './UserContext';
 
 import './custom.css'
 
 export default class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      user: 'guest'
+    }
+  }
   static displayName = App.name;
+
 
   render () {
     return (
