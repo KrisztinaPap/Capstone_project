@@ -8,11 +8,42 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 const AddRecipe = () => {
   //Initialize States
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [loading, setLoading] = useState(true);
+  const [measurements, setMeasurements] = useState([
+    { Id: 'g',
+      Name: "Gram"
+    },
+    { Id: "oz",
+      Name: "Ounce"},
+    { Id: "ml",
+      Name: "Milliliter"},
+    { Id: "L",
+      Name: "Liter"},
+    { Id: "cup",
+      Name: "Cup"},
+    { Id: "tsp",
+      Name: "Tablespoon"},
+    { Id: "lb",
+      Name: "Pound"},
+    { Id: "ea",
+      Name: "Each"}
+  ]);
 
   function onEditorStateChange(event) {
     // This function will update the editorState.
     setEditorState(event.blocks[0].text);
   };
+
+/*   async function getMeasurement() {
+    // Have an API endpoint which returns a list of Measurements we have in the database.
+    const response = await axios.get('');
+    setMeasurements();
+    setLoading(false);
+  } */
+
+/*   useEffect(()=> {
+    getMeasurement();
+  }, [loading]); */
 
   function SubmitRecipe(event) {
     /* // This function will send the POST request to database to insert the new recipe.
@@ -66,6 +97,8 @@ const AddRecipe = () => {
     let childCount = ingredientSection.childElementCount;
     const newInput = document.createElement("INPUT");
     const newLabel = document.createElement("LABEL");
+    const newMeasureSelect = document.createElement("SELECT");
+    const newMeasureLabel = document.createElement("LABEL");
 
     // Set the attributes for the input fields.
     newLabel.setAttribute("for", `ingredient${childCount/2 + 1}`);
@@ -73,9 +106,25 @@ const AddRecipe = () => {
     newInput.setAttribute("id",`ingredient${childCount/2 + 1}`);
     newInput.setAttribute("type","text");
 
+    newMeasureLabel.setAttribute("id", `measurement${childCount/2 + 1}`);
+    newMeasureLabel.innerHTML = `Measurement${childCount/2 + 1}`;
+    
+    newMeasureSelect.setAttribute("id", `measurement${childCount/2 + 1}`);
+    // Loop to create the select options for the measurements.
+    function createOption(measurement)
+    {
+      const newOption = document.createElement("OPTION");
+      newOption.setAttribute("value", `${measurement.Id}`);
+      newOption.innerHTML = `${measurement.Name}`;
+      newMeasureSelect.appendChild(newOption);
+    }
+    measurements.forEach(createOption);
+
     // Add the new input to the section
     ingredientSection.appendChild(newLabel);
     ingredientSection.appendChild(newInput);
+    ingredientSection.appendChild(newMeasureLabel);
+    ingredientSection.appendChild(newMeasureSelect);
   }
 
   function ShowMacros(event) {
@@ -120,6 +169,14 @@ const AddRecipe = () => {
           <section id="ingredientSection">
             <label htmlFor="ingredient1">Ingredients(*):</label>
             <input type="text" id="ingredient1" />
+            <label htmlFor="measurement1">Measurement1:</label>
+            <select id="measurement1">
+              {measurements.map((measurement) => {
+                return (
+                <option value={measurement.Id}>{measurement.Name}</option>
+                );
+              })}
+            </select>
           </section>
           <form onSubmit={AddIngredients}>
             <input type="submit" value="+" />
