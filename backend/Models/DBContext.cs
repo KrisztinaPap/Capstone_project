@@ -78,6 +78,91 @@ namespace Api.Models
               "* Can be cooked on the stovetop but is better when BBQ'd",
               "* Potatoes can be diced, sliced, or baked. Personal preference."
             )
+          },
+          new Recipe()
+          {
+            Id = -3,
+            CategoryId = -1,
+            Name = "Butter Chicken",
+            Fat = 11,
+            Protein = 20,
+            Carbohydrates = 10,
+            Calories = 222,
+            Instructions = string.Join("\n",
+              "* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.",
+            "* 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.",
+            "* 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.",
+            "* 4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.",
+            "* 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.",
+            "* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice."
+            ),
+            Tags = new List<string>() {"Chicken, Dinner, Easy"},
+            Image = null,
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 65,
+            Servings = 8,
+            Notes = string.Join("\n",
+              "* Delicious!"
+            )
+          },
+          new Recipe()
+          {
+            Id = -4,
+            CategoryId = -4,
+            Name = "Black Bean Quesadillas",
+            Fat = 16,
+            Protein = 13,
+            Carbohydrates = 45,
+            Calories = 375,
+            Instructions = string.Join("\n",
+              "* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.",
+            "* 2. Place tortillas on a work surface.",
+            "* 3. Spread 1/2 cup filling on half of each tortilla.",
+            "* 4. Fold tortillas in half, pressing gently to flatten.",
+            "* 5. Heat 1 teaspoon oil in a large nonstick skillet over medium heat.",
+            "* 6. Add 2 quesadillas and cook, turning once, until golden on both sides, 2 to 4 minutes total.",
+            "* 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.",
+            "* 8. Serve the quesadillas with avocado and the remaining salsa."
+            ),
+            Tags = new List<string>() {"Low calorie, High fiber, Vegetarian"},
+            Image = null,
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 25,
+            Servings = 4,
+            Notes = string.Join("\n",
+              "Tip: Look for prepared fresh salsa in the supermarket refrigerator section near other dips and spreads.")
+          },
+          new Recipe()
+          {
+            Id = -5,
+            CategoryId = -1,
+            Name = "Chipotle and Orange grilled Chicken",
+            Fat = 3,
+            Protein = 23,
+            Carbohydrates = 6,
+            Calories = 148,
+            Instructions = string.Join("\n",
+              "* 1. Preheat grill or broiler.",
+            "* 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.",
+            "* 3. Lightly oil the grill or broiler rack (see Tip).",
+            "* 4. Season chicken with salt and grill or broil for 2 minutes.",
+            "* 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.",
+            "* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer."
+            ),
+            Tags = new List<string>() {"Low calorie, Low fat, Low Sodium"},
+            Image = null,
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 45,
+            Servings = 4,
+            Notes = string.Join("\n",
+              "* Chipotle chiles in adobo sauce are smoked jalapeños packed in a flavorful sauce.",
+            "* Look for the small cans with the Mexican foods in large supermarkets.",
+            "* Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.",
+            "* Tip: To oil a grill rack: Oil a folded paper towel, hold it with tongs and rub it over the rack. (Do not use cooking spray on a hot grill.)",
+            "* When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.")
           }
         );
       });
@@ -85,7 +170,6 @@ namespace Api.Models
       modelBuilder.Entity<MealRecipe>(entity =>
       {
         // Making composite key
-        // TODO: Add to citations
         // https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
         entity.HasKey(x => new {x.MealId, x.RecipeId});
 
@@ -223,27 +307,227 @@ namespace Api.Models
           },
           new Ingredient()
           {
-            Id = -4,
-            RecipeId = -2,
-            Name = "Striploin",
+            Id = -7,
+            RecipeId = -3,
+            Name = "Olive Oil",
+            Quantity = 6,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -8,
+            RecipeId = -3,
+            Name = "Garlic cloves",
+            Quantity = 5,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -9,
+            RecipeId = -3,
+            Name = "Yellow onion",
             Quantity = 2,
             UOMId = "ea"
           },
           new Ingredient()
           {
-            Id = -5,
-            RecipeId = -2,
-            Name = "Sweet Potato",
+            Id = -10,
+            RecipeId = -3,
+            Name = "ghee",
+            Quantity = 0.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -11,
+            RecipeId = -3,
+            Name = "Tomato paste",
             Quantity = 3,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -12,
+            RecipeId = -3,
+            Name = "Tumeric",
+            Quantity = 3,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -13,
+            RecipeId = -3,
+            Name = "Chili powder",
+            Quantity = 2,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -14,
+            RecipeId = -3,
+            Name = "Garam masala",
+            Quantity = 2,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -15,
+            RecipeId = -3,
+            Name = "Ground coriander",
+            Quantity = 2,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -16,
+            RecipeId = -3,
+            Name = "Ground cumin",
+            Quantity = 2,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -17,
+            RecipeId = -3,
+            Name = "Tomato puree",
+            Quantity = 3.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -18,
+            RecipeId = -3,
+            Name = "Chicken Breast",
+            Quantity = 4,
             UOMId = "ea"
           },
           new Ingredient()
           {
-            Id = -6,
-            RecipeId = -2,
-            Name = "Barbeque Sauce",
-            Quantity = 4,
+            Id = -19,
+            RecipeId = -3,
+            Name = "Heavy Cream",
+            Quantity = 2,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -20,
+            RecipeId = -3,
+            Name = "Unsalted butter",
+            Quantity = 8,
             UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -21,
+            RecipeId = -3,
+            Name = "Cooked Jasmine Rice",
+            Quantity = 5,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -22,
+            RecipeId = -4,
+            Name = "Black Beans",
+            Quantity = 15,
+            UOMId = "oz"
+          },
+          new Ingredient()
+          {
+            Id = -23,
+            RecipeId = -4,
+            Name = "Shredded Monterey Jack Cheese",
+            Quantity = 0.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -24,
+            RecipeId = -4,
+            Name = "Salsa",
+            Quantity = 0.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -25,
+            RecipeId = -4,
+            Name = "Tortillas",
+            Quantity = 4,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -26,
+            RecipeId = -4,
+            Name = "Canola oil",
+            Quantity = 2,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -27,
+            RecipeId = -4,
+            Name = "Avocado, diced",
+            Quantity = 1,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -28,
+            RecipeId = -5,
+            Name = "Orange juice concentrate",
+            Quantity = 2,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -29,
+            RecipeId = -5,
+            Name = "Finely chopped chipotle peppers(See notes)",
+            Quantity = 1,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -30,
+            RecipeId = -5,
+            Name = "Balsamic Vinegar",
+            Quantity = 1,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -31,
+            RecipeId = -5,
+            Name = "Unsulfured Molasses",
+            Quantity = 2,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -32,
+            RecipeId = -5,
+            Name = "Dijon mustard",
+            Quantity = 1,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -33,
+            RecipeId = -5,
+            Name = "Chicken Breast",
+            Quantity = 1,
+            UOMId = "lb"
+          },
+          new Ingredient()
+          {
+            Id = -34,
+            RecipeId = -5,
+            Name = "Salt",
+            Quantity = 1,
+            UOMId = "tsp"
           }
         );
       });
@@ -273,7 +557,7 @@ namespace Api.Models
           },
           new UOM()
           {
-            Id = "Cup",
+            Id = "cup",
             Name = "Cup"
           },
           new UOM()
