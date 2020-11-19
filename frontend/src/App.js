@@ -25,12 +25,12 @@ export default function App() {
       <UserContext.Provider value={user}>
         <Layout>
           <Route exact path='/' component={Home} />
-          <Route path='/dashboard' component={Dashboard} />        
+          <Route path='/dashboard' component={Dashboard} />
           <Route path='/login' component={Login} />
           <Route path='/signup' component={Signup} />
           <Route path='/profile' component={Profile} />
-          <Route path='/recipes' component={Recipes} />
-          <Route path='/recipe' component={Recipe} />
+          <Route exact path='/recipes' component={Recipes} />
+          <Route path='/recipes/:recipes' component={Recipe} />
           <Route path='/add-recipe' component={AddRecipe} />
           </Layout>
         </UserContext.Provider>
