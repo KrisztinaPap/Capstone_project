@@ -1,17 +1,17 @@
 {
-  "name": "capstone-build-tools",
-  "private": true,
-  "scripts": {
-    "start": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
-    "preinstall": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
-
-    "start:all": "node ./scripts/start_all",
-
-    "db:setup": "cd ./backend && dotnet ef database drop --force && dotnet ef database update",
-    "db:drop": "cd ./backend && dotnet ef database drop --force",
-
-    "migrate": "cd ./backend && dotnet ef migrations add",
-    "migrate:remove": "cd ./backend && dotnet ef migrations remove --force",
-    "migrate:up": "cd ./backend && dotnet ef database update"
-  }
+    "name": "capstone-build-tools",
+    "private": true,
+    "scripts": {
+        "start": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
+        "preinstall": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
+        "start:all": "node ./scripts/start_all",
+        "db:setup": "cd ./backend && dotnet ef database drop --force && dotnet ef database update",
+        "db:drop": "cd ./backend && dotnet ef database drop --force",
+        "migrate": "cd ./backend && dotnet ef migrations add",
+        "migrate:remove": "cd ./backend && dotnet ef migrations remove --force",
+        "migrate:up": "cd ./backend && dotnet ef database update"
+    },
+    "dependencies": {
+        "axios": "^0.21.0"
+    }
 }
