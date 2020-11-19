@@ -31,11 +31,11 @@ namespace Api.Models
 
     private void CreateRules() {
       RuleFor(x => x.UOMId)
-        .Empty()
-        .WithMessage("Cannot set id of a recipe during creation");
+        .NotEmpty()
+        .WithMessage("UOM Must be Selected");
 
       RuleFor(x => x.Name)
-        .Empty()
+        .NotEmpty()
         .WithMessage("Name field must not be empty");
     }
 
