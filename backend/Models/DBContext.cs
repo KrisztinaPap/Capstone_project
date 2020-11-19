@@ -170,7 +170,6 @@ namespace Api.Models
       modelBuilder.Entity<MealRecipe>(entity =>
       {
         // Making composite key
-        // TODO: Add to citations
         // https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration
         entity.HasKey(x => new {x.MealId, x.RecipeId});
 
