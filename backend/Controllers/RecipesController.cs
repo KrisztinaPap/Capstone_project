@@ -85,11 +85,67 @@ namespace Api.Controllers
         return Created("Get", newRecipe);
       }
 
-      // PUT: api/recipes/id
+      // PUT: api/recipes/update
       [HttpPut]
-      public ActionResult<Recipe> Update(int id, [CustomizeValidator(RuleSet="Update")] [FromBody] Recipe recipe)
+      [Route("update")]
+      public ActionResult<Recipe> Update(int id, [CustomizeValidator(RuleSet = "Update")][FromBody] Recipe recipe)
       {
-        return BadRequest();
+        // Update the Recipe in the Database given the params: id, Recipe
+        Recipe recipeToUpdate = _context.Recipes.Include(x=>x.Ingredients).Where(x => x.Id == id).SingleOrDefault();
+        if(recipeToUpdate == null)
+        {
+          return BadRequest();  
+        }
+
+        recipeToUpdate.Name = recipe.Name;
+        recipeToUpdate.CategoryId = recipe.CategoryId;
+        recipeToUpdate.Fat = recipe.Fat;
+        recipeToUpdate.Protein = recipe.Protein;
+        recipeToUpdate.Carbohydrates = recipe.Carbohydrates;
+        recipeToUpdate.Instructions = recipe.Instructions;
+        recipeToUpdate.Tags = recipe.Tags;
+        recipeToUpdate.Image = recipe.Image;
+        recipeToUpdate.DateModified = DateTime.Today;
+        // Leave DateCreated alone.
+        recipeToUpdate.PrepTime = recipe.PrepTime;
+        recipeToUpdate.Servings = recipe.Servings;
+        // Recipe Ingredients accessor is currently set to private for set.
+        // recipeToUpdate.Ingredients = recipe.Ingredients;
+        recipeToUpdate.Notes = recipe.Notes;
+
+        // Collections
+        recipeToUpdate.MealRecipes = recipe.MealRecipes;
+        recipeToUpdate.RecipeCategory = recipe.RecipeCategory;
+
+        // Ensure each ingredient on the new recipe is inside the original.
+        foreach (Ingredient ingredient in recipe.Ingredients)
+        {
+          if (!recipeToUpdate.Ingredients.Contains(ingredient))
+          {
+            // Create a new ingredient and add it to the recipe.
+            // IngredientsController.CreateIngredient(params);
+          }
+          else
+          {
+            // If the ingredient is already in the recipe,
+            // Check the quantity and measurement to ensure that amount is the same.
+            Ingredient individualIngredient = recipeToUpdate.Ingredients.Where(x => x.Name == ingredient.Name).SingleOrDefault();
+            individualIngredient.Quantity = ingredient.Quantity;
+            individualIngredient.UOMId = ingredient.UOMId;
+          }
+        }
+        // Ensure that any old ingredients that are not on the new updated recipe are removed.
+        foreach(Ingredient ingredient in recipeToUpdate.Ingredients)
+        {
+          if(!recipe.Ingredients.Contains(ingredient))
+          {
+            // Remove the ingredient from the recipeToUpdate.Ingredients list.
+            recipeToUpdate.Ingredients.Remove(ingredient);
+          }
+        }
+        // Save changes in the transaction.
+          _context.SaveChanges();
+          return recipeToUpdate;
       }
 
       // DELETE: api/recipes/id
