@@ -1,4 +1,5 @@
 import React from 'react';
+import Plate from '../assets/plate.svg';
 
 const Login = () => {
 
