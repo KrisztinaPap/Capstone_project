@@ -1,15 +1,17 @@
 import React from 'react';
+
+import { Link } from 'react-router-dom';
 import Plate from '../assets/plate.svg';
+
 
 const Login = () => {
 
   return (
     <>
       <div className="container">
-        <div className="block text-center my-8"> 
+        <div className="block text-center my-4"> 
           <h1 className="font-bold">Login</h1>
         </div>
-
         <div class="md:grid md:grid-cols-2 md:gap-6 place-items-center">
 
           <div class="md:col-span-1 md:inline-block">
@@ -46,12 +48,9 @@ const Login = () => {
               </div>
               </form>
           </div>
-
         </div>
-
-
-
         </div>
+      </div>
     </>
   );
 }

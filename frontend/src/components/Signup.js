@@ -1,5 +1,8 @@
 import React from 'react';
+
 import Plate from '../assets/plate.svg';
+import { Link } from 'react-router-dom';
+
 
 const Signup = () => {
   return (
@@ -40,6 +43,7 @@ const Signup = () => {
                   type="text"
                   id="password"
                 />
+
               </div>
               <div className="mb-6">
                 <label htmlFor="password2" className="block text-gray-700 text-sm font-bold mb-2">Re-enter Password:</label>
