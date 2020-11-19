@@ -21,6 +21,9 @@ function Recipe({match}){
   // TODO: Render Stuff:
   // Placeholder image change to myRecipe.image once images are stored in DB.
   // Loop over ingredients list and display all ingredients instead of hard coding them
+  // Button Functionality:
+  //    - Edit Recipe
+  //    - Return to Recipe List
   return(
     <>
       <p><img src={"https://designshack.net/wp-content/uploads/placehold.jpg"} /></p>
@@ -42,6 +45,13 @@ function Recipe({match}){
       <h4>Notes:</h4>
       <p>{myRecipe.notes}</p>
 
+
+      <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit">
+        Edit Recipe
+      </button>
+      <button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit">
+        Return to Recipe List
+      </button>
     </>
   );
 }
