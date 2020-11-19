@@ -1,3 +1,6 @@
+# Don't VSCode RestClient http files.
+*.http
+
 # Don't include local development environment files
 .env
 
