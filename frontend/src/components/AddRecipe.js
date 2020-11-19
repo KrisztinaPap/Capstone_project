@@ -9,7 +9,7 @@ const AddRecipe = () => {
   //Initialize States
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
-  const [measurements, setMeasurements] = useState([
+  const [measurementsList, setMeasurementsList] = useState([
     { Id: 'g',
       Name: "Gram"
     },
@@ -101,15 +101,15 @@ const AddRecipe = () => {
     const newMeasureLabel = document.createElement("LABEL");
 
     // Set the attributes for the input fields.
-    newLabel.setAttribute("for", `ingredient${childCount/2 + 1}`);
-    newLabel.innerHTML = `Ingredient ${childCount/2 + 1}`;
-    newInput.setAttribute("id",`ingredient${childCount/2 + 1}`);
+    newLabel.setAttribute("for", `ingredient${childCount/4 + 1}`);
+    newLabel.innerHTML = `Ingredient ${childCount/4 + 1}`;
+    newInput.setAttribute("id",`ingredient${childCount/4 + 1}`);
     newInput.setAttribute("type","text");
 
-    newMeasureLabel.setAttribute("id", `measurement${childCount/2 + 1}`);
-    newMeasureLabel.innerHTML = `Measurement${childCount/2 + 1}`;
+    newMeasureLabel.setAttribute("id", `measurement${childCount/4 + 1}`);
+    newMeasureLabel.innerHTML = `Measurement${childCount/4 + 1}`;
     
-    newMeasureSelect.setAttribute("id", `measurement${childCount/2 + 1}`);
+    newMeasureSelect.setAttribute("id", `measurement${childCount/4 + 1 }`);
     // Loop to create the select options for the measurements.
     function createOption(measurement)
     {
@@ -118,7 +118,7 @@ const AddRecipe = () => {
       newOption.innerHTML = `${measurement.Name}`;
       newMeasureSelect.appendChild(newOption);
     }
-    measurements.forEach(createOption);
+    measurementsList.forEach(createOption);
 
     // Add the new input to the section
     ingredientSection.appendChild(newLabel);
@@ -171,7 +171,7 @@ const AddRecipe = () => {
             <input type="text" id="ingredient1" />
             <label htmlFor="measurement1">Measurement1:</label>
             <select id="measurement1">
-              {measurements.map((measurement) => {
+              {measurementsList.map((measurement) => {
                 return (
                 <option value={measurement.Id}>{measurement.Name}</option>
                 );
@@ -211,7 +211,7 @@ const AddRecipe = () => {
           <label htmlFor="addProtein">Proteins</label>
           <input type="text" id="addProtein" />
           <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
-          <input type="text" id="addRecipeExtraNotes" />
+          <textarea id="addRecipeExtraNotes" />
         </section>
         <input type="submit" />
       </form>
