@@ -59,9 +59,9 @@ const Signup = () => {
                   type="submit">
                   Submit
                 </button>
-                <a class="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600 ml-4" href="/login">
+                <Link class="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600 ml-4" to="/login">
                   Have an account? Log in
-                </a>
+                </Link>
               </div>
            
             </form>
