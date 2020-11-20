@@ -169,21 +169,6 @@ const AddRecipe = () => {
     ingredientSection.appendChild(newMeasureSelect);
   }
 
-  function ShowMacros(event) {
-    // This function will handle showing the macros input fields when the checkbox is ticked.
-    event.preventDefault();
-
-    // Grab the macro DOM elements
-    const carb = document.getElementById("addCarb");
-    const protein = document.getElementById("addProtein");
-    const fat = document.getElementById("addFat");
-    if (event.target.checked == true) {
-      // Remove the hidden class from the elements.
-    } else {
-      // Add the hidden class to the elements.
-    }
-  }
-
   return (
     <>
       <h1>AddRecipe page</h1>
@@ -192,8 +177,6 @@ const AddRecipe = () => {
         <section id="addRecipeBasics">
           <label htmlFor="addRecipeName">Name(*):</label>
           <input type="text" id="addRecipeName" onChange={HandleFormChange} />
-          <label htmlFor="addRecipeDescription">Description:</label>
-          <input type="text" id="addRecipeDescription" />
           <form onSubmit={PhotoUpload}>
             <label htmlFor="addRecipePhoto">Photo:</label>
             <input type="text" id="addRecipePhoto" value="Photo Placeholder" />
@@ -240,8 +223,6 @@ const AddRecipe = () => {
         <section id="addRecipeAdditional">
           <label htmlFor="addCalories">Calories</label>
           <input type="text" id="addCalories" onChange={HandleFormChange} />
-          <input type="checkbox" id="addRecipeMacros" onChange={ShowMacros} />
-          <label htmlFor="addRecipeMacros">Macros</label>
           <label htmlFor="addCarb">Carbohydrates</label>
           <input type="text" id="addCarb" onChange={HandleFormChange} />
           <label htmlFor="addFat">Fats</label>
