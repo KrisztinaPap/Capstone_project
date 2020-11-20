@@ -26,7 +26,6 @@ const AddRecipe = () => {
   const [proteins, SetProteins] = useState();
   const [carbohydrates, SetCarbohydrates] = useState();
   const [calories, SetCalories] = useState();
-  const [instructions, SetInstructions] = useState();
   const [tags, SetTags] = useState();
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
@@ -52,11 +51,11 @@ const AddRecipe = () => {
         Proteins: proteins,
         Carbohydrates: carbohydrates,
         Calories: calories,
-        Instructions: instructions,
+        Instructions: editorState,
         Tags: tags,
         Image: image,
-        Date_Modified: new DateTime.Today,
-        Date_Created: new DateTime.Today,
+        Date_Modified: new Date(),
+        Date_Created: new Date(),
         Prep_Time: prep,
         Servings: servings,
         Notes: notes,
@@ -64,7 +63,7 @@ const AddRecipe = () => {
     });
 
     // Request to insert the ingredients to the database.
-    axios({
+/*     axios({
       method: 'post',
       url: '',
       params: {
@@ -72,7 +71,61 @@ const AddRecipe = () => {
         Quantity: "",
         RecipeID: "",
       }
-    });
+    }); */
+  }
+
+  function HandleFormChange(event) {
+    switch (event.target.id)
+    {
+      case "addRecipeName":
+        {
+          setName(event.target.value);
+          break;
+        }
+      case "addRecipeDescription":
+        {
+          break;
+        }
+      case "addRecipePrepTime":
+        {
+          SetPrep(event.target.value);
+          break;
+        }
+      case "addRecipeCookTime":
+        {
+          break;
+        }
+      case "addRecipeServings":
+        {
+          SetServings(event.target.value);
+          break;
+        }
+      case "addCalories":
+        {
+          SetCalories(event.target.value);
+          break;
+        }
+      case "addCarb":
+        {
+          SetCarbohydrates(event.target.value);
+          break;
+        }
+      case "addFat":
+        {
+          SetFats(event.target.value);
+          break;
+        }
+      case "addProtein":
+        {
+          SetProteins(event.target.value);
+          break;
+        }
+      case "addRecipeExtraNotes":
+        {
+          SetNotes(event.target.value);
+          break;
+        }
+    }
   }
 
   function PhotoUpload(event) {
@@ -138,7 +191,7 @@ const AddRecipe = () => {
       <form onSubmit={SubmitRecipe}>
         <section id="addRecipeBasics">
           <label htmlFor="addRecipeName">Name(*):</label>
-          <input type="text" id="addRecipeName" />
+          <input type="text" id="addRecipeName" onChange={HandleFormChange} />
           <label htmlFor="addRecipeDescription">Description:</label>
           <input type="text" id="addRecipeDescription" />
           <form onSubmit={PhotoUpload}>
@@ -164,9 +217,7 @@ const AddRecipe = () => {
               })}
             </select>
           </section>
-          <form onSubmit={AddIngredients}>
-            <input type="submit" value="+" />
-          </form>
+          <button onClick={AddIngredients} >+</button>
           <section id="instructionSection">
             <h3>Instructions:</h3>
             <p>Enter the instructions to your new recipe below!</p>
@@ -180,24 +231,25 @@ const AddRecipe = () => {
         </section>
         <section id="addRecipeLogistics">
           <label htmlFor="addRecipePrepTime">Prep. Time(*):</label>
-          <input type="text" id="addRecipePrepTime" />
+          <input type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
           <label htmlFor="addRecipeCookTime">Cook Time(*):</label>
-          <input type="text" id="addRecipeCookTime" />
+          <input type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
           <label htmlFor="addRecipeServings">Servings:</label>
-          <input type="text" id="addRecipeServings" />
+          <input type="text" id="addRecipeServings" onChange={HandleFormChange} />
         </section>
         <section id="addRecipeAdditional">
           <label htmlFor="addCalories">Calories</label>
+          <input type="text" id="addCalories" onChange={HandleFormChange} />
           <input type="checkbox" id="addRecipeMacros" onChange={ShowMacros} />
           <label htmlFor="addRecipeMacros">Macros</label>
           <label htmlFor="addCarb">Carbohydrates</label>
-          <input type="text" id="addCarb" />
+          <input type="text" id="addCarb" onChange={HandleFormChange} />
           <label htmlFor="addFat">Fats</label>
-          <input type="text" id="addFat" />
+          <input type="text" id="addFat" onChange={HandleFormChange} />
           <label htmlFor="addProtein">Proteins</label>
-          <input type="text" id="addProtein" />
+          <input type="text" id="addProtein" onChange={HandleFormChange} />
           <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
-          <textarea id="addRecipeExtraNotes" />
+          <textarea id="addRecipeExtraNotes" onChange={HandleFormChange}/>
         </section>
         <input type="submit" />
       </form>
