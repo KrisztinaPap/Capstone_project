@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import axios from 'axios';
+import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from 'draft-js';
+import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const AddRecipe = () => {
@@ -10,66 +10,56 @@ const AddRecipe = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
   const [measurementsList, setMeasurementsList] = useState([
-    { Id: 'g',
-      Name: "Gram"
-    },
-    { Id: "oz",
-      Name: "Ounce"},
-    { Id: "ml",
-      Name: "Milliliter"},
-    { Id: "L",
-      Name: "Liter"},
-    { Id: "cup",
-      Name: "Cup"},
-    { Id: "tsp",
-      Name: "Tablespoon"},
-    { Id: "lb",
-      Name: "Pound"},
-    { Id: "ea",
-      Name: "Each"}
+    { Id: "g", Name: "Gram" },
+    { Id: "oz", Name: "Ounce" },
+    { Id: "ml", Name: "Milliliter" },
+    { Id: "L", Name: "Liter" },
+    { Id: "cup", Name: "Cup" },
+    { Id: "tsp", Name: "Tablespoon" },
+    { Id: "lb", Name: "Pound" },
+    { Id: "ea", Name: "Each" },
   ]);
+
+  const [recipeCategory, setRecipeCategory] = useState();
+  const [name, setName] = useState();
+  const [fats, SetFats] = useState();
+  const [proteins, SetProteins] = useState();
+  const [carbohydrates, SetCarbohydrates] = useState();
+  const [calories, SetCalories] = useState();
+  const [instructions, SetInstructions] = useState();
+  const [tags, SetTags] = useState();
+  const [image, SetImage] = useState();
+  const [prep, SetPrep] = useState();
+  const [servings, SetServings] = useState();
+  const [notes, SetNotes] = useState();
 
   function onEditorStateChange(event) {
     // This function will update the editorState.
     setEditorState(event.blocks[0].text);
-  };
-
-/*   async function getMeasurement() {
-    // Have an API endpoint which returns a list of Measurements we have in the database.
-    const response = await axios.get('');
-    setMeasurements();
-    setLoading(false);
-  } */
-
-/*   useEffect(()=> {
-    getMeasurement();
-  }, [loading]); */
+  }
 
   function SubmitRecipe(event) {
-    /* // This function will send the POST request to database to insert the new recipe.
+    // This function will send the POST request to database to insert the new recipe.
     event.preventDefault();
     // Request to insert the recipe to the database.
     axios({
-      // Specify the method to use
       method: 'post',
-      // Specify the URL to send to.
-      url: '',
+      url: '/api/recipes',
       params: {
-        RecipeCategory: ,
-        Name: ,
-        Fats: ,
-        Proteins: ,
-        Carbs: ,
-        Calories: ,
-        Instructions: ,
-        Tags: ,
-        Image: ,
-        Date_Modified: ,
-        Date_Created: ,
-        Prep_Time: ,
-        Servings: ,
-        Notes: ,
-        // Leave the ingredients out of the table
+        RecipeCategory: recipeCategory,
+        Name: name,
+        Fats: fats,
+        Proteins: proteins,
+        Carbohydrates: carbohydrates,
+        Calories: calories,
+        Instructions: instructions,
+        Tags: tags,
+        Image: image,
+        Date_Modified: new DateTime.Today,
+        Date_Created: new DateTime.Today,
+        Prep_Time: prep,
+        Servings: servings,
+        Notes: notes,
       }
     });
 
@@ -82,13 +72,13 @@ const AddRecipe = () => {
         Quantity: "",
         RecipeID: "",
       }
-    }); */
-  };
+    });
+  }
 
   function PhotoUpload(event) {
     // This function will handle uploading the image file corresponding to the new recipe being added.
     event.preventDefault();
-  };
+  }
 
   function AddIngredients(event) {
     // This function will add an input field to the ingredient section once called upon.
@@ -101,18 +91,17 @@ const AddRecipe = () => {
     const newMeasureLabel = document.createElement("LABEL");
 
     // Set the attributes for the input fields.
-    newLabel.setAttribute("for", `ingredient${childCount/4 + 1}`);
-    newLabel.innerHTML = `Ingredient ${childCount/4 + 1}`;
-    newInput.setAttribute("id",`ingredient${childCount/4 + 1}`);
-    newInput.setAttribute("type","text");
+    newLabel.setAttribute("for", `ingredient${childCount / 4 + 1}`);
+    newLabel.innerHTML = `Ingredient ${childCount / 4 + 1}`;
+    newInput.setAttribute("id", `ingredient${childCount / 4 + 1}`);
+    newInput.setAttribute("type", "text");
 
-    newMeasureLabel.setAttribute("id", `measurement${childCount/4 + 1}`);
-    newMeasureLabel.innerHTML = `Measurement${childCount/4 + 1}`;
-    
-    newMeasureSelect.setAttribute("id", `measurement${childCount/4 + 1 }`);
+    newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
+    newMeasureLabel.innerHTML = `Measurement${childCount / 4 + 1}`;
+
+    newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
     // Loop to create the select options for the measurements.
-    function createOption(measurement)
-    {
+    function createOption(measurement) {
       const newOption = document.createElement("OPTION");
       newOption.setAttribute("value", `${measurement.Id}`);
       newOption.innerHTML = `${measurement.Name}`;
@@ -130,20 +119,17 @@ const AddRecipe = () => {
   function ShowMacros(event) {
     // This function will handle showing the macros input fields when the checkbox is ticked.
     event.preventDefault();
-    
+
     // Grab the macro DOM elements
     const carb = document.getElementById("addCarb");
     const protein = document.getElementById("addProtein");
     const fat = document.getElementById("addFat");
-    if(event.target.checked == true)
-    {
+    if (event.target.checked == true) {
       // Remove the hidden class from the elements.
-    }
-    else
-    {
+    } else {
       // Add the hidden class to the elements.
     }
-  };
+  }
 
   return (
     <>
@@ -173,7 +159,7 @@ const AddRecipe = () => {
             <select id="measurement1">
               {measurementsList.map((measurement) => {
                 return (
-                <option value={measurement.Id}>{measurement.Name}</option>
+                  <option value={measurement.Id}>{measurement.Name}</option>
                 );
               })}
             </select>
@@ -202,7 +188,7 @@ const AddRecipe = () => {
         </section>
         <section id="addRecipeAdditional">
           <label htmlFor="addCalories">Calories</label>
-          <input type="checkbox" id="addRecipeMacros" onChange={ShowMacros}/>
+          <input type="checkbox" id="addRecipeMacros" onChange={ShowMacros} />
           <label htmlFor="addRecipeMacros">Macros</label>
           <label htmlFor="addCarb">Carbohydrates</label>
           <input type="text" id="addCarb" />
