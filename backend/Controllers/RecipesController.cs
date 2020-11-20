@@ -90,7 +90,9 @@ namespace Api.Controllers
       [Route("update")]
       public ActionResult<Recipe> Update(int id, [CustomizeValidator(RuleSet = "Update")][FromBody] Recipe recipe)
       {
-        // Update the Recipe in the Database given the params: id, Recipe
+        // This action will update a recipe in the database.
+        // Params: id, Recipe
+
         Recipe recipeToUpdate = _context.Recipes.Include(x=>x.Ingredients).Where(x => x.Id == id).SingleOrDefault();
         if(recipeToUpdate == null)
         {
@@ -113,12 +115,12 @@ namespace Api.Controllers
         // recipeToUpdate.Ingredients = recipe.Ingredients;
         recipeToUpdate.Notes = recipe.Notes;
 
-        // Collections
-        recipeToUpdate.MealRecipes = recipe.MealRecipes;
-        recipeToUpdate.RecipeCategory = recipe.RecipeCategory;
+      // Collections
+      recipeToUpdate.MealRecipes = recipe.MealRecipes;
+      recipeToUpdate.RecipeCategory = recipe.RecipeCategory;
 
-        // Ensure each ingredient on the new recipe is inside the original.
-        foreach (Ingredient ingredient in recipe.Ingredients)
+      // Ensure each ingredient on the new recipe is inside the original.
+      foreach (Ingredient ingredient in recipe.Ingredients)
         {
           if (!recipeToUpdate.Ingredients.Contains(ingredient))
           {
@@ -134,17 +136,20 @@ namespace Api.Controllers
             individualIngredient.UOMId = ingredient.UOMId;
           }
         }
-        // Ensure that any old ingredients that are not on the new updated recipe are removed.
-        foreach(Ingredient ingredient in recipeToUpdate.Ingredients)
+      // Ensure that any old ingredients that are not on the new updated recipe are removed.
+      List<Ingredient> ingredientList = recipeToUpdate.Ingredients.ToList();
+
+      foreach (Ingredient ingredient in ingredientList)
+      {
+        if (!recipe.Ingredients.Contains(ingredient))
         {
-          if(!recipe.Ingredients.Contains(ingredient))
-          {
-            // Remove the ingredient from the recipeToUpdate.Ingredients list.
-            recipeToUpdate.Ingredients.Remove(ingredient);
-          }
+          // Remove the ingredient from the recipeToUpdate.Ingredients list.
+          recipeToUpdate.Ingredients.Remove(ingredient);
+          // Delete the ingredient from the database as well?
         }
-        // Save changes in the transaction.
-          _context.SaveChanges();
+      }
+      // Save changes in the transaction.
+      _context.SaveChanges();
           return recipeToUpdate;
       }
 
