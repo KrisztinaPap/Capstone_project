@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import Home from './components/Home';
@@ -10,23 +10,29 @@ import Recipes from './components/Recipes';
 import Recipe from './components/Recipe';
 import AddRecipe from './components/AddRecipe';
 
-import './custom.css'
+import './custom.css';
 
-export default class App extends Component {
-  static displayName = App.name;
+export const UserContext = React.createContext();
 
-  render () {
-    return (
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/dashboard' component={Dashboard} />        
-        <Route path='/login' component={Login} />
-        <Route path='/signup' component={Signup} />
-        <Route path='/profile' component={Profile} />
-        <Route path='/recipes' component={Recipes} />
-        <Route path='/recipe' component={Recipe} />
-        <Route path='/add-recipe' component={AddRecipe} />
-      </Layout>
-    );
+export default function App() {
+  const [user, setUser] = useState('guest');
+
+  function updateUser() {
+    setUser(currentUser => user)
   }
+
+    return (
+      <UserContext.Provider value={user}>
+        <Layout>
+          <Route exact path='/' component={Home} />
+          <Route path='/dashboard' component={Dashboard} />
+          <Route path='/login' component={Login} />
+          <Route path='/signup' component={Signup} />
+          <Route path='/profile' component={Profile} />
+          <Route exact path='/recipes' component={Recipes} />
+          <Route path='/recipes/:recipes' component={Recipe} />
+          <Route path='/add-recipe' component={AddRecipe} />
+          </Layout>
+        </UserContext.Provider>
+    );
 }
