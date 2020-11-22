@@ -131,7 +131,7 @@ namespace Api.Models
     [Column(TypeName = "int(10)")]
     public int Servings { get; set; }
 
-    [Column(TypeName = "varchar(500)")]
+    [Column(TypeName = "varchar(5000)")]
     public string Notes { get; set; }
 
     [Column(TypeName = "varchar(50)")]

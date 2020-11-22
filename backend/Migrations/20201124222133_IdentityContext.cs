@@ -252,7 +252,7 @@ namespace Api.Migrations
                     DateCreated = table.Column<DateTime>(type: "date", nullable: false),
                     PrepTime = table.Column<decimal>(type: "decimal(10, 3)", nullable: false),
                     Servings = table.Column<int>(type: "int(10)", nullable: false),
-                    Notes = table.Column<string>(type: "varchar(500)", nullable: true)
+                    Notes = table.Column<string>(type: "varchar(5000)", nullable: true)
                 },
                 constraints: table =>
                 {
