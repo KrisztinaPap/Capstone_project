@@ -51,9 +51,6 @@ export class NavMenu extends Component {
                   <NavLink tag={Link} className="text-white hover:bg-purple-600 pl-2 focus:bg-purple-600" to="/recipes">Recipes</NavLink>
                 </NavItem>
                 <NavItem>
-                  <NavLink tag={Link} className="text-white hover:bg-purple-600 pl-2 focus:bg-purple-600" to="/recipe">Recipe</NavLink>
-                </NavItem>
-                <NavItem>
                   <NavLink tag={Link} className="text-white hover:bg-purple-600 pl-2 focus:bg-purple-600" to="/add-recipe">Add Recipe</NavLink>
                 </NavItem>
               </ul>
