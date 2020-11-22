@@ -30,7 +30,7 @@ export default function App() {
           <Route path='/signup' component={Signup} />
           <Route path='/profile' component={Profile} />
           <Route exact path='/recipes' component={Recipes} />
-          <Route path='/recipes/:recipes' component={Recipe} />
+          <Route exact path='/recipes/:recipes' component={Recipe} />
           <Route path='/add-recipe' component={AddRecipe} />
           </Layout>
         </UserContext.Provider>

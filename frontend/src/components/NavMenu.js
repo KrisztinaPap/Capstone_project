@@ -26,7 +26,7 @@ export class NavMenu extends Component {
       <header>
         <Navbar className="navbar-expand-lg navbar-toggleable-lg ng-white border-bottom box-shadow mb-3 text-white bg-purple-500" light>
           <Container>
-            <NavbarBrand tag={Link} to="/" className="text-white">PuddleJumpers App</NavbarBrand>              
+            <NavbarBrand tag={Link} to="/" className="text-white">PuddleJumpers App</NavbarBrand>
             <button onClick={this.toggleNavbar} className="mr-2 lg:hidden hover:bg-purple-600">
                 <i class="fas fa-bars fa-lg"></i>
             </button>

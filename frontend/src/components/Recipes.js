@@ -5,17 +5,24 @@ import axios from 'axios';
 
 function Recipes() {
 
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState([true]);
+
   useEffect(() => {
     populateRecipes();
-  }, []);
-
-  const [recipes, setRecipes] = useState([]);
+  }, [loading]);
 
   async function populateRecipes(){
     const response = await axios.get('api/recipes')
     setRecipes(response.data);
+    setLoading(false);
   }
 
+  if (loading){
+    return(
+      <p>Gathering your recipes...</p>
+    );
+  }
 
   return (
     <>
@@ -39,7 +46,7 @@ function Recipes() {
               {recipes.map(recipes => (
                 <tr key={recipes.id}>
                   <td>
-                    <Link to={`recipes/${recipes.id}`} target='_blank'>
+                    <Link to={`/recipes/${recipes.id}`}>
                       <img src={recipes.image} />
                       <div>
                         {recipes.name}
@@ -74,3 +81,4 @@ function Recipes() {
 
 //Export Function
 export default Recipes;
+
