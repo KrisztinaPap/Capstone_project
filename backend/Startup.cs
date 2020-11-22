@@ -27,15 +27,18 @@ namespace Api
     private const string DBUser = "DB_USER";
     private const string DBPass = "DB_PASS";
     private const string DBName = "DB_NAME";
+    private const string DBTestName = "DB_TEST_NAME";
 
     private const string FrontendPort="FRONTEND_PORT";
 
-    public Startup(IConfiguration configuration)
+    public Startup(IWebHostEnvironment env, IConfiguration configuration)
     {
       Configuration = configuration;
+      this.env = env;
     }
 
     public IConfiguration Configuration { get; }
+    private IWebHostEnvironment env { get; set; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -68,7 +71,13 @@ namespace Api
 
           string user = Configuration.GetValue(DBUser, "root");
           string password = Configuration.GetValue<string>(DBPass, null);
+
           string name = Configuration.GetValue(DBName, "puddlejumper_capstone");
+          if(env.IsEnvironment("Testing"))
+          {
+            name = Configuration.GetValue(DBTestName, "puddlejumper_capstone_tests");
+          }
+
 
           string connection = $"server={host};port={port};database={name};";
           connection += (user != null) ? $"user={user};" : string.Empty;
@@ -105,9 +114,9 @@ namespace Api
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app)
     {
-      if (env.IsDevelopment())
+      if (env.IsDevelopment() || env.IsEnvironment("Testing"))
       {
         app.UseDeveloperExceptionPage();
       }
