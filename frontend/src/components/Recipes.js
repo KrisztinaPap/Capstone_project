@@ -18,6 +18,7 @@ function Recipes() {
     setLoading(false);
   }
 
+  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? */}
   if (loading){
     return(
       <p>Gathering your recipes...</p>
@@ -32,6 +33,8 @@ function Recipes() {
             <i className="fas fa-drumstick-bite"></i>
             Recipes
           </h2>
+
+
           <table>
             <thead>
               <tr>
@@ -42,6 +45,7 @@ function Recipes() {
                 </th>
               </tr>
             </thead>
+
             <tbody>
               {recipes.map(recipes => (
                 <tr key={recipes.id}>
@@ -54,7 +58,7 @@ function Recipes() {
                     </Link>
                   </td>
                   <td>
-                    <Link to={`recipes/${recipes.id}`} target='_blank'>
+                    <Link to={`recipes/${recipes.id}`}>
                       <button>
                         <i className="fas fa-external-link-alt"></i>
                       </button>
@@ -63,6 +67,7 @@ function Recipes() {
                 </tr>
               ))}
             </tbody>
+
             <tfoot>
             <tr>
               <th>
@@ -72,6 +77,7 @@ function Recipes() {
               </th>
             </tr>
             </tfoot>
+
           </table>
         </section>
       </main>
