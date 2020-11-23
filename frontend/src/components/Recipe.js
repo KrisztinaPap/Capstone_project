@@ -56,7 +56,13 @@ function Recipe(){
   // Assigning Ingredients to an array. Array is called in JSX below
   let ingredientsArray = [];
   for(let i in myRecipe.ingredients){
-    ingredientsArray.push(<p>{`${myRecipe.ingredients[i].name}` + ' - ' + `${myRecipe.ingredients[i].quantity}${myRecipe.ingredients[i].uomId}`}</p>)
+    ingredientsArray.push(<p key={i}>{`${parseInt(i) + 1}: ${myRecipe.ingredients[i].name}` + ' - ' + `${myRecipe.ingredients[i].quantity}${myRecipe.ingredients[i].uomId}`}</p>)
+  }
+
+  // TODO: Remove this and apply style via CSS/Tailwind
+  var divStyle = {
+    display: 'flex',
+    justifyContent: 'space-around'
   }
 
   // If no axios Errors, and data is returned, render page...
@@ -68,14 +74,21 @@ function Recipe(){
       <h4>Servings: {myRecipe.servings}</h4>
       <h4>Prep Time: {myRecipe.prepTime}</h4>
 
-      <h4>Ingredients:</h4>
-      <p>{ingredientsArray}</p>
+      {/* TODO: Remove style= after CSS/Tailwind style finished */}
+      <section className={"ingredientsMacrosContainer"} style={divStyle}>
+        <section className={"ingredients"}>
+          <h4>Ingredients:</h4>
+          {ingredientsArray}
+        </section>
 
-      <h4>Macros:</h4>
-      <p>Calories: {myRecipe.calories}</p>
-      <p>Fat: {myRecipe.fat}g</p>
-      <p>Protein: {myRecipe.protein}g</p>
-      <p>Carbs: {myRecipe.carbohydrates}g</p>
+        <section className={"macros"}>
+          <h4>Macros:</h4>
+          <p>Calories: {(parseInt(myRecipe.fat) * 9) + (parseInt(myRecipe.protein) * 4) +(parseInt(myRecipe.carbohydrates) * 4)}</p>
+          <p>Fat: {myRecipe.fat}g</p>
+          <p>Protein: {myRecipe.protein}g</p>
+          <p>Carbs: {myRecipe.carbohydrates}g</p>
+        </section>
+      </section>
 
       <h4>Instructions</h4>
       <p>{myRecipe.instructions}</p>
