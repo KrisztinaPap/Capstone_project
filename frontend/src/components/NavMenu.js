@@ -23,7 +23,7 @@ export class NavMenu extends Component {
 
   render() {
     return (
-      <header>
+      <header className="h-10">
         <Navbar className="navbar-expand-lg navbar-toggleable-lg ng-white border-bottom box-shadow mb-3 text-white bg-purple-500" light>
           <Container>
             <NavbarBrand tag={Link} to="/" className="text-white">PuddleJumpers App</NavbarBrand>
