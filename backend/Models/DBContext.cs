@@ -17,6 +17,7 @@ namespace Api.Models
 
     public virtual DbSet<Ingredient> Ingredients { get; set; }
 
+    public virtual DbSet<RecipeCategory> RecipeCategories { get; set; }
     public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
