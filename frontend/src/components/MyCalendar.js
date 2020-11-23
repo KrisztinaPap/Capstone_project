@@ -13,11 +13,22 @@ const DnDCalendar = withDragAndDrop(Calendar);
 
 class MyCalendar extends Component {
   state = {
-    meals: [
+    plan: [
       {
         start: moment().toDate(),
-        end: moment().add(1, "days").toDate(),
-        title: "Placeholder",
+        end: moment().toDate(),
+        //end: moment().add(1, "days").toDate(),
+        title: "Breakfast",
+      },
+      {
+        start: moment().toDate(),
+        end: moment().toDate(),
+        title: "Lunch",
+      },
+      {
+        start: moment().toDate(),
+        end: moment().toDate(),
+        title: "Dinner",
       },
     ],
   };
@@ -26,9 +37,9 @@ class MyCalendar extends Component {
     const { start, end } = data;
 
     this.setState((state) => {
-      state.meals[0].start = start;
-      state.meals[0].end = end;
-      return { meals: [...state.meals] };
+      state.plan[0].start = start;
+      state.plan[0].end = end;
+      return { plan: [...state.plan] };
     });
   };
 
@@ -42,7 +53,7 @@ class MyCalendar extends Component {
         <DnDCalendar
           defaultDate={moment().toDate()}
           defaultView="month"
-          events={this.state.meals}
+          events={this.state.plan}
           localizer={localizer}
           onEventDrop={this.onEventDrop}
           onEventResize={this.onEventResize}
