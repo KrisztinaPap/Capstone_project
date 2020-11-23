@@ -8,25 +8,16 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 // Citation: https://www.npmjs.com/package/react-big-calendar
 // Citation: https://github.com/arecvlohe/rbc-with-dnd-starter/blob/master/src/App.js
 
-
-
-//const MyCalendar = () => (
-
-
-//);
-
-//export default MyCalendar;
-
 const localizer = momentLocalizer(moment);
 const DnDCalendar = withDragAndDrop(Calendar);
 
 class MyCalendar extends Component {
   state = {
-    events: [
+    meals: [
       {
         start: moment().toDate(),
         end: moment().add(1, "days").toDate(),
-        title: "Some title",
+        title: "Placeholder",
       },
     ],
   };
@@ -35,9 +26,9 @@ class MyCalendar extends Component {
     const { start, end } = data;
 
     this.setState((state) => {
-      state.events[0].start = start;
-      state.events[0].end = end;
-      return { events: [...state.events] };
+      state.meals[0].start = start;
+      state.meals[0].end = end;
+      return { meals: [...state.meals] };
     });
   };
 
@@ -51,7 +42,7 @@ class MyCalendar extends Component {
         <DnDCalendar
           defaultDate={moment().toDate()}
           defaultView="month"
-          events={this.state.events}
+          events={this.state.meals}
           localizer={localizer}
           onEventDrop={this.onEventDrop}
           onEventResize={this.onEventResize}
