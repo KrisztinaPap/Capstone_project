@@ -10,8 +10,5 @@
         "migrate": "cd ./backend && dotnet ef migrations add",
         "migrate:remove": "cd ./backend && dotnet ef migrations remove --force",
         "migrate:up": "cd ./backend && dotnet ef database update"
-    },
-    "dependencies": {
-        "axios": "^0.21.0"
     }
 }
