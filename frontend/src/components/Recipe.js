@@ -7,19 +7,27 @@ function Recipe(){
 
   const [myRecipe, setMyRecipe] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const {recipes} = useParams();
 
   useEffect(() => {
     fetchRecipe();
-  }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
 
-  async function fetchRecipe(){
-    const response = await axios.get(`api/recipes/${recipes}`);
-    setMyRecipe(response.data);
-    setLoading(false);
+  async function fetchRecipe() {
+    try {
+      const response = await axios.get(`api/recipes/${recipes}`)
+      setMyRecipe(response.data);
+      setLoading(false);
+      setError(false);
+    } catch (err) {
+      setError(true)
+      setLoading(false)
+    }
   }
 
+  // If page is loading, render below...
   {/* TODO: Design better loading display. Perhaps a loading gif of some sort? */}
   if (loading){
     return(
@@ -32,6 +40,26 @@ function Recipe(){
     )
   }
 
+  // If Axios request has an error, display error message...
+  // TODO: Design better Error page?
+  if (error){
+    return(
+      <>
+        <p>There was an error loading your Recipe. Please try again.</p>
+        <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={fetchRecipe}>
+          Retry
+        </button></p>
+      </>
+    )
+  }
+
+  // Assigning Ingredients to an array. Array is called in JSX below
+  let ingredientsArray = [];
+  for(let i in myRecipe.ingredients){
+    ingredientsArray.push(<p>{`${myRecipe.ingredients[i].name}` + ' - ' + `${myRecipe.ingredients[i].quantity}${myRecipe.ingredients[i].uomId}`}</p>)
+  }
+
+  // If no axios Errors, and data is returned, render page...
   return(
     <>
       {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
@@ -41,13 +69,7 @@ function Recipe(){
       <h4>Prep Time: {myRecipe.prepTime}</h4>
 
       <h4>Ingredients:</h4>
-      {/* TODO: Render each ingredient in myRecipe.ingredients array outputting a line formatted like below */}
-      <p>{myRecipe.ingredients[0].name} - {myRecipe.ingredients[0].quantity}{myRecipe.ingredients[0].uomId}</p>
-      <p>{myRecipe.ingredients[1].name} - {myRecipe.ingredients[1].quantity}{myRecipe.ingredients[1].uomId}</p>
-      <p>{myRecipe.ingredients[2].name} - {myRecipe.ingredients[2].quantity}{myRecipe.ingredients[2].uomId}</p>
-      {/*TODO: Loop through below and display like above for each line.}
-      <p>Stringify Stuff:</p>
-      <p>{JSON.stringify(myRecipe.ingredients)}</p>{*/}
+      <p>{ingredientsArray}</p>
 
       <h4>Macros:</h4>
       <p>Calories: {myRecipe.calories}</p>
@@ -57,7 +79,6 @@ function Recipe(){
 
       <h4>Instructions</h4>
       <p>{myRecipe.instructions}</p>
-
 
       <h4>Notes:</h4>
       <p>{myRecipe.notes}</p>
