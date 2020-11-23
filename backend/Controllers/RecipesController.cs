@@ -108,11 +108,8 @@ namespace Api.Controllers
         recipeToUpdate.Tags = recipe.Tags;
         recipeToUpdate.Image = recipe.Image;
         recipeToUpdate.DateModified = DateTime.Today;
-        // Leave DateCreated alone.
         recipeToUpdate.PrepTime = recipe.PrepTime;
         recipeToUpdate.Servings = recipe.Servings;
-        // Recipe Ingredients accessor is currently set to private for set.
-        // recipeToUpdate.Ingredients = recipe.Ingredients;
         recipeToUpdate.Notes = recipe.Notes;
 
       // Collections
@@ -124,8 +121,7 @@ namespace Api.Controllers
         {
           if (!recipeToUpdate.Ingredients.Contains(ingredient))
           {
-            // Create a new ingredient and add it to the recipe.
-            // IngredientsController.CreateIngredient(params);
+            recipeToUpdate.Ingredients.Add(ingredient);
           }
           else
           {
@@ -145,7 +141,6 @@ namespace Api.Controllers
         {
           // Remove the ingredient from the recipeToUpdate.Ingredients list.
           recipeToUpdate.Ingredients.Remove(ingredient);
-          // Delete the ingredient from the database as well?
         }
       }
       // Save changes in the transaction.
