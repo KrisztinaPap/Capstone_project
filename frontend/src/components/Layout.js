@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Container } from 'reactstrap';
 import { NavMenu } from './NavMenu';
 import { Footer } from './Footer';
 
@@ -10,9 +9,9 @@ export class Layout extends Component {
     return (
       <div className="flex flex-col h-screen justify-between">
         <NavMenu />
-        <Container>
+        <div className="container">
           {this.props.children}
-        </Container>
+        </div>
         <Footer />
       </div>
     );
