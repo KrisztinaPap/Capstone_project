@@ -68,3 +68,5 @@
 ## Citations:
 - [React Context](https://reactjs.org/docs/context.html)
 - [Composite Key Creation in C# EF](https://www.learnentityframeworkcore.com/configuration/many-to-many-relationship-configuration)
+- [Web Dev Simplified: Learn useContext in 13 minutes](https://www.youtube.com/watch?v=5LrDIWkK_Bc)
+- [StackOverflow: make footer fixed on the bottom with tailwindCSS](https://stackoverflow.com/questions/59812003/make-footer-fixed-on-the-bottom-with-tailwindcss)
