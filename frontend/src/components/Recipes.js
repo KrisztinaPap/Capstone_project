@@ -18,7 +18,7 @@ function Recipes() {
     setLoading(false);
   }
 
-  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? */}
+  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? Remove center after CSS applied */}
   if (loading){
     return(
       <>
