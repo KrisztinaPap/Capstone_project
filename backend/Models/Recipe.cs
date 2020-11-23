@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Api.Controllers;
 using FluentValidation;
+using Newtonsoft.Json;
 
 namespace Api.Models
 {
@@ -83,6 +83,7 @@ namespace Api.Models
     public int Id { get; set; }
 
     [Column(TypeName = "int(10)")]
+    [JsonProperty("category")]
     public int CategoryId { get; set; }
 
     [Required]
@@ -146,8 +147,10 @@ namespace Api.Models
 
     public virtual ICollection<Ingredient> Ingredients { get; private set; } = new HashSet<Ingredient>();
 
+    [JsonIgnore]
     public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
 
+    [JsonIgnore]
     public virtual RecipeCategory RecipeCategory { get; set; }
 
     public Recipe()

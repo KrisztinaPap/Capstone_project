@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FluentValidation;
+using Newtonsoft.Json;
 
 namespace Api.Models
 {
@@ -60,6 +61,7 @@ namespace Api.Models
 
     [Required]
     [Column(TypeName = "varchar(30)")]
+    [JsonProperty("uom")]
     public string UOMId { get; set; }
 
     [Required]
@@ -70,6 +72,7 @@ namespace Api.Models
     [Column(TypeName = "decimal(10, 3)")]
     public decimal Quantity { get; set; }
 
+    [JsonIgnore]
     public virtual UOM UOM { get; set; }
 
     public Ingredient()
