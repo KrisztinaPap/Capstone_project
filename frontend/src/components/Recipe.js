@@ -11,7 +11,7 @@ function Recipe(){
 
   useEffect(() => {
     fetchRecipe();
-  }, [loading]);
+  }, [loading]); // eslint-disable-line react-hooks/exhaustive-deps
 
 
   async function fetchRecipe(){
@@ -23,30 +23,41 @@ function Recipe(){
   {/* TODO: Design better loading display. Perhaps a loading gif of some sort? */}
   if (loading){
     return(
-      <p>Loading your recipe...</p>
+      <>
+        {/* TODO: Remove center tags and apply centering via CSS */}
+        <center>
+        <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
+          <p>Loading your recipe...</p></center>
+      </>
     )
   }
 
   return(
     <>
       {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
-      <p><img src={"https://designshack.net/wp-content/uploads/placehold.jpg"} /></p>
+      <p><img src={"https://designshack.net/wp-content/uploads/placehold.jpg"} alt={myRecipe.name}/></p>
       <h1>{myRecipe.name}</h1>
       <h4>Servings: {myRecipe.servings}</h4>
       <h4>Prep Time: {myRecipe.prepTime}</h4>
 
       <h4>Ingredients:</h4>
       {/* TODO: Render each ingredient in myRecipe.ingredients array outputting a line formatted like below */}
-      <p>{myRecipe.ingredients[0].name} - {myRecipe.ingredients[0].quantity} {myRecipe.ingredients[0].uomId}</p>
+      <p>{myRecipe.ingredients[0].name} - {myRecipe.ingredients[0].quantity}{myRecipe.ingredients[0].uomId}</p>
+      <p>{myRecipe.ingredients[1].name} - {myRecipe.ingredients[1].quantity}{myRecipe.ingredients[1].uomId}</p>
+      <p>{myRecipe.ingredients[2].name} - {myRecipe.ingredients[2].quantity}{myRecipe.ingredients[2].uomId}</p>
+      {/*TODO: Loop through below and display like above for each line.}
+      <p>Stringify Stuff:</p>
+      <p>{JSON.stringify(myRecipe.ingredients)}</p>{*/}
 
       <h4>Macros:</h4>
       <p>Calories: {myRecipe.calories}</p>
-      <p>Fat {myRecipe.fat}g</p>
-      <p>Protein {myRecipe.protein}g</p>
-      <p>Carbs {myRecipe.carbohydrates}g</p>
+      <p>Fat: {myRecipe.fat}g</p>
+      <p>Protein: {myRecipe.protein}g</p>
+      <p>Carbs: {myRecipe.carbohydrates}g</p>
 
       <h4>Instructions</h4>
       <p>{myRecipe.instructions}</p>
+
 
       <h4>Notes:</h4>
       <p>{myRecipe.notes}</p>

@@ -21,7 +21,12 @@ function Recipes() {
   {/* TODO: Design better loading display. Perhaps a loading gif of some sort? */}
   if (loading){
     return(
-      <p>Gathering your recipes...</p>
+      <>
+        <center>
+          <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
+          <p>Gathering your recipes...</p>
+        </center>
+      </>
     );
   }
 
@@ -51,7 +56,7 @@ function Recipes() {
                 <tr key={recipes.id}>
                   <td>
                     <Link to={`/recipes/${recipes.id}`}>
-                      <img src={recipes.image} />
+                      <img src={recipes.image} alt={recipes.name}/>
                       <div>
                         {recipes.name}
                       </div>
