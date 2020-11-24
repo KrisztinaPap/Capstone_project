@@ -10,7 +10,7 @@ export class Layout extends Component {
     return (
       <div className="flex flex-col h-screen justify-between">
         <NavMenu />
-        <Container>
+        <Container className="flex-grow">
           {this.props.children}
         </Container>
         <Footer />
