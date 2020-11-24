@@ -9,17 +9,11 @@ const AddRecipe = () => {
   //Initialize States
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
-  const [measurementsList, setMeasurementsList] = useState([
-    { Id: "g", Name: "Gram" },
-    { Id: "oz", Name: "Ounce" },
-    { Id: "ml", Name: "Milliliter" },
-    { Id: "L", Name: "Liter" },
-    { Id: "cup", Name: "Cup" },
-    { Id: "tsp", Name: "Tablespoon" },
-    { Id: "lb", Name: "Pound" },
-    { Id: "ea", Name: "Each" },
-  ]);
-
+  const [measurementsList, setMeasurementsList] = useState(['placeholder']);
+  const [recipeCategoryList, setRecipeCategoryList] = useState([
+          { Name:'placeholder',
+            Id:-1
+        }]);
   const [recipeCategory, setRecipeCategory] = useState();
   const [name, setName] = useState();
   const [fats, SetFats] = useState();
@@ -31,6 +25,27 @@ const AddRecipe = () => {
   const [prep, SetPrep] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
+
+  async function getUOMs() {
+    const response = await axios.get('https://localhost:5001/api/UOMs/all');
+    setMeasurementsList(response.data);
+    const res = await axios.get('/api/recipecategories/options');
+    setRecipeCategoryList(res.data);
+    setLoading(false);
+    console.log('testing');
+  }
+
+  async function getRecipeCategories() {
+    const res = await axios.get('https://localhost:5001/api/recipecategories/options');
+    setRecipeCategoryList(res.data);
+    setLoading(false);
+  }
+
+  useEffect(()=> {
+    getUOMs();
+    getRecipeCategories();
+    console.log("hi");
+  },[loading]);
 
   function onEditorStateChange(event) {
     // This function will update the editorState.
@@ -195,7 +210,7 @@ const AddRecipe = () => {
             <select id="measurement1">
               {measurementsList.map((measurement) => {
                 return (
-                  <option value={measurement.Id}>{measurement.Name}</option>
+                  <option value={measurement}>{measurement}</option>
                 );
               })}
             </select>
@@ -229,6 +244,14 @@ const AddRecipe = () => {
           <input type="text" id="addFat" onChange={HandleFormChange} />
           <label htmlFor="addProtein">Proteins</label>
           <input type="text" id="addProtein" onChange={HandleFormChange} />
+          <label htmlFor="AddRecipeCategory">Recipe Category</label>
+          <select id="AddRecipeCategory">
+            {recipeCategoryList.map((category) => {
+              return (
+                <option value={category.Id}>{category.Name}</option>
+              );
+            })}
+          </select>
           <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
           <textarea id="addRecipeExtraNotes" onChange={HandleFormChange}/>
         </section>
