@@ -9,7 +9,7 @@ using Api.Authentication;
 
 namespace Api.Models
 {
-  public class DBContext : IdentityDbContext<ApplicationUser>
+  public class DBContext : IdentityDbContext<User>
   {
     public virtual DbSet<Recipe> Recipes { get; set; }
 
@@ -605,7 +605,7 @@ namespace Api.Models
         entity.HasData(
           new User()
           {
-            Id = -1,
+            Id = "-1",
             Name = "TestAdminWarren",
             Password = "$uper$ecurePHPa$$w0rd",
             PasswordSalt = "$alt33",

@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 using Api.Models;
 
 namespace Api.Controllers
@@ -27,8 +26,9 @@ namespace Api.Controllers
     [Route("{id:int:required}")]
     public ActionResult<User> GetUserById(int id)
     {
+      string idString = $"{id}";
       var result = _context.Users
-                    .Where(x => x.Id == id)
+                    .Where(x => x.Id == idString)
                     .Select(x => new { Id = x.Id, name = x.Name, email = x.Email })
                     .SingleOrDefault();
 
@@ -47,6 +47,5 @@ namespace Api.Controllers
      * 3. User Profile Update
      * 
      */
-
   }
 }

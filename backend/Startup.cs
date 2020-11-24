@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Api.Models;
 
 namespace Api
 {
@@ -77,11 +78,11 @@ namespace Api
         });
 
       // For EntityFramework
-      services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+      services.AddDbContext<Models.DBContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
       // For Identity
-      services.AddIdentity<ApplicationUser, IdentityRole>()
-        .AddEntityFrameworkStores<ApplicationDbContext>()
+      services.AddIdentity<User, IdentityRole>()
+        .AddEntityFrameworkStores<Models.DBContext>()
         .AddDefaultTokenProviders();
 
       // For Authentication
