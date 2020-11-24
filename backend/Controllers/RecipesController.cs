@@ -77,7 +77,7 @@ namespace Api.Controllers
       // POST: api/recipes
       [HttpPost]
       public ActionResult<Recipe> Create(
-        [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
+        [CustomizeValidator(RuleSet="Create,default")] [FromBody] Recipe newRecipe)
       {
         _context.Recipes.Add(newRecipe);
         _context.SaveChanges();
@@ -87,8 +87,7 @@ namespace Api.Controllers
 
       // PUT: api/recipes/update
       [HttpPut]
-      [Route("update")]
-      public ActionResult<Recipe> Update(int id, [CustomizeValidator(RuleSet = "Update")][FromBody] Recipe recipe)
+      public ActionResult<Recipe> Update(int id, [CustomizeValidator(RuleSet="Update,default")] [FromBody] Recipe recipe)
       {
         // This action will update a recipe in the database.
         // Params: id, Recipe
@@ -96,7 +95,7 @@ namespace Api.Controllers
         Recipe recipeToUpdate = _context.Recipes.Include(x=>x.Ingredients).Where(x => x.Id == id).SingleOrDefault();
         if(recipeToUpdate == null)
         {
-          return BadRequest();  
+          return BadRequest();
         }
 
         recipeToUpdate.Name = recipe.Name;

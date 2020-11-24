@@ -13,7 +13,10 @@ namespace Api.Models
 {
 
   public class IngredientValidator : AbstractValidator<Ingredient> {
-    public IngredientValidator() {
+    private readonly DBContext Context;
+
+    public IngredientValidator(DBContext context) {
+      Context = context;
       RuleFor(x => x.UOMId)
         .NotEmpty()
         .Length(1, 50);
@@ -31,9 +34,14 @@ namespace Api.Models
     }
 
     private void CreateRules() {
+
+      RuleFor(x => x.Id)
+        .Empty()
+        .WithMessage("Cannot set ingredient id on creation");
+
       RuleFor(x => x.UOMId)
         .NotEmpty()
-        .WithMessage("UOM Must be Selected");
+        .WithMessage("UOM must be Selected");
 
       RuleFor(x => x.Name)
         .NotEmpty()

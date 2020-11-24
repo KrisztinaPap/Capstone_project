@@ -14,7 +14,11 @@ namespace Api.Models
   // TODO: Very Likely should be extracted to it's own file
   //       Probably under Models.Validators
   public class RecipeValidator : AbstractValidator<Recipe> {
-    public RecipeValidator() {
+    private readonly DBContext Context;
+
+    public RecipeValidator(DBContext context) {
+      Context = context;
+
       RuleFor(x => x.CategoryId)
         .NotEqual(0);
 
@@ -55,8 +59,11 @@ namespace Api.Models
       RuleFor(x => x.Image)
         .NotNull();
 
-      // TODO: Implement rules for Ingredients
-      //       See: https://docs.fluentvalidation.net/en/latest/start.html#complex-properties
+      RuleFor(x => x.Ingredients)
+        .NotEmpty();
+
+      RuleForEach(x => x.Ingredients)
+        .SetValidator(new IngredientValidator(Context));
 
       RuleSet("Create", CreateRules);
       RuleSet("Update", UpdateRules);
@@ -66,11 +73,17 @@ namespace Api.Models
       RuleFor(x => x.Id)
         .Empty()
         .WithMessage("Cannot set id of a recipe during creation");
+
+      RuleForEach(x => x.Ingredients)
+        .SetValidator(new IngredientValidator(Context), "Default", "Create");
     }
 
     private void UpdateRules() {
       RuleFor(x => x.Id)
         .NotEqual(0);
+
+      RuleForEach(x => x.Ingredients)
+        .SetValidator(new IngredientValidator(Context), "Update", "Default");
     }
   }
 
@@ -108,13 +121,13 @@ namespace Api.Models
 
     [Required]
     [Column(TypeName = "longtext")]
-    public string Instructions { get; set; }
+    public string Instructions { get; set; } = string.Empty;
 
     [Column(TypeName = "json")]
     public List<string> Tags { get; set; }
 
     [Column(TypeName = "varchar(100)")]
-    public string Image { get; set; }
+    public string Image { get; set; } = string.Empty;
 
     [Required]
     [Column(TypeName = "date")]
