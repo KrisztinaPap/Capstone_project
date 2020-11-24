@@ -4,14 +4,14 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Api.Authentication;
 
 namespace Api.Models
 {
-  public class DBContext : DbContext
+  public class DBContext : IdentityDbContext<ApplicationUser>
   {
     public virtual DbSet<Recipe> Recipes { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<Plan> Plans { get; set; }
 
@@ -21,10 +21,12 @@ namespace Api.Models
 
     public virtual DbSet<RecipeCategory> RecipeCategories { get; set; }
 
-    public DBContext(DbContextOptions<DBContext> options) : base(options) { }
+    public DBContext(DbContextOptions<DBContext> options) : base(options) {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      base.OnModelCreating(modelBuilder);
       modelBuilder.Entity<Recipe>(entity =>
       {
         entity.HasMany(a => a.Ingredients)
