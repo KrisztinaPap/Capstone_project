@@ -58,20 +58,50 @@ namespace Api.Tests.Integration
         });
     }
 
+    [Fact]
+    [AutoRollback]
+    public async void Create_Ensure_AtLeastOneIngredient()
+    {
+      var body = new {
+        Name = "Chicken and Potatoes with Hot Sauce",
+        Category = TestCategory,
+        Instructions = TestInstructions,
+        Servings = 2
+      };
+
+      var response = await client.PostAsync("/api/recipes",
+        HttpHelper.AsStringContent(body)
+      );
+
+      response.Should().Be400BadRequest()
+        .And.HaveError("ingredients", "*must not be empty*");
+    }
 
     [Fact]
-    public async void Show_Returns_ValidRecipe()
+    [AutoRollback]
+    public async void Create_Ensure_IngredientsDontHaveId()
     {
-      var expected = JObject.Parse("{\"id\":-1,\"category\":-1,\"name\":\"Chicken and Potatoes with Hot Sauce\",\"fat\":30,\"protein\":70,\"carbohydrates\":100,\"calories\":860,\"instructions\":\"* Cook Chicken\n                * Cook Potatoes\n                * Smother in Hot Sauce\",\"tags\":[\"Spicy\"],\"image\":null,\"dateModified\":\"2020-11-19T00:00:00\",\"dateCreated\":\"2020-11-19T00:00:00\",\"prepTime\":35.000,\"servings\":2,\"notes\":\"* Marinate Chicken for at least 12 hours for maximum flavor\",\"ingredients\":[{\"id\":-3,\"recipeId\":-1,\"uom\":\"ea\",\"name\":\"Poatato\",\"quantity\":4.000},{\"id\":-2,\"recipeId\":-1,\"uom\":\"cup\",\"name\":\"Hot Sauce\",\"quantity\":1.000},{\"id\":-1,\"recipeId\":-1,\"uom\":\"lb\",\"name\":\"Chicken Breast\",\"quantity\":3.000}]}");
+      var body = new {
+        Name = "Test Recipe",
+        Category = TestCategory,
+        Instructions = TestInstructions,
+        Servings = 2,
+        Ingredients = new[] {
+          new {
+            Id = -1,
+            Name = "Chicken Breast",
+            Quantity = 3,
+            UOM = "lb",
+          },
+        }
+      };
 
-      var response = await client.GetAsync("/api/recipes/-1");
+      var response = await client.PostAsync("/api/recipes",
+        HttpHelper.AsStringContent(body)
+      );
 
-      response.EnsureSuccessStatusCode();
-      var result = await response.Content.ReadAsStringAsync();
-
-      var json = JObject.Parse(result);
-
-      Assert.Equal(expected, json);
+      response.Should().Be400BadRequest()
+        .And.HaveErrorMessage("Cannot set * id on creation");
     }
   }
 }
