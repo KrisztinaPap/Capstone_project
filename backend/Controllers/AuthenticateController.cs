@@ -13,8 +13,6 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
-  public class AuthenicateController
-  {
     [Route("api/[controller]")]
     [ApiController]
     public class AuthenticateController : ControllerBase
@@ -121,5 +119,4 @@ namespace Api.Controllers
         return Ok(new Response { Status = "Success", Message = "User created successfully!" });
       }
     }
-  }
 }
