@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Api.Migrations
 {
-    public partial class Test : Migration
+    public partial class SeedDataFinal : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -198,7 +198,7 @@ namespace Api.Migrations
             migrationBuilder.InsertData(
                 table: "Plan",
                 columns: new[] { "Id", "Day", "UserId" },
-                values: new object[] { -1, new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local), "-1" });
+                values: new object[] { -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), "-1" });
 
             migrationBuilder.InsertData(
                 table: "RecipeCategories",
@@ -226,7 +226,7 @@ namespace Api.Migrations
                     { "ml", "Milliliter" },
                     { "oz", "Ounce" },
                     { "ea", "Each" },
-                    { "Cup", "Cup" }
+                    { "cup", "Cup" }
                 });
 
             migrationBuilder.InsertData(
@@ -248,12 +248,38 @@ namespace Api.Migrations
                 columns: new[] { "Id", "Calories", "Carbohydrates", "CategoryId", "DateCreated", "DateModified", "Fat", "Image", "Instructions", "Name", "Notes", "PrepTime", "Protein", "Servings", "Tags" },
                 values: new object[,]
                 {
-                    { -1, 860, 100, -1, new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local), 30, null, @"* Cook Chicken
+                    { -1, 860, 100, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 30, null, @"* Cook Chicken
                 * Cook Potatoes
-                * Smother in Hot Sauce", "Chicken and Potatoes with Hot Sauce", null, 35m, 70, 2, "[\"Spicy\"]" },
-                    { -2, 770, 115, -2, new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local), 10, null, @"* Cook Chicken
-                * Cook Potatoes
-                * Smother in Hot Sauce", "Steak and Sweet Potatoes", null, 25m, 70, 2, "[\"BBQ\"]" }
+                * Smother in Hot Sauce", "Chicken and Potatoes with Hot Sauce", "* Marinate Chicken for at least 12 hours for maximum flavor", 35m, 70, 2, "[\"Spicy\"]" },
+                    { -3, 222, 10, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 11, null, @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
+                * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
+                * 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
+                * 4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.
+                * 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.
+                * 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice.", "Butter Chicken", "* Delicious!", 65m, 20, 8, "[\"Chicken, Dinner, Easy\"]" },
+                    { -5, 148, 6, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 3, null, @"* 1. Preheat grill or broiler.
+                * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
+                * 3. Lightly oil the grill or broiler rack (see Tip).
+                * 4. Season chicken with salt and grill or broil for 2 minutes.
+                * 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.
+                * 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer.", "Chipotle and Orange grilled Chicken", @"* Chipotle chiles in adobo sauce are smoked jalapeños packed in a flavorful sauce.
+                * Look for the small cans with the Mexican foods in large supermarkets.
+                * Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.
+                * Tip: To oil a grill rack: Oil a folded paper towel, hold it with tongs and rub it over the rack. (Do not use cooking spray on a hot grill.)
+                * When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.", 45m, 23, 4, "[\"Low calorie, Low fat, Low Sodium\"]" },
+                    { -2, 770, 115, -2, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 10, null, @"* Cook Steak on BBQ
+                * Cook Potatoes to personal preference
+                * Serve and Enjoy!", "Steak and Sweet Potatoes", @"* Marinate Steak for at least 12 hours for maximum flavor
+                * Can be cooked on the stovetop but is better when BBQ'd
+                * Potatoes can be diced, sliced, or baked. Personal preference.", 25m, 70, 2, "[\"BBQ\"]" },
+                    { -4, 375, 45, -4, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 16, null, @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
+                * 2. Place tortillas on a work surface.
+                * 3. Spread 1/2 cup filling on half of each tortilla.
+                * 4. Fold tortillas in half, pressing gently to flatten.
+                * 5. Heat 1 teaspoon oil in a large nonstick skillet over medium heat.
+                * 6. Add 2 quesadillas and cook, turning once, until golden on both sides, 2 to 4 minutes total.
+                * 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.
+                * 8. Serve the quesadillas with avocado and the remaining salsa.", "Black Bean Quesadillas", "Tip: Look for prepared fresh salsa in the supermarket refrigerator section near other dips and spreads.", 25m, 13, 4, "[\"Low calorie, High fiber, Vegetarian\"]" }
                 });
 
             migrationBuilder.InsertData(
@@ -262,11 +288,36 @@ namespace Api.Migrations
                 values: new object[,]
                 {
                     { -1, "Chicken Breast", 3m, -1, "lb" },
+                    { -25, "Tortillas", 4m, -4, "ea" },
+                    { -24, "Salsa", 0.5m, -4, "cup" },
+                    { -23, "Shredded Monterey Jack Cheese", 0.5m, -4, "cup" },
+                    { -22, "Black Beans", 15m, -4, "oz" },
+                    { -34, "Salt", 1m, -5, "tsp" },
+                    { -33, "Chicken Breast", 1m, -5, "lb" },
+                    { -32, "Dijon mustard", 1m, -5, "tsp" },
+                    { -31, "Unsulfured Molasses", 2m, -5, "tsp" },
+                    { -30, "Balsamic Vinegar", 1m, -5, "tbsp" },
+                    { -29, "Finely chopped chipotle peppers(See notes)", 1m, -5, "tbsp" },
+                    { -28, "Orange juice concentrate", 2m, -5, "tbsp" },
+                    { -21, "Cooked Jasmine Rice", 5m, -3, "cup" },
+                    { -20, "Unsalted butter", 8m, -3, "tbsp" },
+                    { -26, "Canola oil", 2m, -4, "tsp" },
+                    { -19, "Heavy Cream", 2m, -3, "cup" },
+                    { -17, "Tomato puree", 3.5m, -3, "cup" },
                     { -2, "Hot Sauce", 1m, -1, "cup" },
                     { -3, "Poatato", 4m, -1, "ea" },
-                    { -4, "Striploin", 2m, -2, "ea" },
-                    { -5, "Sweet Potato", 3m, -2, "ea" },
-                    { -6, "Barbeque Sauce", 4m, -2, "tbsp" }
+                    { -7, "Olive Oil", 6m, -3, "tbsp" },
+                    { -8, "Garlic cloves", 5m, -3, "ea" },
+                    { -18, "Chicken Breast", 4m, -3, "ea" },
+                    { -10, "ghee", 0.5m, -3, "cup" },
+                    { -9, "Yellow onion", 2m, -3, "ea" },
+                    { -12, "Tumeric", 3m, -3, "tbsp" },
+                    { -13, "Chili powder", 2m, -3, "tbsp" },
+                    { -14, "Garam masala", 2m, -3, "tbsp" },
+                    { -15, "Ground coriander", 2m, -3, "tbsp" },
+                    { -16, "Ground cumin", 2m, -3, "tbsp" },
+                    { -11, "Tomato paste", 3m, -3, "tbsp" },
+                    { -27, "Avocado, diced", 1m, -4, "ea" }
                 });
 
             migrationBuilder.InsertData(
@@ -274,8 +325,8 @@ namespace Api.Migrations
                 columns: new[] { "MealId", "RecipeId" },
                 values: new object[,]
                 {
-                    { -1, -1 },
-                    { -2, -2 }
+                    { -2, -2 },
+                    { -1, -1 }
                 });
 
             migrationBuilder.CreateIndex(

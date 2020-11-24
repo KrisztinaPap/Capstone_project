@@ -72,27 +72,227 @@ namespace Api.Migrations
                         },
                         new
                         {
-                            Id = -4,
-                            Name = "Striploin",
-                            Quantity = 2m,
-                            RecipeId = -2,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -5,
-                            Name = "Sweet Potato",
-                            Quantity = 3m,
-                            RecipeId = -2,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -6,
-                            Name = "Barbeque Sauce",
-                            Quantity = 4m,
-                            RecipeId = -2,
+                            Id = -7,
+                            Name = "Olive Oil",
+                            Quantity = 6m,
+                            RecipeId = -3,
                             UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -8,
+                            Name = "Garlic cloves",
+                            Quantity = 5m,
+                            RecipeId = -3,
+                            UOMId = "ea"
+                        },
+                        new
+                        {
+                            Id = -9,
+                            Name = "Yellow onion",
+                            Quantity = 2m,
+                            RecipeId = -3,
+                            UOMId = "ea"
+                        },
+                        new
+                        {
+                            Id = -10,
+                            Name = "ghee",
+                            Quantity = 0.5m,
+                            RecipeId = -3,
+                            UOMId = "cup"
+                        },
+                        new
+                        {
+                            Id = -11,
+                            Name = "Tomato paste",
+                            Quantity = 3m,
+                            RecipeId = -3,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -12,
+                            Name = "Tumeric",
+                            Quantity = 3m,
+                            RecipeId = -3,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -13,
+                            Name = "Chili powder",
+                            Quantity = 2m,
+                            RecipeId = -3,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -14,
+                            Name = "Garam masala",
+                            Quantity = 2m,
+                            RecipeId = -3,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -15,
+                            Name = "Ground coriander",
+                            Quantity = 2m,
+                            RecipeId = -3,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -16,
+                            Name = "Ground cumin",
+                            Quantity = 2m,
+                            RecipeId = -3,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -17,
+                            Name = "Tomato puree",
+                            Quantity = 3.5m,
+                            RecipeId = -3,
+                            UOMId = "cup"
+                        },
+                        new
+                        {
+                            Id = -18,
+                            Name = "Chicken Breast",
+                            Quantity = 4m,
+                            RecipeId = -3,
+                            UOMId = "ea"
+                        },
+                        new
+                        {
+                            Id = -19,
+                            Name = "Heavy Cream",
+                            Quantity = 2m,
+                            RecipeId = -3,
+                            UOMId = "cup"
+                        },
+                        new
+                        {
+                            Id = -20,
+                            Name = "Unsalted butter",
+                            Quantity = 8m,
+                            RecipeId = -3,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -21,
+                            Name = "Cooked Jasmine Rice",
+                            Quantity = 5m,
+                            RecipeId = -3,
+                            UOMId = "cup"
+                        },
+                        new
+                        {
+                            Id = -22,
+                            Name = "Black Beans",
+                            Quantity = 15m,
+                            RecipeId = -4,
+                            UOMId = "oz"
+                        },
+                        new
+                        {
+                            Id = -23,
+                            Name = "Shredded Monterey Jack Cheese",
+                            Quantity = 0.5m,
+                            RecipeId = -4,
+                            UOMId = "cup"
+                        },
+                        new
+                        {
+                            Id = -24,
+                            Name = "Salsa",
+                            Quantity = 0.5m,
+                            RecipeId = -4,
+                            UOMId = "cup"
+                        },
+                        new
+                        {
+                            Id = -25,
+                            Name = "Tortillas",
+                            Quantity = 4m,
+                            RecipeId = -4,
+                            UOMId = "ea"
+                        },
+                        new
+                        {
+                            Id = -26,
+                            Name = "Canola oil",
+                            Quantity = 2m,
+                            RecipeId = -4,
+                            UOMId = "tsp"
+                        },
+                        new
+                        {
+                            Id = -27,
+                            Name = "Avocado, diced",
+                            Quantity = 1m,
+                            RecipeId = -4,
+                            UOMId = "ea"
+                        },
+                        new
+                        {
+                            Id = -28,
+                            Name = "Orange juice concentrate",
+                            Quantity = 2m,
+                            RecipeId = -5,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -29,
+                            Name = "Finely chopped chipotle peppers(See notes)",
+                            Quantity = 1m,
+                            RecipeId = -5,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -30,
+                            Name = "Balsamic Vinegar",
+                            Quantity = 1m,
+                            RecipeId = -5,
+                            UOMId = "tbsp"
+                        },
+                        new
+                        {
+                            Id = -31,
+                            Name = "Unsulfured Molasses",
+                            Quantity = 2m,
+                            RecipeId = -5,
+                            UOMId = "tsp"
+                        },
+                        new
+                        {
+                            Id = -32,
+                            Name = "Dijon mustard",
+                            Quantity = 1m,
+                            RecipeId = -5,
+                            UOMId = "tsp"
+                        },
+                        new
+                        {
+                            Id = -33,
+                            Name = "Chicken Breast",
+                            Quantity = 1m,
+                            RecipeId = -5,
+                            UOMId = "lb"
+                        },
+                        new
+                        {
+                            Id = -34,
+                            Name = "Salt",
+                            Quantity = 1m,
+                            RecipeId = -5,
+                            UOMId = "tsp"
                         });
                 });
 
@@ -210,7 +410,7 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Day = new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            Day = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = "-1"
                         });
                 });
@@ -278,8 +478,8 @@ namespace Api.Migrations
                             Calories = 860,
                             Carbohydrates = 100,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
                             Instructions = @"* Cook Chicken
 * Cook Potatoes
@@ -297,8 +497,8 @@ namespace Api.Migrations
                             Calories = 770,
                             Carbohydrates = 115,
                             CategoryId = -2,
-                            DateCreated = new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 18, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
                             Instructions = @"* Cook Steak on BBQ
 * Cook Potatoes to personal preference
@@ -311,6 +511,78 @@ namespace Api.Migrations
                             Protein = 70,
                             Servings = 2,
                             Tags = "[\"BBQ\"]"
+                        },
+                        new
+                        {
+                            Id = -3,
+                            Calories = 222,
+                            Carbohydrates = 10,
+                            CategoryId = -1,
+                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            Fat = 11,
+                            Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
+* 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
+* 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
+* 4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.
+* 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.
+* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice.",
+                            Name = "Butter Chicken",
+                            Notes = "* Delicious!",
+                            PrepTime = 65m,
+                            Protein = 20,
+                            Servings = 8,
+                            Tags = "[\"Chicken, Dinner, Easy\"]"
+                        },
+                        new
+                        {
+                            Id = -4,
+                            Calories = 375,
+                            Carbohydrates = 45,
+                            CategoryId = -4,
+                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            Fat = 16,
+                            Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
+* 2. Place tortillas on a work surface.
+* 3. Spread 1/2 cup filling on half of each tortilla.
+* 4. Fold tortillas in half, pressing gently to flatten.
+* 5. Heat 1 teaspoon oil in a large nonstick skillet over medium heat.
+* 6. Add 2 quesadillas and cook, turning once, until golden on both sides, 2 to 4 minutes total.
+* 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.
+* 8. Serve the quesadillas with avocado and the remaining salsa.",
+                            Name = "Black Bean Quesadillas",
+                            Notes = "Tip: Look for prepared fresh salsa in the supermarket refrigerator section near other dips and spreads.",
+                            PrepTime = 25m,
+                            Protein = 13,
+                            Servings = 4,
+                            Tags = "[\"Low calorie, High fiber, Vegetarian\"]"
+                        },
+                        new
+                        {
+                            Id = -5,
+                            Calories = 148,
+                            Carbohydrates = 6,
+                            CategoryId = -1,
+                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            Fat = 3,
+                            Instructions = @"* 1. Preheat grill or broiler.
+* 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
+* 3. Lightly oil the grill or broiler rack (see Tip).
+* 4. Season chicken with salt and grill or broil for 2 minutes.
+* 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.
+* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer.",
+                            Name = "Chipotle and Orange grilled Chicken",
+                            Notes = @"* Chipotle chiles in adobo sauce are smoked jalapeños packed in a flavorful sauce.
+* Look for the small cans with the Mexican foods in large supermarkets.
+* Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.
+* Tip: To oil a grill rack: Oil a folded paper towel, hold it with tongs and rub it over the rack. (Do not use cooking spray on a hot grill.)
+* When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.",
+                            PrepTime = 45m,
+                            Protein = 23,
+                            Servings = 4,
+                            Tags = "[\"Low calorie, Low fat, Low Sodium\"]"
                         });
                 });
 
@@ -392,7 +664,7 @@ namespace Api.Migrations
                         },
                         new
                         {
-                            Id = "Cup",
+                            Id = "cup",
                             Name = "Cup"
                         },
                         new
