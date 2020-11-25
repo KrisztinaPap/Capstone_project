@@ -11,50 +11,6 @@ using Newtonsoft.Json;
 
 namespace Api.Models
 {
-
-  public class IngredientValidator : AbstractValidator<Ingredient> {
-    private readonly DBContext Context;
-
-    public IngredientValidator(DBContext context) {
-      Context = context;
-      RuleFor(x => x.UOMId)
-        .NotEmpty()
-        .Length(1, 50);
-
-      RuleFor(x => x.Name)
-        .NotEmpty()
-        .Length(3, 50);
-
-      RuleFor(x => x.Quantity)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleSet("Create", CreateRules);
-      RuleSet("Update", UpdateRules);
-    }
-
-    private void CreateRules() {
-
-      RuleFor(x => x.Id)
-        .Empty()
-        .WithMessage("Cannot set ingredient id on creation");
-
-      RuleFor(x => x.UOMId)
-        .NotEmpty()
-        .WithMessage("UOM must be Selected");
-
-      RuleFor(x => x.Name)
-        .NotEmpty()
-        .WithMessage("Name field must not be empty");
-    }
-
-    private void UpdateRules() {
-      RuleFor(x => x.Id)
-        .NotEqual(0);
-    }
-  }
-
-
   [Table("Ingredients")]
   public class Ingredient {
 

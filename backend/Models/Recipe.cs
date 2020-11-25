@@ -11,82 +11,6 @@ using Newtonsoft.Json;
 
 namespace Api.Models
 {
-  // TODO: Very Likely should be extracted to it's own file
-  //       Probably under Models.Validators
-  public class RecipeValidator : AbstractValidator<Recipe> {
-    private readonly DBContext Context;
-
-    public RecipeValidator(DBContext context) {
-      Context = context;
-
-      RuleFor(x => x.CategoryId)
-        .NotEqual(0);
-
-      RuleFor(x => x.Name)
-        .NotEmpty()
-        .Length(3, 50);
-
-      RuleFor(x => x.Fat)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Protein)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Carbohydrates)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Calories)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Instructions)
-        .Length(10, 60000);
-
-      RuleFor(x => x.Notes)
-        .Length(0, 5000);
-
-      RuleFor(x => x.Servings)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(1000);
-
-      RuleFor(x => x.PrepTime)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(6000);
-
-      RuleFor(x => x.Image)
-        .NotNull();
-
-      RuleFor(x => x.Ingredients)
-        .NotEmpty();
-
-      RuleForEach(x => x.Ingredients)
-        .SetValidator(new IngredientValidator(Context));
-
-      RuleSet("Create", CreateRules);
-      RuleSet("Update", UpdateRules);
-    }
-
-    private void CreateRules() {
-      RuleFor(x => x.Id)
-        .Empty()
-        .WithMessage("Cannot set id of a recipe during creation");
-
-      RuleForEach(x => x.Ingredients)
-        .SetValidator(new IngredientValidator(Context), "Default", "Create");
-    }
-
-    private void UpdateRules() {
-      RuleFor(x => x.Id)
-        .NotEqual(0);
-
-      RuleForEach(x => x.Ingredients)
-        .SetValidator(new IngredientValidator(Context), "Update", "Default");
-    }
-  }
-
   [Table("Recipes")]
   public class Recipe {
 
@@ -124,7 +48,7 @@ namespace Api.Models
     public string Instructions { get; set; } = string.Empty;
 
     [Column(TypeName = "json")]
-    public List<string> Tags { get; set; }
+    public List<string> Tags { get; set; } = new List<string>();
 
     [Column(TypeName = "varchar(100)")]
     public string Image { get; set; } = string.Empty;
@@ -143,7 +67,7 @@ namespace Api.Models
 
     [Required]
     [Column(TypeName = "int(10)")]
-    public int Servings { get; set; }
+    public int Servings { get; set; } = 1;
 
     [Column(TypeName = "varchar(5000)")]
     public string Notes { get; set; }

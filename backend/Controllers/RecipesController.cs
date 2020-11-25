@@ -77,17 +77,17 @@ namespace Api.Controllers
       // POST: api/recipes
       [HttpPost]
       public ActionResult<Recipe> Create(
-        [CustomizeValidator(RuleSet="Create,default")] [FromBody] Recipe newRecipe)
+        [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
       {
         _context.Recipes.Add(newRecipe);
         _context.SaveChanges();
 
-        return Created("Get", newRecipe);
+        return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
       }
 
       // PUT: api/recipes/update
       [HttpPut]
-      public ActionResult<Recipe> Update(int id, [CustomizeValidator(RuleSet="Update,default")] [FromBody] Recipe recipe)
+      public ActionResult<Recipe> Update(int id, [FromBody] Recipe recipe)
       {
         // This action will update a recipe in the database.
         // Params: id, Recipe
