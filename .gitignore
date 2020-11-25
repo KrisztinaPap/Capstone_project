@@ -1,3 +1,6 @@
+# Ignore Tailwind Output
+*tailwind.output.css
+
 # Don't VSCode RestClient http files.
 *.http
 

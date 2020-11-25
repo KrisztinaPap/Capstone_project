@@ -4,7 +4,15 @@
     "scripts": {
         "start": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
         "preinstall": "echo \"Error: Wrong folder, run `cd ./frontend` then `npm install`\" && exit 1",
+
         "start:all": "node ./scripts/start_all",
+
+        "start:frontend:build:tailwind": "cd ./frontend/ && npm run build:tailwind",
+        "start:frontend:watch:tailwind": "cd ./frontend/ && npm run watch:tailwind",
+        "start:frontend:react": "cd ./frontend/ && npm run start:react",
+
+        "start:backend": "cd ./backend && cross-env NODE_PATH=../frontend/node_modules/ ASPNETCORE_ENVIRONMENT=Development dotnet watch run",
+
         "db:setup": "cd ./backend && dotnet ef database drop --force && dotnet ef database update",
         "db:drop": "cd ./backend && dotnet ef database drop --force",
         "migrate": "cd ./backend && dotnet ef migrations add",

@@ -1,3 +1,4 @@
+import './tailwind.output.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -13,5 +14,3 @@ ReactDOM.render(
     <App />
   </BrowserRouter>,
   rootElement);
-
-registerServiceWorker();
