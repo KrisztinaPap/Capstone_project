@@ -86,9 +86,10 @@ namespace Api.Controllers
         if (userExists != null)
           return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-        // Create a new user object.
-        User user = new User()
+      // Create a new user object.
+      User user = new User()
         {
+          Name = model.Name,
           Email = model.Email,
           SecurityStamp = Guid.NewGuid().ToString(),
           UserName = model.Username
@@ -121,6 +122,7 @@ namespace Api.Controllers
 
         User user = new User()
         {
+          Name = model.Name,
           Email = model.Email,
           SecurityStamp = Guid.NewGuid().ToString(),
           UserName = model.Username

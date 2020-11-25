@@ -24,14 +24,6 @@ namespace Api.Models
     [Required]
     [Column(TypeName = "varchar(50)")]
     public string Name { get; set; }
-    
-    [Required]    
-    [Column(TypeName = "varchar(50)")]
-    public string Password { get; set; }
-    
-    [Required]    
-    [Column(TypeName = "varchar(50)")]
-    public string PasswordSalt { get; set; }
 
     [Required] 
     [Column(TypeName = "varchar(50)")]

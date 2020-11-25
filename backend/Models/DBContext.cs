@@ -607,8 +607,6 @@ namespace Api.Models
           {
             Id = "-1",
             Name = "TestAdminWarren",
-            Password = "$uper$ecurePHPa$$w0rd",
-            PasswordSalt = "$alt33",
             Email = "phprox123@gmail.com"
           }
         );
