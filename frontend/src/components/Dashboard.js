@@ -48,7 +48,9 @@ const Dashboard = () => {
               <div className="flex items-center">
                 <button><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 {/* Current day/week below to be replaced with dynamic dates */}
-                <div className="inline px-3">{today}, {todayDayOfTheWeek}</div>
+                <div className="md:hidden inline px-3">{today}, {todayDayOfTheWeek}</div>
+                <div className="hidden md:inline lg:hidden px-3">{today} - {day3}</div>
+                <div className="hidden lg:inline px-3">{today} - {day7}</div>
                 <button><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
               </div>
               <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2">Today</button>
@@ -58,7 +60,7 @@ const Dashboard = () => {
             <div className="md:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={4}>
                 {recipes.map(recipes => (
-                  <SwiperSlide id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
+                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
@@ -72,7 +74,7 @@ const Dashboard = () => {
             <div className="hidden md:block lg:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={8}>
                 {recipes.map(recipes => (
-                  <SwiperSlide id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
+                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
@@ -85,7 +87,7 @@ const Dashboard = () => {
             {/* Recipe icon swiper for desktop screen */}
             <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
                 {recipes.map(recipes => (
-                  <div id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">
+                  <div key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
