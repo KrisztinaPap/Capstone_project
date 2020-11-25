@@ -46,14 +46,18 @@ namespace Api.Controllers
         {
           // Obtain the users permission level.
           var userRoles = await userManager.GetRolesAsync(user);
+        // Create a list of permissions that the user has.
           var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    // Claim provides context for the data associated with it.
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                    // JTI (JWT ID) provides a unique identifier for the JWT. 
                 };
 
           foreach (var userRole in userRoles)
           {
+            // Adding the user roles to the claims list.
             authClaims.Add(new Claim(ClaimTypes.Role, userRole));
           }
 
