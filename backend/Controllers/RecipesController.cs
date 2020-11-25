@@ -69,7 +69,7 @@ namespace Api.Controllers
       // POST: api/recipes
       [HttpPost]
       public ActionResult<Recipe> Create(
-        [CustomizeValidator(RuleSet="Create,default")] [FromBody] Recipe newRecipe)
+        [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
       {
         _context.Recipes.Add(newRecipe);
         _context.SaveChanges();

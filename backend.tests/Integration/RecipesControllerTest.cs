@@ -57,51 +57,5 @@ namespace Api.Tests.Integration
           model.Id.Should().Be(-1);
         });
     }
-
-    [Fact]
-    [AutoRollback]
-    public async void Create_Ensure_AtLeastOneIngredient()
-    {
-      var body = new {
-        Name = "Chicken and Potatoes with Hot Sauce",
-        Category = TestCategory,
-        Instructions = TestInstructions,
-        Servings = 2
-      };
-
-      var response = await client.PostAsync("/api/recipes",
-        HttpHelper.AsStringContent(body)
-      );
-
-      response.Should().Be400BadRequest()
-        .And.HaveError("ingredients", "*must not be empty*");
-    }
-
-    [Fact]
-    [AutoRollback]
-    public async void Create_Ensure_IngredientsDontHaveId()
-    {
-      var body = new {
-        Name = "Test Recipe",
-        Category = TestCategory,
-        Instructions = TestInstructions,
-        Servings = 2,
-        Ingredients = new[] {
-          new {
-            Id = -1,
-            Name = "Chicken Breast",
-            Quantity = 3,
-            UOM = "lb",
-          },
-        }
-      };
-
-      var response = await client.PostAsync("/api/recipes",
-        HttpHelper.AsStringContent(body)
-      );
-
-      response.Should().Be400BadRequest()
-        .And.HaveErrorMessage("Cannot set * id on creation");
-    }
   }
 }
