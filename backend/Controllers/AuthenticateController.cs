@@ -25,6 +25,8 @@ namespace Api.Controllers
       private readonly UserManager<User> userManager;
       // The UserManager class provides a persistent store for managing users.
       private readonly RoleManager<IdentityRole> roleManager;
+    // The RoleManager class provides a persistent store for manaing user roles.
+    // It tracks roles for users by roleID and provides role names.
       private readonly IConfiguration _configuration;
 
       public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
@@ -129,18 +131,31 @@ namespace Api.Controllers
         };
         var result = await userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
-          return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
-        if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-          await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-        if (!await roleManager.RoleExistsAsync(UserRoles.User))
-          await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
-
-        if (await roleManager.RoleExistsAsync(UserRoles.Admin))
         {
-          await userManager.AddToRoleAsync(user, UserRoles.Admin);
+          List<string> errorList = new List<string>();
+          foreach (IdentityError errorMessage in result.Errors)
+          {
+            errorList.Add(errorMessage.Description);
+          }
+          return StatusCode(StatusCodes.Status500InternalServerError, new Response {
+            Status = "Error",
+            Message = "User creation failed! Please check user details and try again.",
+            ErrorList = errorList
+          });
         }
 
+        // If the RoleManager store does not contain the Admin or User role then add it into the store.
+        if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
+        {
+            await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+        }
+        if (!await roleManager.RoleExistsAsync(UserRoles.User))
+        {
+            await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+        }
+
+        // Add the Admin role to the User in the store.
+        await userManager.AddToRoleAsync(user, UserRoles.Admin);
         return Ok(new Response { Status = "Success", Message = "User created successfully!" });
       }
     }
