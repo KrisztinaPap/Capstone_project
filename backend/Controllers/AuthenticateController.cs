@@ -1,4 +1,5 @@
 using Api.Authentication;
+using Api.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,15 +14,20 @@ using System.Threading.Tasks;
 
 namespace Api.Controllers
 {
-    [Route("api/[controller]")]
+  // This controller was taken from the link below.
+  // Citation: A controller file needed to be created to handle authentication of the application. The application uses ASPNETCore Identity to handle user information.
+  // A controller file containing the API endpoints was required to allow the React components to interact with the backend server.
+  // Link @ https://www.c-sharpcorner.com/article/authentication-and-authorization-in-asp-net-core-web-api-with-json-web-tokens/
+  [Route("api/[controller]")]
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
-      private readonly UserManager<ApplicationUser> userManager;
+      private readonly UserManager<User> userManager;
+      // The UserManager class provides a persistent store for managing users.
       private readonly RoleManager<IdentityRole> roleManager;
       private readonly IConfiguration _configuration;
 
-      public AuthenticateController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+      public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
       {
         this.userManager = userManager;
         this.roleManager = roleManager;
@@ -32,11 +38,12 @@ namespace Api.Controllers
       [Route("login")]
       public async Task<IActionResult> Login([FromBody] LoginModel model)
       {
+      // Check the store for the username. If the username exists then check the password provided against the database.
         var user = await userManager.FindByNameAsync(model.Username);
         if (user != null && await userManager.CheckPasswordAsync(user, model.Password))
         {
+          // Obtain the users permission level.
           var userRoles = await userManager.GetRolesAsync(user);
-
           var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
@@ -48,8 +55,10 @@ namespace Api.Controllers
             authClaims.Add(new Claim(ClaimTypes.Role, userRole));
           }
 
+          // Assign a new authorization sign key to the user.
           var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
+          // Token parameters for the users login.
           var token = new JwtSecurityToken(
               issuer: _configuration["JWT:ValidIssuer"],
               audience: _configuration["JWT:ValidAudience"],
@@ -58,6 +67,7 @@ namespace Api.Controllers
               signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
               );
 
+        // Return the token data to the user.
           return Ok(new
           {
             token = new JwtSecurityTokenHandler().WriteToken(token),
@@ -71,20 +81,33 @@ namespace Api.Controllers
       [Route("register")]
       public async Task<IActionResult> Register([FromBody] RegisterModel model)
       {
+      // Check if the username is inside the store.
         var userExists = await userManager.FindByNameAsync(model.Username);
         if (userExists != null)
           return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-        ApplicationUser user = new ApplicationUser()
+        // Create a new user object.
+        User user = new User()
         {
           Email = model.Email,
           SecurityStamp = Guid.NewGuid().ToString(),
           UserName = model.Username
         };
+        // Insert the user object into UserManager
         var result = await userManager.CreateAsync(user, model.Password);
         if (!result.Succeeded)
-          return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
-
+        {
+          List<string> errorList = new List<string>();
+          foreach(IdentityError errorMessage in result.Errors)
+          {
+            errorList.Add(errorMessage.Description);
+          }
+          return StatusCode(StatusCodes.Status500InternalServerError, new Response {
+            Status = "Error",
+            Message = $"User creation failed! Please check user details and try again.",
+            ErrorList = errorList
+          });
+        }
         return Ok(new Response { Status = "Success", Message = "User created successfully!" });
       }
 
@@ -96,7 +119,7 @@ namespace Api.Controllers
         if (userExists != null)
           return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-        ApplicationUser user = new ApplicationUser()
+        User user = new User()
         {
           Email = model.Email,
           SecurityStamp = Guid.NewGuid().ToString(),
