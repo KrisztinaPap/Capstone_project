@@ -15,12 +15,6 @@ namespace Api.Models
   [Table("Users")]
   public class User : IdentityUser
   {
-
-/*    [Key]
-    [Column(TypeName = "int(10)")]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public override int Id { get; set; }*/
-    
     [Required]
     [Column(TypeName = "varchar(50)")]
     public string Name { get; set; }
