@@ -1,0 +1,18 @@
+/* Dashboard styles */
+
+
+/* Recipe swiper & list styles */
+.swiper-item {
+  @apply border-2 border-black-800 rounded-md px-2 bg-white cursor-pointer;
+}
+
+.recipe-list-item {
+  @apply border-2 border-black-800 rounded-md px-2 bg-white cursor-pointer lg:w-full;
+}
+
+/* Calendar styles */
+
+/* Meal container styles */
+.meal-container {
+  @apply border border-solid border-black h-24 lg:h-full;
+}
