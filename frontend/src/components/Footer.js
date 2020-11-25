@@ -5,7 +5,7 @@ export class Footer extends Component {
   render() {
     return (
       <footer className="h-36 w-full block text-center place-items-center border-top box-shadow text-white bg-purple-500">
-          <div className="hidden md:grid md:grid-cols-2">
+          {/* <div className="hidden md:grid md:grid-cols-2">
             <div className="text-white">
             <h3 className="my-2">Project Links</h3>
               <div className="flex flex-col">
@@ -21,12 +21,12 @@ export class Footer extends Component {
                 <a href="./recipes" className="list-none text-white">Recipes</a>
               </div>
             </div>
-          </div>
+          </div>*/}
 
           <div className="mt-2">
             <span>Copyright &copy; 2020 by Team PuddleJumpers</span>
           </div>
-    </footer>
+      </footer>
     );
   }
 }
