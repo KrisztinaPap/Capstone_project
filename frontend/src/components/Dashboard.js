@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 import "../assets/custom.css";
 
 // Citation: https://swiperjs.com/react/
@@ -7,7 +8,18 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 
 const Dashboard = () => {
-   
+
+    useEffect(() => {
+      populateRecipes();
+    }, []);
+
+    const [recipes, setRecipes] = useState([]);
+
+    async function populateRecipes() {
+      const response = await axios.get('api/recipes')
+      setRecipes(response.data);
+    }
+
     return (
       <>
         <div className="content-start h-screen mb-12">
@@ -29,35 +41,41 @@ const Dashboard = () => {
             {/* Recipe icon swiper for mobile screen */}
             <div className="md:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={4}>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 1</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 2</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 3</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 4</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 5</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 6</SwiperSlide>
+                {recipes.map(recipes => (
+                  <SwiperSlide id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
+                    <img src={recipes.image} />
+                    <div>
+                      {recipes.name}
+                    </div>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
-
+          
             {/* Recipe icon swiper for tablet screen */}
             <div className="hidden md:block lg:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={8}>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 1</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 2</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 3</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 4</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 5</SwiperSlide>
-                <SwiperSlide className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">Recipe 6</SwiperSlide>
+                {recipes.map(recipes => (
+                  <SwiperSlide id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
+                    <img src={recipes.image} />
+                    <div>
+                      {recipes.name}
+                    </div>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
 
             {/* Recipe icon swiper for desktop screen */}
             <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
-              <div className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">Recipe 1</div>
-              <div className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">Recipe 2</div>
-              <div className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">Recipe 3</div>
-              <div className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">Recipe 4</div>
-              <div className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">Recipe 5</div>
-              <div className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">Recipe 6</div>
+                {recipes.map(recipes => (
+                  <div id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">
+                    <img src={recipes.image} />
+                    <div>
+                      {recipes.name}
+                    </div>
+                  </div>
+                ))}
             </div>
 
             {/* Calendar container */}
