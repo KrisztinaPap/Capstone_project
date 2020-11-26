@@ -75,13 +75,9 @@ namespace Api
           connection += (password != null) ? $"password={password};" : string.Empty;
 
           options.UseMySql(connection, x => x.ServerVersion(Version.Parse(version), ServerType.MariaDb));
-        });
-
-      // For EntityFramework
-      services.AddDbContext<Models.DBContext>(options => options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
-
+        })
       // For Identity
-      services.AddIdentity<User, IdentityRole>()
+        .AddIdentity<User, IdentityRole>()
         .AddEntityFrameworkStores<Models.DBContext>()
         .AddDefaultTokenProviders();
 
