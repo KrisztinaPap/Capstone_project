@@ -38,7 +38,7 @@ const Dashboard = () => {
 
     return (
       <>
-        <div className="content-start h-screen mb-12">
+        <div className="container mx-auto max-wlg h-screen mb-12">
           
 
           <div className="h-full lg:grid lg:grid-cols-4 lg:grid-rows-8 gap-3">
@@ -60,7 +60,7 @@ const Dashboard = () => {
             <div className="md:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={4}>
                 {recipes.map(recipes => (
-                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
+                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="swiper-item">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
@@ -74,7 +74,7 @@ const Dashboard = () => {
             <div className="hidden md:block lg:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={8}>
                 {recipes.map(recipes => (
-                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer">
+                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="swiper-item">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
@@ -87,7 +87,7 @@ const Dashboard = () => {
             {/* Recipe icon swiper for desktop screen */}
             <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
                 {recipes.map(recipes => (
-                  <div key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="border-2 border-black rounded-md px-2 bg-white cursor-pointer lg:w-full">
+                  <div key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="swiper-item lg:w-full">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
@@ -106,15 +106,15 @@ const Dashboard = () => {
                   <span className="block">{todayDayOfTheWeek}</span>
                 </div>
                 {/* Breakfast container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Breakfast
                 </div>
                 {/* Lunch container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Lunch
                 </div>
                 {/* Dinner container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Dinner
                 </div>
               </div>  {/* end of Day container */}
@@ -126,15 +126,15 @@ const Dashboard = () => {
                   <span className="block">{tomorrowDayOfTheWeek}</span>
                 </div>
                 {/* Breakfast container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Breakfast
                 </div>
                 {/* Lunch container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Lunch
                 </div>
                 {/* Dinner container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Dinner
                 </div>
               </div>  {/* end of Day container */}
@@ -146,15 +146,15 @@ const Dashboard = () => {
                   <span className="block">{day3DayOfTheWeek}</span>
                 </div>
                 {/* Breakfast container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Breakfast
                 </div>
                 {/* Lunch container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Lunch
                 </div>
                 {/* Dinner container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Dinner
                 </div>
               </div>  {/* end of Day container */}
@@ -166,15 +166,15 @@ const Dashboard = () => {
                   <span className="block">{day4DayOfTheWeek}</span>
                 </div>
                 {/* Breakfast container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Breakfast
                 </div>
                 {/* Lunch container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Lunch
                 </div>
                 {/* Dinner container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Dinner
                 </div>
               </div>  {/* end of Day container */}
@@ -186,15 +186,15 @@ const Dashboard = () => {
                   <span className="block">{day5DayOfTheWeek}</span>
                 </div>
                 {/* Breakfast container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Breakfast
                 </div>
                 {/* Lunch container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Lunch
                 </div>
                 {/* Dinner container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Dinner
                 </div>
               </div>  {/* end of Day container */}
@@ -206,15 +206,15 @@ const Dashboard = () => {
                   <span className="block">{day6DayOfTheWeek}</span>
                 </div>
                 {/* Breakfast container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Breakfast
                 </div>
                 {/* Lunch container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Lunch
                 </div>
                 {/* Dinner container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Dinner
                 </div>
               </div>  {/* end of Day container */}
@@ -226,15 +226,15 @@ const Dashboard = () => {
                   <span className="block">{day7DayOfTheWeek}</span>
                 </div>
                 {/* Breakfast container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Breakfast
                 </div>
                 {/* Lunch container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Lunch
                 </div>
                 {/* Dinner container */}
-                <div className="border border-solid border-black h-24 lg:h-full">
+                <div className="meal-container lg:h-full">
                   Dinner
                 </div>
               </div>  {/* end of Day container */}
