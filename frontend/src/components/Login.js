@@ -40,11 +40,11 @@ const Login = () => {
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow"
+                  className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
                   type="submit">
                   Submit
                 </button>
-                <Link className="inline-block align-baseline font-bold text-sm text-purple-500 hover:text-purple-600" to="/signup">
+                <Link className="purple-link hover:text-purple-600" to="/signup">
                   No account? Sign up
                 </Link>
               </div>
