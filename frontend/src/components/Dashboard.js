@@ -40,6 +40,11 @@ const Dashboard = () => {
     }
   }
 
+  function goToToday() {
+    setFirstDate(today);
+    console.log(`firstDay is set to: ${today}`);
+  }
+
   {/* Loading */}
   if (loading) {
     return (
@@ -57,7 +62,7 @@ const Dashboard = () => {
     return (
       <>
         <p>Failed fetching schedules. Please try again.</p>
-        <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={populateRecipes()}>
+        <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={() => populateRecipes()}>
           Retry
         </button></p>
       </>
@@ -80,7 +85,7 @@ const Dashboard = () => {
               <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
                 <button><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
               </div>
-            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2">Today</button>
+            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
             </div>
 
             {/* Recipe icon swiper for mobile screen */}
