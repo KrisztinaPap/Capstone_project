@@ -140,9 +140,21 @@ namespace Api.Controllers
 
       // DELETE: api/recipes/id
       [HttpDelete]
+      [Route("{id:int:required}")]
       public ActionResult<Recipe> Delete(int id)
       {
-        return BadRequest();
+        Recipe recipe = _context.Recipes
+          .Where(x => x.Id == id)
+          .Include(x => x.Ingredients)
+          .SingleOrDefault();
+
+        if(recipe == null) {
+          return NotFound();
+        }
+
+        _context.Remove(recipe);
+        _context.SaveChanges();
+        return NoContent();
       }
     }
 }
