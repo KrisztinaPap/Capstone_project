@@ -19,10 +19,6 @@ namespace Api.Models
     [Column(TypeName = "varchar(50)")]
     public string Name { get; set; }
 
-    [Required] 
-    [Column(TypeName = "varchar(50)")]
-    public override string Email { get; set; }
-
     public User()
     {
     }
