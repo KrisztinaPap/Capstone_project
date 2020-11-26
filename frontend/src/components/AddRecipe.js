@@ -29,10 +29,7 @@ const AddRecipe = () => {
   async function getUOMs() {
     const response = await axios.get('https://localhost:5001/api/UOMs/all');
     setMeasurementsList(response.data);
-    const res = await axios.get('/api/recipecategories/options');
-    setRecipeCategoryList(res.data);
     setLoading(false);
-    console.log('testing');
   }
 
   async function getRecipeCategories() {
@@ -44,7 +41,6 @@ const AddRecipe = () => {
   useEffect(()=> {
     getUOMs();
     getRecipeCategories();
-    console.log("hi");
   },[loading]);
 
   function onEditorStateChange(event) {
@@ -248,7 +244,7 @@ const AddRecipe = () => {
           <select id="AddRecipeCategory">
             {recipeCategoryList.map((category) => {
               return (
-                <option value={category.Id}>{category.Name}</option>
+                <option value={category.id}>{category.name}</option>
               );
             })}
           </select>
