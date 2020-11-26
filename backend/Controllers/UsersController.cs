@@ -23,12 +23,12 @@ namespace Api.Controllers
 
     // GET: api/users/{id}
     [HttpGet]
-    [Route("{id:int:required}")]
-    public ActionResult<User> GetUserById(int id)
+    [Route("{id:length(8,50):required}")]
+    public ActionResult<User> GetUserById(string id)
     {
-      string idString = $"{id}";
+      // Users ID is a GUID string.
       var result = _context.Users
-                    .Where(x => x.Id == idString)
+                    .Where(x => x.Id == id)
                     .Select(x => new { Id = x.Id, name = x.Name, email = x.Email })
                     .SingleOrDefault();
 
