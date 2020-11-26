@@ -440,7 +440,8 @@ namespace Api.Migrations
                         .HasColumnType("int(10)");
 
                     b.Property<string>("Image")
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(100)")
+                        .HasDefaultValue(string.Empty);
 
                     b.Property<string>("Instructions")
                         .IsRequired()

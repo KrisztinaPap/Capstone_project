@@ -247,7 +247,7 @@ namespace Api.Migrations
                     Calories = table.Column<int>(type: "int(10)", nullable: false),
                     Instructions = table.Column<string>(type: "longtext", nullable: false),
                     Tags = table.Column<string>(type: "json", nullable: true),
-                    Image = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Image = table.Column<string>(type: "varchar(100)", nullable: true, defaultValue: string.Empty),
                     DateModified = table.Column<DateTime>(type: "date", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "date", nullable: false),
                     PrepTime = table.Column<decimal>(type: "decimal(10, 3)", nullable: false),
@@ -377,19 +377,19 @@ namespace Api.Migrations
 
             migrationBuilder.InsertData(
                 table: "Recipes",
-                columns: new[] { "Id", "Calories", "Carbohydrates", "CategoryId", "DateCreated", "DateModified", "Fat", "Image", "Instructions", "Name", "Notes", "PrepTime", "Protein", "Servings", "Tags" },
+                columns: new[] { "Id", "Calories", "Carbohydrates", "CategoryId", "DateCreated", "DateModified", "Fat", "Instructions", "Name", "Notes", "PrepTime", "Protein", "Servings", "Tags" },
                 values: new object[,]
                 {
-                    { -1, 860, 100, -1, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 30, null, @"* Cook Chicken
+                    { -1, 860, 100, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 30, @"* Cook Chicken
                 * Cook Potatoes
                 * Smother in Hot Sauce", "Chicken and Potatoes with Hot Sauce", "* Marinate Chicken for at least 12 hours for maximum flavor", 35m, 70, 2, "[\"Spicy\"]" },
-                    { -3, 222, 10, -1, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 11, null, @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
+                    { -3, 222, 10, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 11, @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
                 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
                 * 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
                 * 4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.
                 * 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.
                 * 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice.", "Butter Chicken", "* Delicious!", 65m, 20, 8, "[\"Chicken, Dinner, Easy\"]" },
-                    { -5, 148, 6, -1, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 3, null, @"* 1. Preheat grill or broiler.
+                    { -5, 148, 6, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 3, @"* 1. Preheat grill or broiler.
                 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
                 * 3. Lightly oil the grill or broiler rack (see Tip).
                 * 4. Season chicken with salt and grill or broil for 2 minutes.
@@ -399,12 +399,12 @@ namespace Api.Migrations
                 * Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.
                 * Tip: To oil a grill rack: Oil a folded paper towel, hold it with tongs and rub it over the rack. (Do not use cooking spray on a hot grill.)
                 * When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.", 45m, 23, 4, "[\"Low calorie, Low fat, Low Sodium\"]" },
-                    { -2, 770, 115, -2, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 10, null, @"* Cook Steak on BBQ
+                    { -2, 770, 115, -2, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 10, @"* Cook Steak on BBQ
                 * Cook Potatoes to personal preference
                 * Serve and Enjoy!", "Steak and Sweet Potatoes", @"* Marinate Steak for at least 12 hours for maximum flavor
                 * Can be cooked on the stovetop but is better when BBQ'd
                 * Potatoes can be diced, sliced, or baked. Personal preference.", 25m, 70, 2, "[\"BBQ\"]" },
-                    { -4, 375, 45, -4, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 16, null, @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
+                    { -4, 375, 45, -4, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 16, @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
                 * 2. Place tortillas on a work surface.
                 * 3. Spread 1/2 cup filling on half of each tortilla.
                 * 4. Fold tortillas in half, pressing gently to flatten.
