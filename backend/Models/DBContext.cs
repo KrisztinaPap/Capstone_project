@@ -4,6 +4,8 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq;
 
 namespace Api.Models
 {
@@ -32,11 +34,21 @@ namespace Api.Models
           .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Cascade);
 
+        var valueComparer = new ValueComparer<List<string>>(
+          // Expression for checking equality
+          (c1, c2) => c1.SequenceEqual(c2),
+          // Expression for generating hash code
+          c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+          // Expression to generate snapshot
+          c => c.ToList());
+
         entity.Property(e => e.Tags)
+          .HasColumnType("json")
           .HasConversion(
             v => JsonConvert.SerializeObject(v),
             v => JsonConvert.DeserializeObject<List<string>>(v))
-          .HasColumnType("json");
+          .Metadata
+          .SetValueComparer(valueComparer);
 
         entity.HasData(
           new Recipe()
