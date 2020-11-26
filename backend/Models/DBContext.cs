@@ -605,7 +605,8 @@ namespace Api.Models
         entity.HasData(
           new User()
           {
-            Id = "-1",
+            // Identity uses a GUID method to generate unqiue user id.
+            Id = Guid.NewGuid().ToString(),
             Name = "TestAdminWarren",
             Email = "phprox123@gmail.com"
           }
