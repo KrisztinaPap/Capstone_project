@@ -34,6 +34,9 @@ namespace Api.Models
           .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Cascade);
 
+        // Citation: A value comparer function was needed to check the values after converting from JSON
+        // to List<string> data type from the database to the server.
+        // Link @ https://docs.microsoft.com/en-us/ef/core/modeling/value-comparers
         var valueComparer = new ValueComparer<List<string>>(
           // Expression for checking equality
           (c1, c2) => c1.SequenceEqual(c2),
