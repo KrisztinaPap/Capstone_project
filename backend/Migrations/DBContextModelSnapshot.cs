@@ -302,9 +302,8 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int(10)");
 
-                    b.Property<string>("MealTimeId")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)");
+                    b.Property<int>("MealTimeId")
+                        .HasColumnType("int(10)");
 
                     b.Property<int>("PlanId")
                         .HasColumnType("int(10)");
@@ -321,13 +320,13 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            MealTimeId = "-2",
+                            MealTimeId = -2,
                             PlanId = -1
                         },
                         new
                         {
                             Id = -2,
-                            MealTimeId = "-3",
+                            MealTimeId = -3,
                             PlanId = -1
                         });
                 });
@@ -361,10 +360,12 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Models.MealTime", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("varchar(10)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int(10)");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
@@ -374,17 +375,17 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "-1",
+                            Id = -1,
                             Name = "Breakfast"
                         },
                         new
                         {
-                            Id = "-2",
+                            Id = -2,
                             Name = "Lunch"
                         },
                         new
                         {
-                            Id = "-3",
+                            Id = -3,
                             Name = "Dinner"
                         });
                 });
@@ -410,7 +411,7 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Day = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            Day = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = "-1"
                         });
                 });
@@ -478,8 +479,8 @@ namespace Api.Migrations
                             Calories = 860,
                             Carbohydrates = 100,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
                             Instructions = @"* Cook Chicken
 * Cook Potatoes
@@ -497,8 +498,8 @@ namespace Api.Migrations
                             Calories = 770,
                             Carbohydrates = 115,
                             CategoryId = -2,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
                             Instructions = @"* Cook Steak on BBQ
 * Cook Potatoes to personal preference
@@ -518,8 +519,8 @@ namespace Api.Migrations
                             Calories = 222,
                             Carbohydrates = 10,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
                             Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
@@ -540,8 +541,8 @@ namespace Api.Migrations
                             Calories = 375,
                             Carbohydrates = 45,
                             CategoryId = -4,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
                             Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
 * 2. Place tortillas on a work surface.
@@ -564,8 +565,8 @@ namespace Api.Migrations
                             Calories = 148,
                             Carbohydrates = 6,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 25, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
                             Instructions = @"* 1. Preheat grill or broiler.
 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
