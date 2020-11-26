@@ -27,14 +27,6 @@ namespace Api.Controllers
           _context = context;
       }
 
-      // TODO: We need to extract our calls to _context to
-      //       some kind of Repository/QueryHandler pattern.
-      //       That way we're consistent with our access to
-      //       recipes and we can easily apply business rules
-      //       because as of right now there is nothing enforcing
-      //       Recipe names being unique per user or anything like
-      //       that.
-
       // TODO: Missing Authentication. Meaning most of these routes
       //       will likely change a bit once authentication is enabled
       //       We'll very likely implement AuthorizationTokens via
@@ -141,7 +133,7 @@ namespace Api.Controllers
           }
         }
 
-      _context.SaveChanges();
+        _context.SaveChanges();
         return NoContent();
       }
 
