@@ -42,7 +42,50 @@ const Dashboard = () => {
 
   function goToToday() {
     setFirstDate(today);
-    console.log(`firstDay is set to: ${today}`);
+    console.log(`firstDay is set to: ${firstDate}`);
+  }
+  {/* Go back in time arrows */ }
+  function backOneDay() {
+    setFirstDate(firstDate.subtract(1, 'days'));
+    setLastDate(lastDate.subtract(1, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function backThreeDays() {
+    setFirstDate(firstDate.subtract(3, 'days'));
+    setLastDate(lastDate.subtract(3, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function backSevenDays() {
+    setFirstDate(firstDate.subtract(7, 'days'));
+    setLastDate(lastDate.subtract(7, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  {/* Go forward in time arrows */ }
+  function forwardOneDay() {
+    setFirstDate(firstDate.add(1, 'days'));
+    setLastDate(lastDate.add(1, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function forwardThreeDays() {
+    setFirstDate(firstDate.add(3, 'days'));
+    setLastDate(lastDate.add(3, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function forwardSevenDays() {
+    setFirstDate(firstDate.add(7, 'days'));
+    setLastDate(lastDate.add(7, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
   }
 
   {/* Loading */}
@@ -78,14 +121,20 @@ const Dashboard = () => {
 
             <div className="flex items-center p-2 justify-between lg:flex-col lg:place-content-center lg:col-span-2 lg:col-start-2 lg:row-start-1 lg:row-span-1">
               <div className="flex items-center">
-                <button><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-                {/* Current day/week below to be replaced with dynamic dates */}
-              <div className="md:hidden inline px-3">{firstDate.format('LL')}</div>
-              <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
-              <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
-                <button><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-              </div>
-            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
+                {/* Go back in time arrows */}
+                <button className="md:hidden" onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+              <button className="hidden md:inline lg:hidden" onClick={() => backThreeDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+              <button className="hidden lg:inline" onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+                  {/* Current day/week below to be replaced with dynamic dates */}
+                <div className="md:hidden inline px-3">{firstDate.format('LL')}</div>
+                <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
+                <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
+                {/* Go forward in time arrows */}
+                <button className="md:hidden" onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+              <button className="hidden md:inline lg:hidden" onClick={() => forwardThreeDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+              <button className="hidden lg:inline" onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+               </div>
+              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
             </div>
 
             {/* Recipe icon swiper for mobile screen */}
