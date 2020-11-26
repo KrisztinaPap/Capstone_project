@@ -25,7 +25,7 @@ namespace Api.Models
     
     [Column(TypeName = "date")]
     public DateTime Day { get; set; }
-    
+
     public virtual ICollection<Meal> Meals { get; set; } = new HashSet<Meal>();
 
     public Plan()
