@@ -27,10 +27,12 @@ namespace Api.Models.Validators {
 
       // Default Rules
       RuleFor(x => x.Id)
-        .NotEqual(0);
+        .NotEqual(0)
+        .When(x => x.RecipeId != 0);
 
       RuleFor(x => x.RecipeId)
-        .NotEqual(0);
+        .NotEqual(0)
+        .When(x => x.Id != 0);
 
       CommonRules();
     }

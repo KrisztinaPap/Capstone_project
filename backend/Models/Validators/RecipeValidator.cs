@@ -1,3 +1,4 @@
+using System.Linq;
 using FluentValidation;
 
 namespace Api.Models.Validators
@@ -29,10 +30,24 @@ namespace Api.Models.Validators
       RuleForEach(x => x.Ingredients)
         .SetValidator(_ingredientValidator);
 
+      RuleForEach(x => x.Ingredients)
+        .Must((x, y) => RecipeIdsMatch(x, y))
+        .WithMessage("Ingredient recipeId must match recipe id.");
+
+
       // TODO: Add validation for unique recipe names per user
       //       Blocked waiting for identity.
 
       CommonRules();
+    }
+
+    private bool RecipeIdsMatch(Recipe recipe, Ingredient ingredient)
+    {
+      // If the ingredient.Id is == 0 then
+      // the current ingredient is being newly created
+      // so it won't have a recipeId assigned yet.
+
+      return ingredient.Id == 0 || recipe.Id == ingredient.RecipeId;
     }
 
     private void CommonRules() {
