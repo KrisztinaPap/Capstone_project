@@ -4,10 +4,6 @@
 
 /* General styles */
 
-.main-container {
-    @apply container mx-auto w-5/6;
-}
-
 /* Dashboard styles */
 
 /* Recipe swiper & list styles */
