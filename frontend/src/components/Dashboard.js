@@ -32,30 +32,31 @@ const Dashboard = () => {
       setRecipes(response.data);
       setLoading(false);
       setError(false);
+      console.log(firstDate);
+      console.log(lastDate);
     } catch (err) {
       setError(true);
       setLoading(false);
     }
   }
 
-  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? Remove center after CSS applied */ }
+  {/* Loading */}
   if (loading) {
     return (
       <>
         <center>
           <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-          <p>Gathering your recipes...</p>
+          <p>Fetching your schedules...</p>
         </center>
       </>
     );
   }
 
-  // If Axios request has an error, display error message...
-  // TODO: Design better Error page?
+  {/* If Axios request has an error, display error message...*/}
   if (error) {
     return (
       <>
-        <p>There was an error loading the Recipes List. Please try again.</p>
+        <p>Failed fetching schedules. Please try again.</p>
         <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={populateRecipes()}>
           Retry
         </button></p>
@@ -74,12 +75,12 @@ const Dashboard = () => {
               <div className="flex items-center">
                 <button><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 {/* Current day/week below to be replaced with dynamic dates */}
-              <div className="md:hidden inline px-3">firstDate</div>
-                <div className="hidden md:inline lg:hidden px-3">firstDate - lastDate</div>
-                <div className="hidden lg:inline px-3">firstDate - lastDate</div>
+              <div className="md:hidden inline px-3">{firstDate.format('LL')}</div>
+              <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
+              <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
                 <button><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
               </div>
-            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2">firstDate</button>
+            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2">Today</button>
             </div>
 
             {/* Recipe icon swiper for mobile screen */}
@@ -129,8 +130,8 @@ const Dashboard = () => {
             {datePeriod.map((days, index) => (
               <div key={index} className="flex flex-col h-full md:flex-1">
                 <div className="text-center py-2">
-                  <span className="block">firstDay</span>
-                  <span className="block">firstDay (dayofweek)</span>
+                  <span className="block">{firstDate.format('LL')}</span>
+                  <span className="block">{firstDate.format('dddd')}</span>
                 </div>
                 {/* Breakfast container */}
                 <div className="meal-container lg:h-full">
