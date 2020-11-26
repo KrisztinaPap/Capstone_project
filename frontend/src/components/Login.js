@@ -25,7 +25,7 @@ const Login = () => {
               <div>
                 <label htmlFor="email" className="block text-gray-700 text-sm font-bold my-2">Email:</label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="email"
                   />
@@ -33,7 +33,7 @@ const Login = () => {
               <div className="mb-6">
                 <label htmlFor="password" className="block text-gray-700 text-sm font-bold my-2">Password:</label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 mb-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="password"
                   />

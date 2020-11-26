@@ -23,7 +23,7 @@ const Signup = () => {
               <div>
                 <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="email"
                 />
@@ -31,7 +31,7 @@ const Signup = () => {
               <div>
                 <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="name"
                 />
@@ -39,7 +39,7 @@ const Signup = () => {
               <div>
                 <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password:</label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="password"
                 />
@@ -48,7 +48,7 @@ const Signup = () => {
               <div className="mb-6">
                 <label htmlFor="password2" className="block text-gray-700 text-sm font-bold mb-2">Re-enter Password:</label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 mb-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="password2"
                   />
