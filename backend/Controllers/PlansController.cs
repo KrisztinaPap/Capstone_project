@@ -11,6 +11,13 @@ using Api.Models;
 namespace Api.Controllers
 {
 
+  /*
+   * TODO
+   * Shorten the API EndPoints by removing all User & UserId references when Identity/User Authentication is implemented on the frontend as well
+   * Recommendations from Aaron
+   */
+
+
   [ApiController]
   [Route("api/[controller]")]
   public class PlansController : ControllerBase
@@ -23,9 +30,8 @@ namespace Api.Controllers
       _context = context;
     }
 
-    // POST: api/plans/create/
+    // POST: api/plans/
     [HttpPost]
-    [Route("create")]
     public ActionResult<Plan> CreateSchedulePlan([CustomizeValidator(RuleSet = "CreateSchedulePlan")][FromBody] Schedule schedule)
     {
       /**
@@ -118,9 +124,9 @@ namespace Api.Controllers
       return Ok(result);
     }
 
-    // GET: api/plans/user/{userId}/schedule/{fromDate}/{toDate}
+    // GET: api/plans/user/{userId}/schedule?fromDate={fromDate}=&toDate={toDate}
     [HttpGet]
-    [Route("user/{userId:int:required}/schedule/{fromDate:DateTime:required}/{toDate:DateTime:required}")]
+    [Route("user/{userId:int:required}/schedule")]
     public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(int userId, DateTime fromDate, DateTime toDate)
     {
       /**
