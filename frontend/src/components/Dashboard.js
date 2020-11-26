@@ -10,36 +10,62 @@ import 'swiper/swiper-bundle.css';
 
 const Dashboard = () => {
 
-    useEffect(() => {
-      populateRecipes();
-    }, []);
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [recipes, setRecipes] = useState([]);
-  const today = moment().format('l');
-  const todayDayOfTheWeek = moment().format('dddd');
-  const tomorrow = moment().add(1, 'days').format('l');
-  const tomorrowDayOfTheWeek = moment().add(1, 'days').format('dddd');
-  const day3 = moment().add(2, 'days').format('l');
-  const day3DayOfTheWeek = moment().add(2, 'days').format('dddd');
-  const day4 = moment().add(3, 'days').format('l');
-  const day4DayOfTheWeek = moment().add(3, 'days').format('dddd');
-  const day5 = moment().add(4, 'days').format('l');
-  const day5DayOfTheWeek = moment().add(4, 'days').format('dddd');
-  const day6 = moment().add(5, 'days').format('l');
-  const day6DayOfTheWeek = moment().add(5, 'days').format('dddd');
-  const day7 = moment().add(6, 'days').format('l');
-  const day7DayOfTheWeek = moment().add(6, 'days').format('dddd');
+  const today = moment();
+  const [fromDate, setFromDate] = useState(today);
+  const [toDate, setToDate] = useState(today);
+  const [datePeriod, setDatePeriod] = useState([today]);
 
+  const [firstDate, setFirstDate] = useState(datePeriod[0]);
+  const [lastDate, setLastDate] = useState(datePeriod[datePeriod.length - 1]);
 
-    async function populateRecipes() {
+  useEffect(() => {
+    populateRecipes();
+  }, []);
+
+  async function populateRecipes() {
+    try {
       const response = await axios.get('api/recipes')
       setRecipes(response.data);
+      setLoading(false);
+      setError(false);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
     }
+  }
 
+  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? Remove center after CSS applied */ }
+  if (loading) {
     return (
       <>
+        <center>
+          <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
+          <p>Gathering your recipes...</p>
+        </center>
+      </>
+    );
+  }
+
+  // If Axios request has an error, display error message...
+  // TODO: Design better Error page?
+  if (error) {
+    return (
+      <>
+        <p>There was an error loading the Recipes List. Please try again.</p>
+        <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={populateRecipes()}>
+          Retry
+        </button></p>
+      </>
+    )
+  } 
+
+  return (
+      <>
         <div className="container mx-auto max-wlg h-screen mb-12">
-          
 
           <div className="h-full lg:grid lg:grid-cols-4 lg:grid-rows-8 gap-3">
             <h1 className="mt-6 lg:col-span-1 lg:col-start-1 lg:row-start-1 lg:row-span-1">Dashboard</h1>
@@ -48,19 +74,19 @@ const Dashboard = () => {
               <div className="flex items-center">
                 <button><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 {/* Current day/week below to be replaced with dynamic dates */}
-                <div className="md:hidden inline px-3">{today}, {todayDayOfTheWeek}</div>
-                <div className="hidden md:inline lg:hidden px-3">{today} - {day3}</div>
-                <div className="hidden lg:inline px-3">{today} - {day7}</div>
+              <div className="md:hidden inline px-3">firstDate</div>
+                <div className="hidden md:inline lg:hidden px-3">firstDate - lastDate</div>
+                <div className="hidden lg:inline px-3">firstDate - lastDate</div>
                 <button><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
               </div>
-              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2">Today</button>
+            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2">firstDate</button>
             </div>
 
             {/* Recipe icon swiper for mobile screen */}
             <div className="md:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={4}>
                 {recipes.map(recipes => (
-                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="swiper-item">
+                  <SwiperSlide key={recipes.id} className="swiper-item">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
@@ -69,12 +95,12 @@ const Dashboard = () => {
                 ))}
               </Swiper>
             </div>
-          
+
             {/* Recipe icon swiper for tablet screen */}
             <div className="hidden md:block lg:hidden my-3">
               <Swiper spaceBetween={10} slidesPerView={8}>
                 {recipes.map(recipes => (
-                  <SwiperSlide key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="swiper-item">
+                  <SwiperSlide key={recipes.id} className="swiper-item">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
@@ -86,163 +112,47 @@ const Dashboard = () => {
 
             {/* Recipe icon swiper for desktop screen */}
             <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
-                {recipes.map(recipes => (
-                  <div key={`recipes/${recipes.id}`} id={`recipes/${recipes.id}`} className="swiper-item lg:w-full">
-                    <img src={recipes.image} />
-                    <div>
-                      {recipes.name}
-                    </div>
+              {recipes.map(recipes => (
+                <div key={recipes.id} className="swiper-item lg:w-full">
+                  <img src={recipes.image} />
+                  <div>
+                    {recipes.name}
                   </div>
-                ))}
+                </div>
+              ))}
             </div>
 
-            {/* Calendar container */}
+            {/* Calendar container - maps over datePeriod array to display daily schedules */}
 
             <div className="md:flex flex-row my-3 lg:col-span-3 lg:col-start-2 lg:row-start-2 lg:row-span-6 border-2 border-solid border-black">
-              {/* Day container - Shows on mobile */}
-              <div className="flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
-                  <span className="block">{today}</span>
-                  <span className="block">{todayDayOfTheWeek}</span>
-                </div>
-                {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
-                  Breakfast
-                </div>
-                {/* Lunch container */}
-                <div className="meal-container lg:h-full">
-                  Lunch
-                </div>
-                {/* Dinner container */}
-                <div className="meal-container lg:h-full">
-                  Dinner
-                </div>
-              </div>  {/* end of Day container */}
 
-              {/* Day container - Shows on mobile & tablet */}
-              <div className="hidden md:flex flex-col h-full md:flex-1">
+            {datePeriod.map((days, index) => (
+              <div key={index} className="flex flex-col h-full md:flex-1">
                 <div className="text-center py-2">
-                  <span className="block">{tomorrow}</span>
-                  <span className="block">{tomorrowDayOfTheWeek}</span>
+                  <span className="block">firstDay</span>
+                  <span className="block">firstDay (dayofweek)</span>
                 </div>
                 {/* Breakfast container */}
                 <div className="meal-container lg:h-full">
                   Breakfast
-                </div>
+                  </div>
                 {/* Lunch container */}
                 <div className="meal-container lg:h-full">
                   Lunch
-                </div>
+                  </div>
                 {/* Dinner container */}
                 <div className="meal-container lg:h-full">
                   Dinner
-                </div>
-              </div>  {/* end of Day container */}
-
-              {/* Day container - Shows on mobile & tablet */}
-              <div className="hidden md:flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
-                  <span className="block">{day3}</span>
-                  <span className="block">{day3DayOfTheWeek}</span>
-                </div>
-                {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
-                  Breakfast
-                </div>
-                {/* Lunch container */}
-                <div className="meal-container lg:h-full">
-                  Lunch
-                </div>
-                {/* Dinner container */}
-                <div className="meal-container lg:h-full">
-                  Dinner
-                </div>
-              </div>  {/* end of Day container */}
-
-              {/* Day container - Shows on mobile, tablet, and desktop */}
-              <div className="hidden lg:flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
-                  <span className="block">{day4}</span>
-                  <span className="block">{day4DayOfTheWeek}</span>
-                </div>
-                {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
-                  Breakfast
-                </div>
-                {/* Lunch container */}
-                <div className="meal-container lg:h-full">
-                  Lunch
-                </div>
-                {/* Dinner container */}
-                <div className="meal-container lg:h-full">
-                  Dinner
-                </div>
-              </div>  {/* end of Day container */}
-
-              {/* Day container - Shows on mobile, tablet, and desktop */}
-              <div className="hidden lg:flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
-                  <span className="block">{day5}</span>
-                  <span className="block">{day5DayOfTheWeek}</span>
-                </div>
-                {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
-                  Breakfast
-                </div>
-                {/* Lunch container */}
-                <div className="meal-container lg:h-full">
-                  Lunch
-                </div>
-                {/* Dinner container */}
-                <div className="meal-container lg:h-full">
-                  Dinner
-                </div>
-              </div>  {/* end of Day container */}
-
-              {/* Day container - Shows on mobile, tablet, and desktop */}
-              <div className="hidden lg:flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
-                  <span className="block">{day6}</span>
-                  <span className="block">{day6DayOfTheWeek}</span>
-                </div>
-                {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
-                  Breakfast
-                </div>
-                {/* Lunch container */}
-                <div className="meal-container lg:h-full">
-                  Lunch
-                </div>
-                {/* Dinner container */}
-                <div className="meal-container lg:h-full">
-                  Dinner
-                </div>
-              </div>  {/* end of Day container */}
-
-              {/* Day container - Shows on mobile, tablet, and desktop */}
-              <div className="hidden lg:flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
-                  <span className="block">{day7}</span>
-                  <span className="block">{day7DayOfTheWeek}</span>
-                </div>
-                {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
-                  Breakfast
-                </div>
-                {/* Lunch container */}
-                <div className="meal-container lg:h-full">
-                  Lunch
-                </div>
-                {/* Dinner container */}
-                <div className="meal-container lg:h-full">
-                  Dinner
-                </div>
-              </div>  {/* end of Day container */}
-            </div>
+                  </div>
+              </div>
+           ))}
           </div>
+
+          </div>
+
         </div>
       </>
     );
-}
+  }
 
 export default Dashboard;
