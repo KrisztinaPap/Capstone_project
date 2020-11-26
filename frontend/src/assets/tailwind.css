@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Google Fonts font styles */
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto&display=swap');
+
 /* General styles */
 
 .input-field {
