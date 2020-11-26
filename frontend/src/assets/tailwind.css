@@ -2,3 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
+/* General styles */
+
+.main-container {
+    @apply container mx-auto w-5/6;
+}
+
+/* Dashboard styles */
+
+/* Recipe swiper & list styles */
+.swiper-item {
+  @apply border-2 border-gray-800 rounded-md px-2 bg-white cursor-pointer;
+}
+
+.recipe-list-item {
+  @apply border-2 border-gray-800 rounded-md px-2 bg-white cursor-pointer;
+}
+
+/* Calendar styles */
+
+/* Meal container styles */
+.meal-container {
+  @apply border border-solid border-gray-800 h-24;
+}
