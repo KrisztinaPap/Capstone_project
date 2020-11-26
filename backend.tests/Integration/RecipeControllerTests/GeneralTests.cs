@@ -16,21 +16,16 @@ using Api;
 using Api.Models;
 using Api.Controllers;
 
-namespace Api.Tests.Integration
+namespace Api.Tests.Integration.RecipeControllerTests
 {
   [Collection("Integration")]
-  public class RecipesControllerTest
+  public class GeneralTests
     : IClassFixture<ApplicationFactory<Startup>>
   {
-    private const int TestCategory = -1;
-    private const string TestInstructions = "1. Throw all ingredients in a bowl & mix";
-
     private readonly HttpClient client;
-    private readonly ApplicationFactory<Startup> _factory;
 
-    public RecipesControllerTest(ApplicationFactory<Startup> factory) {
+    public GeneralTests(ApplicationFactory<Startup> factory) {
       client = factory.CreateClient();
-      _factory = factory;
     }
 
     [Fact]
