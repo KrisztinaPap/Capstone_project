@@ -15,12 +15,10 @@ const Dashboard = () => {
   const [edit, setEdit] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const today = moment();
-  const [fromDate, setFromDate] = useState(today);
-  const [toDate, setToDate] = useState(today);
+  const [firstDate, setFirstDate] = useState(today);
+  const [lastDate, setLastDate] = useState(today);
   const [datePeriod, setDatePeriod] = useState([today]);
 
-  const [firstDate, setFirstDate] = useState(datePeriod[0]);
-  const [lastDate, setLastDate] = useState(datePeriod[datePeriod.length - 1]);
 
   useEffect(() => {
     populateRecipes();
@@ -41,49 +39,49 @@ const Dashboard = () => {
   }
 
   function goToToday() {
-    setFirstDate(today);
+    setFirstDate(today.clone());
     console.log(`firstDay is set to: ${firstDate}`);
   }
   {/* Go back in time arrows */ }
   function backOneDay() {
-    setFirstDate(firstDate.subtract(1, 'days'));
-    setLastDate(lastDate.subtract(1, 'days'));
+    setFirstDate(firstDate.clone().subtract(1, 'days'));
+    setLastDate(lastDate.clone().subtract(1, 'days'));
     console.log(`firstDay is set to: ${firstDate}`);
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
   function backThreeDays() {
-    setFirstDate(firstDate.subtract(3, 'days'));
-    setLastDate(lastDate.subtract(3, 'days'));
+    setFirstDate(firstDate.clone().subtract(3, 'days'));
+    setLastDate(lastDate.clone().subtract(3, 'days'));
     console.log(`firstDay is set to: ${firstDate}`);
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
   function backSevenDays() {
-    setFirstDate(firstDate.subtract(7, 'days'));
-    setLastDate(lastDate.subtract(7, 'days'));
+    setFirstDate(firstDate.clone().subtract(7, 'days'));
+    setLastDate(lastDate.clone().subtract(7, 'days'));
     console.log(`firstDay is set to: ${firstDate}`);
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
   {/* Go forward in time arrows */ }
   function forwardOneDay() {
-    setFirstDate(firstDate.add(1, 'days'));
-    setLastDate(lastDate.add(1, 'days'));
+    setFirstDate(firstDate.clone().add(1, 'days'));
+    setLastDate(lastDate.clone().add(1, 'days'));
     console.log(`firstDay is set to: ${firstDate}`);
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
   function forwardThreeDays() {
-    setFirstDate(firstDate.add(3, 'days'));
-    setLastDate(lastDate.add(3, 'days'));
+    setFirstDate(firstDate.clone().add(3, 'days'));
+    setLastDate(lastDate.clone().add(3, 'days'));
     console.log(`firstDay is set to: ${firstDate}`);
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
   function forwardSevenDays() {
-    setFirstDate(firstDate.add(7, 'days'));
-    setLastDate(lastDate.add(7, 'days'));
+    setFirstDate(firstDate.clone().add(7, 'days'));
+    setLastDate(lastDate.clone().add(7, 'days'));
     console.log(`firstDay is set to: ${firstDate}`);
     console.log(`lastDay is set to: ${lastDate}`);
   }
@@ -119,7 +117,7 @@ const Dashboard = () => {
 
   return (
       <>
-        <div className="container mx-auto max-w-lg h-full">
+      <div className="container w-full px-4 lg:px-12 mx-auto h-full">
             <h1 className="mt-6">Dashboard</h1>
 
             <div className="flex items-center p-2 justify-between">
@@ -159,10 +157,10 @@ const Dashboard = () => {
 
 
         {/* Recipe list and calendar (1 column on mobile and tablet, 2 colums on desktop */}
-        <div className="h-full flex flex-col lg:flex-row">
+        <div className="h-full w-full flex flex-col lg:flex-row">
           {/* When edit mode is true, show recipe list */}
           {edit &&
-            <div className="mr-3">
+            <div className="mr-3 w-full">
     
               <div className="md:hidden my-3">
                 <Swiper spaceBetween={10} slidesPerView={4}>
@@ -207,7 +205,7 @@ const Dashboard = () => {
 
             {/* Calendar container - maps over datePeriod array to display daily schedules */}
 
-            <div className="flex flex-row my-3 h-full">
+            <div className="flex flex-row my-3 w-full h-full">
 
             {datePeriod.map((days, index) => (
               <div key={index} className="flex flex-col flex-1">
