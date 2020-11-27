@@ -410,7 +410,7 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Day = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            Day = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = "-1"
                         });
                 });
@@ -440,8 +440,9 @@ namespace Api.Migrations
                         .HasColumnType("int(10)");
 
                     b.Property<string>("Image")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("varchar(100)")
-                        .HasDefaultValue(string.Empty);
+                        .HasDefaultValue("");
 
                     b.Property<string>("Instructions")
                         .IsRequired()
@@ -482,9 +483,10 @@ namespace Api.Migrations
                             Calories = 860,
                             Carbohydrates = 100,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
+                            Image = "",
                             Instructions = @"* Cook Chicken
 * Cook Potatoes
 * Smother in Hot Sauce",
@@ -501,9 +503,10 @@ namespace Api.Migrations
                             Calories = 770,
                             Carbohydrates = 115,
                             CategoryId = -2,
-                            DateCreated = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
+                            Image = "",
                             Instructions = @"* Cook Steak on BBQ
 * Cook Potatoes to personal preference
 * Serve and Enjoy!",
@@ -522,9 +525,10 @@ namespace Api.Migrations
                             Calories = 222,
                             Carbohydrates = 10,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
+                            Image = "",
                             Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
 * 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
@@ -544,9 +548,10 @@ namespace Api.Migrations
                             Calories = 375,
                             Carbohydrates = 45,
                             CategoryId = -4,
-                            DateCreated = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
+                            Image = "",
                             Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
 * 2. Place tortillas on a work surface.
 * 3. Spread 1/2 cup filling on half of each tortilla.
@@ -568,9 +573,10 @@ namespace Api.Migrations
                             Calories = 148,
                             Carbohydrates = 6,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 26, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
+                            Image = "",
                             Instructions = @"* 1. Preheat grill or broiler.
 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
 * 3. Lightly oil the grill or broiler rack (see Tip).
@@ -711,8 +717,7 @@ namespace Api.Migrations
                         .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("varchar(50)")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
                         .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed")
@@ -769,15 +774,15 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "-1",
+                            Id = "ce3d69b1-0fcc-4218-8d2c-a329cc5b4562",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2f6d1a91-2938-4e56-a83a-14846993f074",
+                            ConcurrencyStamp = "14cf512b-ff03-4566-8a65-65276c8a6b63",
                             Email = "phprox123@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "TestAdminWarren",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d48e0517-8495-4ab0-9585-2610b2c88152",
+                            SecurityStamp = "a846bf5a-a67e-41aa-8805-bc8b5f46b324",
                             TwoFactorEnabled = false
                         });
                 });
