@@ -1,0 +1,42 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Google Fonts font styles */
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto&display=swap');
+
+/* General styles */
+
+.input-field {
+  @apply shadow appearance-none border rounded py-2 mb-2 px-3 text-gray-700 leading-tight;
+}
+
+.purple-button {
+  @apply bg-purple-500 text-white font-bold py-2 px-4 rounded shadow;
+}
+
+.purple-link {
+  @apply inline-block font-bold text-sm text-purple-500;
+}
+
+.white-link {
+  @apply font-bold inline-block text-white p-2 m-2;
+}
+
+/* Dashboard styles */
+
+/* Recipe swiper & list styles */
+.swiper-item {
+  @apply border-2 border-gray-800 rounded-md px-2 bg-white cursor-pointer;
+}
+
+.recipe-list-item {
+  @apply border-2 border-gray-800 rounded-md px-2 bg-white cursor-pointer;
+}
+
+/* Calendar styles */
+
+/* Meal container styles */
+.meal-container {
+  @apply border border-solid border-gray-800 h-24;
+}
