@@ -104,7 +104,7 @@ const Dashboard = () => {
       </>
     );
   }
-
+  
   {/* If Axios request has an error, display error message...*/}
   if (error) {
     return (
@@ -150,45 +150,50 @@ const Dashboard = () => {
             }
             </div>
 
-            {/* Recipe icon swiper for mobile screen */}
-            <div className="md:hidden my-3">
-              <Swiper spaceBetween={10} slidesPerView={4}>
+          {/* When edit mode is true, show recipe list */}
+          {edit &&
+            <div>
+    
+              <div className="md:hidden my-3">
+                <Swiper spaceBetween={10} slidesPerView={4}>
+                  {recipes.map(recipes => (
+                    <SwiperSlide key={recipes.id} className="swiper-item">
+                      <img src={recipes.image} />
+                      <div>
+                        {recipes.name}
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+
+              <div className="hidden md:block lg:hidden my-3">
+                <Swiper spaceBetween={10} slidesPerView={8}>
+                  {recipes.map(recipes => (
+                    <SwiperSlide key={recipes.id} className="swiper-item">
+                      <img src={recipes.image} />
+                      <div>
+                        {recipes.name}
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+
+              <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
                 {recipes.map(recipes => (
-                  <SwiperSlide key={recipes.id} className="swiper-item">
+                  <div key={recipes.id} className="swiper-item lg:w-full">
                     <img src={recipes.image} />
                     <div>
                       {recipes.name}
                     </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-
-            {/* Recipe icon swiper for tablet screen */}
-            <div className="hidden md:block lg:hidden my-3">
-              <Swiper spaceBetween={10} slidesPerView={8}>
-                {recipes.map(recipes => (
-                  <SwiperSlide key={recipes.id} className="swiper-item">
-                    <img src={recipes.image} />
-                    <div>
-                      {recipes.name}
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-
-            {/* Recipe icon swiper for desktop screen */}
-            <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
-              {recipes.map(recipes => (
-                <div key={recipes.id} className="swiper-item lg:w-full">
-                  <img src={recipes.image} />
-                  <div>
-                    {recipes.name}
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+
             </div>
+        }
+           
 
             {/* Calendar container - maps over datePeriod array to display daily schedules */}
 
