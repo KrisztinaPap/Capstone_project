@@ -4,10 +4,52 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Api.Migrations
 {
-    public partial class SeedDataFinal : Migration
+    public partial class IdentityContext : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Password = table.Column<string>(type: "varchar(50)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Email = table.Column<string>(type: "varchar(50)", maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "MealTime",
                 columns: table => new
@@ -60,19 +102,109 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Users",
+                name: "AspNetRoleClaims",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int(10)", nullable: false)
+                    Id = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Name = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Password = table.Column<string>(type: "varchar(50)", nullable: false),
-                    PasswordSalt = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Email = table.Column<string>(type: "varchar(50)", nullable: false)
+                    RoleId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.Id);
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    UserId = table.Column<string>(nullable: false),
+                    ClaimType = table.Column<string>(nullable: true),
+                    ClaimValue = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(nullable: false),
+                    ProviderKey = table.Column<string>(nullable: false),
+                    ProviderDisplayName = table.Column<string>(nullable: true),
+                    UserId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    RoleId = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    LoginProvider = table.Column<string>(nullable: false),
+                    Name = table.Column<string>(nullable: false),
+                    Value = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -186,19 +318,24 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "Password", "PasswordHash", "PasswordSalt", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[] { "-1", 0, "c98f87f8-c0c9-404d-966f-2a1a84e63407", "phprox123@gmail.com", false, false, null, "TestAdminWarren", null, null, "$uper$ecurePHPa$$w0rd", null, "$alt33", null, false, "3cb8461a-54e5-4419-af24-3fbc7013e485", false, null });
+
+            migrationBuilder.InsertData(
                 table: "MealTime",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
+                    { "-3", "Dinner" },
                     { "-1", "Breakfast" },
-                    { "-2", "Lunch" },
-                    { "-3", "Dinner" }
+                    { "-2", "Lunch" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Plan",
                 columns: new[] { "Id", "Day", "UserId" },
-                values: new object[] { -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), "-1" });
+                values: new object[] { -1, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), "-1" });
 
             migrationBuilder.InsertData(
                 table: "RecipeCategories",
@@ -221,18 +358,13 @@ namespace Api.Migrations
                     { "lb", "Pound" },
                     { "tbsp", "Tablespoon" },
                     { "tsp", "Teaspoon" },
-                    { "g", "Gram" },
-                    { "L", "Liter" },
                     { "ml", "Milliliter" },
+                    { "L", "Liter" },
                     { "oz", "Ounce" },
                     { "ea", "Each" },
-                    { "cup", "Cup" }
+                    { "cup", "Cup" },
+                    { "g", "Gram" }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Users",
-                columns: new[] { "Id", "Email", "Name", "Password", "PasswordSalt" },
-                values: new object[] { -1, "phprox123@gmail.com", "TestAdminWarren", "$uper$ecurePHPa$$w0rd", "$alt33" });
 
             migrationBuilder.InsertData(
                 table: "Meals",
@@ -248,16 +380,16 @@ namespace Api.Migrations
                 columns: new[] { "Id", "Calories", "Carbohydrates", "CategoryId", "DateCreated", "DateModified", "Fat", "Image", "Instructions", "Name", "Notes", "PrepTime", "Protein", "Servings", "Tags" },
                 values: new object[,]
                 {
-                    { -1, 860, 100, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 30, null, @"* Cook Chicken
+                    { -1, 860, 100, -1, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 30, null, @"* Cook Chicken
                 * Cook Potatoes
                 * Smother in Hot Sauce", "Chicken and Potatoes with Hot Sauce", "* Marinate Chicken for at least 12 hours for maximum flavor", 35m, 70, 2, "[\"Spicy\"]" },
-                    { -3, 222, 10, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 11, null, @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
+                    { -3, 222, 10, -1, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 11, null, @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
                 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
                 * 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
                 * 4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.
                 * 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.
                 * 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice.", "Butter Chicken", "* Delicious!", 65m, 20, 8, "[\"Chicken, Dinner, Easy\"]" },
-                    { -5, 148, 6, -1, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 3, null, @"* 1. Preheat grill or broiler.
+                    { -5, 148, 6, -1, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 3, null, @"* 1. Preheat grill or broiler.
                 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
                 * 3. Lightly oil the grill or broiler rack (see Tip).
                 * 4. Season chicken with salt and grill or broil for 2 minutes.
@@ -267,12 +399,12 @@ namespace Api.Migrations
                 * Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.
                 * Tip: To oil a grill rack: Oil a folded paper towel, hold it with tongs and rub it over the rack. (Do not use cooking spray on a hot grill.)
                 * When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.", 45m, 23, 4, "[\"Low calorie, Low fat, Low Sodium\"]" },
-                    { -2, 770, 115, -2, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 10, null, @"* Cook Steak on BBQ
+                    { -2, 770, 115, -2, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 10, null, @"* Cook Steak on BBQ
                 * Cook Potatoes to personal preference
                 * Serve and Enjoy!", "Steak and Sweet Potatoes", @"* Marinate Steak for at least 12 hours for maximum flavor
                 * Can be cooked on the stovetop but is better when BBQ'd
                 * Potatoes can be diced, sliced, or baked. Personal preference.", 25m, 70, 2, "[\"BBQ\"]" },
-                    { -4, 375, 45, -4, new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local), 16, null, @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
+                    { -4, 375, 45, -4, new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local), 16, null, @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
                 * 2. Place tortillas on a work surface.
                 * 3. Spread 1/2 cup filling on half of each tortilla.
                 * 4. Fold tortillas in half, pressing gently to flatten.
@@ -330,6 +462,43 @@ namespace Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ingredients_RecipeId",
                 table: "Ingredients",
                 column: "RecipeId");
@@ -363,13 +532,31 @@ namespace Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "Ingredients");
 
             migrationBuilder.DropTable(
                 name: "MealsRecipes");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "UOM");

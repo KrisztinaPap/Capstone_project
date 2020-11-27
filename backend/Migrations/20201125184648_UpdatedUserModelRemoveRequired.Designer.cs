@@ -3,14 +3,16 @@ using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20201125184648_UpdatedUserModelRemoveRequired")]
+    partial class UpdatedUserModelRemoveRequired
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -465,9 +467,6 @@ namespace Api.Migrations
                     b.Property<string>("Tags")
                         .HasColumnType("json");
 
-                    b.Property<string>("UserId")
-                        .HasColumnType("varchar(50)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -770,13 +769,13 @@ namespace Api.Migrations
                         {
                             Id = "-1",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2f6d1a91-2938-4e56-a83a-14846993f074",
+                            ConcurrencyStamp = "ac35f902-2bc0-4e68-88b5-1119afac8d9f",
                             Email = "phprox123@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "TestAdminWarren",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d48e0517-8495-4ab0-9585-2610b2c88152",
+                            SecurityStamp = "451a9d92-5912-4e92-ab10-152b0fe3b722",
                             TwoFactorEnabled = false
                         });
                 });

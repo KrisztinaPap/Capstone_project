@@ -134,6 +134,9 @@ namespace Api.Models
     [Column(TypeName = "varchar(500)")]
     public string Notes { get; set; }
 
+    [Column(TypeName = "varchar(50)")]
+    public string UserId { get; set; }
+
     public Recipe(string name) {
       Name = name;
     }

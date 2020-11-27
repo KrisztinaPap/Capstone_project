@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    [Migration("20201119224003_SeedDataFinal")]
-    partial class SeedDataFinal
+    [Migration("20201124222133_IdentityContext")]
+    partial class IdentityContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -412,7 +412,7 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Day = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            Day = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = "-1"
                         });
                 });
@@ -480,8 +480,8 @@ namespace Api.Migrations
                             Calories = 860,
                             Carbohydrates = 100,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
                             Instructions = @"* Cook Chicken
 * Cook Potatoes
@@ -499,8 +499,8 @@ namespace Api.Migrations
                             Calories = 770,
                             Carbohydrates = 115,
                             CategoryId = -2,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
                             Instructions = @"* Cook Steak on BBQ
 * Cook Potatoes to personal preference
@@ -520,8 +520,8 @@ namespace Api.Migrations
                             Calories = 222,
                             Carbohydrates = 10,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
                             Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
@@ -542,8 +542,8 @@ namespace Api.Migrations
                             Calories = 375,
                             Carbohydrates = 45,
                             CategoryId = -4,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
                             Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
 * 2. Place tortillas on a work surface.
@@ -566,8 +566,8 @@ namespace Api.Migrations
                             Calories = 148,
                             Carbohydrates = 6,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 19, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 24, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
                             Instructions = @"* 1. Preheat grill or broiler.
 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
@@ -698,39 +698,224 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Models.User", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int(10)");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(50)")
+                        .HasMaxLength(256);
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
 
                     b.Property<string>("PasswordSalt")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers");
 
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = "-1",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "c98f87f8-c0c9-404d-966f-2a1a84e63407",
                             Email = "phprox123@gmail.com",
+                            EmailConfirmed = false,
+                            LockoutEnabled = false,
                             Name = "TestAdminWarren",
                             Password = "$uper$ecurePHPa$$w0rd",
-                            PasswordSalt = "$alt33"
+                            PasswordSalt = "$alt33",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "3cb8461a-54e5-4419-af24-3fbc7013e485",
+                            TwoFactorEnabled = false
                         });
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("varchar(256) CHARACTER SET utf8mb4")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
                 });
 
             modelBuilder.Entity("Api.Models.Ingredient", b =>
@@ -784,6 +969,57 @@ namespace Api.Migrations
                         .WithMany("Recipes")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("Api.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
