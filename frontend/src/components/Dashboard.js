@@ -16,13 +16,26 @@ const Dashboard = () => {
   const [recipes, setRecipes] = useState([]);
   const today = moment();
   const [firstDate, setFirstDate] = useState(today);
-  const [lastDate, setLastDate] = useState(today);
+  const [lastDate, setLastDate] = useState(today.clone().add(7, 'days'));
   const [datePeriod, setDatePeriod] = useState([today]);
 
+  // Citation
+  // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
+  const [desktop, setDesktop] = useState(window.innerWidth > 1450);
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 1450);
+  };
 
   useEffect(() => {
     populateRecipes();
   }, []);
+
+  // Citation
+  // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
+  useEffect(() => {
+    window.addEventListener("resize", updateMedia);
+    return () => window.removeEventListener("resize", updateMedia);
+  });
 
   async function populateRecipes() {
     try {
@@ -50,13 +63,6 @@ const Dashboard = () => {
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
-  function backThreeDays() {
-    setFirstDate(firstDate.clone().subtract(3, 'days'));
-    setLastDate(lastDate.clone().subtract(3, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
-  }
-
   function backSevenDays() {
     setFirstDate(firstDate.clone().subtract(7, 'days'));
     setLastDate(lastDate.clone().subtract(7, 'days'));
@@ -72,13 +78,6 @@ const Dashboard = () => {
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
-  function forwardThreeDays() {
-    setFirstDate(firstDate.clone().add(3, 'days'));
-    setLastDate(lastDate.clone().add(3, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
-  }
-
   function forwardSevenDays() {
     setFirstDate(firstDate.clone().add(7, 'days'));
     setLastDate(lastDate.clone().add(7, 'days'));
@@ -89,7 +88,7 @@ const Dashboard = () => {
   function editMode() {
     setEdit(!edit);
     console.log(edit);
-  }
+  } 
 
   {/* Loading */}
   if (loading) {
@@ -119,25 +118,29 @@ const Dashboard = () => {
       <>
       <div className="container w-full px-4 lg:px-12 mx-auto h-full">
             <h1 className="mt-6">Dashboard</h1>
-
+        {desktop &&
+          <p>This is desktop width!</p>
+        }
             <div className="flex items-center p-2 justify-between">
               {/* Date display with arrows and today button */}
               <div className="flex items-center">
                 {/* Go back in time arrows */}
                 <button className="md:hidden" onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-                <button className="hidden md:inline lg:hidden" onClick={() => backThreeDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 <button className="hidden lg:inline" onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
 
-                {/* Currently displayed time period */}
-                <div className="md:hidden inline px-3">{firstDate.format('L')}</div>
-                <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
-                <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
-
-                {/* Go forward in time arrows */}
+            {/* Currently displayed time period */}
+            {!desktop &&
+              <>
+                <div className="inline px-3">{firstDate.format('L')}</div>
                 <button className="md:hidden" onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-                <button className="hidden md:inline lg:hidden" onClick={() => forwardThreeDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+              </>
+            }
+            {desktop &&
+              <>
+                <div className="inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
                 <button className="hidden lg:inline" onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-
+              </>
+            }
                 <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
               </div>
               <div>
@@ -164,19 +167,6 @@ const Dashboard = () => {
     
               <div className="md:hidden my-3">
                 <Swiper spaceBetween={10} slidesPerView={4}>
-                  {recipes.map(recipes => (
-                    <SwiperSlide key={recipes.id} className="swiper-item">
-                      <img src={recipes.image} />
-                      <div>
-                        {recipes.name}
-                      </div>
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-
-              <div className="hidden md:block lg:hidden my-3">
-                <Swiper spaceBetween={10} slidesPerView={8}>
                   {recipes.map(recipes => (
                     <SwiperSlide key={recipes.id} className="swiper-item">
                       <img src={recipes.image} />

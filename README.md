@@ -73,6 +73,7 @@
 - [TailwindCSS docs](https://tailwindcss.com/docs)
 - [Swiper React](https://swiperjs.com/react/)
 - [Moment.js](https://momentjs.com/)
+- [React conditional rendering based on screen size](https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size)
 
 
 ## Backend Testing
