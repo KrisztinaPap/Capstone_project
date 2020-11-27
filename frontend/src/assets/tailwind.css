@@ -7,6 +7,16 @@
 
 /* General styles */
 
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Tailwind styles/components */
+
 .input-field {
   @apply shadow appearance-none border rounded py-2 mb-2 px-3 text-gray-700 leading-tight;
 }

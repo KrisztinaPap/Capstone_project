@@ -32,31 +32,80 @@ const Dashboard = () => {
       setRecipes(response.data);
       setLoading(false);
       setError(false);
+      console.log(firstDate);
+      console.log(lastDate);
     } catch (err) {
       setError(true);
       setLoading(false);
     }
   }
 
-  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? Remove center after CSS applied */ }
+  function goToToday() {
+    setFirstDate(today);
+    console.log(`firstDay is set to: ${firstDate}`);
+  }
+  {/* Go back in time arrows */ }
+  function backOneDay() {
+    setFirstDate(firstDate.subtract(1, 'days'));
+    setLastDate(lastDate.subtract(1, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function backThreeDays() {
+    setFirstDate(firstDate.subtract(3, 'days'));
+    setLastDate(lastDate.subtract(3, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function backSevenDays() {
+    setFirstDate(firstDate.subtract(7, 'days'));
+    setLastDate(lastDate.subtract(7, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  {/* Go forward in time arrows */ }
+  function forwardOneDay() {
+    setFirstDate(firstDate.add(1, 'days'));
+    setLastDate(lastDate.add(1, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function forwardThreeDays() {
+    setFirstDate(firstDate.add(3, 'days'));
+    setLastDate(lastDate.add(3, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  function forwardSevenDays() {
+    setFirstDate(firstDate.add(7, 'days'));
+    setLastDate(lastDate.add(7, 'days'));
+    console.log(`firstDay is set to: ${firstDate}`);
+    console.log(`lastDay is set to: ${lastDate}`);
+  }
+
+  {/* Loading */}
   if (loading) {
     return (
       <>
         <center>
           <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-          <p>Gathering your recipes...</p>
+          <p>Fetching your schedules...</p>
         </center>
       </>
     );
   }
 
-  // If Axios request has an error, display error message...
-  // TODO: Design better Error page?
+  {/* If Axios request has an error, display error message...*/}
   if (error) {
     return (
       <>
-        <p>There was an error loading the Recipes List. Please try again.</p>
-        <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={populateRecipes()}>
+        <p>Failed fetching schedules. Please try again.</p>
+        <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={() => populateRecipes()}>
           Retry
         </button></p>
       </>
@@ -72,14 +121,20 @@ const Dashboard = () => {
 
             <div className="flex items-center p-2 justify-between lg:flex-col lg:place-content-center lg:col-span-2 lg:col-start-2 lg:row-start-1 lg:row-span-1">
               <div className="flex items-center">
-                <button><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+                {/* Go back in time arrows */}
+                <button className="md:hidden" onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+                <button className="hidden md:inline lg:hidden" onClick={() => backThreeDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+                <button className="hidden lg:inline" onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 {/* Current day/week below to be replaced with dynamic dates */}
-              <div className="md:hidden inline px-3">firstDate</div>
-                <div className="hidden md:inline lg:hidden px-3">firstDate - lastDate</div>
-                <div className="hidden lg:inline px-3">firstDate - lastDate</div>
-                <button><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-              </div>
-            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2">firstDate</button>
+              <div className="md:hidden inline px-3">{firstDate.format('L')}</div>
+                <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
+                <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
+                {/* Go forward in time arrows */}
+                <button className="md:hidden" onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+                <button className="hidden md:inline lg:hidden" onClick={() => forwardThreeDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+                <button className="hidden lg:inline" onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+               </div>
+              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
             </div>
 
             {/* Recipe icon swiper for mobile screen */}
@@ -129,8 +184,8 @@ const Dashboard = () => {
             {datePeriod.map((days, index) => (
               <div key={index} className="flex flex-col h-full md:flex-1">
                 <div className="text-center py-2">
-                  <span className="block">firstDay</span>
-                  <span className="block">firstDay (dayofweek)</span>
+                  <span className="block">{firstDate.format('LL')}</span>
+                  <span className="block">{firstDate.format('dddd')}</span>
                 </div>
                 {/* Breakfast container */}
                 <div className="meal-container lg:h-full">
