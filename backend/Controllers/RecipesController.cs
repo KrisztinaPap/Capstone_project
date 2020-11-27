@@ -27,14 +27,6 @@ namespace Api.Controllers
           _context = context;
       }
 
-      // TODO: We need to extract our calls to _context to
-      //       some kind of Repository/QueryHandler pattern.
-      //       That way we're consistent with our access to
-      //       recipes and we can easily apply business rules
-      //       because as of right now there is nothing enforcing
-      //       Recipe names being unique per user or anything like
-      //       that.
-
       // TODO: Missing Authentication. Meaning most of these routes
       //       will likely change a bit once authentication is enabled
       //       We'll very likely implement AuthorizationTokens via
@@ -82,77 +74,87 @@ namespace Api.Controllers
         _context.Recipes.Add(newRecipe);
         _context.SaveChanges();
 
-        return Created("Get", newRecipe);
+        return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
       }
 
-      // PUT: api/recipes/update
-      [HttpPut]
-      [Route("update")]
-      public ActionResult<Recipe> Update(int id, [CustomizeValidator(RuleSet = "Update")][FromBody] Recipe recipe)
-      {
-        // This action will update a recipe in the database.
-        // Params: id, Recipe
 
-        Recipe recipeToUpdate = _context.Recipes.Include(x=>x.Ingredients).Where(x => x.Id == id).SingleOrDefault();
-        if(recipeToUpdate == null)
-        {
-          return BadRequest();  
+      // PUT: api/recipes/id
+      [HttpPut]
+      [Route("{id:int:required}")]
+      public ActionResult Update(int id, [FromBody] Recipe recipe)
+      {
+        // Note: Below is Kenji's solution just slightly refactored to
+        //       take advantage of `CurrentValues.SetValues`
+        //          —Aaron
+
+        Recipe oldRecipe = _context.Recipes
+          .Where(x => x.Id == id)
+          .Include(x => x.Ingredients)
+          .SingleOrDefault();
+
+        if(oldRecipe == null) {
+          return NotFound();
         }
 
-        recipeToUpdate.Name = recipe.Name;
-        recipeToUpdate.CategoryId = recipe.CategoryId;
-        recipeToUpdate.Fat = recipe.Fat;
-        recipeToUpdate.Protein = recipe.Protein;
-        recipeToUpdate.Carbohydrates = recipe.Carbohydrates;
-        recipeToUpdate.Instructions = recipe.Instructions;
-        recipeToUpdate.Tags = recipe.Tags;
-        recipeToUpdate.Image = recipe.Image;
-        recipeToUpdate.DateModified = DateTime.Today;
-        recipeToUpdate.PrepTime = recipe.PrepTime;
-        recipeToUpdate.Servings = recipe.Servings;
-        recipeToUpdate.Notes = recipe.Notes;
+        // Updates all of the changed values from the oldrecipe
+        // to the new recipe.
+        _context.Entry(oldRecipe).CurrentValues.SetValues(recipe);
 
-      // Collections
-      recipeToUpdate.MealRecipes = recipe.MealRecipes;
-      recipeToUpdate.RecipeCategory = recipe.RecipeCategory;
-
-      // Ensure each ingredient on the new recipe is inside the original.
-      foreach (Ingredient ingredient in recipe.Ingredients)
+        // Delete any ingredients currently in the recipe that are not
+        // in the update.
+        foreach(var existingIngredient in oldRecipe.Ingredients.ToList())
         {
-          if (!recipeToUpdate.Ingredients.Contains(ingredient))
+          if(!recipe.Ingredients.Any(oldIngredient => oldIngredient.Id == existingIngredient.Id))
           {
-            recipeToUpdate.Ingredients.Add(ingredient);
+            _context.Ingredients.Remove(existingIngredient);
+          }
+        }
+
+        // Update or Insert incoming ingredients
+        foreach(var ingredient in recipe.Ingredients)
+        {
+          // Look up the ingredient by given ingredientId & recipeId.
+          // This ensures we don't pull ingredients from other users recipes.
+          var existingIngredient = oldRecipe.Ingredients
+            .Where(x => x.Id == ingredient.Id && x.RecipeId == oldRecipe.Id)
+            .SingleOrDefault();
+
+          if(existingIngredient != null)
+          {
+            _context.Entry(existingIngredient).CurrentValues.SetValues(ingredient);
           }
           else
           {
-            // If the ingredient is already in the recipe,
-            // Check the quantity and measurement to ensure that amount is the same.
-            Ingredient individualIngredient = recipeToUpdate.Ingredients.Where(x => x.Name == ingredient.Name).SingleOrDefault();
-            individualIngredient.Quantity = ingredient.Quantity;
-            individualIngredient.UOMId = ingredient.UOMId;
+            // Reset the ingredient and recipe id's to prevent
+            // ID injections.
+            ingredient.Id = 0;
+            ingredient.RecipeId = 0;
+            oldRecipe.Ingredients.Add(ingredient);
           }
         }
-      // Ensure that any old ingredients that are not on the new updated recipe are removed.
-      List<Ingredient> ingredientList = recipeToUpdate.Ingredients.ToList();
 
-      foreach (Ingredient ingredient in ingredientList)
-      {
-        if (!recipe.Ingredients.Contains(ingredient))
-        {
-          // Remove the ingredient from the recipeToUpdate.Ingredients list.
-          recipeToUpdate.Ingredients.Remove(ingredient);
-        }
+        _context.SaveChanges();
+        return NoContent();
       }
-      // Save changes in the transaction.
-      _context.SaveChanges();
-          return recipeToUpdate;
-      }
+
 
       // DELETE: api/recipes/id
       [HttpDelete]
+      [Route("{id:int:required}")]
       public ActionResult<Recipe> Delete(int id)
       {
-        return BadRequest();
+        Recipe recipe = _context.Recipes
+          .Where(x => x.Id == id)
+          .Include(x => x.Ingredients)
+          .SingleOrDefault();
+
+        if(recipe == null) {
+          return NotFound();
+        }
+
+        _context.Remove(recipe);
+        _context.SaveChanges();
+        return NoContent();
       }
     }
 }

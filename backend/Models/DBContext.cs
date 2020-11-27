@@ -56,6 +56,9 @@ namespace Api.Models
           .Metadata
           .SetValueComparer(valueComparer);
 
+        entity.Property(e => e.Image)
+          .HasDefaultValue(string.Empty);
+
         entity.HasData(
           new Recipe()
           {
@@ -72,7 +75,6 @@ namespace Api.Models
               "* Smother in Hot Sauce"
             ),
             Tags = new List<string>() {"Spicy"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 35,
@@ -96,7 +98,6 @@ namespace Api.Models
               "* Serve and Enjoy!"
             ),
             Tags = new List<string>() {"BBQ"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -125,7 +126,6 @@ namespace Api.Models
             "* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice."
             ),
             Tags = new List<string>() {"Chicken, Dinner, Easy"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 65,
@@ -154,7 +154,6 @@ namespace Api.Models
             "* 8. Serve the quesadillas with avocado and the remaining salsa."
             ),
             Tags = new List<string>() {"Low calorie, High fiber, Vegetarian"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -180,7 +179,6 @@ namespace Api.Models
             "* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer."
             ),
             Tags = new List<string>() {"Low calorie, Low fat, Low Sodium"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 45,

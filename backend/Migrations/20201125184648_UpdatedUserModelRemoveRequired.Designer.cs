@@ -442,7 +442,8 @@ namespace Api.Migrations
                         .HasColumnType("int(10)");
 
                     b.Property<string>("Image")
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("varchar(100)")
+                        .HasDefaultValue(string.Empty);
 
                     b.Property<string>("Instructions")
                         .IsRequired()
@@ -453,7 +454,7 @@ namespace Api.Migrations
                         .HasColumnType("varchar(50)");
 
                     b.Property<string>("Notes")
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("varchar(5000)");
 
                     b.Property<decimal>("PrepTime")
                         .HasColumnType("decimal(10, 3)");

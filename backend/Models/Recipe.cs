@@ -6,74 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Api.Controllers;
 using FluentValidation;
+using Newtonsoft.Json;
 
 namespace Api.Models
 {
-  // TODO: Very Likely should be extracted to it's own file
-  //       Probably under Models.Validators
-  public class RecipeValidator : AbstractValidator<Recipe> {
-    public RecipeValidator() {
-      RuleFor(x => x.CategoryId)
-        .NotEqual(0);
-
-      RuleFor(x => x.Name)
-        .NotEmpty()
-        .Length(3, 50);
-
-      RuleFor(x => x.Fat)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Protein)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Carbohydrates)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Calories)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Instructions)
-        .Length(10, 60000);
-
-      RuleFor(x => x.Notes)
-        .Length(0, 5000);
-
-      RuleFor(x => x.Servings)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(1000);
-
-      RuleFor(x => x.PrepTime)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(6000);
-
-      RuleFor(x => x.Image)
-        .NotNull();
-
-      // TODO: Implement rules for Ingredients
-      //       See: https://docs.fluentvalidation.net/en/latest/start.html#complex-properties
-
-      RuleSet("Create", CreateRules);
-      RuleSet("Update", UpdateRules);
-    }
-
-    private void CreateRules() {
-      RuleFor(x => x.Id)
-        .Empty()
-        .WithMessage("Cannot set id of a recipe during creation");
-    }
-
-    private void UpdateRules() {
-      RuleFor(x => x.Id)
-        .NotEqual(0);
-    }
-  }
-
   [Table("Recipes")]
   public class Recipe {
 
@@ -83,6 +20,7 @@ namespace Api.Models
     public int Id { get; set; }
 
     [Column(TypeName = "int(10)")]
+    [JsonProperty("category")]
     public int CategoryId { get; set; }
 
     [Required]
@@ -107,13 +45,13 @@ namespace Api.Models
 
     [Required]
     [Column(TypeName = "longtext")]
-    public string Instructions { get; set; }
+    public string Instructions { get; set; } = string.Empty;
 
     [Column(TypeName = "json")]
-    public List<string> Tags { get; set; }
+    public List<string> Tags { get; set; } = new List<string>();
 
     [Column(TypeName = "varchar(100)")]
-    public string Image { get; set; }
+    public string Image { get; set; } = string.Empty;
 
     [Required]
     [Column(TypeName = "date")]
@@ -129,9 +67,9 @@ namespace Api.Models
 
     [Required]
     [Column(TypeName = "int(10)")]
-    public int Servings { get; set; }
+    public int Servings { get; set; } = 1;
 
-    [Column(TypeName = "varchar(500)")]
+    [Column(TypeName = "varchar(5000)")]
     public string Notes { get; set; }
 
     [Column(TypeName = "varchar(50)")]
@@ -146,8 +84,10 @@ namespace Api.Models
 
     public virtual ICollection<Ingredient> Ingredients { get; private set; } = new HashSet<Ingredient>();
 
+    [JsonIgnore]
     public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();
 
+    [JsonIgnore]
     public virtual RecipeCategory RecipeCategory { get; set; }
 
     public Recipe()
