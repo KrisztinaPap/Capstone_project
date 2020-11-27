@@ -130,7 +130,7 @@ const Dashboard = () => {
                 <button className="hidden md:inline lg:hidden" onClick={() => backThreeDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 <button className="hidden lg:inline" onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
 
-                {/* Current day/week below to be replaced with dynamic dates */}
+                {/* Currently displayed time period */}
                 <div className="md:hidden inline px-3">{firstDate.format('L')}</div>
                 <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
                 <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
@@ -207,26 +207,27 @@ const Dashboard = () => {
 
             {/* Calendar container - maps over datePeriod array to display daily schedules */}
 
-            <div className="md:flex flex-row my-3 h-full border-2 border-solid border-black">
+            <div className="flex flex-row my-3 h-full">
 
             {datePeriod.map((days, index) => (
-              <div key={index} className="flex flex-col md:flex-1">
+              <div key={index} className="flex flex-col flex-1">
                 <div className="text-center p-2">
                   <span className="block">{firstDate.format('LL')}</span>
                   <span className="block">{firstDate.format('dddd')}</span>
                 </div>
+
                 {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
+                <div className="meal-container">
                   Breakfast
-                  </div>
+                </div>
                 {/* Lunch container */}
-                <div className="meal-container lg:h-full">
+                <div className="meal-container">
                   Lunch
-                  </div>
+                </div>
                 {/* Dinner container */}
-                <div className="meal-container lg:h-full">
+                <div className="meal-container">
                   Dinner
-                  </div>
+                </div>
               </div>
            ))}
           </div>
