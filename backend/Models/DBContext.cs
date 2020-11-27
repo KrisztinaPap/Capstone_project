@@ -4,8 +4,11 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Api.Authentication;
+
 
 namespace Api.Models
 {
@@ -34,11 +37,24 @@ namespace Api.Models
           .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Cascade);
 
+        // Citation: A value comparer function was needed to check the values after converting from JSON
+        // to List<string> data type from the database to the server.
+        // Link @ https://docs.microsoft.com/en-us/ef/core/modeling/value-comparers
+        var valueComparer = new ValueComparer<List<string>>(
+          // Expression for checking equality
+          (c1, c2) => c1.SequenceEqual(c2),
+          // Expression for generating hash code
+          c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+          // Expression to generate snapshot
+          c => c.ToList());
+
         entity.Property(e => e.Tags)
+          .HasColumnType("json")
           .HasConversion(
             v => JsonConvert.SerializeObject(v),
             v => JsonConvert.DeserializeObject<List<string>>(v))
-          .HasColumnType("json");
+          .Metadata
+          .SetValueComparer(valueComparer);
 
         entity.HasData(
           new Recipe()
