@@ -119,12 +119,11 @@ const Dashboard = () => {
 
   return (
       <>
-        <div className="container mx-auto max-wlg h-screen mb-12">
+        <div className="container mx-auto max-w-lg h-full">
+            <h1 className="mt-6">Dashboard</h1>
 
-          <div className="h-full lg:grid lg:grid-cols-4 lg:grid-rows-8 gap-3">
-            <h1 className="mt-6 lg:col-span-1 lg:col-start-1 lg:row-start-1 lg:row-span-1">Dashboard</h1>
-
-            <div className="flex items-center p-2 justify-between lg:flex-col lg:place-content-center lg:col-span-2 lg:col-start-2 lg:row-start-1 lg:row-span-1">
+            <div className="flex items-center p-2 justify-between">
+              {/* Date display with arrows and today button */}
               <div className="flex items-center">
                 {/* Go back in time arrows */}
                 <button className="md:hidden" onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
@@ -140,19 +139,30 @@ const Dashboard = () => {
                 <button className="md:hidden" onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
                 <button className="hidden md:inline lg:hidden" onClick={() => forwardThreeDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
                 <button className="hidden lg:inline" onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-               </div>
-            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
-            {!edit &&
-              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}><i className="far fa-edit"></i></button>
-            }
-            {edit &&
-              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}><i className="far fa-check-circle"></i></button>
-            }
-            </div>
 
+                <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
+              </div>
+              <div>
+                {/* Edit mode toggle button */}
+                {!edit &&
+                  <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
+                    <i className="far fa-edit"></i>
+                  </button>
+                }
+                {edit &&
+                  <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
+                    <i className="far fa-check-circle"></i>
+                  </button>
+                }
+              </div>
+        </div>
+
+
+        {/* Recipe list and calendar (1 column on mobile and tablet, 2 colums on desktop */}
+        <div className="h-full flex flex-col lg:flex-row">
           {/* When edit mode is true, show recipe list */}
           {edit &&
-            <div>
+            <div className="mr-3">
     
               <div className="md:hidden my-3">
                 <Swiper spaceBetween={10} slidesPerView={4}>
@@ -180,7 +190,7 @@ const Dashboard = () => {
                 </Swiper>
               </div>
 
-              <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
+              <div className="hidden lg:block my-3">
                 {recipes.map(recipes => (
                   <div key={recipes.id} className="swiper-item lg:w-full">
                     <img src={recipes.image} />
@@ -197,11 +207,11 @@ const Dashboard = () => {
 
             {/* Calendar container - maps over datePeriod array to display daily schedules */}
 
-            <div className="md:flex flex-row my-3 lg:col-span-3 lg:col-start-2 lg:row-start-2 lg:row-span-6 border-2 border-solid border-black">
+            <div className="md:flex flex-row my-3 h-full border-2 border-solid border-black">
 
             {datePeriod.map((days, index) => (
-              <div key={index} className="flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
+              <div key={index} className="flex flex-col md:flex-1">
+                <div className="text-center p-2">
                   <span className="block">{firstDate.format('LL')}</span>
                   <span className="block">{firstDate.format('dddd')}</span>
                 </div>
@@ -220,10 +230,9 @@ const Dashboard = () => {
               </div>
            ))}
           </div>
-
           </div>
 
-        </div>
+          </div>
       </>
     );
   }
