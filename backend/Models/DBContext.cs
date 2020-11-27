@@ -6,14 +6,15 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Newtonsoft.Json;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Api.Authentication;
+
 
 namespace Api.Models
 {
-  public class DBContext : DbContext
+  public class DBContext : IdentityDbContext<User>
   {
     public virtual DbSet<Recipe> Recipes { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<Plan> Plans { get; set; }
 
@@ -23,10 +24,12 @@ namespace Api.Models
 
     public virtual DbSet<RecipeCategory> RecipeCategories { get; set; }
 
-    public DBContext(DbContextOptions<DBContext> options) : base(options) { }
+    public DBContext(DbContextOptions<DBContext> options) : base(options) {
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      base.OnModelCreating(modelBuilder);
       modelBuilder.Entity<Recipe>(entity =>
       {
         entity.HasMany(a => a.Ingredients)
@@ -618,10 +621,9 @@ namespace Api.Models
         entity.HasData(
           new User()
           {
-            Id = -1,
+            // Identity uses a GUID method to generate unqiue user id.
+            Id = Guid.NewGuid().ToString(),
             Name = "TestAdminWarren",
-            Password = "$uper$ecurePHPa$$w0rd",
-            PasswordSalt = "$alt33",
             Email = "phprox123@gmail.com"
           }
         );
