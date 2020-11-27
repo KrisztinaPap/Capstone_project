@@ -32,7 +32,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     createDatePeriod(firstDate);
-  }, [desktop]);
+  }, [desktop, firstDate]);
 
   // Citation
   // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
@@ -47,8 +47,6 @@ const Dashboard = () => {
       setRecipes(response.data);
       setLoading(false);
       setError(false);
-      console.log(firstDate);
-      console.log(lastDate);
     } catch (err) {
       setError(true);
       setLoading(false);
@@ -57,36 +55,23 @@ const Dashboard = () => {
 
   function goToToday() {
     setFirstDate(today.clone());
-    console.log(`firstDay is set to: ${firstDate}`);
   }
   {/* Go back in time arrows */ }
   function backOneDay() {
     setFirstDate(firstDate.clone().subtract(1, 'days'));
-    setLastDate(lastDate.clone().subtract(1, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
   }
 
   function backSevenDays() {
     setFirstDate(firstDate.clone().subtract(7, 'days'));
-    setLastDate(lastDate.clone().subtract(7, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
   }
 
   {/* Go forward in time arrows */ }
   function forwardOneDay() {
     setFirstDate(firstDate.clone().add(1, 'days'));
-    setLastDate(lastDate.clone().add(1, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
   }
 
   function forwardSevenDays() {
     setFirstDate(firstDate.clone().add(7, 'days'));
-    setLastDate(lastDate.clone().add(7, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
   }
 
   function editMode() {
@@ -105,7 +90,9 @@ const Dashboard = () => {
       tempArray.push(new Date(tempStart));
       tempStart.setDate(tempStart.getDate() + 1);
     }
-    setDatePeriod([tempArray]);
+    setDatePeriod(tempArray);
+    let tempLastDate = new Date(tempArray[tempArray.length - 1]);
+    setLastDate(tempLastDate.toLocaleDateString());
   }
 
   {/* Loading */}
@@ -140,23 +127,22 @@ const Dashboard = () => {
             <div className="flex items-center p-2 justify-between">
               {/* Date display with arrows and today button */}
               <div className="flex items-center">
-                {/* Go back in time arrows */}
-                <button className="md:hidden" onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-                <button className="hidden lg:inline" onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-
-            {/* Currently displayed time period */}
-            {!desktop &&
-              <>
-                <div className="inline px-3">{firstDate.format('L')}</div>
-                <button className="md:hidden" onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-              </>
-            }
-            {desktop &&
-              <>
-                <div className="inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
-                <button className="hidden lg:inline" onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-              </>
-            }
+         
+                {/* Currently displayed time period */}
+                {!desktop &&
+                  <>
+                    <button onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+                    <div className="inline px-3">{firstDate.format('L')}</div>
+                    <button onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+                  </>
+                }
+                {desktop &&
+                  <>
+                    <button onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+              <div className="inline px-3">{firstDate.format('L')} - {lastDate}</div>
+                    <button onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+                  </>
+                }
                 <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
               </div>
               <div>
@@ -176,7 +162,7 @@ const Dashboard = () => {
 
 
         {/* Recipe list and calendar (1 column on mobile and tablet, 2 colums on desktop */}
-        <div className="h-full w-full flex flex-col lg:flex-row">
+        <div className="h-full flex flex-col lg:flex-row">
           {/* When edit mode is true, show recipe list */}
           {edit &&
             <div className="mr-3 w-full">
@@ -216,8 +202,7 @@ const Dashboard = () => {
             <>
               <div className="flex flex-col flex-1">
                 <div className="text-center p-2">
-                  <span className="block">{firstDate.format('LL')}</span>
-                  <span className="block">{firstDate.format('dddd')}</span>
+                  {datePeriod[0].toLocaleDateString()}
                 </div>
 
                 {/* Breakfast container */}
@@ -237,12 +222,11 @@ const Dashboard = () => {
           }
             {desktop &&
               <>
-
+              <div className="flex flex-row flex-1">
                 {datePeriod.map((days, index) => (
-                  <div key={index} className="flex flex-col flex-1">
+                  <div key={index} className="flex-1">
                     <div className="text-center p-2">
-                      <span className="block">{firstDate.format('LL')}</span>
-                      <span className="block">{firstDate.format('dddd')}</span>
+                      {days.toLocaleDateString()}
                     </div>
 
                     {/* Breakfast container */}
@@ -259,6 +243,7 @@ const Dashboard = () => {
                   </div>
                   </div>
                 ))}
+                </div>
               </>
             }
           
