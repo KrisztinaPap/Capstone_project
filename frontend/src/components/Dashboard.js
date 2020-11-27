@@ -30,6 +30,10 @@ const Dashboard = () => {
     populateRecipes();
   }, []);
 
+  useEffect(() => {
+    createDatePeriod(firstDate);
+  }, [desktop]);
+
   // Citation
   // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
   useEffect(() => {
@@ -88,7 +92,21 @@ const Dashboard = () => {
   function editMode() {
     setEdit(!edit);
     console.log(edit);
-  } 
+  }
+
+  function createDatePeriod(startDate) {
+    let tempArray = new Array();
+    let tempStart = new Date(startDate);
+
+    let numberOfDays;
+    (desktop) ? numberOfDays = 7 : numberOfDays = 1;
+
+    for (let i = 0; i < numberOfDays; i++) {
+      tempArray.push(new Date(tempStart));
+      tempStart.setDate(tempStart.getDate() + 1);
+    }
+    setDatePeriod([tempArray]);
+  }
 
   {/* Loading */}
   if (loading) {
@@ -118,9 +136,7 @@ const Dashboard = () => {
       <>
       <div className="container w-full px-4 lg:px-12 mx-auto h-full">
             <h1 className="mt-6">Dashboard</h1>
-        {desktop &&
-          <p>This is desktop width!</p>
-        }
+   
             <div className="flex items-center p-2 justify-between">
               {/* Date display with arrows and today button */}
               <div className="flex items-center">
@@ -193,12 +209,12 @@ const Dashboard = () => {
         }
            
 
-            {/* Calendar container - maps over datePeriod array to display daily schedules */}
+          {/* Calendar container - maps over datePeriod array to display daily schedules */}
+          <div className="flex flex-row my-3 w-full h-full">
 
-            <div className="flex flex-row my-3 w-full h-full">
-
-            {datePeriod.map((days, index) => (
-              <div key={index} className="flex flex-col flex-1">
+          {!desktop &&
+            <>
+              <div className="flex flex-col flex-1">
                 <div className="text-center p-2">
                   <span className="block">{firstDate.format('LL')}</span>
                   <span className="block">{firstDate.format('dddd')}</span>
@@ -217,7 +233,35 @@ const Dashboard = () => {
                   Dinner
                 </div>
               </div>
-           ))}
+            </>
+          }
+            {desktop &&
+              <>
+
+                {datePeriod.map((days, index) => (
+                  <div key={index} className="flex flex-col flex-1">
+                    <div className="text-center p-2">
+                      <span className="block">{firstDate.format('LL')}</span>
+                      <span className="block">{firstDate.format('dddd')}</span>
+                    </div>
+
+                    {/* Breakfast container */}
+                    <div className="meal-container">
+                      Breakfast
+                  </div>
+                    {/* Lunch container */}
+                    <div className="meal-container">
+                      Lunch
+                  </div>
+                    {/* Dinner container */}
+                    <div className="meal-container">
+                      Dinner
+                  </div>
+                  </div>
+                ))}
+              </>
+            }
+          
           </div>
           </div>
 
