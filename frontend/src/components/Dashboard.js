@@ -88,6 +88,11 @@ const Dashboard = () => {
     console.log(`lastDay is set to: ${lastDate}`);
   }
 
+  function editMode() {
+    setEdit(!edit);
+    console.log(edit);
+  }
+
   {/* Loading */}
   if (loading) {
     return (
@@ -125,16 +130,24 @@ const Dashboard = () => {
                 <button className="md:hidden" onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 <button className="hidden md:inline lg:hidden" onClick={() => backThreeDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
                 <button className="hidden lg:inline" onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+
                 {/* Current day/week below to be replaced with dynamic dates */}
-              <div className="md:hidden inline px-3">{firstDate.format('L')}</div>
+                <div className="md:hidden inline px-3">{firstDate.format('L')}</div>
                 <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
                 <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
+
                 {/* Go forward in time arrows */}
                 <button className="md:hidden" onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
                 <button className="hidden md:inline lg:hidden" onClick={() => forwardThreeDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
                 <button className="hidden lg:inline" onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
                </div>
-              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
+            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
+            {!edit &&
+              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}><i className="far fa-edit"></i></button>
+            }
+            {edit &&
+              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}><i className="far fa-check-circle"></i></button>
+            }
             </div>
 
             {/* Recipe icon swiper for mobile screen */}
