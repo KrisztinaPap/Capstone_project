@@ -3,14 +3,16 @@ using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20201127163305_InitMigration")]
+    partial class InitMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -302,8 +304,9 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int(10)");
 
-                    b.Property<int>("MealTimeId")
-                        .HasColumnType("int(10)");
+                    b.Property<string>("MealTimeId")
+                        .IsRequired()
+                        .HasColumnType("varchar(50)");
 
                     b.Property<int>("PlanId")
                         .HasColumnType("int(10)");
@@ -320,13 +323,13 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            MealTimeId = -2,
+                            MealTimeId = "-2",
                             PlanId = -1
                         },
                         new
                         {
                             Id = -2,
-                            MealTimeId = -3,
+                            MealTimeId = "-3",
                             PlanId = -1
                         });
                 });
@@ -360,12 +363,10 @@ namespace Api.Migrations
 
             modelBuilder.Entity("Api.Models.MealTime", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int(10)");
+                    b.Property<string>("Id")
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("varchar(30)");
 
                     b.HasKey("Id");
@@ -375,17 +376,17 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = -1,
+                            Id = "-1",
                             Name = "Breakfast"
                         },
                         new
                         {
-                            Id = -2,
+                            Id = "-2",
                             Name = "Lunch"
                         },
                         new
                         {
-                            Id = -3,
+                            Id = "-3",
                             Name = "Dinner"
                         });
                 });

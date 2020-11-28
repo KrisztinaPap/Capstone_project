@@ -8,11 +8,15 @@ export class Layout extends Component {
   render () {
     return (
       <div className="flex flex-col h-screen justify-between">
-        <NavMenu />
-        <div className="container">
+        <div className="h-10">
+          <NavMenu />
+        </div>
+        <div className="container mx-auto mb-auto content-start">
           {this.props.children}
         </div>
-        <Footer />
+        <div className="h-10">
+          <Footer />
+        </div>
       </div>
     );
   }

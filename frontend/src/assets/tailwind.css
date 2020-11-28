@@ -2,10 +2,35 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Google Fonts font styles */
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto&display=swap');
+
 /* General styles */
 
-.main-container {
-    @apply container mx-auto w-5/6;
+* {
+  font-family: 'Lato', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Tailwind styles/components */
+
+.input-field {
+  @apply shadow appearance-none border rounded py-2 mb-2 px-3 text-gray-700 leading-tight;
+}
+
+.purple-button {
+  @apply bg-purple-500 text-white font-bold py-2 px-4 rounded shadow;
+}
+
+.purple-link {
+  @apply inline-block font-bold text-sm text-purple-500;
+}
+
+.white-link {
+  @apply font-bold inline-block text-white p-2 m-2;
 }
 
 /* Dashboard styles */
