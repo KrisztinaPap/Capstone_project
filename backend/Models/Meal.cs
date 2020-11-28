@@ -24,8 +24,8 @@ namespace Api.Models
     public int PlanId { get; set; }
     
     [Required]    
-    [Column(TypeName = "varchar(50)")]
-    public string MealTimeId { get; set; }
+    [Column(TypeName = "int(10)")]
+    public int MealTimeId { get; set; }
 
     
     public virtual ICollection<MealRecipe> MealRecipes { get; set; } = new HashSet<MealRecipe>();

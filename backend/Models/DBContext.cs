@@ -24,8 +24,11 @@ namespace Api.Models
 
     public virtual DbSet<RecipeCategory> RecipeCategories { get; set; }
 
-    public DBContext(DbContextOptions<DBContext> options) : base(options) {
-    }
+    public virtual DbSet<Meal> Meals { get; set; }
+
+    public virtual DbSet<MealTime> MealTimes { get; set; }
+
+    public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -252,13 +255,13 @@ namespace Api.Models
           {
             Id = -1,
             PlanId = -1,
-            MealTimeId = "-2"
+            MealTimeId = -2
           },
           new Meal()
           {
             Id = -2,
             PlanId = -1,
-            MealTimeId = "-3"
+            MealTimeId = -3
           }
         );
       });
@@ -632,19 +635,17 @@ namespace Api.Models
         entity.HasData(
           new MealTime()
           {
-            // TODO:
-            // I think Id should be int instead of string. Discuss this w/ backend.
-            Id = "-1",
+            Id = -1,
             Name = "Breakfast"
           },
           new MealTime()
           {
-            Id = "-2",
+            Id = -2,
             Name = "Lunch"
           },
           new MealTime()
           {
-            Id = "-3",
+            Id = -3,
             Name = "Dinner"
           }
         );
