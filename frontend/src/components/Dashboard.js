@@ -15,16 +15,31 @@ const Dashboard = () => {
   const [edit, setEdit] = useState(false);
   const [recipes, setRecipes] = useState([]);
   const today = moment();
-  const [fromDate, setFromDate] = useState(today);
-  const [toDate, setToDate] = useState(today);
+  const [firstDate, setFirstDate] = useState(today);
+  const [lastDate, setLastDate] = useState(today.clone().add(7, 'days'));
   const [datePeriod, setDatePeriod] = useState([today]);
 
-  const [firstDate, setFirstDate] = useState(datePeriod[0]);
-  const [lastDate, setLastDate] = useState(datePeriod[datePeriod.length - 1]);
+  // Citation
+  // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
+  const [desktop, setDesktop] = useState(window.innerWidth > 1450);
+  const updateMedia = () => {
+    setDesktop(window.innerWidth > 1450);
+  };
 
   useEffect(() => {
     populateRecipes();
   }, []);
+
+  useEffect(() => {
+    createDatePeriod(firstDate);
+  }, [desktop, firstDate]);
+
+  // Citation
+  // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
+  useEffect(() => {
+    window.addEventListener("resize", updateMedia);
+    return () => window.removeEventListener("resize", updateMedia);
+  });
 
   async function populateRecipes() {
     try {
@@ -32,8 +47,6 @@ const Dashboard = () => {
       setRecipes(response.data);
       setLoading(false);
       setError(false);
-      console.log(firstDate);
-      console.log(lastDate);
     } catch (err) {
       setError(true);
       setLoading(false);
@@ -41,51 +54,45 @@ const Dashboard = () => {
   }
 
   function goToToday() {
-    setFirstDate(today);
-    console.log(`firstDay is set to: ${firstDate}`);
+    setFirstDate(today.clone());
   }
   {/* Go back in time arrows */ }
   function backOneDay() {
-    setFirstDate(firstDate.subtract(1, 'days'));
-    setLastDate(lastDate.subtract(1, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
-  }
-
-  function backThreeDays() {
-    setFirstDate(firstDate.subtract(3, 'days'));
-    setLastDate(lastDate.subtract(3, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
+    setFirstDate(firstDate.clone().subtract(1, 'days'));
   }
 
   function backSevenDays() {
-    setFirstDate(firstDate.subtract(7, 'days'));
-    setLastDate(lastDate.subtract(7, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
+    setFirstDate(firstDate.clone().subtract(7, 'days'));
   }
 
   {/* Go forward in time arrows */ }
   function forwardOneDay() {
-    setFirstDate(firstDate.add(1, 'days'));
-    setLastDate(lastDate.add(1, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
-  }
-
-  function forwardThreeDays() {
-    setFirstDate(firstDate.add(3, 'days'));
-    setLastDate(lastDate.add(3, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
+    setFirstDate(firstDate.clone().add(1, 'days'));
   }
 
   function forwardSevenDays() {
-    setFirstDate(firstDate.add(7, 'days'));
-    setLastDate(lastDate.add(7, 'days'));
-    console.log(`firstDay is set to: ${firstDate}`);
-    console.log(`lastDay is set to: ${lastDate}`);
+    setFirstDate(firstDate.clone().add(7, 'days'));
+  }
+
+  function editMode() {
+    setEdit(!edit);
+    console.log(edit);
+  }
+
+  function createDatePeriod(startDate) {
+    let tempArray = new Array();
+    let tempStart = new Date(startDate);
+
+    let numberOfDays;
+    (desktop) ? numberOfDays = 7 : numberOfDays = 1;
+
+    for (let i = 0; i < numberOfDays; i++) {
+      tempArray.push(new Date(tempStart));
+      tempStart.setDate(tempStart.getDate() + 1);
+    }
+    setDatePeriod(tempArray);
+    let tempLastDate = new Date(tempArray[tempArray.length - 1]);
+    setLastDate(tempLastDate.toLocaleDateString());
   }
 
   {/* Loading */}
@@ -99,7 +106,7 @@ const Dashboard = () => {
       </>
     );
   }
-
+  
   {/* If Axios request has an error, display error message...*/}
   if (error) {
     return (
@@ -114,98 +121,136 @@ const Dashboard = () => {
 
   return (
       <>
-        <div className="container mx-auto max-wlg h-screen mb-12">
-
-          <div className="h-full lg:grid lg:grid-cols-4 lg:grid-rows-8 gap-3">
-            <h1 className="mt-6 lg:col-span-1 lg:col-start-1 lg:row-start-1 lg:row-span-1">Dashboard</h1>
-
-            <div className="flex items-center p-2 justify-between lg:flex-col lg:place-content-center lg:col-span-2 lg:col-start-2 lg:row-start-1 lg:row-span-1">
+      <div className="container w-full px-4 lg:px-12 mx-auto h-full">
+            <h1 className="mt-6">Dashboard</h1>
+   
+            <div className="flex items-center p-2 justify-between">
+              {/* Date display with arrows and today button */}
               <div className="flex items-center">
-                {/* Go back in time arrows */}
-                <button className="md:hidden" onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-                <button className="hidden md:inline lg:hidden" onClick={() => backThreeDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-                <button className="hidden lg:inline" onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-                {/* Current day/week below to be replaced with dynamic dates */}
-              <div className="md:hidden inline px-3">{firstDate.format('L')}</div>
-                <div className="hidden md:inline lg:hidden px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
-                <div className="hidden lg:inline px-3">{firstDate.format('L')} - {lastDate.format('L')}</div>
-                {/* Go forward in time arrows */}
-                <button className="md:hidden" onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-                <button className="hidden md:inline lg:hidden" onClick={() => forwardThreeDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-                <button className="hidden lg:inline" onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
-               </div>
-              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
-            </div>
-
-            {/* Recipe icon swiper for mobile screen */}
-            <div className="md:hidden my-3">
-              <Swiper spaceBetween={10} slidesPerView={4}>
-                {recipes.map(recipes => (
-                  <SwiperSlide key={recipes.id} className="swiper-item">
-                    <img src={recipes.image} />
-                    <div>
-                      {recipes.name}
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-
-            {/* Recipe icon swiper for tablet screen */}
-            <div className="hidden md:block lg:hidden my-3">
-              <Swiper spaceBetween={10} slidesPerView={8}>
-                {recipes.map(recipes => (
-                  <SwiperSlide key={recipes.id} className="swiper-item">
-                    <img src={recipes.image} />
-                    <div>
-                      {recipes.name}
-                    </div>
-                  </SwiperSlide>
-                ))}
-              </Swiper>
-            </div>
-
-            {/* Recipe icon swiper for desktop screen */}
-            <div className="hidden lg:block lg:col-start-1 lg:col-span-1 lg:row-span-6 lg:row-start-2 my-3">
-              {recipes.map(recipes => (
-                <div key={recipes.id} className="swiper-item lg:w-full">
-                  <img src={recipes.image} />
-                  <div>
-                    {recipes.name}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Calendar container - maps over datePeriod array to display daily schedules */}
-
-            <div className="md:flex flex-row my-3 lg:col-span-3 lg:col-start-2 lg:row-start-2 lg:row-span-6 border-2 border-solid border-black">
-
-            {datePeriod.map((days, index) => (
-              <div key={index} className="flex flex-col h-full md:flex-1">
-                <div className="text-center py-2">
-                  <span className="block">{firstDate.format('LL')}</span>
-                  <span className="block">{firstDate.format('dddd')}</span>
-                </div>
-                {/* Breakfast container */}
-                <div className="meal-container lg:h-full">
-                  Breakfast
-                  </div>
-                {/* Lunch container */}
-                <div className="meal-container lg:h-full">
-                  Lunch
-                  </div>
-                {/* Dinner container */}
-                <div className="meal-container lg:h-full">
-                  Dinner
-                  </div>
+         
+                {/* Currently displayed time period */}
+                {!desktop &&
+                  <>
+                    <button onClick={() => backOneDay()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+                    <div className="inline px-3">{firstDate.format('L')}</div>
+                    <button onClick={() => forwardOneDay()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+                  </>
+                }
+                {desktop &&
+                  <>
+                    <button onClick={() => backSevenDays()}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+              <div className="inline px-3">{firstDate.format('L')} - {lastDate}</div>
+                    <button onClick={() => forwardSevenDays()}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+                  </>
+                }
+                <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => goToToday()}>Today</button>
               </div>
-           ))}
-          </div>
-
-          </div>
-
+              <div>
+                {/* Edit mode toggle button */}
+                {!edit &&
+                  <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
+                    <i className="far fa-edit"></i>
+                  </button>
+                }
+                {edit &&
+                  <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
+                    <i className="far fa-check-circle"></i>
+                  </button>
+                }
+              </div>
         </div>
+
+
+        {/* Recipe list and calendar (1 column on mobile and tablet, 2 colums on desktop */}
+        <div className="h-full flex flex-col lg:flex-row">
+          {/* When edit mode is true, show recipe list */}
+          {edit &&
+            <div className="mr-3 w-full">
+    
+              <div className="md:hidden my-3">
+                <Swiper spaceBetween={10} slidesPerView={4}>
+                  {recipes.map(recipes => (
+                    <SwiperSlide key={recipes.id} className="swiper-item">
+                      <img src={recipes.image} />
+                      <div>
+                        {recipes.name}
+                      </div>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+
+              <div className="hidden lg:block my-3">
+                {recipes.map(recipes => (
+                  <div key={recipes.id} className="swiper-item lg:w-full">
+                    <img src={recipes.image} />
+                    <div>
+                      {recipes.name}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+            </div>
+        }
+           
+
+          {/* Calendar container - maps over datePeriod array to display daily schedules */}
+          <div className="flex flex-row my-3 w-full h-full">
+
+          {!desktop &&
+            <>
+              <div className="flex flex-col flex-1">
+                <div className="text-center p-2">
+                  {datePeriod[0].toLocaleDateString()}
+                </div>
+
+                {/* Breakfast container */}
+                <div className="meal-container">
+                  Breakfast
+                </div>
+                {/* Lunch container */}
+                <div className="meal-container">
+                  Lunch
+                </div>
+                {/* Dinner container */}
+                <div className="meal-container">
+                  Dinner
+                </div>
+              </div>
+            </>
+          }
+            {desktop &&
+              <>
+              <div className="flex flex-row flex-1">
+                {datePeriod.map((days, index) => (
+                  <div key={index} className="flex-1">
+                    <div className="text-center p-2">
+                      {days.toLocaleDateString()}
+                    </div>
+
+                    {/* Breakfast container */}
+                    <div className="meal-container">
+                      Breakfast
+                  </div>
+                    {/* Lunch container */}
+                    <div className="meal-container">
+                      Lunch
+                  </div>
+                    {/* Dinner container */}
+                    <div className="meal-container">
+                      Dinner
+                  </div>
+                  </div>
+                ))}
+                </div>
+              </>
+            }
+          
+          </div>
+          </div>
+
+          </div>
       </>
     );
   }

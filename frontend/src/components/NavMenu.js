@@ -6,7 +6,7 @@ export class NavMenu extends Component {
 
   render() {
     return (
-      <header className="h-12 bg-purple-500">
+      <header className="h-10 bg-purple-500">
         <nav className="container mx-auto border-bottom box-shadow mb-3">
           <div className="flex justify-between content-center">
             <a href="/" className="white-link self-center p-2">PuddleJumpers App</a>
