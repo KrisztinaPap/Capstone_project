@@ -12,14 +12,13 @@ import AddRecipe from './components/AddRecipe';
 
 import './custom.css';
 
-export const UserContext = React.createContext();
+// Import Authentication
+import { UserContext, UserData } from './components/Authentication/UserAuthentication';
 
 export default function App() {
-  const [user, setUser] = useState('guest');
 
-  function updateUser() {
-    setUser(currentUser => user)
-  }
+  // User Object to be Stored in Context with useState Hook
+  const [user, setUser] = useState(UserData);
 
     return (
       <UserContext.Provider value={user}>
@@ -32,7 +31,7 @@ export default function App() {
           <Route exact path='/recipes' component={Recipes} />
           <Route path='/recipes/:recipes' component={Recipe} />
           <Route path='/add-recipe' component={AddRecipe} />
-          </Layout>
-        </UserContext.Provider>
+        </Layout>
+      </UserContext.Provider>
     );
 }

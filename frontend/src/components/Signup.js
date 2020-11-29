@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import Plate from '../assets/plate.svg';
 import { Link } from 'react-router-dom';
 
+// Import Authentication
+import { UserContext } from './Authentication/UserAuthentication';
 
 const Signup = () => {
+  
+  // Create user from UserContext
+  const user = useContext(UserContext);
+  
   return (
     <>
       <div className="container">
@@ -12,9 +18,9 @@ const Signup = () => {
           <h1 className="font-bold">Create Profile (Signup)</h1>
         </div>
 
-        <div class="md:grid md:grid-cols-2 md:gap-6 place-items-center">
+        <div className="md:grid md:grid-cols-2 md:gap-6 place-items-center">
 
-          <div class="md:col-span-1 md:inline-block">
+          <div className="md:col-span-1 md:inline-block">
             <img src={Plate} alt="Drawing of a plate" className="object-contain h-64 w-full" />
           </div>
 
@@ -59,7 +65,7 @@ const Signup = () => {
                   type="submit">
                   Submit
                 </button>
-                <Link class="purple-link hover:text-purple-600" to="/login">
+                <Link className="purple-link hover:text-purple-600" to="/login">
                   Have an account? Log in
                 </Link>
               </div>

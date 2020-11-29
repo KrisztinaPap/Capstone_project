@@ -1,10 +1,14 @@
 import React, { useContext } from 'react';
-import { UserContext } from '.././App';
+
 import { Link } from 'react-router-dom';
 import Plate from '../assets/plate.svg';
 
+// Import Authentication
+import { UserContext } from './Authentication/UserAuthentication';
 
 const Login = () => {
+
+  // Create user from UserContext
   const user = useContext(UserContext); 
 
   return (
@@ -12,7 +16,6 @@ const Login = () => {
       <div className="container">
         <div className="block text-center my-4"> 
           <h1 className="font-bold">Login</h1>
-          <p>Current user: {user}</p>
         </div>
         <div class="md:grid md:grid-cols-2 md:gap-6 place-items-center">
 
