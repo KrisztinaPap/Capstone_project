@@ -96,8 +96,8 @@ namespace Api.Controllers
 
     // GET: api/plans/user/{userId}
     [HttpGet]
-    [Route("user/{userId:int:required}")]
-    public ActionResult<IEnumerable<Plan>> GetUserPlans(int userId)
+    [Route("user/{userId:required}")]
+    public ActionResult<IEnumerable<Plan>> GetUserPlans(string userId)
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients
@@ -126,8 +126,8 @@ namespace Api.Controllers
 
     // GET: api/plans/user/{userId}/schedule?fromDate={fromDate}=&toDate={toDate}
     [HttpGet]
-    [Route("user/{userId:int:required}/schedule")]
-    public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(int userId, DateTime fromDate, DateTime toDate)
+    [Route("user/{userId:required}/schedule")]
+    public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(string userId, DateTime fromDate, DateTime toDate)
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients within the from and to Dates
