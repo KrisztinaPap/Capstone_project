@@ -52,8 +52,9 @@ namespace Api.Migrations
                 name: "MealTime",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "varchar(10)", nullable: false),
-                    Name = table.Column<string>(type: "varchar(30)", nullable: true)
+                    Id = table.Column<int>(type: "int(10)", nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(type: "varchar(30)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -212,7 +213,7 @@ namespace Api.Migrations
                     Id = table.Column<int>(type: "int(10)", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     PlanId = table.Column<int>(type: "int(10)", nullable: false),
-                    MealTimeId = table.Column<string>(type: "varchar(50)", nullable: false)
+                    MealTimeId = table.Column<int>(type: "int(10)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -319,22 +320,22 @@ namespace Api.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "Name", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "ce3d69b1-0fcc-4218-8d2c-a329cc5b4562", 0, "14cf512b-ff03-4566-8a65-65276c8a6b63", "phprox123@gmail.com", false, false, null, "TestAdminWarren", null, null, null, null, false, "a846bf5a-a67e-41aa-8805-bc8b5f46b324", false, null });
+                values: new object[] { "dc42cb55-4f73-418b-9dc5-3bb91e413700", 0, "9c244e57-d31d-446d-b785-0402c6de6daf", "phprox123@gmail.com", false, false, null, "TestAdminWarren", null, null, null, null, false, "b5e012d2-e9af-4428-8790-f741ff9e4e6d", false, null });
 
             migrationBuilder.InsertData(
                 table: "MealTime",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
-                    { "-3", "Dinner" },
-                    { "-1", "Breakfast" },
-                    { "-2", "Lunch" }
+                    { -3, "Dinner" },
+                    { -1, "Breakfast" },
+                    { -2, "Lunch" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Plan",
                 columns: new[] { "Id", "Day", "UserId" },
-                values: new object[] { -1, new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), "-1" });
+                values: new object[] { -1, new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), "-1" });
 
             migrationBuilder.InsertData(
                 table: "RecipeCategories",
@@ -370,8 +371,8 @@ namespace Api.Migrations
                 columns: new[] { "Id", "MealTimeId", "PlanId" },
                 values: new object[,]
                 {
-                    { -1, "-2", -1 },
-                    { -2, "-3", -1 }
+                    { -1, -2, -1 },
+                    { -2, -3, -1 }
                 });
 
             migrationBuilder.InsertData(
@@ -379,16 +380,16 @@ namespace Api.Migrations
                 columns: new[] { "Id", "Calories", "Carbohydrates", "CategoryId", "DateCreated", "DateModified", "Fat", "Image", "Instructions", "Name", "Notes", "PrepTime", "Protein", "Servings", "Tags", "UserId" },
                 values: new object[,]
                 {
-                    { -1, 860, 100, -1, new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), 30, "", @"* Cook Chicken
+                    { -1, 860, 100, -1, new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), 30, "", @"* Cook Chicken
                 * Cook Potatoes
                 * Smother in Hot Sauce", "Chicken and Potatoes with Hot Sauce", "* Marinate Chicken for at least 12 hours for maximum flavor", 35m, 70, 2, "[\"Spicy\"]", null },
-                    { -3, 222, 10, -1, new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), 11, "", @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
+                    { -3, 222, 10, -1, new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), 11, "", @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
                 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
                 * 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
                 * 4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.
                 * 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.
                 * 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice.", "Butter Chicken", "* Delicious!", 65m, 20, 8, "[\"Chicken, Dinner, Easy\"]", null },
-                    { -5, 148, 6, -1, new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), 3, "", @"* 1. Preheat grill or broiler.
+                    { -5, 148, 6, -1, new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), 3, "", @"* 1. Preheat grill or broiler.
                 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
                 * 3. Lightly oil the grill or broiler rack (see Tip).
                 * 4. Season chicken with salt and grill or broil for 2 minutes.
@@ -398,12 +399,12 @@ namespace Api.Migrations
                 * Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.
                 * Tip: To oil a grill rack: Oil a folded paper towel, hold it with tongs and rub it over the rack. (Do not use cooking spray on a hot grill.)
                 * When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.", 45m, 23, 4, "[\"Low calorie, Low fat, Low Sodium\"]", null },
-                    { -2, 770, 115, -2, new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), 10, "", @"* Cook Steak on BBQ
+                    { -2, 770, 115, -2, new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), 10, "", @"* Cook Steak on BBQ
                 * Cook Potatoes to personal preference
                 * Serve and Enjoy!", "Steak and Sweet Potatoes", @"* Marinate Steak for at least 12 hours for maximum flavor
                 * Can be cooked on the stovetop but is better when BBQ'd
                 * Potatoes can be diced, sliced, or baked. Personal preference.", 25m, 70, 2, "[\"BBQ\"]", null },
-                    { -4, 375, 45, -4, new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local), 16, "", @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
+                    { -4, 375, 45, -4, new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local), 16, "", @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
                 * 2. Place tortillas on a work surface.
                 * 3. Spread 1/2 cup filling on half of each tortilla.
                 * 4. Fold tortillas in half, pressing gently to flatten.

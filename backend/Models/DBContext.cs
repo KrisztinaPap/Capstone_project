@@ -237,7 +237,7 @@ namespace Api.Models
           new Plan()
           {
             Id = -1,
-            UserId = -1,
+            UserId = "-1",
             Day = DateTime.Today
           }
         );

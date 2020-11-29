@@ -411,7 +411,7 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Day = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            Day = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = "-1"
                         });
                 });
@@ -484,8 +484,8 @@ namespace Api.Migrations
                             Calories = 860,
                             Carbohydrates = 100,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
                             Image = "",
                             Instructions = @"* Cook Chicken
@@ -504,8 +504,8 @@ namespace Api.Migrations
                             Calories = 770,
                             Carbohydrates = 115,
                             CategoryId = -2,
-                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
                             Image = "",
                             Instructions = @"* Cook Steak on BBQ
@@ -526,8 +526,8 @@ namespace Api.Migrations
                             Calories = 222,
                             Carbohydrates = 10,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
                             Image = "",
                             Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
@@ -549,8 +549,8 @@ namespace Api.Migrations
                             Calories = 375,
                             Carbohydrates = 45,
                             CategoryId = -4,
-                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
                             Image = "",
                             Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
@@ -574,8 +574,8 @@ namespace Api.Migrations
                             Calories = 148,
                             Carbohydrates = 6,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 27, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
                             Image = "",
                             Instructions = @"* 1. Preheat grill or broiler.
@@ -775,15 +775,15 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ce3d69b1-0fcc-4218-8d2c-a329cc5b4562",
+                            Id = "dc42cb55-4f73-418b-9dc5-3bb91e413700",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "14cf512b-ff03-4566-8a65-65276c8a6b63",
+                            ConcurrencyStamp = "9c244e57-d31d-446d-b785-0402c6de6daf",
                             Email = "phprox123@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "TestAdminWarren",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a846bf5a-a67e-41aa-8805-bc8b5f46b324",
+                            SecurityStamp = "b5e012d2-e9af-4428-8790-f741ff9e4e6d",
                             TwoFactorEnabled = false
                         });
                 });
