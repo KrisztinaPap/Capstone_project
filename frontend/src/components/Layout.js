@@ -7,17 +7,21 @@ export class Layout extends Component {
 
   render () {
     return (
-      <div className="flex flex-col h-screen justify-between">
-        <div className="h-10">
+      <>
+        <div id="outer-container" style={{height: '100%'}}>
           <NavMenu />
-        </div>
-        <div className="container mx-auto mb-auto content-start">
-          {this.props.children}
-        </div>
-        <div className="h-10">
-          <Footer />
+          <div id="page-wrap">
+            <div className="flex flex-col h-screen justify-between">
+              <div className="container mx-auto mb-auto content-start">
+                {this.props.children}
+              </div>
+            <div className="h-10">
+              <Footer />
+            </div>
+          </div>
         </div>
       </div>
+        </>
     );
   }
 }
