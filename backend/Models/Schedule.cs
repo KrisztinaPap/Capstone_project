@@ -23,7 +23,6 @@ namespace Api.Models
     {
       RuleFor(x => x.UserId)
         .NotEmpty()
-        .NotEqual(0)
         .Must(ValidateUserId).WithMessage("Invalid User ID");
 
       RuleFor(x => x.Day)
@@ -39,11 +38,11 @@ namespace Api.Models
         .NotEqual(0)
         .Must(ValidateRecipeId).WithMessage("Invalid Recipe");
 
-      bool ValidateUserId(int userId)
+      bool ValidateUserId(string userId)
       {
         /**
          * Function checks if userId exists in the Users table
-         * 
+         *
          * @param <string> userId
          * @return <bool> true if userId exists, false if userId does not exist
          */
@@ -55,7 +54,7 @@ namespace Api.Models
       {
         /**
          * Function checks if mealTimeId exists in the MealTime table
-         * 
+         *
          * @param <string> mealTimeId
          * @return <bool> true if mealTimeId exists, false if mealTimeId does not exist
          */
@@ -67,7 +66,7 @@ namespace Api.Models
       {
         /**
          * Function checks if recipeId exists in the Recipes table
-         * 
+         *
          * @param <string> recipeId
          * @return <bool> true if recipeId exists, false if recipeId does not exist
          */
@@ -83,7 +82,7 @@ namespace Api.Models
 
     public int PlanId { get; set; }
 
-    public int UserId { get; set; }
+    public string UserId { get; set; }
 
     public DateTime Day { get; set; }
 
