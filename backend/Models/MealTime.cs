@@ -15,9 +15,11 @@ namespace Api.Models
   public class MealTime {
 
     [Key]
-    [Column(TypeName = "varchar(10)")]
-    public string Id { get; set; }
+    [Column(TypeName = "int(10)")]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; set; }
 
+    [Required]
     [Column(TypeName = "varchar(30)")]
     public string Name { get; set; }
 

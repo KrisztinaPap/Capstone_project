@@ -4,23 +4,35 @@ using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Api.Authentication;
+
 
 namespace Api.Models
 {
-  public class DBContext : DbContext
+  public class DBContext : IdentityDbContext<User>
   {
     public virtual DbSet<Recipe> Recipes { get; set; }
-
-    public virtual DbSet<User> Users { get; set; }
 
     public virtual DbSet<Plan> Plans { get; set; }
 
     public virtual DbSet<Ingredient> Ingredients { get; set; }
 
+    public virtual DbSet<UOM> UOMs { get; set; }
+
+    public virtual DbSet<RecipeCategory> RecipeCategories { get; set; }
+
+    public virtual DbSet<Meal> Meals { get; set; }
+
+    public virtual DbSet<MealTime> MealTimes { get; set; }
+
     public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      base.OnModelCreating(modelBuilder);
       modelBuilder.Entity<Recipe>(entity =>
       {
         entity.HasMany(a => a.Ingredients)
@@ -28,11 +40,27 @@ namespace Api.Models
           .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Cascade);
 
+        // Citation: A value comparer function was needed to check the values after converting from JSON
+        // to List<string> data type from the database to the server.
+        // Link @ https://docs.microsoft.com/en-us/ef/core/modeling/value-comparers
+        var valueComparer = new ValueComparer<List<string>>(
+          // Expression for checking equality
+          (c1, c2) => c1.SequenceEqual(c2),
+          // Expression for generating hash code
+          c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
+          // Expression to generate snapshot
+          c => c.ToList());
+
         entity.Property(e => e.Tags)
+          .HasColumnType("json")
           .HasConversion(
             v => JsonConvert.SerializeObject(v),
             v => JsonConvert.DeserializeObject<List<string>>(v))
-          .HasColumnType("json");
+          .Metadata
+          .SetValueComparer(valueComparer);
+
+        entity.Property(e => e.Image)
+          .HasDefaultValue(string.Empty);
 
         entity.HasData(
           new Recipe()
@@ -50,7 +78,6 @@ namespace Api.Models
               "* Smother in Hot Sauce"
             ),
             Tags = new List<string>() {"Spicy"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 35,
@@ -74,7 +101,6 @@ namespace Api.Models
               "* Serve and Enjoy!"
             ),
             Tags = new List<string>() {"BBQ"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -103,7 +129,6 @@ namespace Api.Models
             "* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice."
             ),
             Tags = new List<string>() {"Chicken, Dinner, Easy"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 65,
@@ -132,7 +157,6 @@ namespace Api.Models
             "* 8. Serve the quesadillas with avocado and the remaining salsa."
             ),
             Tags = new List<string>() {"Low calorie, High fiber, Vegetarian"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -158,7 +182,6 @@ namespace Api.Models
             "* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer."
             ),
             Tags = new List<string>() {"Low calorie, Low fat, Low Sodium"},
-            Image = null,
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 45,
@@ -214,7 +237,7 @@ namespace Api.Models
           new Plan()
           {
             Id = -1,
-            UserId = -1,
+            UserId = "-1",
             Day = DateTime.Today
           }
         );
@@ -232,13 +255,13 @@ namespace Api.Models
           {
             Id = -1,
             PlanId = -1,
-            MealTimeId = "-2"
+            MealTimeId = -2
           },
           new Meal()
           {
             Id = -2,
             PlanId = -1,
-            MealTimeId = "-3"
+            MealTimeId = -3
           }
         );
       });
@@ -599,10 +622,9 @@ namespace Api.Models
         entity.HasData(
           new User()
           {
-            Id = -1,
+            // Identity uses a GUID method to generate unqiue user id.
+            Id = Guid.NewGuid().ToString(),
             Name = "TestAdminWarren",
-            Password = "$uper$ecurePHPa$$w0rd",
-            PasswordSalt = "$alt33",
             Email = "phprox123@gmail.com"
           }
         );
@@ -613,19 +635,17 @@ namespace Api.Models
         entity.HasData(
           new MealTime()
           {
-            // TODO:
-            // I think Id should be int instead of string. Discuss this w/ backend.
-            Id = "-1",
+            Id = -1,
             Name = "Breakfast"
           },
           new MealTime()
           {
-            Id = "-2",
+            Id = -2,
             Name = "Lunch"
           },
           new MealTime()
           {
-            Id = "-3",
+            Id = -3,
             Name = "Dinner"
           }
         );

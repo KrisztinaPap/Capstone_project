@@ -6,10 +6,6 @@ process.env.PATH = process.env.PATH + ";" + npm_bin
 
 // Execute concurrently which will provide logging output for our front-end
 // and backend
-const command = [
-  'concurrently -s first --kill-others --names API,CLIENT -c blue,magenta',
-  '"cd ./backend && cross-env NODE_PATH=../frontend/node_modules/ ASPNETCORE_ENVIRONMENT=Development dotnet watch run"',
-  '"cd ./frontend/ && npm run start"'
-]
+const command = "npm-run-all start:frontend:build:tailwind --parallel start:frontend:watch:tailwind start:frontend:react start:backend"
 
-execSync(command.join(' '), {stdio: 'inherit'});
+execSync(command, {stdio: 'inherit'});
