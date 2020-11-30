@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation;
@@ -12,6 +13,7 @@ using FluentValidation.AspNetCore;
 using Api.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 
 namespace Api.Controllers
 {
@@ -23,12 +25,13 @@ namespace Api.Controllers
 
       private readonly DBContext _context;
 
-    private readonly IHostingEnvironment hostingEnvironment;
+    private readonly IWebHostEnvironment hostingEnvironment;
 
-      public RecipesController(ILogger<RecipesController> logger, DBContext context, IHostingEnvironment hostingEnvironment)
+      public RecipesController(ILogger<RecipesController> logger, DBContext context, IWebHostEnvironment _hostingEnvironment)
       {
           _logger = logger;
           _context = context;
+          hostingEnvironment = _hostingEnvironment;
       }
 
       // TODO: Missing Authentication. Meaning most of these routes
@@ -163,24 +166,29 @@ namespace Api.Controllers
 
       [HttpPost]
       [Route("image-upload")]
-      public ActionResult<Image> UploadImage(Image model)
+      public ActionResult<Image> UploadImage(IFormFile model)
       {
         // This API endpoint will save the image file to the project files.
         // It will then save the file path to the image to the database.
-        string uniqueFileName = null;
-        if( ModelState.IsValid)
+        Image newImage = new Image()
         {
-          if (model.Photo != null)
-          {
-            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
-            string unqiueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
+          FileName = model.FileName,
+          Photo = model
+        };
 
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-            model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
-          }
+        // Citation: A method of accepting image files from a form for the recipe pages was needed.
+        // The following code was adapted from the source below:
+        // link @ https://www.youtube.com/watch?v=aoxEJii70_I
+        if (newImage.Photo != null)
+        {
+          string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+          string uniqueFileName = Guid.NewGuid().ToString() + "_" + newImage.FileName;
+
+          string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+          newImage.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
         }
 
-      return model;
+        return newImage;
       }
-    }
+  }
 }

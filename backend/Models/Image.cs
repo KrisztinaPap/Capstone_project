@@ -8,7 +8,11 @@ namespace Api.Models
 {
   public class Image
   {
-    public string FileName { get; }
+    public string FileName { get; set; }
     public IFormFile Photo { get; set; }
+
+    public Image()
+    {
+    }
   }
 }
