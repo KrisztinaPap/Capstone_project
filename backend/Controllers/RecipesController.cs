@@ -11,6 +11,7 @@ using FluentValidation.AspNetCore;
 
 using Api.Models;
 using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Api.Controllers
 {
@@ -22,7 +23,9 @@ namespace Api.Controllers
 
       private readonly DBContext _context;
 
-      public RecipesController(ILogger<RecipesController> logger, DBContext context)
+    private readonly IHostingEnvironment hostingEnvironment;
+
+      public RecipesController(ILogger<RecipesController> logger, DBContext context, IHostingEnvironment hostingEnvironment)
       {
           _logger = logger;
           _context = context;
@@ -158,15 +161,26 @@ namespace Api.Controllers
         return NoContent();
       }
 
-      [HttpGet]
+      [HttpPost]
       [Route("image-upload")]
-      public ActionResult<string> UploadImage()
+      public ActionResult<Image> UploadImage(Image model)
       {
-      // This API endpoint will save the image file to the project files.
-      // It will then save the file path to the image to the database.
-      string test = HttpContext.Request.PathBase;
-      return NotFound();
+        // This API endpoint will save the image file to the project files.
+        // It will then save the file path to the image to the database.
+        string uniqueFileName = null;
+        if( ModelState.IsValid)
+        {
+          if (model.Photo != null)
+          {
+            string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, "images");
+            string unqiueFileName = Guid.NewGuid().ToString() + "_" + model.Photo.FileName;
 
+            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+            model.Photo.CopyTo(new FileStream(filePath, FileMode.Create));
+          }
+        }
+
+      return model;
       }
     }
 }
