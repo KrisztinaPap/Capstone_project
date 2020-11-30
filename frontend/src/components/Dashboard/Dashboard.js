@@ -12,6 +12,21 @@ import plansReducer, {Plans} from '../../reducers/plansReducer';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
 
+
+// Citation: https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
+
+function debounce(fn, ms) {
+  let timer
+  return _ => {
+    clearTimeout(timer)
+    timer = setTimeout(_ => {
+      timer = null
+      fn.apply(this, arguments)
+    }, ms)
+  };
+}
+
+
 const Dashboard = () => {
 
   const [loading, setLoading] = useState(true);
@@ -20,7 +35,7 @@ const Dashboard = () => {
 
   const [loadingMeals, setLoadingMeals] = useState(true);
   const [errorMeals, setErrorMeals] = useState(false);
-  const [meals, setMeals] = useState([]);
+
   const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create([]));
 
   const [edit, setEdit] = useState(true);
@@ -35,31 +50,60 @@ const Dashboard = () => {
   // Citation
   // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
   const [desktop, setDesktop] = useState(window.innerWidth > 1450);
-  const updateMedia = () => {
-    setDesktop(window.innerWidth > 1450);
-  };
+  const [viewWidth, setViewWidth] = useState(window.innerWidth);
+
+  // Citation
+  // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
+  useEffect(() => {
+    const debouncedHandleResize = debounce(function handleResize() {
+      setDesktop(window.innerWidth > 1450);
+      setViewWidth(window.innerWidth);
+
+    }, 1000)
+
+    window.addEventListener('resize', debouncedHandleResize)
+
+    return () => {
+      window.removeEventListener('resize', debouncedHandleResize)
+    }
+
+  });
+
 
   useEffect(() => {
     // DELETE AFTER
     // Override date range to special day
     const day = moment("2020-11-28");
     setDatePeriod([day, day])
-  }, [])
 
-  useEffect(() => {
     populateRecipes();
-  }, []);
+  }, [])
 
   useEffect(() => {
     getPlans();
   }, [datePeriod]);
 
-  // Citation
-  // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
   useEffect(() => {
-    window.addEventListener("resize", updateMedia);
-    return () => window.removeEventListener("resize", updateMedia);
-  });
+    // Logic needs to be reworked here.
+    // Adjusting our period seems a bit wonky.
+    const [start] = datePeriod;
+
+    if(viewWidth >= 1024) {
+      // lg-xl screens
+      setTimeInterval(7);
+      setDatePeriod([start, start.clone().add(7, 'days')])
+    }
+    else if(viewWidth >= 768) {
+      // md screens
+      setTimeInterval(3);
+      setDatePeriod([start.clone().subtract(1, 'days'), start.clone().add(1, 'days')])
+    }
+    else {
+      // xs-sm screens
+      setTimeInterval(1);
+      setDatePeriod([start, start])
+    }
+  }, [viewWidth])
 
   async function populateRecipes() {
     try {
@@ -85,7 +129,6 @@ const Dashboard = () => {
         type: "plans/load_period",
         payload: response.data
       });
-      setMeals(response.data);
       setLoadingMeals(false);
       setErrorMeals(false);
     } catch(err) {
@@ -123,7 +166,7 @@ const Dashboard = () => {
     if(timeInterval === 1) {
       setDatePeriod([today, today]);
     } else {
-      setDatePeriod([today, today.add(timeInterval, 'days').clone()]);
+      setDatePeriod([today, today.clone().add(timeInterval, 'days')]);
     }
   }
 
@@ -135,12 +178,12 @@ const Dashboard = () => {
 
     if(timeInterval === 1)
     {
-      const newDate = start.add(timeInterval, 'days').clone();
+      const newDate = start.clone().add(timeInterval, 'days');
       setDatePeriod([newDate, newDate]);
     } else {
       setDatePeriod([
-        start.add(timeInterval,'days').clone(),
-        end.add(timeInterval, 'days').clone()
+        start.clone().add(timeInterval,'days'),
+        end.clone().add(timeInterval, 'days')
       ]);
     }
   }
@@ -153,12 +196,12 @@ const Dashboard = () => {
 
     if(timeInterval === 1)
     {
-      const newDate = start.subtract(timeInterval, 'days').clone();
+      const newDate = start.clone().subtract(timeInterval, 'days');
       setDatePeriod([newDate, newDate]);
     } else {
       setDatePeriod([
-        start.subtract(timeInterval,'days').clone(),
-        end.subtract(timeInterval, 'days').clone()
+        start.clone().subtract(timeInterval,'days'),
+        end.clone().subtract(timeInterval, 'days')
       ]);
     }
   }
