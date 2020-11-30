@@ -7,7 +7,7 @@ import axios from 'axios';
 import Plate from '../assets/plate.svg';
 
 // Import Authentication
-import { UserContext, ResetUserData } from './Authentication/UserAuthentication';
+import { UserContext, SaveUserData, ResetUserData } from './Authentication/UserAuthentication';
 
 // Login Component
 const Login = () => {
@@ -64,6 +64,8 @@ const Login = () => {
         user.name = response.data.name;
         user.token = response.data.token;
         user.expiration = response.data.expiration;
+        // Save UserContext to LocalStorage
+        SaveUserData();
 
         // Reset Form Fields
         setEmail("");
