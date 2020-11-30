@@ -188,9 +188,9 @@ const AddRecipe = () => {
         <section id="addRecipeBasics">
           <label htmlFor="addRecipeName">Name(*):</label>
           <input type="text" id="addRecipeName" onChange={HandleFormChange} />
-          <form onSubmit={PhotoUpload}>
+          <form onSubmit={PhotoUpload} enctype="multipart/form-data">
             <label htmlFor="addRecipePhoto">Photo:</label>
-            <input type="text" id="addRecipePhoto" value="Photo Placeholder" />
+            <input type="file" id="addRecipePhoto" />
             <input type="submit" value="Upload" />
           </form>
           <div>
