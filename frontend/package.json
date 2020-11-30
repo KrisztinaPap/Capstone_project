@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.21.0",
     "draft-js": "^0.11.7",
+    "dayjs": "^1.9.6",
     "jquery": "^3.5.1",
     "merge": "^1.2.1",
     "moment": "^2.29.1",

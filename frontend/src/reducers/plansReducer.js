@@ -322,8 +322,8 @@ export default (state, action) => {
 
   switch(action.type) {
     case "plans/update_recipe":
-      const {date, time, recipeId} = action.payload;
-      return state.addOrUpdateRecipe(date, time, recipeId);
+      const {day, time, recipeId} = action.payload;
+      return state.addOrUpdateRecipe(day, time, recipeId);
 
     case "plans/load_period":
       const jsonPlans = action.payload;

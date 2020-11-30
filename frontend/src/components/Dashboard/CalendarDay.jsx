@@ -8,8 +8,15 @@ export default ({date, plan, recipes, isEditing}) => {
   }
 
   return (
-    <div className="flex-1">
-      <div className="text-center p-2">{date.toString()}</div>
+    <div className="">
+      <div className="text-center p-2">
+        <div>
+          {date.format('ddd')}
+        </div>
+        <div>
+          {date.format('DD')}
+        </div>
+      </div>
 
       <Meal date={date} time="breakfast" model={getModel("breakfast")} recipes={recipes} isEditing={isEditing} />
 
