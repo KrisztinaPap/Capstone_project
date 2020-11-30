@@ -10,6 +10,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 
 using Api.Models;
+using System.IO;
 
 namespace Api.Controllers
 {
@@ -155,6 +156,17 @@ namespace Api.Controllers
         _context.Remove(recipe);
         _context.SaveChanges();
         return NoContent();
+      }
+
+      [HttpGet]
+      [Route("image-upload")]
+      public ActionResult<string> UploadImage()
+      {
+      // This API endpoint will save the image file to the project files.
+      // It will then save the file path to the image to the database.
+      string test = HttpContext.Request.PathBase;
+      return NotFound();
+
       }
     }
 }
