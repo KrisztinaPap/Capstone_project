@@ -13,7 +13,7 @@ export class NavMenu extends Component {
         outerContainerId={'outer-container'}
       >
         <header>Site Navigation</header>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/index">
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
           Home
         </Link>
         <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
