@@ -1,4 +1,4 @@
-// Import React
+// Import Resources
 import React from 'react';
 
 // Create UserContext
@@ -9,8 +9,21 @@ const UserData = {
     email: null,
     name: null,
     token: null,
-    expiry: null
+    expiration: null,
+    isAuthenticated: function() {
+        return (this.token == null || this.expiration < Date.now()) ? false : true
+    }
+}
+
+// Function to Reset UserData to null, LogOut
+const ResetUserData = () => {
+    for (const key in UserData) {
+        if (typeof UserData[key] != "function") {
+            UserData[key] = null;
+        }
+    }
+    return UserData;
 }
 
 // Export User Authentication
-export { UserContext, UserData };
+export { UserContext, UserData, ResetUserData };

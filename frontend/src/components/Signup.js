@@ -1,13 +1,10 @@
 // Import Resources
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
-// Import Media
+// Import Assets
 import Plate from '../assets/plate.svg';
-
-// Import Authentication
-import { UserContext } from './Authentication/UserAuthentication';
 
 // Signup Component
 const Signup = () => {
@@ -120,7 +117,7 @@ const Signup = () => {
     );
   }
 
-  // Function to Display Error Message
+  // Function to Display Success Message
   const DisplaySuccessMessage = (message) => {
     return(
       <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-md text-green-100 bg-green-700 border border-green-700">
@@ -197,7 +194,6 @@ const Signup = () => {
                   type="submit">
                   Submit
                 </button>
-                
                 <Link className="purple-link hover:text-purple-600" to="/login">
                   Have an account? Log in
                 </Link>
