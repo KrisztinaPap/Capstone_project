@@ -30,7 +30,7 @@ const Signup = () => {
     setLoading(true);
 
     // Check If Passwords Match
-    if (password != password2) {
+    if (password !== password2) {
       // Set Loading
       setLoading(false);
 
@@ -60,7 +60,7 @@ const Signup = () => {
       }
     )
     .then(response => {
-      if (response.data.status == "Success") {
+      if (response.data.status === "Success") {
         // Reset Errors
         setError(false);
         setErrorMessage("");
@@ -81,7 +81,7 @@ const Signup = () => {
       }
     })
     .catch(error => {
-      if (error.response.data.status == "Error") {
+      if (error.response.data.status === "Error") {
         // Set Errors
         setError(true);
 

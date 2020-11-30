@@ -1,5 +1,7 @@
 // Import Resources
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 // Create UserContext
 const UserContext = React.createContext();
@@ -25,5 +27,23 @@ const ResetUserData = () => {
     return UserData;
 }
 
+// Function that Redirects to Login
+const AuthorizeRedirect = () => {
+    // Prepare to use useHistory for Redirect
+    //const history = useHistory();
+    // Redirect to Login
+    //history.push("login");
+    return (<Redirect to="/login" />);
+}
+
+// Function to Authorize User's Access to Component
+const Authorize = () => {
+    if (!UserData.isAuthenticated()) {
+       //AuthorizeRedirect();
+       console.log(UserData.isAuthenticated());
+       return (<Redirect to="/login" />);
+    }
+}
+
 // Export User Authentication
-export { UserContext, UserData, ResetUserData };
+export { UserContext, UserData, ResetUserData, Authorize };

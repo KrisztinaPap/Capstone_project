@@ -9,6 +9,7 @@ import Plate from '../assets/plate.svg';
 // Import Authentication
 import { UserContext, ResetUserData } from './Authentication/UserAuthentication';
 
+// Login Component
 const Login = () => {
 
   // Create user from UserContext
@@ -70,7 +71,7 @@ const Login = () => {
       }
     })
     .catch(error => {
-      if (error.response.data.status == 401) {
+      if (error.response.data.status === 401) {
         // Set Errors
         setError(true);
 

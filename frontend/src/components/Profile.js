@@ -1,7 +1,23 @@
-import React from 'react';
+// Import Resources
+import React, { useContext, useState } from 'react';
+
+// Import Assets
 import Plate from '../assets/plate.svg';
 
+// Import Authentication
+import { UserContext, Authorize } from './Authentication/UserAuthentication';
+
 const Profile = () => {
+
+  // Create user from UserContext
+  const user = useContext(UserContext);
+
+  // Check for User's Authentication
+  Authorize();
+
+  // Set Up States
+  const [name, setName] = useState( (user.name) ? user.name : "" );
+
   return (
     <>
       <div className="container">
@@ -10,9 +26,9 @@ const Profile = () => {
           <h1 className="font-bold">Edit Profile</h1>
         </div>
 
-        <div class="md:grid md:grid-cols-2 md:gap-6 place-items-center">
+        <div className="md:grid md:grid-cols-2 md:gap-6 place-items-center">
 
-          <div class="md:col-span-1 md:inline-block">
+          <div className="md:col-span-1 md:inline-block">
             <img src={Plate} alt="Drawing of a plate" className="object-contain h-64 w-full" />
           </div>
 
@@ -25,6 +41,7 @@ const Profile = () => {
                   className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="password"
+                  placeholder="******"
                 />
               </div>
               <div>
@@ -33,6 +50,9 @@ const Profile = () => {
                   className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="name"
+                  value={name}
+                  onChange={event => setName( event.target.value )}
+                  required
                 />
               </div>
               <div>
@@ -41,6 +61,7 @@ const Profile = () => {
                   className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="newPassword"
+                  placeholder="******"
                 />
               </div>
               <div className="mb-6">
@@ -49,6 +70,7 @@ const Profile = () => {
                   className="input-field w-full focus:outline-none focus:shadow-outline"
                   type="text"
                   id="newPassword2"
+                  placeholder="******"
                 />
               </div>
               <div className="flex items-center justify-between">
@@ -56,16 +78,12 @@ const Profile = () => {
                   className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
                   type="submit">
                   Update
-              </button>
-                <a class="purple-link hover:text-purple-600" href="/signup">
-                  No account? Sign up
-              </a>
+                </button>
               </div>
-             
             </form>
           </div>
-          </div>
         </div>
+      </div>
     </>
   );
 }

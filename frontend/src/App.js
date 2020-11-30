@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './components/Layout';
 import Home from './components/Home';
@@ -18,7 +18,7 @@ import './custom.css';
 export default function App() {
 
   // User Object to be Stored in Context with useState Hook
-  const [user, setUser] = useState(UserData);
+  const [user] = useState(UserData);
 
   return (
     <UserContext.Provider value={user}>
