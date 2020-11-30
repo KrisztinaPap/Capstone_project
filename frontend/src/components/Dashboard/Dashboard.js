@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import "../../assets/custom.css";
 
-import Meal from './Meal';
+import CalendarDay from './CalendarDay'
+
+import plansReducer, {Plans} from '../../reducers/plansReducer';
 
 // Citation: https://swiperjs.com/react/
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -19,6 +21,7 @@ const Dashboard = () => {
   const [loadingMeals, setLoadingMeals] = useState(true);
   const [errorMeals, setErrorMeals] = useState(false);
   const [meals, setMeals] = useState([]);
+  const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create([]));
 
   const [edit, setEdit] = useState(true);
 
@@ -48,7 +51,7 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
-    getMeals();
+    getPlans();
   }, [datePeriod]);
 
   // Citation
@@ -70,7 +73,7 @@ const Dashboard = () => {
     }
   }
 
-  async function getMeals() {
+  async function getPlans() {
     // 2020-11-22
     // 2020-11-27
     // 2020-11-28 - this date has a meal
@@ -78,6 +81,10 @@ const Dashboard = () => {
 
     try {
       const response = await axios.get(`api/plans/user/-1/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`);
+      dispatchPlans({
+        type: "plans/load_period",
+        payload: response.data
+      });
       setMeals(response.data);
       setLoadingMeals(false);
       setErrorMeals(false);
@@ -109,7 +116,8 @@ const Dashboard = () => {
    * Adjusts the datePeriod to focus on the current day
    */
   function moveToToday() {
-    // When looking at week/ three day or month views
+    // TODO:
+    // When looking at week or three day views
     // we should probably change where the first/last day
     // line up. eg start of the week or today in the middle etc
     if(timeInterval === 1) {
@@ -177,57 +185,27 @@ const Dashboard = () => {
     return dates;
   }
 
-  function mealFor(day, mealtime) {
-    // TODO: Needs total rework
-    // This type is complex enough we should probably
-    // hide it behind some kind of model object.
-    // which provides easy ways get he pieces we need.
-
-    let mealRecipes = null;
-
-    meals.forEach(plan => {
-      if(day.diff(moment(plan.day)) === 0)
-      {
-        plan.meals.forEach(meal => {
-          if(meal.mealTime.name.toLowerCase() === mealtime.toLowerCase()) {
-            mealRecipes = meal.mealRecipes;
-          }
-        });
-      }
-    });
-    return mealRecipes;
-  }
-
   function updateData(rawMealId, rawRecipeId) {
     const [planDateRaw, mealTime] = rawMealId.split('-');
-    const planDate = moment(planDateRaw.replace('/', '-').replace('/', '-'));
+    const planDate = moment(planDateRaw.replace('/', '-').replace('/', '-')).toDate();
     const recipeId = parseInt(rawRecipeId.substring(7));
 
-    // console.log(planDateRaw)
-    // console.log(planDate)
-    console.log("UpdateRecipeTo: ", recipeId)
-    // console.log(mealTime)
+    console.log("[Date]", planDate)
+    console.log("[Time]", mealTime)
+    console.log("[recipeId]", recipeId)
 
-    // need a deep copy or it won't work.
-    const plans = JSON.parse(JSON.stringify(meals));
-
-    // Find plan
-    const plan = plans.find(x => moment(x.day).diff(planDate) === 0);
-    if(!plan) { return; }
-
-    // Find planmeal
-
-    const plan_meal = plan.meals.find(x => x.mealTime.name.toLowerCase() === mealTime.toLowerCase());
-    if(!plan_meal) { return; } // We actually have to handle this case
-                               // We need to create a new meal
-    console.log(plan_meal);
-    plan_meal.mealRecipes[0].recipeId = recipeId;
-    setMeals(plans);
+    dispatchPlans({
+      type: "plans/update_recipe",
+      payload: {
+        date: planDate,
+        time: mealTime,
+        recipeId: recipeId
+      }
+    });
   }
 
   function editMode() {
     setEdit(!edit);
-    console.log(edit);
   }
 
   function onDragEnd(result) {
@@ -238,7 +216,7 @@ const Dashboard = () => {
     const source = result.source;
     const destination = result.destination;
 
-    if(destination == source) {
+    if(destination === source) {
       return; // Did nothing so do nothing.
     }
 
@@ -328,11 +306,11 @@ const Dashboard = () => {
 
                 <div className="block my-3">
                   <Droppable droppableId="recipes" type="recipes">
-                    {(provided, snapshot) => (
+                    {(provided) => (
                       <div ref={provided.innerRef} >
                         {recipes.map((recipes, index) => (
                           <Draggable key={recipes.id} draggableId={`recipe-${recipes.id}`} index={index} >
-                            {(draggableProvided, draggableSnapshot) => (
+                            {(draggableProvided) => (
                               <div
                                 ref={draggableProvided.innerRef}
                                 {...draggableProvided.draggableProps}
@@ -362,18 +340,7 @@ const Dashboard = () => {
             <div className="flex flex-row my-3 w-full h-full">
               <div className="flex flex-row flex-1">
                 {getPeriodSpan().map((day, index) => (
-                  <div key={index} className="flex-1">
-                    <div className="text-center p-2">{day.format('L')}</div>
-
-                    {/* Breakfast container */}
-                    <Meal date={day} time="breakfast" model={mealFor(day, "breakfast")} recipes={recipes} />
-
-                    {/* Lunch container */}
-                    <Meal date={day} time="lunch" model={mealFor(day, "lunch")}  recipes={recipes} />
-
-                    {/* Dinner container */}
-                    <Meal date={day} time="dinner" model={mealFor(day, "dinner")}  recipes={recipes} />
-                  </div>
+                  <CalendarDay date={day} key={index} recipes={recipes} plan={plans.byDate(day.toDate())} isEditing={edit}/>
                 ))}
               </div>
             </div>

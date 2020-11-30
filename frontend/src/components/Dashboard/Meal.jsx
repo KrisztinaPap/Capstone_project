@@ -2,31 +2,27 @@ import React from 'react';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 
 
-export default ({date, time, model, recipes}) => {
+export default ({date, time, model, recipes, isEditing}) => {
   const stringDate = date ? date.format('YYYY/MM/DD') : ""
   const id = `${stringDate}-${time.toLowerCase()}`;
 
   let recipe;
   let index = 1;
-  if(model !== null) {
-    recipes.forEach(r => {
-      if(r.id === model[0].recipeId) {
-        recipe = r; // ALSO FIX <- Horrible
-      }
-    });
+  if(model) {
+    recipe = recipes.find(r => r.id === model.recipeId);
   }
 
   return (
     <div className="meal-container">
       {time}
 
-      <Droppable droppableId={id} type="recipes">
+      <Droppable droppableId={id} type="recipes" isDropDisabled={!isEditing}>
         {(droppableProvided, droppableSnapshot) => (
           <div
             ref={droppableProvided.innerRef}
           >
             { recipe &&
-              <Draggable key={recipes.id} draggableId={`${id}-${recipe.id}`} index={index} className="h-full">
+              <Draggable key={recipes.id} draggableId={`${id}-${recipe.id}`} index={index} isDragDisabled={!isEditing} className="h-full">
                 {(draggableProvided, draggableSnapshot) => (
                   <div
                     ref={draggableProvided.innerRef}
