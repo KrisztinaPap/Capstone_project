@@ -160,10 +160,10 @@ const Login = () => {
             <div className="text-purple-700 py-5 px-4">
               {user.name}
             </div>
-            <Link className="btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 mr-4 rounded" to="/profile">
+            <Link className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
               Edit Profile
             </Link>
-            <button className="btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-600 text-white py-1 px-4 rounded" onClick={LogOut}>
+            <button className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
               Log Out
             </button>
           </div>

@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component, useContext } from 'react';
 import { Link } from 'react-router-dom';
+
 
 export class NavMenu extends Component {
   static displayName = NavMenu.name;
