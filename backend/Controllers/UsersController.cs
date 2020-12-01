@@ -39,13 +39,5 @@ namespace Api.Controllers
 
       return Ok(result);
     }
-
-    /*
-     * TODO:
-     * 1. Password Salt Algorithm
-     * 2. User Signin & Authentication
-     * 3. User Profile Update
-     * 
-     */
   }
 }

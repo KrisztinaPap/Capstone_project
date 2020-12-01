@@ -623,7 +623,7 @@ namespace Api.Models
           new User()
           {
             // Identity uses a GUID method to generate unqiue user id.
-            Id = Guid.NewGuid().ToString(),
+            Id = "E3E28BD3-594A-455F-9ACA-90758B48F376",
             Name = "TestAdminWarren",
             Email = "phprox123@gmail.com"
           }
