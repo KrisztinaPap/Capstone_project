@@ -20,7 +20,7 @@ namespace Api.Models
     public int Id { get; set; }
 
     [Column(TypeName = "int(10)")]
-    [JsonProperty("category")]
+    [JsonProperty("CategoryId")]
     public int CategoryId { get; set; }
 
     [Required]

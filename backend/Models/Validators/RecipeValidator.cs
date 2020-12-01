@@ -53,7 +53,7 @@ namespace Api.Models.Validators
     private void CommonRules() {
       RuleFor(x => x.CategoryId)
         .NotEqual(0)
-        .WithName("category");
+        .WithName("CategoryId");
 
       RuleFor(x => x.Name)
         .NotEmpty()

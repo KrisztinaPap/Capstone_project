@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import ReactDOM from "react-dom";
 import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
@@ -25,6 +24,9 @@ const AddRecipe = () => {
   const [prep, SetPrep] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
+  const [response, setResponse] = useState("");
+  const [statusCode, setStatusCode] = useState(0);
+  const [message, setMessage] = useState("meep");
 
   async function getUOMs() {
     const response = await axios.get('https://localhost:5001/api/UOMs/all');
@@ -43,6 +45,18 @@ const AddRecipe = () => {
     getRecipeCategories();
   },[loading]);
 
+  useEffect(() => {
+    if (statusCode === 400) {
+      console.log(response);
+      let errorMsg = "";
+      response.errors.Instructions.forEach(error => errorMsg += error);
+        setMessage(errorMsg);
+    }
+    else if (statusCode === 200) {
+        setMessage(`Successfully`)
+    }
+  }, [response, statusCode]);
+
   function onEditorStateChange(event) {
     // This function will update the editorState.
     setEditorState(event.blocks[0].text);
@@ -55,22 +69,29 @@ const AddRecipe = () => {
     axios({
       method: 'post',
       url: '/api/recipes',
-      params: {
-        RecipeCategory: recipeCategory,
-        Name: name,
-        Fats: fats,
-        Proteins: proteins,
-        Carbohydrates: carbohydrates,
-        Calories: calories,
-        Instructions: editorState,
-        Tags: tags,
-        Image: image,
-        Date_Modified: new Date(),
-        Date_Created: new Date(),
-        Prep_Time: prep,
-        Servings: servings,
-        Notes: notes,
+      data: {
+        "CategoryId": parseInt(recipeCategory),
+        "Name": name,
+        "Fat": fats,
+        "Protein": proteins,
+        "Carbohydrates": carbohydrates,
+        "Calories": 0,
+        "Instructions": editorState,
+        // Tags: tags,
+        // Image: image,
+        "DateModified": new Date().toJSON(),
+        "DateCreated": new Date().toJSON(),
+        "PrepTime": prep,
+        "Servings": servings,
+        // Notes: notes
       }
+    }).then((res) => {
+      setResponse(res.data);
+      setStatusCode(res.status);
+    })
+    .catch((err) => {
+      setResponse(err.response.data);
+      setStatusCode(err.response.status);
     });
 
     // Request to insert the ingredients to the database.
@@ -111,9 +132,10 @@ const AddRecipe = () => {
           SetServings(event.target.value);
           break;
         }
-      case "addCalories":
+      case "addRecipeCategory":
         {
-          SetCalories(event.target.value);
+          setRecipeCategory(event.target.value);
+          console.log(recipeCategory);
           break;
         }
       case "addCarb":
@@ -134,6 +156,10 @@ const AddRecipe = () => {
       case "addRecipeExtraNotes":
         {
           SetNotes(event.target.value);
+          break;
+        }
+      default:
+        {
           break;
         }
     }
@@ -259,8 +285,8 @@ const AddRecipe = () => {
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addProtein" onChange={HandleFormChange} />
             </div>
             <div>
-              <label htmlFor="AddRecipeCategory">Recipe Category:</label>
-              <select className="border border-solid mx-4" id="AddRecipeCategory">
+              <label htmlFor="addRecipeCategory">Recipe Category:</label>
+              <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange}>
                 {recipeCategoryList.map((category) => {
                   return (
                     <option value={category.id}>{category.name}</option>
@@ -276,6 +302,7 @@ const AddRecipe = () => {
           <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
           </form>
         </div>
+        <p>{message}</p>
     </>
   );
 };
