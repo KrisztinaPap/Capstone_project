@@ -193,77 +193,102 @@ const AddRecipe = () => {
 
   return (
     <>
-      <h1>AddRecipe page</h1>
-      <h2>Recipe Information</h2>
-      <form onSubmit={SubmitRecipe}>
-        <section id="addRecipeBasics">
-          <label htmlFor="addRecipeName">Name(*):</label>
-          <input type="text" id="addRecipeName" onChange={HandleFormChange} />
-          <form onSubmit={PhotoUpload} enctype="multipart/form-data">
-            <label htmlFor="addRecipePhoto">Photo:</label>
-            <input type="file" id="addRecipePhoto" />
-            <input type="submit" value="Upload" />
+      <div className="container mx-2 my-4">
+        <div className="block text-center my-4"> 
+          <h1 className="font-bold">Add a New Recipe</h1>
+        </div>
+        <h2 className="font-bold py-4">Recipe Information</h2>
+        <form onSubmit={SubmitRecipe}>
+          <section id="addRecipeBasics">
+            <label htmlFor="addRecipeName">Name(*):</label>
+            <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeName" onChange={HandleFormChange} />
+            <form className="py-4" onSubmit={PhotoUpload}>
+              <label htmlFor="addRecipePhoto">Photo:</label>
+              <input type="text" id="addRecipePhoto" value="Photo Placeholder" />
+              <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" value="Upload" />
+              <div className="px-4 text-sm">
+                <p>Upload a file</p>
+                <p>PNG, JPEG, up to 10MB</p>
+              </div>
+            </form>
+           
+          </section>
+          <section id="addRecipeRequirements">
+            <section id="ingredientSection">
+              <label htmlFor="ingredient1">Ingredients(*):</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" />
+              <label htmlFor="measurement1">Measurement1:</label>
+              <select id="measurement1">
+                {measurementsList.map((measurement) => {
+                  return (
+                    <option value={measurement}>{measurement}</option>
+                  );
+                })}
+              </select>
+            </section>
+            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredients} >+</button>
+            <section id="instructionSection">
+              <h3 className="font-bold py-4">Instructions:</h3>
+              <p>Enter the instructions to your new recipe below!</p>
+              <div className="input-field">
+                <Editor
+                  toolbarClassName="toolbarClassName"
+                  wrapperClassName="wrapperClassName"
+                  editorClassName="editorClassName"
+                  onChange={onEditorStateChange}
+                  />
+              </div>
+            </section>
+          </section>
+          <section id="addRecipeLogistics">
+            <div>
+              <label htmlFor="addRecipePrepTime">Prep. Time(*):</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
+            </div>
+            <div>
+              <label htmlFor="addRecipeCookTime">Cook Time(*):</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
+            </div>
+            <div>
+              <label htmlFor="addRecipeServings">Servings:</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeServings" onChange={HandleFormChange} />
+            </div>
+          </section>
+          <section id="addRecipeAdditional">
+            <div>
+              <label htmlFor="addCalories">Calories</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addCalories" onChange={HandleFormChange} />
+            </div>
+            <div>
+              <label htmlFor="addCarb">Carbohydrates</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addCarb" onChange={HandleFormChange} />
+            </div>
+            <div>
+              <label htmlFor="addFat">Fats</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addFat" onChange={HandleFormChange} />
+            </div>
+            <div>
+              <label htmlFor="addProtein">Proteins</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addProtein" onChange={HandleFormChange} />
+            </div>
+            <div>
+              <label htmlFor="AddRecipeCategory">Recipe Category:</label>
+              <select className="border border-solid mx-4" id="AddRecipeCategory">
+                {recipeCategoryList.map((category) => {
+                  return (
+                    <option value={category.id}>{category.name}</option>
+                  );
+                })}
+                </select>
+            </div>
+            <div className="my-3">
+              <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
+              <textarea className="block input-field w-full lg:w-1/2 focus:outline-none focus:shadow-outline" id="addRecipeExtraNotes" onChange={HandleFormChange} />
+            </div>
+          </section>
+          <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
           </form>
-          <div>
-            <p>Upload a file</p>
-            <p>PNG, JPEG, up to 10MB</p>
-          </div>
-        </section>
-        <section id="addRecipeRequirements">
-          <section id="ingredientSection">
-            <label htmlFor="ingredient1">Ingredients(*):</label>
-            <input type="text" id="ingredient1" />
-            <label htmlFor="measurement1">Measurement1:</label>
-            <select id="measurement1">
-              {measurementsList.map((measurement) => {
-                return (
-                  <option value={measurement}>{measurement}</option>
-                );
-              })}
-            </select>
-          </section>
-          <button onClick={AddIngredients} >+</button>
-          <section id="instructionSection">
-            <h3>Instructions:</h3>
-            <p>Enter the instructions to your new recipe below!</p>
-            <Editor
-              toolbarClassName="toolbarClassName"
-              wrapperClassName="wrapperClassName"
-              editorClassName="editorClassName"
-              onChange={onEditorStateChange}
-            />
-          </section>
-        </section>
-        <section id="addRecipeLogistics">
-          <label htmlFor="addRecipePrepTime">Prep. Time(*):</label>
-          <input type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
-          <label htmlFor="addRecipeCookTime">Cook Time(*):</label>
-          <input type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
-          <label htmlFor="addRecipeServings">Servings:</label>
-          <input type="text" id="addRecipeServings" onChange={HandleFormChange} />
-        </section>
-        <section id="addRecipeAdditional">
-          <label htmlFor="addCalories">Calories</label>
-          <input type="text" id="addCalories" onChange={HandleFormChange} />
-          <label htmlFor="addCarb">Carbohydrates</label>
-          <input type="text" id="addCarb" onChange={HandleFormChange} />
-          <label htmlFor="addFat">Fats</label>
-          <input type="text" id="addFat" onChange={HandleFormChange} />
-          <label htmlFor="addProtein">Proteins</label>
-          <input type="text" id="addProtein" onChange={HandleFormChange} />
-          <label htmlFor="AddRecipeCategory">Recipe Category</label>
-          <select id="AddRecipeCategory">
-            {recipeCategoryList.map((category) => {
-              return (
-                <option value={category.id}>{category.name}</option>
-              );
-            })}
-          </select>
-          <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
-          <textarea id="addRecipeExtraNotes" onChange={HandleFormChange}/>
-        </section>
-        <input type="submit" />
-      </form>
+        </div>
     </>
   );
 };

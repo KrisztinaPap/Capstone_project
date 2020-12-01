@@ -1,70 +1,103 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { UserContext } from '.././App';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import Plate from '../assets/plate.svg';
 
 
 function Recipes() {
 
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false)
+  const user = useContext(UserContext); 
+
   useEffect(() => {
     populateRecipes();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [recipes, setRecipes] = useState([]);
-
-  async function populateRecipes(){
-    const response = await axios.get('api/recipes')
-    setRecipes(response.data);
+  async function populateRecipes() {
+    try {
+      const response = await axios.get('api/recipes')
+      setRecipes(response.data);
+      setLoading(false);
+      setError(false);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+    }
   }
 
+  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? Remove center after CSS applied */}
+  if (loading){
+    return(
+      <>
+        <center>
+          <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
+          <p>Gathering your recipes...</p>
+        </center>
+      </>
+    );
+  }
+
+  // If Axios request has an error, display error message...
+  // TODO: Design better Error page?
+  if (error){
+    return(
+      <>
+        <p>There was an error loading the Recipes List. Please try again.</p>
+        <p><button className="purple-button focus:outline-none focus:shadow-outline" type="submit" onClick={populateRecipes}>
+          Retry
+        </button></p>
+      </>
+    )
+  }
 
   return (
     <>
-      <main>
+      <main className="container my-2">
         <section>
-          <h2>
-            <i className="fas fa-drumstick-bite"></i>
-            Recipes
-          </h2>
-          <table>
+         
+          <div className="block text-center my-4">
+            <p className="text-xl">Hello, {user}!</p>
+          </div>
+
+
+          <table className="w-full mx-auto">
             <thead>
               <tr>
-                <th>
-                  Recipes
+                <th className="my-4">
+                  <h2><i className="fas fa-drumstick-bite px-2"></i>Your Recipes</h2>
                 </th>
                 <th>
                 </th>
               </tr>
             </thead>
-            <tbody>
+
+            <tbody className="m-2">
               {recipes.map(recipes => (
-                <tr key={recipes.id}>
-                  <td>
-                    <Link to={`recipes/${recipes.id}`} target='_blank'>
-                      <img src={recipes.image} />
-                      <div>
-                        {recipes.name}
-                      </div>
-                    </Link>
-                  </td>
-                  <td>
-                    <Link to={`recipes/${recipes.id}`} target='_blank'>
-                      <button>
-                        <i className="fas fa-external-link-alt"></i>
-                      </button>
-                    </Link>
-                  </td>
-                </tr>
+                <div className="border-2 m-2 p-2 flex flex-row rounded shadow">
+                  <tr className="w-full flex justify-between align-center" key={recipes.id}>
+                    <td className="flex align-center justify-start">
+                      <Link className="flex align-center justify-start items-center" to={`/recipes/${recipes.id}`}>
+                        <img className="p-2 w-12 h-12 border rounded" /*src={recipes.image}*/ src={Plate} alt={recipes.name}/>
+                        <div className="px-4 text-gray-800 hover:text-purple-500 focus:text-purple-500">
+                          {recipes.name}
+                        </div>
+                      </Link>
+                    </td>
+                    <td className="flex align-center">
+                      <Link className="flex align-center" to={`recipes/${recipes.id}`}>
+                        <button>
+                          <i className="fas fa-external-link-alt"></i>
+                        </button>
+                      </Link>
+                    </td>
+                  </tr>
+                </div>
               ))}
             </tbody>
-            <tfoot>
-            <tr>
-              <th>
-               Recipes
-              </th>
-              <th>
-              </th>
-            </tr>
-            </tfoot>
+
           </table>
         </section>
       </main>
@@ -74,3 +107,4 @@ function Recipes() {
 
 //Export Function
 export default Recipes;
+
