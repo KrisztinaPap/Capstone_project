@@ -168,7 +168,7 @@ namespace Api.Controllers
     public ActionResult<string> UploadImage(IFormFile model, string userID)
     {
       // This API endpoint will save the image file to the project files.
-      // It will then save the file path to the image to the database.
+      // It will then return the file path to the image in the project folder.
       string message = "";
       // Verify user exists in database.
       User currentUser = _context.Users
