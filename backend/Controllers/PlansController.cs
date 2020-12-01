@@ -84,6 +84,25 @@ namespace Api.Controllers
                         .ThenInclude(x => x.Recipe)
                           .ThenInclude(x => x.Ingredients)
                     .Where(x => x.Id == id)
+                    .Select
+                     (
+                      x => new
+                      {
+                        day = x.Day,
+                        meals = x.Meals.Select
+                        (
+                          m => new
+                          {
+                            id = m.Id,
+                            mealTime = m.MealTime.Name,
+                            recipeId = m.MealRecipes.Select
+                            (
+                              mr => mr.RecipeId
+                            )
+                          }
+                        )
+                      }
+                     )
                     .SingleOrDefault();
 
       if (result == null)
@@ -114,6 +133,25 @@ namespace Api.Controllers
                         .ThenInclude(x => x.Recipe)
                           .ThenInclude(x => x.Ingredients)
                     .Where(x => x.UserId == userId)
+                    .Select
+                     (
+                      x => new
+                      {
+                        day = x.Day,
+                        meals = x.Meals.Select
+                        (
+                          m => new
+                          {
+                            id = m.Id,
+                            mealTime = m.MealTime.Name,
+                            recipeId = m.MealRecipes.Select
+                            (
+                              mr => mr.RecipeId
+                            )
+                          }
+                        )
+                      }
+                     )
                     .ToList();
 
       if (result.Count == 0)
@@ -144,6 +182,25 @@ namespace Api.Controllers
                         .ThenInclude(x => x.Recipe)
                           .ThenInclude(x => x.Ingredients)
                     .Where(x => x.UserId == userId && x.Day >= fromDate && x.Day <= toDate)
+                    .Select
+                     (
+                      x => new
+                      {
+                        day = x.Day,
+                        meals = x.Meals.Select
+                        (
+                          m => new
+                          {
+                            id = m.Id,
+                            mealTime = m.MealTime.Name,
+                            recipeId = m.MealRecipes.Select
+                            (
+                              mr => mr.RecipeId
+                            )
+                          }
+                        )
+                      }
+                     )
                     .ToList();
 
       if (result.Count == 0)
