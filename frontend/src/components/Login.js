@@ -70,6 +70,10 @@ const Login = () => {
         // Reset Form Fields
         setEmail("");
         setPassword("");
+
+        // Reload Page so NavMenu Changes
+        // Maybe there is a cleaner way
+        window.location.reload();
       }
     })
     .catch(error => {
@@ -157,15 +161,24 @@ const Login = () => {
       <>
         <div className="card-body p-4">
           <div className="btn-group">
-            <div className="text-purple-700 py-5 px-4">
+            <div className="block text-purple-700 py-5 px-4">
               {user.name}
             </div>
-            <Link className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
-              Edit Profile
+            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/dashboard">
+              Dashboard
             </Link>
-            <button className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
+            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/recipes">
+              Recipes
+            </Link>
+            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/add-recipe">
+              Add a Recipe
+            </Link>
+            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
+              Edit {user.name}'s Profile
+            </Link>
+            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="#" onClick={LogOut}>
               Log Out
-            </button>
+            </Link>
           </div>
         </div>
       </>

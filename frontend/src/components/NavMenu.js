@@ -1,8 +1,68 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 
+// Import Authentication
+import { UserContext, ResetUserData } from './Authentication/UserAuthentication';
 
 function NavMenu() {
+
+  // Create user from UserContext
+  const user = useContext(UserContext);
+
+  // Prepare to use useHistory for Logout Redirect
+  const history = useHistory();
+
+  // Set Up States
+  const [authenticated, setAuthenticated] = useState(user.isAuthenticated());
+
+  // Function to LogOut
+  const LogOut = () => {
+    // Reset UserData
+    ResetUserData();
+
+    // Change setAuthenticated State
+    setAuthenticated(user.isAuthenticated());
+
+    // Redirect to Login
+    history.push("login");
+  }
+
+  // Function to Display LoggedIn Menu
+  const LoggedInMenu = () => {
+    return (
+      <>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
+          Dashboard
+        </Link>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
+          Recipes
+        </Link>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
+          Add a Recipe
+        </Link>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
+          Edit {user.name}'s Profile
+        </Link>
+        <Link className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
+          Log Out
+        </Link>
+      </>
+    );
+  }
+
+  // Function to Display LoggedOut Menu
+  const LoggedOutMenu = () => {
+    return (
+      <>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/login">
+          Login
+        </Link>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/signup">
+          Sign Up
+        </Link>
+      </>
+    );
+  }
 
   return (
     <header className="h-10 bg-purple-500">
@@ -14,27 +74,12 @@ function NavMenu() {
           </button>
           <div className="inline-flex">
             <ul>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/index">
+              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
                 Home
               </Link>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
-                Dashboard
-              </Link>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/login">
-                Login
-              </Link>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/signup">
-                Sign Up
-              </Link>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
-                Edit Profile
-              </Link>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
-                Recipes
-              </Link>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
-                Add a Recipe
-              </Link>
+
+              { (authenticated) ? LoggedInMenu() : LoggedOutMenu() }
+
             </ul>
           </div>
         </div>
