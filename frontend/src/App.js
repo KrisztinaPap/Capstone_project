@@ -20,19 +20,18 @@ export default function App() {
   // User Object to be Stored in Context with useState Hook
   const [user] = useState(UserData);
 
-  return (
-    <UserContext.Provider value={user}>
-      <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/dashboard' component={Dashboard} />
-        <Route path='/login' component={Login} />
-        <Route path='/signup' component={Signup} />
-        <Route path='/profile' component={Profile} />
-        <Route exact path='/recipes' component={Recipes} />
-        <Route path='/recipes/:recipes' component={Recipe} />
-        <Route path='/add-recipe' component={AddRecipe} />
-      </Layout>
-    </UserContext.Provider>
-  );
-  
+    return (
+      <UserContext.Provider value={user}>
+        <Layout>
+          <Route exact path='/' component={Home} />
+          <Route path='/dashboard' component={Dashboard} />
+          <Route path='/login' component={Login} />
+          <Route path='/signup' component={Signup} />
+          <Route path='/profile' component={Profile} />
+          <Route exact path='/recipes' component={Recipes} />
+          <Route exact path='/recipes/:recipes' component={Recipe} />
+          <Route path='/add-recipe' component={AddRecipe} />
+        </Layout>
+      </UserContext.Provider>
+    );
 }
