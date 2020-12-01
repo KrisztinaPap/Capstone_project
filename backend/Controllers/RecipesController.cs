@@ -165,7 +165,7 @@ namespace Api.Controllers
 
     [HttpPost]
     [Route("image-upload")]
-    public ActionResult<string> UploadImage(IFormFile model, string userID)
+    public ActionResult<string> UploadImage(IFormFile fileUpload, string userID)
     {
       // This API endpoint will save the image file to the project files.
       // It will then return the file path to the image in the project folder.
@@ -179,24 +179,24 @@ namespace Api.Controllers
       // The following code was adapted from the source below:
       // link @ https://www.youtube.com/watch?v=aoxEJii70_I
 
-      if (model != null && currentUser != null)
+      if (fileUpload != null && currentUser != null)
       {
         // Create path to the users images.
         string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"User_{userID}");
 
         // Create unique file name.
-        string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.FileName;
+        string uniqueFileName = Guid.NewGuid().ToString() + "_" + fileUpload.FileName;
         string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
         // Copy the file to the users folder.
-        model.CopyTo(new FileStream(filePath, FileMode.Create));
+        fileUpload.CopyTo(new FileStream(filePath, FileMode.Create));
 
         // Return the folder path to the new image.
         return uploadsFolder;
       }
       else
       {
-        if(model == null)
+        if(fileUpload == null)
         {
           message += "No file found.";
         }
