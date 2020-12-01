@@ -206,7 +206,9 @@ const AddRecipe = () => {
             <section id="ingredientSection">
               <label htmlFor="ingredient1">Ingredients(*):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" />
-              <label htmlFor="measurement1">Measurement1:</label>
+              <label htmlFor="quantity1">Quantity:</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" />
+              <label htmlFor="measurement1">Measurement:</label>
               <select id="measurement1">
                 {measurementsList.map((measurement) => {
                   return (
@@ -244,10 +246,6 @@ const AddRecipe = () => {
             </div>
           </section>
           <section id="addRecipeAdditional">
-            <div>
-              <label htmlFor="addCalories">Calories</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addCalories" onChange={HandleFormChange} />
-            </div>
             <div>
               <label htmlFor="addCarb">Carbohydrates</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addCarb" onChange={HandleFormChange} />
