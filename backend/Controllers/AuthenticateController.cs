@@ -1,5 +1,6 @@
 using Api.Authentication;
 using Api.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,15 +27,18 @@ namespace Api.Controllers
       private readonly UserManager<User> userManager;
       // The UserManager class provides a persistent store for managing users.
       private readonly RoleManager<IdentityRole> roleManager;
-    // The RoleManager class provides a persistent store for manaing user roles.
-    // It tracks roles for users by roleID and provides role names.
+      // The RoleManager class provides a persistent store for manaing user roles.
+      // It tracks roles for users by roleID and provides role names.
       private readonly IConfiguration _configuration;
 
-      public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+      private readonly IWebHostEnvironment hostingEnvironment;
+
+      public AuthenticateController(UserManager<User> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IWebHostEnvironment _hostingEnvironment)
       {
         this.userManager = userManager;
         this.roleManager = roleManager;
         _configuration = configuration;
+        hostingEnvironment = _hostingEnvironment;
       }
 
       [HttpPost]
@@ -87,13 +92,13 @@ namespace Api.Controllers
       [Route("register")]
       public async Task<IActionResult> Register([FromBody] RegisterModel model)
       {
-      // Check if the username is inside the store.
+        // Check if the username is inside the store.
         var userExists = await userManager.FindByNameAsync(model.Username);
         if (userExists != null)
           return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
 
-      // Create a new user object.
-      User user = new User()
+        // Create a new user object.
+        User user = new User()
         {
           Name = model.Name,
           Email = model.Email,
@@ -115,7 +120,12 @@ namespace Api.Controllers
             ErrorList = errorList
           });
         }
-        return Ok(new Response { Status = "Success", Message = "User created successfully!" });
+
+      // Create image upload folder
+      string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"User_{user.Id}");
+      Directory.CreateDirectory(uploadsFolder);
+
+      return Ok(new Response { Status = "Success", Message = "User created successfully!" });
       }
 
       [HttpPost]
