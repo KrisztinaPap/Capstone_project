@@ -95,7 +95,7 @@ namespace Api.Controllers
                           {
                             id = m.Id,
                             mealTime = m.MealTime.Name,
-                            recipeId = m.MealRecipes.Select
+                            recipes = m.MealRecipes.Select
                             (
                               mr => mr.RecipeId
                             )
@@ -144,7 +144,7 @@ namespace Api.Controllers
                           {
                             id = m.Id,
                             mealTime = m.MealTime.Name,
-                            recipeId = m.MealRecipes.Select
+                            recipes = m.MealRecipes.Select
                             (
                               mr => mr.RecipeId
                             )
@@ -193,7 +193,7 @@ namespace Api.Controllers
                           {
                             id = m.Id,
                             mealTime = m.MealTime.Name,
-                            recipeId = m.MealRecipes.Select
+                            recipes = m.MealRecipes.Select
                             (
                               mr => mr.RecipeId
                             )
