@@ -1,30 +1,24 @@
 import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 // Import Authentication
-import { UserContext, ResetUserData } from './Authentication/UserAuthentication';
+import { UserContext } from './Authentication/UserAuthentication';
 
 function NavMenu() {
 
   // Create user from UserContext
   const user = useContext(UserContext);
-
-  // Prepare to use useHistory for Logout Redirect
-  const history = useHistory();
-
+  
   // Set Up States
-  const [authenticated, setAuthenticated] = useState(user.isAuthenticated());
+  const [isAuthenticated, setIsAuthenticated] = useState(user.isAuthenticated());
 
   // Function to LogOut
   const LogOut = () => {
-    // Reset UserData
-    ResetUserData();
-
-    // Change setAuthenticated State
-    setAuthenticated(user.isAuthenticated());
-
-    // Redirect to Login
-    history.push("login");
+    // User Context Logout and Reset UserData
+    user.logOut();
+    
+    // Set isAuthenticated State
+    setIsAuthenticated(user.isAuthenticated());
   }
 
   // Function to Display LoggedIn Menu
@@ -43,9 +37,9 @@ function NavMenu() {
         <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
           Edit {user.name}'s Profile
         </Link>
-        <Link className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
+        <button className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
           Log Out
-        </Link>
+        </button>
       </>
     );
   }
@@ -78,7 +72,7 @@ function NavMenu() {
                 Home
               </Link>
 
-              { (authenticated) ? LoggedInMenu() : LoggedOutMenu() }
+              { (isAuthenticated) ? LoggedInMenu() : LoggedOutMenu() }
 
             </ul>
           </div>

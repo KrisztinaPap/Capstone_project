@@ -1,22 +1,19 @@
 // Import Resources
 import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 // Import Assets
 import Plate from '../assets/plate.svg';
 
 // Import Authentication
-import { UserContext, SaveUserData, ResetUserData } from './Authentication/UserAuthentication';
+import { UserContext } from './Authentication/UserAuthentication';
 
 // Login Component
 const Login = () => {
 
   // Create user from UserContext
   const user = useContext(UserContext);
-
-  // Prepare to use useHistory for Logout Redirect
-  const history = useHistory();
 
   // Set Up States
   const [email, setEmail] = useState("");
@@ -33,6 +30,12 @@ const Login = () => {
     // Prevent Form Refresh
     event.preventDefault();
 
+    // Reset Errors
+    setError(false);
+    setSuccess(false);
+    setErrorMessage("");
+    setSuccessMessage("");
+
     // Set Loading
     setLoading(true);
 
@@ -47,10 +50,6 @@ const Login = () => {
     )
     .then(response => {
       if (response.data.token) {
-        // Reset Errors
-        setError(false);
-        setErrorMessage("");
-
         // Set Loading
         setLoading(false);
 
@@ -65,15 +64,11 @@ const Login = () => {
         user.token = response.data.token;
         user.expiration = response.data.expiration;
         // Save UserContext to LocalStorage
-        SaveUserData();
+        user.saveUser();
 
         // Reset Form Fields
         setEmail("");
         setPassword("");
-
-        // Reload Page so NavMenu Changes
-        // Maybe there is a cleaner way
-        window.location.reload();
       }
     })
     .catch(error => {
@@ -142,17 +137,13 @@ const Login = () => {
 
   // Function to LogOut
   const LogOut = () => {
-    // Reset UserData
-    ResetUserData();
+    // User Context Logout and Reset UserData
+    user.logOut();
     
-    // Set Success State to false in Preparation for Next Login
     // Set Success
-    setSuccess(false);
+    setSuccess(true);
     // Set Success Message
-    setSuccessMessage("");
-    
-    // Redirect to Login
-    history.push("login");
+    setSuccessMessage("Logged Out");
   }
 
   // Function to Display LoggedIn User Info and Action
@@ -176,9 +167,9 @@ const Login = () => {
             <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
               Edit {user.name}'s Profile
             </Link>
-            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="#" onClick={LogOut}>
+            <button className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" onClick={LogOut}>
               Log Out
-            </Link>
+            </button>
           </div>
         </div>
       </>
@@ -214,7 +205,7 @@ const Login = () => {
       <div className="container">
         <div className="block text-center my-4"> 
           <h1 className="font-bold">
-            { (user.isAuthenticated()) ? "Welcome" : "Login" }
+            { (user.isAuthenticated()) ? `Welcome ${user.name}` : "Login" }
           </h1>
         </div>
         <div className="md:grid md:grid-cols-2 md:gap-6 place-items-center">
