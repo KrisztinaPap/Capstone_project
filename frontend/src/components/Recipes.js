@@ -16,8 +16,7 @@ function Recipes() {
 
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false)
-  const user = useContext(UserContext); 
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     populateRecipes();
@@ -66,7 +65,7 @@ function Recipes() {
         <section>
          
           <div className="block text-center my-4">
-            <p className="text-xl">Hello, {user}!</p>
+            <p className="text-xl">Hello, {user.name}!</p>
           </div>
 
 
