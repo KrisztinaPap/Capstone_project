@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import Menu from 'react-burger-menu/lib/menus/scaleDown'
+import Menu from 'react-burger-menu/lib/menus/scaleRotate'
 import './NavMenu.css';
 
 // Import Authentication
@@ -10,7 +10,7 @@ function NavMenu() {
 
   // Create user from UserContext
   const [user, setUser] = useContext(UserContext);
-  
+
   // Function to LogOut
   const LogOut = () => {
     // Set User Context with Reset UserData
