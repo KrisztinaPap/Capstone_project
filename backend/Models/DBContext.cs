@@ -28,6 +28,8 @@ namespace Api.Models
 
     public virtual DbSet<MealTime> MealTimes { get; set; }
 
+    public virtual DbSet<MealRecipe> MealRecipes { get; set; }
+
     public DBContext(DbContextOptions<DBContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
