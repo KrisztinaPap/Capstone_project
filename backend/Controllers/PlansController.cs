@@ -62,7 +62,8 @@ namespace Api.Controllers
              .ToList()
              .ForEach(x => x.RecipeId = eachSchedule.RecipeId);
             // Error: The property 'RecipeId' on entity type 'MealRecipe' is part of a key and so cannot be modified or marked as modified.
-            // Tobe discussed and fixed.
+            // To be discussed and fixed.
+            // Potential Fix: Remove Primary Key on MealRecipes.RecipeId
           }
           _context.SaveChanges();
         }
