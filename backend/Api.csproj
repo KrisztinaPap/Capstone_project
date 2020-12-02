@@ -34,6 +34,9 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+    <None Include="..\frontend\public\yummy-banner.png">
+      <Link>public\NEWYUM1.png</Link>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

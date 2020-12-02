@@ -1,5 +1,5 @@
 import React from 'react';
-import banner from '../siteimages/NEWYUM1.png'
+import banner from '../../public/yummy-banner.png'
 
 const HeaderComp = () => {
   return (
