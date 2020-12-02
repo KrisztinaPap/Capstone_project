@@ -6,7 +6,7 @@ const HeaderComp = () => {
     <>
         <section>
           <div className="w-full h-1 border-top box-shadow bg-purple-500" />
-          <img src={banner} alt="test logo" />
+          <img src={banner} alt="test logo" className="mx-auto"/>
         </section>
     </>
   );
