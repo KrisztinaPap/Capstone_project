@@ -40,10 +40,6 @@ namespace Api.Models
     public int Carbohydrates { get; set; }
 
     [Required]
-    [Column(TypeName = "int(10)")]
-    public int Calories { get; set; }
-
-    [Required]
     [Column(TypeName = "longtext")]
     public string Instructions { get; set; } = string.Empty;
 

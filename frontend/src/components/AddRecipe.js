@@ -82,10 +82,8 @@ const AddRecipe = () => {
         "Fat": fats,
         "Protein": proteins,
         "Carbohydrates": carbohydrates,
-        "Calories": 0,
         "Instructions": editorState,
-        "Ingredients": [],
-        // Tags: tags,
+        "Ingredients": ingredientList,
         // Image: image,
         "DateModified": new Date().toJSON(),
         "DateCreated": new Date().toJSON(),
@@ -239,11 +237,11 @@ const AddRecipe = () => {
           <section id="addRecipeRequirements">
             <section id="ingredientSection">
               <label htmlFor="ingredient1">Ingredients(*):</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" />
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" onChange={HandleFormChange} />
               <label htmlFor="quantity1">Quantity:</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" />
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" onChange={HandleFormChange} />
               <label htmlFor="measurement1">Measurement:</label>
-              <select id="measurement1">
+              <select id="measurement1" onChange={HandleFormChange}>
                 {measurementsList.map((measurement) => {
                   return (
                     <option value={measurement}>{measurement}</option>

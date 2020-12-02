@@ -71,10 +71,6 @@ namespace Api.Models.Validators
         .GreaterThanOrEqualTo(0)
         .LessThanOrEqualTo(100000);
 
-      RuleFor(x => x.Calories)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
       RuleFor(x => x.Instructions)
         .Length(10, 60000);
 
