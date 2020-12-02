@@ -1,8 +1,8 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Route } from 'react-router';
-import { Layout } from './components/Layout';
+import Layout from './components/Layout';
 import Home from './components/Home';
-import Dashboard from './components/Dashboard';
+import Dashboard from './components/Dashboard/Dashboard';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
@@ -10,19 +10,18 @@ import Recipes from './components/Recipes';
 import Recipe from './components/Recipe';
 import AddRecipe from './components/AddRecipe';
 
+// Import Authentication
+import { UserContext, userData } from './components/Authentication/UserAuthentication';
+
 import './custom.css';
 
-export const UserContext = React.createContext();
-
 export default function App() {
-  const [user, setUser] = useState('guest');
 
-  function updateUser() {
-    setUser(currentUser => user)
-  }
+  // User Object to be Stored in Context with useState Hook
+  const [user, setUser] = useState(userData);
 
     return (
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={[user, setUser]}>
         <Layout>
           <Route exact path='/' component={Home} />
           <Route path='/dashboard' component={Dashboard} />
@@ -32,7 +31,7 @@ export default function App() {
           <Route exact path='/recipes' component={Recipes} />
           <Route exact path='/recipes/:recipes' component={Recipe} />
           <Route path='/add-recipe' component={AddRecipe} />
-          </Layout>
-        </UserContext.Provider>
+        </Layout>
+      </UserContext.Provider>
     );
 }
