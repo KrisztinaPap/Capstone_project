@@ -30,38 +30,67 @@ namespace Api.Controllers
       _context = context;
     }
 
-    // POST: api/plans/
-    [HttpPost]
-    public ActionResult<Plan> CreateSchedulePlan([CustomizeValidator(RuleSet = "CreateSchedulePlan")][FromBody] Schedule schedule)
+    // PUT: api/plans/
+    [HttpPut]
+    public ActionResult<Plan> CreateSchedulePlan([CustomizeValidator(RuleSet = "CreateSchedulePlan")][FromBody] List<Schedule> schedule)
     {
       /**
        * Function creates a new plan for a user
        * 
-       * @param <Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
-       * @return <Schedule> Plan data in Schedule Model
+       * @param List<Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
+       * @return NoCotent
        */
 
-      Plan plan_ = new Plan
-                  {
-                    UserId = schedule.UserId,
-                    Day = schedule.Day
-                  };
-      Meal meal_ = new Meal
-                  {
-                    PlanId = plan_.Id,
-                    MealTimeId = schedule.MealTimeId
-                  };
-      MealRecipe mealRecipe_ = new MealRecipe
-                              {
-                                MealId = meal_.Id,
-                                RecipeId = schedule.RecipeId
-                              };
-      meal_.MealRecipes.Add(mealRecipe_);
-      plan_.Meals.Add(meal_);
-      _context.Add(plan_);
-      _context.SaveChanges();
-
-      return GetPlanById(plan_.Id);
+      // Loop Through Array of Schedules
+      foreach (Schedule eachSchedule in schedule.ToList())
+      {
+        // Check if Schedule Exists in Database
+        if (_context.Plans.Any(x => x.Day == eachSchedule.Day))
+        {
+          // Update the Schedule Plan
+          Plan plan_ = _context.Plans
+                        .Where(x => x.Day == eachSchedule.Day && x.UserId == eachSchedule.UserId)
+                        .SingleOrDefault();
+          _context.Meals
+            .Where(x => x.PlanId == plan_.Id && x.Id == eachSchedule.MealId)
+            .ToList()
+            .ForEach(x => x.MealTimeId = eachSchedule.MealTimeId);
+          if (_context.Meals.Any(x => x.Id == eachSchedule.MealId && x.PlanId == plan_.Id))
+          {
+            _context.MealRecipes
+             .Where(x => x.MealId == eachSchedule.MealId)
+             .ToList()
+             .ForEach(x => x.RecipeId = eachSchedule.RecipeId);
+            // Error: The property 'RecipeId' on entity type 'MealRecipe' is part of a key and so cannot be modified or marked as modified.
+            // Tobe discussed and fixed.
+          }
+          _context.SaveChanges();
+        }
+        else
+        {
+          // Add Schedule Plan
+          Plan plan_ = new Plan
+          {
+            UserId = eachSchedule.UserId,
+            Day = eachSchedule.Day
+          };
+          Meal meal_ = new Meal
+          {
+            PlanId = plan_.Id,
+            MealTimeId = eachSchedule.MealTimeId
+          };
+          MealRecipe mealRecipe_ = new MealRecipe
+          {
+            MealId = meal_.Id,
+            RecipeId = eachSchedule.RecipeId
+          };
+          meal_.MealRecipes.Add(mealRecipe_);
+          plan_.Meals.Add(meal_);
+          _context.Add(plan_);
+          _context.SaveChanges();
+        }
+       }
+      return NoContent();
     }
 
     // GET: api/plans/{id}
