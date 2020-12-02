@@ -189,15 +189,16 @@ namespace Api.Controllers
       // The following code was adapted from the source below:
       // link @ https://www.youtube.com/watch?v=aoxEJii70_I
 
-
+      // Checking HttpContext (request from the browser) name identifier and make sure it matches with the name identifier with the user in the userManager
       ClaimsPrincipal currentUser = this.User;
-      var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+      var userTestID =  userManager.GetUserId(currentUser);
+
       var requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-      if (fileUpload != null && currentUserID == requestUserID)
+      if (fileUpload != null && userTestID == requestUserID)
       {
         // Create path to the users images.
-        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"images/User_{currentUserID}");
+        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"images/User_{requestUserID}");
 
         // Create unique file name.
         string uniqueFileName = Guid.NewGuid().ToString() + "_" + fileUpload.FileName;
