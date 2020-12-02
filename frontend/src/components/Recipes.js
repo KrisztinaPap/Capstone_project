@@ -1,16 +1,28 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { UserContext } from '.././App';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Plate from '../assets/plate.svg';
 
+// Import Authentication
+import { UserContext } from './Authentication/UserAuthentication';
 
 function Recipes() {
 
+  // Create user from UserContext
+  const [user, setUser] = useContext(UserContext);
+
+  // Check for User's Authentication
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
+
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false)
-  const user = useContext(UserContext); 
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     populateRecipes();
@@ -59,7 +71,7 @@ function Recipes() {
         <section>
          
           <div className="block text-center my-4">
-            <p className="text-xl">Hello, {user}!</p>
+            <p className="text-xl">Hello, {user.name}!</p>
           </div>
 
 
