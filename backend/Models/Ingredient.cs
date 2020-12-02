@@ -38,9 +38,9 @@ namespace Api.Models
     [JsonIgnore]
     public virtual UOM UOM { get; set; }
 
+    public virtual Recipe Recipe { get; set; }
     public Ingredient()
     {
     }
-
   }
 }

@@ -6,7 +6,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 const AddRecipe = () => {
   //Initialize States
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
   const [loading, setLoading] = useState(true);
   const [measurementsList, setMeasurementsList] = useState(['placeholder']);
   const [recipeCategoryList, setRecipeCategoryList] = useState([
@@ -26,7 +26,7 @@ const AddRecipe = () => {
   const [notes, SetNotes] = useState();
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
-  const [message, setMessage] = useState("meep");
+  const [message, setMessage] = useState("");
 
   async function getUOMs() {
     const response = await axios.get('https://localhost:5001/api/UOMs/all');
@@ -47,9 +47,16 @@ const AddRecipe = () => {
 
   useEffect(() => {
     if (statusCode === 400) {
-      console.log(response);
       let errorMsg = "";
-      response.errors.Instructions.forEach(error => errorMsg += error);
+      console.log(response.errors);
+      for(const key in response.errors)
+      {
+        for(const errorIndex in response.errors[key])
+        {
+          errorMsg += `${response.errors[key][errorIndex]}`;
+        }
+      }
+      // response.errors.Instructions.forEach(error => errorMsg += error);
         setMessage(errorMsg);
     }
     else if (statusCode === 200) {
@@ -77,6 +84,7 @@ const AddRecipe = () => {
         "Carbohydrates": carbohydrates,
         "Calories": 0,
         "Instructions": editorState,
+        "Ingredients": [],
         // Tags: tags,
         // Image: image,
         "DateModified": new Date().toJSON(),
@@ -135,7 +143,6 @@ const AddRecipe = () => {
       case "addRecipeCategory":
         {
           setRecipeCategory(event.target.value);
-          console.log(recipeCategory);
           break;
         }
       case "addCarb":
@@ -213,6 +220,7 @@ const AddRecipe = () => {
           <h1 className="font-bold">Add a New Recipe</h1>
         </div>
         <h2 className="font-bold py-4">Recipe Information</h2>
+        <p>{message}</p>
         <form onSubmit={SubmitRecipe}>
           <section id="addRecipeBasics">
             <label htmlFor="addRecipeName">Name(*):</label>
@@ -287,6 +295,7 @@ const AddRecipe = () => {
             <div>
               <label htmlFor="addRecipeCategory">Recipe Category:</label>
               <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange}>
+                <option value="0" selected="selected"></option>
                 {recipeCategoryList.map((category) => {
                   return (
                     <option value={category.id}>{category.name}</option>
@@ -302,7 +311,6 @@ const AddRecipe = () => {
           <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
           </form>
         </div>
-        <p>{message}</p>
     </>
   );
 };
