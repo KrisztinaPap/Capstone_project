@@ -36,7 +36,7 @@ namespace Api.Controllers
     {
       /**
        * Function creates a new plan for a user
-       * 
+       *
        * @param <Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
        * @return <Schedule> Plan data in Schedule Model
        */
@@ -71,7 +71,7 @@ namespace Api.Controllers
     {
       /**
        * Function returns a plan along with its meal type, recipe and ingredients
-       * 
+       *
        * @param <int> id
        * @return <Plan> Plan data
        */
@@ -101,7 +101,7 @@ namespace Api.Controllers
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients
-       * 
+       *
        * @param <int> User Id
        * @return <Plan> Plan data
        */
@@ -131,7 +131,7 @@ namespace Api.Controllers
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients within the from and to Dates
-       * 
+       *
        * @param <int> User Id, <DateTime> fromDate, <DateTime> toDate
        * @return <Plan> Plan data
        */
@@ -141,8 +141,6 @@ namespace Api.Controllers
                       .ThenInclude(x => x.MealTime)
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealRecipes)
-                        .ThenInclude(x => x.Recipe)
-                          .ThenInclude(x => x.Ingredients)
                     .Where(x => x.UserId == userId && x.Day >= fromDate && x.Day <= toDate)
                     .ToList();
 

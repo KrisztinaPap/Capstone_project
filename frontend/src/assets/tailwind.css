@@ -50,3 +50,12 @@ h1, h2, h3, h4, h5, h6 {
 .meal-container {
   @apply border border-solid border-gray-800 h-24;
 }
+
+
+.min-w-32 {
+  min-width: 8rem;
+}
+
+.min-h-32 {
+  min-height: 8rem;
+}

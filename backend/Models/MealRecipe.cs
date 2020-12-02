@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using FluentValidation;
+using Newtonsoft.Json;
 
 namespace Api.Models
 {
@@ -20,6 +21,8 @@ namespace Api.Models
     [Column(TypeName = "int(10)")] public int RecipeId { get; set; }
 
     public virtual Meal Meal { get; set; }
+
+    [JsonIgnore]
     public virtual Recipe Recipe { get; set; }
 
     public MealRecipe()
