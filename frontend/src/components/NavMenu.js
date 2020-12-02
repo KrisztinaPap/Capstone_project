@@ -1,32 +1,30 @@
-import React, {Component, useState} from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Menu from 'react-burger-menu/lib/menus/scaleDown'
 import './NavMenu.css';
 
-export class NavMenu extends Component {
-  static displayName = NavMenu.name;
+// Import Authentication
+import { UserContext, resetData, SaveUserData } from './Authentication/UserAuthentication';
 
-  render() {
+function NavMenu() {
+
+  // Create user from UserContext
+  const [user, setUser] = useContext(UserContext);
+  
+  // Function to LogOut
+  const LogOut = () => {
+    // Set User Context with Reset UserData
+    setUser(resetData);
+    // Save UserContext to LocalStorage
+    SaveUserData(resetData);
+  }
+
+  // Function to Display LoggedIn Menu
+  const LoggedInMenu = () => {
     return (
-      <Menu
-        pageWrapId={'page-wrap'}
-        outerContainerId={'outer-container'}
-      >
-        <header>Site Navigation</header>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
-          Home
-        </Link>
+      <>
         <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
           Dashboard
-        </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/login">
-          Login
-        </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/signup">
-          Sign Up
-        </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
-          Edit Profile
         </Link>
         <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
           Recipes
@@ -34,7 +32,44 @@ export class NavMenu extends Component {
         <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
           Add a Recipe
         </Link>
-      </Menu>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
+          {user.name}'s Profile
+        </Link>
+        <button className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
+          Log Out
+        </button>
+      </>
     );
   }
+
+  // Function to Display LoggedOut Menu
+  const LoggedOutMenu = () => {
+    return (
+      <>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/login">
+          Login
+        </Link>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/signup">
+          Sign Up
+        </Link>
+      </>
+    );
+  }
+
+  return (
+    <Menu
+      pageWrapId={'page-wrap'}
+      outerContainerId={'outer-container'}
+    >
+      <header>Site Navigation</header>
+      <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
+        Home
+      </Link>
+      { (user.isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
+    </Menu>
+  );
+
 }
+
+//Export Function
+export default NavMenu;
