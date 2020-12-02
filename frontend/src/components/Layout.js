@@ -11,13 +11,9 @@ function Layout (props) {
           <NavMenu />
           <div id="page-wrap" className="bg-white bg-opacity-90 bg-fixed">
             <HeaderComp />
-
             <div className="flex flex-col h-screen justify-between">
               <div className="container mx-auto mb-auto content-start">
-                {this.props.children}
-              </div>
-              <div className="h-10">
-                <Footer/>
+                {props.children}
               </div>
               <div className="h-10">
                 <Footer/>
