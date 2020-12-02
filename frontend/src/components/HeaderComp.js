@@ -7,7 +7,7 @@ const HeaderComp = () => {
       <center>
         <section>
           <div className="w-full h-1 border-top box-shadow bg-purple-500" />
-          <img src={"https://cdn.makegoodfood.ca/images/logo-en.png"} alt="test logo" />
+          <img src={"./siteimages/yummyFood.png"} alt="test logo" />
         </section>
       </center>
     </>
