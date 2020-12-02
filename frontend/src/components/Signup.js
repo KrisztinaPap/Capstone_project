@@ -17,6 +17,7 @@ const Signup = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorsArray, setErrorsArray] = useState([]);
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
@@ -89,14 +90,8 @@ const Signup = () => {
         setLoading(false);
   
         // Set Error Message
-        let errorMessageString = error.response.data.message;
-        // Check If Error List Contains Error Messages
-        if (error.response.data.errorList) {
-          error.response.data.errorList.forEach(element => {
-            errorMessageString += ` ${element} `;
-          });
-        }
-        setErrorMessage(errorMessageString);
+        setErrorMessage(error.response.data.message);
+        setErrorsArray(error.response.data.errorList);
   
         // Break Function
         return false;
@@ -106,12 +101,21 @@ const Signup = () => {
   }
 
   // Function to Display Error Message
-  const DisplayErrorMessage = (message) => {
+  const DisplayErrorMessage = (message, errors) => {
     return(
       <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-md text-red-100 bg-red-700 border border-red-700">
         <div className="text-xl font-normal max-w-full flex-initial">
           <i className="fas fa-exclamation-circle mr-4"></i>
           {message}
+          <ul>
+            {
+              errors.map((errMsg, index) => (
+                <li key={index}>
+                    {errMsg}
+                </li>
+              ))
+            }
+          </ul>
         </div>
       </div>
     );
@@ -200,7 +204,7 @@ const Signup = () => {
               </div>
 
               {loading ? <i className="fas fa-spinner fa-spin"></i> : null}
-              {error ? DisplayErrorMessage(errorMessage) : null}
+              {error ? DisplayErrorMessage(errorMessage, errorsArray) : null}
               {success ? DisplaySuccessMessage(successMessage) : null}
 
             </form>
