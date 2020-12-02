@@ -57,13 +57,16 @@ namespace Api.Controllers
             .ForEach(x => x.MealTimeId = eachSchedule.MealTimeId);
           if (_context.Meals.Any(x => x.Id == eachSchedule.MealId && x.PlanId == plan_.Id))
           {
-            _context.MealRecipes
-             .Where(x => x.MealId == eachSchedule.MealId)
-             .ToList()
-             .ForEach(x => x.RecipeId = eachSchedule.RecipeId);
-            // Error: The property 'RecipeId' on entity type 'MealRecipe' is part of a key and so cannot be modified or marked as modified.
-            // To be discussed and fixed.
-            // Potential Fix: Remove Primary Key on MealRecipes.RecipeId
+            MealRecipe mealRecipe = _context.MealRecipes
+                                     .Where(x => x.MealId == eachSchedule.MealId)
+                                     .SingleOrDefault();
+            _context.Remove(mealRecipe);
+            MealRecipe mealRecipe_ = new MealRecipe
+            {
+              MealId = eachSchedule.MealId,
+              RecipeId = eachSchedule.RecipeId
+            };
+            _context.Add(mealRecipe_);
           }
           _context.SaveChanges();
         }
@@ -106,7 +109,7 @@ namespace Api.Controllers
        * @return <Plan> Plan data
        */
 
-      var result = _context.Plans
+          var result = _context.Plans
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealTime)
                     .Include(x => x.Meals)
