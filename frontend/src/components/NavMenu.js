@@ -1,5 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Menu from 'react-burger-menu/lib/menus/scaleDown'
+import './NavMenu.css';
 
 // Import Authentication
 import { UserContext } from './Authentication/UserAuthentication';
@@ -59,26 +61,16 @@ function NavMenu() {
   }
 
   return (
-    <header className="h-10 bg-purple-500">
-      <nav className="container mx-auto border-bottom box-shadow mb-3">
-        <div className="flex justify-between content-center">
-          <a href="/" className="white-link self-center p-2">PuddleJumpers App</a>
-          <button className="mr-2 lg:hidden hover:bg-purple-600">
-              <i className="fas fa-bars fa-lg"></i>
-          </button>
-          <div className="inline-flex">
-            <ul>
-              <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
-                Home
-              </Link>
-
-              { (isAuthenticated) ? LoggedInMenu() : LoggedOutMenu() }
-
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </header>
+    <Menu
+      pageWrapId={'page-wrap'}
+      outerContainerId={'outer-container'}
+    >
+      <header>Site Navigation</header>
+      <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
+        Home
+      </Link>
+      { (isAuthenticated) ? LoggedInMenu() : LoggedOutMenu() }
+    </Menu>
   );
 
 }
