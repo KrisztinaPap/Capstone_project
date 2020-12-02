@@ -7,13 +7,13 @@ import axios from 'axios';
 import Plate from '../assets/plate.svg';
 
 // Import Authentication
-import { UserContext } from './Authentication/UserAuthentication';
+import { UserContext, resetData, SaveUserData } from './Authentication/UserAuthentication';
 
 // Login Component
 const Login = () => {
 
   // Create user from UserContext
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Set Up States
   const [email, setEmail] = useState("");
@@ -59,12 +59,18 @@ const Login = () => {
         setSuccessMessage("Authorized");
 
         // Set UserContext
-        user.email = response.data.email;
-        user.name = response.data.name;
-        user.token = response.data.token;
-        user.expiration = response.data.expiration;
+        const userData = {
+          email: response.data.email,
+          name: response.data.name,
+          token: response.data.token,
+          expiration: response.data.expiration,
+          isAuthenticated: function() {
+              return (this.token == null || this.expiration < Date.now()) ? false : true
+          }
+        }
+        setUser(userData);
         // Save UserContext to LocalStorage
-        user.saveUser();
+        SaveUserData(userData);
 
         // Reset Form Fields
         setEmail("");
@@ -137,8 +143,10 @@ const Login = () => {
 
   // Function to LogOut
   const LogOut = () => {
-    // User Context Logout and Reset UserData
-    user.logOut();
+    // Set User Context with Reset UserData
+    setUser(resetData);
+    // Save UserContext to LocalStorage
+    SaveUserData(resetData);
     
     // Set Success
     setSuccess(true);
@@ -165,7 +173,7 @@ const Login = () => {
               Add a Recipe
             </Link>
             <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
-              Edit {user.name}'s Profile
+              {user.name}'s Profile
             </Link>
             <button className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" onClick={LogOut}>
               Log Out

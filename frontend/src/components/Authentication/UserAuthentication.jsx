@@ -3,24 +3,14 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 // Function to Save UserData to LocalStorage
-function SaveUserData() {
-    const userData = {};
-    for (const key in UserData) {
-        if (typeof UserData[key] != "function") {
-            userData[key] = UserData[key];
+function SaveUserData(userData) {
+    let userData_ = {};
+    for (const key in userData) {
+        if (typeof userData[key] != "function") {
+            userData_[key] = userData[key];
         }
     }
-    localStorage.setItem("yummyPuddleJumpersUserData", JSON.stringify(userData));
-}
-
-// Function to Reset UserData to null, LogOut
-function ResetUserData() {
-    for (const key in UserData) {
-        if (typeof UserData[key] != "function") {
-            UserData[key] = null;
-        }
-    }
-    localStorage.setItem("yummyPuddleJumpersUserData", JSON.stringify(UserData));
+    localStorage.setItem("yummyPuddleJumpersUserData", JSON.stringify(userData_));
 }
 
 // Function that Redirects to Login
@@ -33,7 +23,7 @@ function AuthorizeRedirect() {
 
 // Function to Authorize User's Access to Component
 function Authorize() {
-    if (!UserData.isAuthenticated()) {
+    if (!userData.isAuthenticated()) {
        AuthorizeRedirect();
     }
 }
@@ -42,32 +32,33 @@ function Authorize() {
 let yummyPuddleJumpersUserData = JSON.parse(localStorage.getItem("yummyPuddleJumpersUserData"));
 // Check for Empty LocalStorage, ex: First Time Users, Cleared LocalStorage
 if (yummyPuddleJumpersUserData == null) {
-    ResetUserData();
+    SaveUserData(resetData);
 }
 
 // Create UserContext
 const UserContext = React.createContext();
 
-// User Object to be Stored in UserContext
-const UserData = {
+// User Object
+const userData = {
     email: yummyPuddleJumpersUserData.email,
     name: yummyPuddleJumpersUserData.name,
     token: yummyPuddleJumpersUserData.token,
     expiration: yummyPuddleJumpersUserData.expiration,
     isAuthenticated: function() {
         return (this.token == null || this.expiration < Date.now()) ? false : true
-    },
-    saveUser: function() {
-        SaveUserData();
-    },
-    logOut: function() {
-        this.email = null;
-        this.name = null;
-        this.token = null;
-        this.expiration = null;
-        ResetUserData();
+    }
+}
+
+// Reset User Object
+const resetData = {
+    email: null,
+    name: null,
+    token: null,
+    expiration: null,
+    isAuthenticated: function() {
+        return (this.token == null || this.expiration < Date.now()) ? false : true
     }
 }
 
 // Export User Authentication
-export { UserContext, UserData, Authorize };
+export { UserContext, userData, resetData, SaveUserData, Authorize };

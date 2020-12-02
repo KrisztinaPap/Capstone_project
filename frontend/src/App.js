@@ -11,17 +11,17 @@ import Recipe from './components/Recipe';
 import AddRecipe from './components/AddRecipe';
 
 // Import Authentication
-import { UserContext, UserData } from './components/Authentication/UserAuthentication';
+import { UserContext, userData } from './components/Authentication/UserAuthentication';
 
 import './custom.css';
 
 export default function App() {
 
   // User Object to be Stored in Context with useState Hook
-  const [user] = useState(UserData);
+  const [user, setUser] = useState(userData);
 
     return (
-      <UserContext.Provider value={user}>
+      <UserContext.Provider value={[user, setUser]}>
         <Layout>
           <Route exact path='/' component={Home} />
           <Route path='/dashboard' component={Dashboard} />
