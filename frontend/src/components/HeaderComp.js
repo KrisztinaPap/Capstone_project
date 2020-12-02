@@ -1,4 +1,5 @@
 import React from 'react';
+import banner from '../siteimages/NEWYUM1.png'
 
 const HeaderComp = () => {
   return (
@@ -7,7 +8,7 @@ const HeaderComp = () => {
       <center>
         <section>
           <div className="w-full h-1 border-top box-shadow bg-purple-500" />
-          <img src={"./siteimages/yummyFood.png"} alt="test logo" />
+          <img src={banner} alt="test logo" />
         </section>
       </center>
     </>
