@@ -1,18 +1,24 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Plate from '../assets/plate.svg';
 
 // Import Authentication
-import { UserContext, Authorize } from './Authentication/UserAuthentication';
+import { UserContext } from './Authentication/UserAuthentication';
 
 function Recipes() {
 
   // Create user from UserContext
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Check for User's Authentication
-  Authorize();
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
 
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);

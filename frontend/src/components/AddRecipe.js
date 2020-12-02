@@ -1,20 +1,25 @@
 import React, { useState, useEffect, useContext } from "react";
-import ReactDOM from "react-dom";
+import { useHistory } from 'react-router-dom';
 import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // Import Authentication
-import { UserContext, Authorize } from './Authentication/UserAuthentication';
+import { UserContext } from './Authentication/UserAuthentication';
 
 const AddRecipe = () => {
 
   // Create user from UserContext
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Check for User's Authentication
-  Authorize();
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
 
   //Initialize States
   const [editorState, setEditorState] = useState(EditorState.createEmpty());

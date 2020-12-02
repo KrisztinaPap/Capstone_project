@@ -1,11 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import "../assets/custom.css";
 
 // Import Authentication
-import { UserContext, Authorize } from './Authentication/UserAuthentication';
+import { UserContext } from './Authentication/UserAuthentication';
 
 // Citation: https://swiperjs.com/react/
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -14,10 +14,15 @@ import 'swiper/swiper-bundle.css';
 const Dashboard = () => {
 
   // Create user from UserContext
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Check for User's Authentication
-  Authorize();
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

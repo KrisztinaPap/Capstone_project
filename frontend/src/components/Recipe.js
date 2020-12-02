@@ -1,18 +1,24 @@
 import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {useParams} from "react-router";
 
 // Import Authentication
-import { UserContext, Authorize } from './Authentication/UserAuthentication';
+import { UserContext } from './Authentication/UserAuthentication';
 
 function Recipe(){
 
   // Create user from UserContext
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Check for User's Authentication
-  Authorize();
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
 
   const [myRecipe, setMyRecipe] = useState([]);
   const [loading, setLoading] = useState(true);

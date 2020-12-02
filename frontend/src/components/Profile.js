@@ -1,19 +1,25 @@
 // Import Resources
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 
 // Import Assets
 import Plate from '../assets/plate.svg';
 
 // Import Authentication
-import { UserContext, Authorize } from './Authentication/UserAuthentication';
+import { UserContext } from './Authentication/UserAuthentication';
 
 const Profile = () => {
 
   // Create user from UserContext
-  const user = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   // Check for User's Authentication
-  Authorize();
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
 
   // Set Up States
   const [name, setName] = useState( (user.name) ? user.name : "" );
