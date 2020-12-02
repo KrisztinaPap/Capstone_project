@@ -73,7 +73,7 @@ const Dashboard = () => {
       setDesktop(window.innerWidth > 1450);
       setViewWidth(window.innerWidth);
 
-    }, 1000)
+    }, 100)
 
     window.addEventListener('resize', debouncedHandleResize)
 
@@ -274,6 +274,12 @@ const Dashboard = () => {
     setEdit(!edit);
   }
 
+  function onDragStart() {
+    if (window.navigator.vibrate) {
+      window.navigator.vibrate(200);
+    }
+  }
+
   function onDragEnd(result) {
     const { source, destination } = result;
 
@@ -331,91 +337,108 @@ const Dashboard = () => {
     )
   }
 
+  function getRecipesDragStyle(style, snapshot) {
+    if (!snapshot.isDragging) return {};
+    if (!snapshot.isDropAnimating) {
+      return style;
+    }
+
+    return {
+      ...style,
+      // cannot be 0, but make it super tiny
+      transitionDuration: `0.001s`
+    };
+  }
+
   return (
-    <>
-      <div className="container mx-auto">
-        <h1 className="mt-6">Dashboard</h1>
+    <div className="container mx-auto">
+      <h1 className="mt-6">Dashboard</h1>
 
-        <div className="flex items-center p-2 justify-between">
+      <div className="flex flex-col gap-6 lg:flex-row">
+        <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
 
-          {/* Date display with arrows and today button */}
-          <div className="flex items-center">
-            <button onClick={moveBackwards}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
-            <div className="inline px-3">{displayDate()}</div>
-            <button onClick={moveForward}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+          {edit &&
+            <Droppable droppableId="recipes" type="recipes">
+              {({innerRef, droppableProps, placeholder}) => (
 
-            <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={moveToToday}>Today</button>
-          </div>
-
-          <div>
-            {/* Edit mode toggle button */}
-            {!edit &&
-              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
-                <i className="far fa-edit"></i>
-              </button>
-            }
-            {edit &&
-              <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
-                <i className="far fa-check-circle"></i>
-              </button>
-            }
-          </div>
-        </div>
-
-
-        {/* Recipe list and calendar (1 column on mobile and tablet, 2 colums on desktop */}
-
-        <div className="flex flex-col lg:flex-row">
-          <DragDropContext onDragEnd={onDragEnd}>
-            {/* When edit mode is true, show recipe list */}
-            {edit &&
-              <div className="mr-3 block my-3">
-                <Droppable droppableId="recipes" type="recipes">
-                  {(provided) => (
-                    <div ref={provided.innerRef} >
+                <div
+                  ref={innerRef}
+                  {...droppableProps}
+                  className=""
+                >
+                  <div className="overflow-auto py-6">
+                    <div className="inline-flex flex-grow divide-gray-500 divide-solid lg:flex lg:divide-y lg:flex-col">
                       {recipes.map((recipes, index) => (
-                        <Draggable key={recipes.id} draggableId={DraggableRecipeId.encode(recipes.id)} index={index} >
-                          {(draggableProvided) => (
+                        <Draggable
+                          key={recipes.id}
+                          draggableId={DraggableRecipeId.encode(recipes.id)}
+                          index={index}
+                        >
+                          {({innerRef, draggableProps, dragHandleProps }, snapshot) => (
                             <div
-                              ref={draggableProvided.innerRef}
-                              {...draggableProvided.draggableProps}
-                              {...draggableProvided.dragHandleProps}
+                              ref={innerRef}
+                              {...draggableProps}
+                              {...dragHandleProps}
+                              className="w-24 max-w-sm bg-white flex flex-col items-center justify-center gap-4 lg:w-auto lg:flex-row"
+                              style={getRecipesDragStyle(draggableProps.style, snapshot)}
                             >
-                              <div className="swiper-item lg:w-full">
-                                <img src={recipes.image} />
-                                <div className="select-none">
-                                  {recipes.name}
-                                </div>
+                              <div className="bg-gray-200 w-20 h-20 flex-none">
+                                <img src={recipes.image} alt=""/>
                               </div>
+                              <p className=" flex-1 break-words text-center lg:text-left lg:truncate">{recipes.name}</p>
                             </div>
                           )}
                         </Draggable>
                       ))}
-                        {provided.placeholder}
                     </div>
-                  )}
-                </Droppable>
+                  </div>
+                  {placeholder}
+                </div>
+              )}
+            </Droppable>
+          }
+
+
+          <div className="flex-1">
+            <div className="flex items-center p-2 justify-between">
+
+              <div className="flex items-center">
+                <button onClick={moveBackwards}><i className="far fa-arrow-alt-circle-left fa-2x"></i></button>
+                <div className="inline px-3">{displayDate()}</div>
+                <button onClick={moveForward}><i className="far fa-arrow-alt-circle-right fa-2x"></i></button>
+
+                <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={moveToToday}>Today</button>
               </div>
-            }
 
-
-            {/* Calendar container - maps over datePeriod array to display daily schedules */}
-            <div className="flex flex-row my-3 lg:w-3/5">
-                {getPeriodSpan(datePeriod).map((day, index) => (
-                  <CalendarDay
-                    date={day}
-                    key={index}
-                    recipes={recipes}
-                    plan={plans.byDate(day.toDate())}
-                    isEditing={edit}
-                    className=""
-                  />
-                ))}
+              <div>
+                {!edit &&
+                  <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
+                    <i className="far fa-edit"></i>
+                  </button>
+                }
+                {edit &&
+                  <button className="border-2 border-solid border-black rounded-md px-2 shadow mx-2" onClick={() => editMode()}>
+                    <i className="far fa-check-circle"></i>
+                  </button>
+                }
+              </div>
             </div>
-          </DragDropContext>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-7">
+              {getPeriodSpan(datePeriod).map((day, index) => (
+                <CalendarDay
+                  date={day}
+                  key={index}
+                  recipes={recipes}
+                  plan={plans.byDate(day.toDate())}
+                  isEditing={edit}
+                  className=""
+                />
+              ))}
+            </div>
+          </div>
+        </DragDropContext>
       </div>
-    </>
+    </div>
   );
 }
 

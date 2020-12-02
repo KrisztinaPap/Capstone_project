@@ -11,19 +11,25 @@ export default ({date, time, model, recipes, isEditing}) => {
   let recipeId;
   const index = 1; //Always index one because we only support a single recipe.
 
+  const getListStyle = (isDragging) => {
+    return isDragging ? "bg-blue-200" : ""
+  };
+
+
   if(model) {
     recipe = recipes.find(r => r.id === model.recipeId);
     recipeId = DraggableMealRecipeId.encode(date, time, recipe.id);
   }
 
   return (
-    <div className="meal-container w-32">
-      {time}
+    <div className="flex flex-col justify-center">
+      <span className="text-center text-gray-600 font-black uppercase text-xs">{time}</span>
 
       <Droppable droppableId={id} type="recipes" isDropDisabled={!isEditing}>
         {(droppableProvided, droppableSnapshot) => (
           <div
             ref={droppableProvided.innerRef}
+            className={`min-h-32 ${getListStyle(droppableSnapshot.isDraggingOver)}`}
           >
             { recipe &&
               <Draggable key={recipes.id} draggableId={recipeId} index={index} isDragDisabled={!isEditing} className="h-full">
@@ -32,13 +38,10 @@ export default ({date, time, model, recipes, isEditing}) => {
                     ref={draggableProvided.innerRef}
                     {...draggableProvided.draggableProps}
                     {...draggableProvided.dragHandleProps}
-
                   >
-                    <div className="swiper-item">
+                    <div className="select-none m-1 px-2 py-1 bg-blue-800 text-white rounded-md">
                       <img src={recipe.image} />
-                      <div className="select-none">
-                        {recipe.name}
-                      </div>
+                      <p className="">{recipe.name}</p>
                     </div>
                   </div>
                 )}

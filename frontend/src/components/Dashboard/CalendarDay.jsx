@@ -7,8 +7,9 @@ export default ({date, plan, recipes, isEditing}) => {
     return plan ? plan.mealByTime(time) : null
   }
 
+
   return (
-    <div className="">
+    <div className="border border-gray-600 divide-y divide-gray-600">
       <div className="text-center p-2">
         <div>
           {date.format('ddd')}
