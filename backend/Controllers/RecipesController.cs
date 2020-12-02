@@ -12,7 +12,12 @@ using FluentValidation.AspNetCore;
 
 using Api.Models;
 using System.IO;
+using System.Web;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Api.Authentication;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -26,11 +31,19 @@ namespace Api.Controllers
 
     private readonly IWebHostEnvironment hostingEnvironment;
 
-    public RecipesController(ILogger<RecipesController> logger, DBContext context, IWebHostEnvironment _hostingEnvironment)
+    private readonly UserManager<User> userManager;
+    // The UserManager class provides a persistent store for managing users.
+    private readonly RoleManager<IdentityRole> roleManager;
+    // The RoleManager class provides a persistent store for manaing user roles.
+    // It tracks roles for users by roleID and provides role names.
+
+    public RecipesController(ILogger<RecipesController> logger, DBContext context, IWebHostEnvironment _hostingEnvironment, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
       _logger = logger;
       _context = context;
       hostingEnvironment = _hostingEnvironment;
+      this.userManager = userManager;
+      this.roleManager = roleManager;
     }
 
     // TODO: Missing Authentication. Meaning most of these routes
@@ -163,26 +176,28 @@ namespace Api.Controllers
       return NoContent();
     }
 
+    [Authorize]
     [HttpPost]
     [Route("image-upload")]
-    public ActionResult<string> UploadImage(IFormFile fileUpload, string userID)
+    public ActionResult<string> UploadImage(IFormFile fileUpload)
     {
       // This API endpoint will save the image file to the project files.
       // It will then return the file path to the image in the project folder.
       string message = "";
-      // Verify user exists in database.
-      User currentUser = _context.Users
-                        .Where(x => x.Id == userID)
-                        .SingleOrDefault();
 
       // Citation: A method of accepting image files from a form for the recipe pages was needed.
       // The following code was adapted from the source below:
       // link @ https://www.youtube.com/watch?v=aoxEJii70_I
 
-      if (fileUpload != null && currentUser != null)
+
+      ClaimsPrincipal currentUser = this.User;
+      var currentUserID = currentUser.FindFirst(ClaimTypes.NameIdentifier).Value;
+      var requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+      if (fileUpload != null && currentUserID == requestUserID)
       {
         // Create path to the users images.
-        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"User_{userID}");
+        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"images/User_{currentUserID}");
 
         // Create unique file name.
         string uniqueFileName = Guid.NewGuid().ToString() + "_" + fileUpload.FileName;
@@ -199,10 +214,6 @@ namespace Api.Controllers
         if(fileUpload == null)
         {
           message += "No file found.";
-        }
-        if(currentUser == null)
-        {
-          message += "Current user is not found in the database. Please log in.";
         }
         return message;
       }

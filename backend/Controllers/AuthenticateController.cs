@@ -27,7 +27,7 @@ namespace Api.Controllers
       private readonly UserManager<User> userManager;
       // The UserManager class provides a persistent store for managing users.
       private readonly RoleManager<IdentityRole> roleManager;
-      // The RoleManager class provides a persistent store for manaing user roles.
+      // The RoleManager class provides a persistent store for managing user roles.
       // It tracks roles for users by roleID and provides role names.
       private readonly IConfiguration _configuration;
 
@@ -55,6 +55,7 @@ namespace Api.Controllers
           var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     // Claim provides context for the data associated with it.
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     // JTI (JWT ID) provides a unique identifier for the JWT. 
@@ -122,7 +123,7 @@ namespace Api.Controllers
         }
 
       // Create image upload folder
-      string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"User_{user.Id}");
+      string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"images/User_{user.Id}");
       Directory.CreateDirectory(uploadsFolder);
 
       return Ok(new Response { Status = "Success", Message = "User created successfully!" });
