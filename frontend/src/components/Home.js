@@ -95,7 +95,7 @@ const Home = () => {
             className="md:w-1/2 md:pr-12 md:py-8 md:border-r md:border-b-0 mb-10 md:mb-0 pb-10 border-b border-gray-300">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">About the Project</h1>
             <p className="leading-relaxed text-base">This app was developed by Team PuddleJumpers over a period of 3.5 weeks as the capstone project for <a href={"http://www.techcareers.ca/"}>TECHCareers</a> Cohort 4.2. This was a team project consisting of Aaron Barthel, Kenji Au, Krisztina Pap, Lindsey Graham, & Tosin Olaniyi</p>
-            <a className="text-purple-500 inline-flex items-center mt-4" href={"https://github.com/TECHCareers-by-Manpower/capstone-project-puddlejumpers"} target={"_blank"}> Learn More
+            <a className="text-purple-500 inline-flex items-center mt-4" href={"https://github.com/TECHCareers-by-Manpower/capstone-project-puddlejumpers"} target={"_blank"} rel={"noopener noreferrer"}> Learn More
               <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                    className="w-4 h-4 ml-2" viewBox="0 0 24 24">
                 <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -106,19 +106,19 @@ const Home = () => {
             <h2 className="title-font font-medium text-gray-800 tracking-widest text-sm mb-3">DEVELOPERS</h2>
             <nav className="flex flex-wrap list-none -mb-1">
               <li className="lg:w-1/3 mb-1 w-1/2">
-                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/abrthel"} target={"_blank"}>Aaron Barthel</a>
+                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/abrthel"} target={"_blank"} rel={"noopener noreferrer"}>Aaron Barthel</a>
               </li>
               <li className="lg:w-1/3 mb-1 w-1/2">
-                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/KenjiAu-Creator"} target={"_blank"}>Kenji Au</a>
+                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/KenjiAu-Creator"} target={"_blank"} rel={"noopener noreferrer"}>Kenji Au</a>
               </li>
               <li className="lg:w-1/3 mb-1 w-1/2">
-                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/KrisztinaPap"} target={"_blank"}>Krisztina Pap</a>
+                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/KrisztinaPap"} target={"_blank"} rel={"noopener noreferrer"}>Krisztina Pap</a>
               </li>
               <li className="lg:w-1/3 mb-1 w-1/2">
-                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/ldgraham92"} target={"_blank"}>Lindsey Graham</a>
+                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/ldgraham92"} target={"_blank"} rel={"noopener noreferrer"}>Lindsey Graham</a>
               </li>
               <li className="lg:w-1/3 mb-1 w-1/2">
-                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/T-Ralph"} target={"_blank"}>Tosin Olaniyi</a>
+                <a className="text-gray-600 hover:text-gray-800" href={"https://github.com/T-Ralph"} target={"_blank"} rel={"noopener noreferrer"}>Tosin Olaniyi</a>
               </li>
             </nav>
           </div>
