@@ -40,28 +40,39 @@ function Recipes() {
     }
   }
 
-  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? Remove center after CSS applied */}
   if (loading){
     return(
       <>
-        <center>
-          <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-          <p>Gathering your recipes...</p>
-        </center>
+        <section className="mt-8">
+          <p className="text-center">
+            <i className="fas fa-spinner fa-spin fa-4x"></i>
+          </p>
+          <p className="text-center mt-2">
+            Gathering your recipes...
+          </p>
+        </section>
       </>
     );
   }
 
   // If Axios request has an error, display error message...
-  // TODO: Design better Error page?
   if (error){
     return(
-      <>
-        <p>There was an error loading the Recipes List. Please try again.</p>
-        <p><button className="purple-button focus:outline-none focus:shadow-outline" type="submit" onClick={populateRecipes}>
+    <section className="mt-8">
+      <p className="text-center">
+        There was an error loading the Recipes List. Please try again.
+      </p>
+      <p className="text-center mt-2">
+        <button className="purple-button focus:outline-none focus:shadow-outline mr-1" type="submit" onClick={populateRecipes}>
           Retry
-        </button></p>
-      </>
+        </button>
+        <Link to={"/"}>
+          <button className="purple-button focus:outline-none focus:shadow-outline ml-1" type="submit">
+            Return to Home Page
+          </button>
+        </Link>
+      </p>
+    </section>
     )
   }
 
@@ -69,7 +80,7 @@ function Recipes() {
     <>
       <main className="container my-2">
         <section>
-         
+
           <div className="block text-center my-4">
             <p className="text-xl">Hello, {user.name}!</p>
           </div>
