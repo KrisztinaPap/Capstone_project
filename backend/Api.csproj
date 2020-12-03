@@ -32,6 +32,9 @@
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
     <Content Remove="$(SpaRoot)**" />
+    <Content Include="..\frontend\src\components\AboutUs.js">
+      <Link>src\components\AboutUs.js</Link>
+    </Content>
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
     <None Include="..\frontend\public\yummy-banner.png">
