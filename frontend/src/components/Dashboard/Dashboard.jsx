@@ -3,7 +3,9 @@ import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
-import plansReducer, {Plans} from '../../reducers/plansReducer';
+import Plans from '../../models/Plans'
+
+import { plansReducer, updateMeal, moveMeal, loadPeriod, removeMeal} from '../../reducers/plansReducer';
 import {
   scheduleReducer,
   updateFocusDate,
@@ -33,9 +35,10 @@ function debounce(fn, ms) {
 }
 
 
-const defaultScheduleState = getDefaultScheduleState(dayjs().startOf('day'));
+const defaultScheduleState = getDefaultScheduleState(dayjs().startOf('day'), 7);
 
 const Dashboard = () => {
+  const userId = -1;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -44,7 +47,7 @@ const Dashboard = () => {
   const [loadingMeals, setLoadingMeals] = useState(true);
   const [errorMeals, setErrorMeals] = useState(false);
 
-  const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create([]));
+  const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create());
 
   const [isEditing, setEdit] = useState(true);
 
@@ -80,8 +83,23 @@ const Dashboard = () => {
   }, [])
 
   useEffect(() => {
+    async function getPlans() {
+      const [start, end] = schedule.viewRange;
+
+      try {
+        const response = await axios.get(`api/plans/user/${userId}/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`);
+        dispatchPlans(loadPeriod(response.data));
+
+        setLoadingMeals(false);
+        setErrorMeals(false);
+      } catch(err) {
+        setErrorMeals(true);
+        setLoadingMeals(false);
+      }
+    }
+
     getPlans();
-  }, [schedule]);
+  }, [schedule, userId]);
 
   useEffect(() => {
     if(viewWidth >= 1024) {
@@ -110,25 +128,7 @@ const Dashboard = () => {
     }
   }
 
-  async function getPlans() {
-    // 2020-11-22
-    // 2020-11-27
-    // 2020-11-28 - this date has a meal
-    const [start, end] = schedule.viewRange;
 
-    try {
-      const response = await axios.get(`api/plans/user/-1/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`);
-      dispatchPlans({
-        type: "plans/load_period",
-        payload: response.data
-      });
-      setLoadingMeals(false);
-      setErrorMeals(false);
-    } catch(err) {
-      setErrorMeals(true);
-      setLoadingMeals(false);
-    }
-  }
 
   function toggleEditing() {
     setEdit(!isEditing)
@@ -155,6 +155,8 @@ const Dashboard = () => {
           dayjs(date)
         ));
         break;
+      default:
+        // To satisfy the linter.
     }
   }
 
@@ -162,28 +164,26 @@ const Dashboard = () => {
     return recipes.find(r => r.id === recipeId);
   }
 
-  function copyRecipeToPlan(encodedMealId, encodedRecipeId) {
+  function addRecipe(encodedMealId, encodedRecipeId) {
     const { day, time } = DroppableMealId.decode(encodedMealId);
     const recipeId = DraggableRecipeId.decode(encodedRecipeId);
 
-    dispatchPlans({
-      type: "plans/update_recipe",
-      payload: {
-        day: day.toDate(),
-        time: time,
-        recipeId: recipeId
-      }
-    });
+    dispatchPlans(updateMeal(day, time, recipeId));
   }
 
-  function moveData(encodedSrcMealId, encodedDestMealId, encodedRecipeId) {
+  function moveRecipe(encodedSrcMealId, encodedDestMealId, encodedRecipeId) {
     const src = DroppableMealId.decode(encodedSrcMealId);
     const dest = DroppableMealId.decode(encodedDestMealId);
-    const { recipeId } = DraggableRecipeId.decode(encodedRecipeId);
+    const { recipeId } = DraggableMealRecipeId.decode(encodedRecipeId);
 
-    console.log("src: ", src)
-    console.log("dest: ", dest)
-    console.log("recipeId: ", recipeId)
+    dispatchPlans(moveMeal(src.day, src.time, dest.day, dest.time, recipeId));
+  }
+
+  function removeRecipe(encodedSrcMealId, encodedRecipeId) {
+    const src = DroppableMealId.decode(encodedSrcMealId);
+    const { recipeId } = DraggableMealRecipeId.decode(encodedRecipeId);
+
+    dispatchPlans(removeMeal(src.day, src.time, recipeId));
   }
 
 
@@ -196,12 +196,12 @@ const Dashboard = () => {
   function onDragEnd(result) {
     const { source, destination } = result;
 
-    if(!result.destination) {
-      return; // Dropped outside of any lists.
-    }
-
-    if(destination.droppableId === "recipes") {
-      return; // Don't allow dragging from meal to recipe list
+    if(!result.destination || destination.droppableId === "recipes") {
+      removeRecipe(
+        source.droppableId,
+        result.draggableId
+      )
+      return;
     }
 
     switch(source.droppableId) {
@@ -209,16 +209,15 @@ const Dashboard = () => {
         // Ignore, we're moving items within ourselves.
         break;
       case "recipes":
-        console.log(result)
         // Add recipe from recipes list
-        copyRecipeToPlan(
+        addRecipe(
           destination.droppableId,
           result.draggableId
         );
         break;
       default:
         // Move recipe from one day to another
-        moveData(
+        moveRecipe(
           source.droppableId,
           destination.droppableId,
           result.draggableId
@@ -226,19 +225,15 @@ const Dashboard = () => {
     }
   }
 
-  {/* Loading */}
   if (loading) {
     return (
-      <>
-        <center>
-          <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-          <p>Fetching your schedules...</p>
-        </center>
-      </>
+      <div className="mx-auto">
+        <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
+        <p>Fetching your schedules...</p>
+      </div>
     );
   }
 
-  {/* If Axios request has an error, display error message...*/}
   if (error) {
     return (
       <>

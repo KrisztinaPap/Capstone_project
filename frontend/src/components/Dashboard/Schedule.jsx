@@ -122,7 +122,7 @@ export const Schedule = ({isEditing, toggleEditing, plans, viewPeriod, onMove, f
             date={day}
             key={index}
             fetchRecipe={fetchRecipe}
-            plan={plans.byDate(day.toDate())}
+            plan={plans.byDate(day)}
             isEditing={isEditing}
             className=""
           />

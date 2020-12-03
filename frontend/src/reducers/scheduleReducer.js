@@ -75,7 +75,7 @@ export const updateFocusDate = (date) => {
 export const updatePeriod = (period) => {
   return {
     type: UpdatePeriodType,
-    payload: period ?? 1
+    payload: isNaN(period) ? 1 : period
   }
 }
 

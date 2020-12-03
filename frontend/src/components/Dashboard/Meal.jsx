@@ -32,7 +32,7 @@ export default ({date, time, model, recipes, isEditing, fetchRecipe}) => {
             className={`min-h-32 ${getListStyle(droppableSnapshot.isDraggingOver)}`}
           >
             { recipe &&
-              <Draggable key={recipes.id} draggableId={recipeId} index={index} isDragDisabled={!isEditing} className="h-full">
+              <Draggable draggableId={recipeId} index={index} isDragDisabled={!isEditing} className="h-full">
                 {(draggableProvided, draggableSnapshot) => (
                   <div
                     ref={draggableProvided.innerRef}
@@ -40,7 +40,7 @@ export default ({date, time, model, recipes, isEditing, fetchRecipe}) => {
                     {...draggableProvided.dragHandleProps}
                   >
                     <div className="select-none m-1 px-2 py-1 bg-blue-800 text-white rounded-md">
-                      <img src={recipe.image} />
+                      <img src={recipe.image} alt={recipe.name} />
                       <p className="">{recipe.name}</p>
                     </div>
                   </div>
