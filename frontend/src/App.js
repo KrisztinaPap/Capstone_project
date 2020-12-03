@@ -9,6 +9,7 @@ import Profile from './components/Profile';
 import Recipes from './components/Recipes';
 import Recipe from './components/Recipe';
 import AddRecipe from './components/AddRecipe';
+import AboutUs from './components/AboutUs';
 
 // Import Authentication
 import { UserContext, userData } from './components/Authentication/UserAuthentication';
@@ -31,6 +32,7 @@ export default function App() {
           <Route exact path='/recipes' component={Recipes} />
           <Route exact path='/recipes/:recipes' component={Recipe} />
           <Route path='/add-recipe' component={AddRecipe} />
+          <Route path='/about-us' component={AboutUs} />
         </Layout>
       </UserContext.Provider>
     );
