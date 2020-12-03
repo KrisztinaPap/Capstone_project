@@ -176,6 +176,13 @@ namespace Api.Controllers
         return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User does not exist!" });
       }
 
+      /*
+       * Citation: StackOverflow
+       * URL: https://stackoverflow.com/a/45715804/6842789
+       * Notes: Update Password in Identity using Password Reset Token
+       * 
+       */
+
       // Generate Password Reset Token
       var token = await userManager.GeneratePasswordResetTokenAsync(userExists);
 
