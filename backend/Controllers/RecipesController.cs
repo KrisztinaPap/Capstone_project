@@ -11,6 +11,8 @@ using FluentValidation.AspNetCore;
 
 using Api.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
 
 namespace Api.Controllers
 {
@@ -21,11 +23,13 @@ namespace Api.Controllers
       private readonly ILogger<RecipesController> _logger;
 
       private readonly DBContext _context;
+      private readonly UserManager<User> userManager;
 
-      public RecipesController(ILogger<RecipesController> logger, DBContext context)
+    public RecipesController(ILogger<RecipesController> logger, DBContext context, UserManager<User> userManager)
       {
           _logger = logger;
           _context = context;
+          this.userManager = userManager;
       }
 
       // TODO: Missing Authentication. Meaning most of these routes
@@ -58,14 +62,18 @@ namespace Api.Controllers
       [Route("{id:int:required}")]
       public ActionResult<Recipe> Get(int id)
       {
-        var result = _context.Recipes
-                      .Include(x => x.Ingredients)
-                      .Where(x => x.Id == id)
-                      .SingleOrDefault();
+        if (SameUser())
+        {
+          var result = _context.Recipes
+                        .Include(x => x.Ingredients)
+                        .Where(x => x.Id == id)
+                        .SingleOrDefault();
 
-        if(result == null) { return NotFound(); }
+          if (result == null) { return NotFound(); }
 
-        return Ok(result);
+          return Ok(result);
+        }
+        return NotFound();
       }
 
       // POST: api/recipes
@@ -74,12 +82,15 @@ namespace Api.Controllers
       public ActionResult<Recipe> Create(
         [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
       {
-        _context.Recipes.Add(newRecipe);
-        _context.SaveChanges();
+        if (SameUser())
+        {
+          _context.Recipes.Add(newRecipe);
+          _context.SaveChanges();
 
-        return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
+          return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
+        }
+        return NotFound();
       }
-
 
       // PUT: api/recipes/id
       [Authorize]
@@ -90,7 +101,10 @@ namespace Api.Controllers
         // Note: Below is Kenji's solution just slightly refactored to
         //       take advantage of `CurrentValues.SetValues`
         //          —Aaron
-
+        if(!SameUser())
+        {
+          return NotFound();
+        }
         Recipe oldRecipe = _context.Recipes
           .Where(x => x.Id == id)
           .Include(x => x.Ingredients)
@@ -148,7 +162,11 @@ namespace Api.Controllers
       [Route("{id:int:required}")]
       public ActionResult<Recipe> Delete(int id)
       {
-        Recipe recipe = _context.Recipes
+        if (!SameUser())
+        {
+          return NotFound();
+        }
+      Recipe recipe = _context.Recipes
           .Where(x => x.Id == id)
           .Include(x => x.Ingredients)
           .SingleOrDefault();
@@ -161,5 +179,24 @@ namespace Api.Controllers
         _context.SaveChanges();
         return NoContent();
       }
+
+    public bool SameUser()
+    {
+      // Summary:
+      //  This function will check the user manager store credentials with the incoming HTTP request credentials to verfiy the user is the same as the one logged in. It will return true if they match and false otherwise.
+      bool result;
+      ClaimsPrincipal currentUser = this.User;
+      string claimUserID = userManager.GetUserId(currentUser);
+      string requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      if( claimUserID == requestUserID)
+      {
+        result = true;
+      }
+      else
+      {
+        result = false;
+      }
+      return result;
     }
+  }
 }

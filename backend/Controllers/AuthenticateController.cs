@@ -50,6 +50,7 @@ namespace Api.Controllers
           var authClaims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.NameIdentifier, user.Id),
                     // Claim provides context for the data associated with it.
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     // JTI (JWT ID) provides a unique identifier for the JWT. 
