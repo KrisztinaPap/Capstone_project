@@ -4,7 +4,7 @@ import { DraggableMealRecipeId, DroppableMealId } from '../../utils/dndIdCoders'
 
 
 
-export default ({date, time, model, recipes, isEditing}) => {
+export default ({date, time, model, recipes, isEditing, fetchRecipe}) => {
   const id = DroppableMealId.encode(date, time);
 
   let recipe;
@@ -17,7 +17,7 @@ export default ({date, time, model, recipes, isEditing}) => {
 
 
   if(model) {
-    recipe = recipes.find(r => r.id === model.recipeId);
+    recipe = fetchRecipe(model.recipeId);
     recipeId = DraggableMealRecipeId.encode(date, time, recipe.id);
   }
 
