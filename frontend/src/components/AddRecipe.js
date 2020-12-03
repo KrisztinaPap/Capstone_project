@@ -18,8 +18,6 @@ const AddRecipe = () => {
   const [fats, SetFats] = useState();
   const [proteins, SetProteins] = useState();
   const [carbohydrates, SetCarbohydrates] = useState();
-  const [calories, SetCalories] = useState();
-  const [tags, SetTags] = useState();
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
   const [servings, SetServings] = useState();
@@ -27,6 +25,8 @@ const AddRecipe = () => {
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [message, setMessage] = useState("");
+
+  const [ingredientList, setIngredientList] = useState([]);
 
   async function getUOMs() {
     const response = await axios.get('https://localhost:5001/api/UOMs/all');
@@ -72,6 +72,9 @@ const AddRecipe = () => {
   function SubmitRecipe(event) {
     // This function will send the POST request to database to insert the new recipe.
     event.preventDefault();
+
+    // Call a function to build the Ingredients list using the ingredients input fields.
+
     // Request to insert the recipe to the database.
     axios({
       method: 'post',
@@ -89,7 +92,7 @@ const AddRecipe = () => {
         "DateCreated": new Date().toJSON(),
         "PrepTime": prep,
         "Servings": servings,
-        // Notes: notes
+        "Notes": notes
       }
     }).then((res) => {
       setResponse(res.data);
@@ -99,19 +102,29 @@ const AddRecipe = () => {
       setResponse(err.response.data);
       setStatusCode(err.response.status);
     });
-
-    // Request to insert the ingredients to the database.
-/*     axios({
-      method: 'post',
-      url: '',
-      params: {
-        Name: '',
-        Quantity: "",
-        RecipeID: "",
-      }
-    }); */
   }
 
+  function AddNewIngredient(event)
+  {
+    // This funciton will add a new ingredient to the ingredient list.
+    // Ingredient list is an array of Ingredient Objects.
+    /*
+    the structure is:
+    {
+      Name:
+      UOM:
+      Quantity:
+    }
+    */
+    let newIngredient = {
+      "Name": event.name,
+      "UOM": event.UOM,
+      "Quantity": event.Quantity
+    }
+
+    ingredientList.add(newIngredient);
+    setIngredientList(ingredientList)
+  }
   function HandleFormChange(event) {
     switch (event.target.id)
     {
@@ -175,38 +188,44 @@ const AddRecipe = () => {
     event.preventDefault();
   }
 
-  function AddIngredients(event) {
+  function AddIngredient(event) {
     // This function will add an input field to the ingredient section once called upon.
     event.preventDefault();
     const ingredientSection = document.getElementById("ingredientSection");
     let childCount = ingredientSection.childElementCount;
     const newInput = document.createElement("INPUT");
     const newLabel = document.createElement("LABEL");
+    const newQuantity = document.createElement("INPUT");
+    const newQuantityLabel = document.createElement("LABEL");
     const newMeasureSelect = document.createElement("SELECT");
     const newMeasureLabel = document.createElement("LABEL");
 
     // Set the attributes for the input fields.
     newLabel.setAttribute("for", `ingredient${childCount / 4 + 1}`);
-    newLabel.innerHTML = `Ingredient ${childCount / 4 + 1}`;
+    newLabel.innerHTML = "Ingredient";
     newInput.setAttribute("id", `ingredient${childCount / 4 + 1}`);
     newInput.setAttribute("type", "text");
 
+    newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
+    newQuantityLabel.innerHTML = `Quantity`;
+    newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
+
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
-    newMeasureLabel.innerHTML = `Measurement${childCount / 4 + 1}`;
+    newMeasureLabel.innerHTML = "Measurement";
 
     newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
     // Loop to create the select options for the measurements.
-    function createOption(measurement) {
+    for(let measurement in measurementsList) {
       const newOption = document.createElement("OPTION");
-      newOption.setAttribute("value", `${measurement.Id}`);
-      newOption.innerHTML = `${measurement.Name}`;
+      newOption.setAttribute("value", `${measurementsList[measurement]}`);
+      newOption.innerHTML = `${measurementsList[measurement]}`;
       newMeasureSelect.appendChild(newOption);
     }
-    measurementsList.forEach(createOption);
-
     // Add the new input to the section
     ingredientSection.appendChild(newLabel);
     ingredientSection.appendChild(newInput);
+    ingredientSection.appendChild(newQuantityLabel);
+    ingredientSection.appendChild(newQuantity);
     ingredientSection.appendChild(newMeasureLabel);
     ingredientSection.appendChild(newMeasureSelect);
   }
@@ -249,7 +268,7 @@ const AddRecipe = () => {
                 })}
               </select>
             </section>
-            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredients} >+</button>
+            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredient} >+</button>
             <section id="instructionSection">
               <h3 className="font-bold py-4">Instructions:</h3>
               <p>Enter the instructions to your new recipe below!</p>
