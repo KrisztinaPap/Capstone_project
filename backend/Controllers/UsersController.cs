@@ -21,30 +21,9 @@ namespace Api.Controllers
       _context = context;
     }
 
-    // GET: api/users/{id}
-    [HttpGet]
-    [Route("{id:length(8,50):required}")]
-    public ActionResult<User> GetUserById(string id)
-    {
-      // Users ID is a GUID string.
-      var result = _context.Users
-                    .Where(x => x.Id == id)
-                    .Select(x => new { Id = x.Id, name = x.Name, email = x.Email })
-                    .SingleOrDefault();
-
-      if (result == null)
-      {
-        return NotFound();
-      }
-
-      return Ok(result);
-    }
-
     /*
-     * TODO:
-     * 1. Password Salt Algorithm
-     * 2. User Signin & Authentication
-     * 3. User Profile Update
+     * 
+     * Controller decommissioned for Identity
      * 
      */
   }

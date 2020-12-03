@@ -164,5 +164,43 @@ namespace Api.Controllers
         await userManager.AddToRoleAsync(user, UserRoles.Admin);
         return Ok(new Response { Status = "Success", Message = "User created successfully!" });
       }
+
+    [HttpPut]
+    [Route("update/password")]
+    public async Task<IActionResult> UpdatePassword([FromBody] RegisterModel model)
+    {
+      // Check if the username is inside the store.
+      var userExists = await userManager.FindByNameAsync(model.Username);
+      if (userExists == null)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User does not exist!" });
+      }
+
+      // Generate Password Reset Token
+      var token = await userManager.GeneratePasswordResetTokenAsync(userExists);
+
+      // Reset/Update Password
+      var result = await userManager.ResetPasswordAsync(userExists, token, model.Password);
+
+      // Handle Result Response
+      if (result.Succeeded)
+      {
+        return Ok(new Response { Status = "Success", Message = "Password changed successfully!" });
+      }
+      else
+      {
+        List<string> errorList = new List<string>();
+        foreach (IdentityError errorMessage in result.Errors)
+        {
+          errorList.Add(errorMessage.Description);
+        }
+        return StatusCode(StatusCodes.Status500InternalServerError, new Response
+        {
+          Status = "Error",
+          Message = "Password change failed!",
+          ErrorList = errorList
+        });
+      }
     }
+  }  
 }
