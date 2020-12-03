@@ -28,54 +28,36 @@ const AddRecipe = () => {
 
   const [ingredientList, setIngredientList] = useState([]);
 
+  /*============================================================*/
+  /*                   UOM and Category
+  /*============================================================*/
   async function getUOMs() {
+    // Summary:
+    //   This function will obtain the units of measure currently in the database and set the measurement list for the user to choose from.
     const response = await axios.get('https://localhost:5001/api/UOMs/all');
     setMeasurementsList(response.data);
     setLoading(false);
   }
 
   async function getRecipeCategories() {
+    // Summary:
+    //   This function will obtain the recipe categories currently in the database and set the measurement list for the user to choose from.
     const res = await axios.get('https://localhost:5001/api/recipecategories/options');
     setRecipeCategoryList(res.data);
     setLoading(false);
   }
 
-  useEffect(()=> {
-    getUOMs();
-    getRecipeCategories();
-  },[loading]);
-
-  useEffect(() => {
-    if (statusCode === 400) {
-      let errorMsg = "";
-      console.log(response.errors);
-      for(const key in response.errors)
-      {
-        for(const errorIndex in response.errors[key])
-        {
-          errorMsg += `${response.errors[key][errorIndex]}`;
-        }
-      }
-      // response.errors.Instructions.forEach(error => errorMsg += error);
-        setMessage(errorMsg);
-    }
-    else if (statusCode === 200) {
-        setMessage(`Successfully`)
-    }
-  }, [response, statusCode]);
-
   function onEditorStateChange(event) {
-    // This function will update the editorState.
+    // Summary:
+    //   This function will update the state tracked by the instructions text editor.
     setEditorState(event.blocks[0].text);
   }
 
   function SubmitRecipe(event) {
-    // This function will send the POST request to database to insert the new recipe.
+    // Summary:
+    //   This function will send the recipe data from the form the user has filled out to the database and create a new recipe.
     event.preventDefault();
-
-    // Call a function to build the Ingredients list using the ingredients input fields.
-
-    // Request to insert the recipe to the database.
+    CreateIngredientList();
     axios({
       method: 'post',
       url: '/api/recipes',
@@ -105,6 +87,8 @@ const AddRecipe = () => {
   }
 
   function HandleFormChange(event) {
+    // Summary:
+    //   This function will set the state for the associated properties for the respective fields.
     switch (event.target.id)
     {
       case "addRecipeName":
@@ -163,12 +147,14 @@ const AddRecipe = () => {
   }
 
   function PhotoUpload(event) {
-    // This function will handle uploading the image file corresponding to the new recipe being added.
+    // Summary:
+    //  This function will handle uploading the image file corresponding to the new recipe being added.
     event.preventDefault();
   }
 
-  function AddIngredient(event) {
-    // This function will add an input field to the ingredient section once called upon.
+  function AddIngredientForm(event) {
+    // Summary:
+    //  This function will add the required input fields to add an ingredient to the ingredient section once called upon.
     event.preventDefault();
     const ingredientSection = document.getElementById("ingredientSection");
     let childCount = ingredientSection.childElementCount;
@@ -196,14 +182,14 @@ const AddRecipe = () => {
 
     newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
     newMeasureSelect.setAttribute("class", "ingredientInput");
-    // Loop to create the select options for the measurements.
+    // Add the measurement options to the select field.
     for(let measurement in measurementsList) {
       const newOption = document.createElement("OPTION");
       newOption.setAttribute("value", `${measurementsList[measurement]}`);
       newOption.innerHTML = `${measurementsList[measurement]}`;
       newMeasureSelect.appendChild(newOption);
     }
-    // Add the new input to the section
+    // Add the new input fields to the section
     ingredientSection.appendChild(newLabel);
     ingredientSection.appendChild(newInput);
     ingredientSection.appendChild(newQuantityLabel);
@@ -212,29 +198,54 @@ const AddRecipe = () => {
     ingredientSection.appendChild(newMeasureSelect);
   }
 
-  // function CreateIngredientList()
-  // {
-  //   // This function will take all the ingredients in the form and create an Ingredient object for each one. All the ingredients will then be stored into a list.
-  //   // Ingredient list is an array of Ingredient Objects.
-  //   /*
-  //   the structure is:
-  //   {
-  //     Name:
-  //     UOM:
-  //     Quantity:
-  //   }
-  //   */
-  //  // Grab all the ingredient input fields:
-  //  const IngredientInputFields = document.getElementsByClassName("ingredientInput");
-  //   let newIngredient = {
-  //     "Name": name,
-  //     "UOM": UOM,
-  //     "Quantity": Quantity
-  //   }
+  function CreateIngredientList()
+  {
+    // Summary:
+    //   This function will take all the ingredients in the form and create an Ingredient object for each one. All the ingredients will then be stored into a list.
 
-  //   ingredientList.add(newIngredient);
-  //   setIngredientList(ingredientList)
-  // }
+    // Grab all the ingredient input fields:
+    const IngredientInputFields = document.getElementsByClassName("ingredientInput");
+
+    const tempIngredientList = [];
+    for(let i=0; i < IngredientInputFields.length; i += 3)
+    {
+      let newIngredient = {
+        "Name": IngredientInputFields[i].value,
+        "Quantity": IngredientInputFields[i+1].value,
+        "UOM": IngredientInputFields[i+2].value
+      }
+      tempIngredientList.push(newIngredient);
+      console.log(tempIngredientList);
+    }
+    setIngredientList(tempIngredientList);
+  }
+
+  /*============================================================*/
+  /*                   State Refresh
+  /*============================================================*/
+  useEffect(()=> {
+    getUOMs();
+    getRecipeCategories();
+  },[loading]);
+
+  useEffect(() => {
+    if (statusCode === 400) {
+      let errorMsg = "";
+      console.log(response.errors);
+      for(const key in response.errors)
+      {
+        for(const errorIndex in response.errors[key])
+        {
+          errorMsg += `${response.errors[key][errorIndex]}`;
+        }
+      }
+      // response.errors.Instructions.forEach(error => errorMsg += error);
+        setMessage(errorMsg);
+    }
+    else if (statusCode === 200) {
+        setMessage(`Successfully`)
+    }
+  }, [response, statusCode]);
 
   return (
     <>
@@ -262,11 +273,11 @@ const AddRecipe = () => {
           <section id="addRecipeRequirements">
             <section id="ingredientSection">
               <label htmlFor="ingredient1">Ingredients(*):</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" onChange={HandleFormChange} />
+              <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" onChange={HandleFormChange} />
               <label htmlFor="quantity1">Quantity:</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" onChange={HandleFormChange} />
+              <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" onChange={HandleFormChange} />
               <label htmlFor="measurement1">Measurement:</label>
-              <select id="measurement1" onChange={HandleFormChange}>
+              <select className="ingredientInput" id="measurement1" onChange={HandleFormChange}>
                 {measurementsList.map((measurement) => {
                   return (
                     <option value={measurement}>{measurement}</option>
@@ -274,7 +285,7 @@ const AddRecipe = () => {
                 })}
               </select>
             </section>
-            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredient} >+</button>
+            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >+</button>
             <section id="instructionSection">
               <h3 className="font-bold py-4">Instructions:</h3>
               <p>Enter the instructions to your new recipe below!</p>
