@@ -9,7 +9,7 @@ const AboutUs = () => {
             <h1 className="text-2xl font-medium title-font mb-4 text-gray-900">Team PuddleJumpers</h1>
             <p className="lg:w-2/3 mx-auto leading-relaxed text-base">The TECHCareers students who make up Team PuddleJumpers are...</p>
           </div>
-          <div className="flex flex-wrap -m-4">
+          <div className="flex justify-evenly -m-4">
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
                 <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
@@ -110,17 +110,19 @@ const AboutUs = () => {
                 </div>
               </div>
             </div>
-
+          </div>
+        </div>
+          <div className="flex justify-evenly -m-4">
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
                 <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
-                     src="/Lindsey.jpg"/>
-                <div className="w-full">
-                  <h2 className="title-font font-medium text-lg text-gray-900">Lindsey Graham</h2>
-                  <h3 className="text-gray-500 mb-3">Full Stack Developer</h3>
-                  <p className="mb-4">Lindsey spent the early years of his professional life in the Oil & Gas sector, doing jobs ranging from Purchasing, to onsite work as an Electrician.
-                    In early 2019 due to being unemployed, he picked up a few programming courses on Udemy to learn Python and ended up loving it to the point that he knew he wanted to change careers and take up the path of Software Development.</p>
-                  <span className="inline-flex">
+                     src="/Lindsey.jpg" />
+                  <div className="w-full">
+                    <h2 className="title-font font-medium text-lg text-gray-900">Lindsey Graham</h2>
+                    <h3 className="text-gray-500 mb-3">Full Stack Developer</h3>
+                    <p className="mb-4">Lindsey spent the early years of his professional life in the Oil & Gas sector, doing jobs ranging from Purchasing, to onsite work as an Electrician.
+                      In early 2019 due to being unemployed, he picked up a few programming courses on Udemy to learn Python and ended up loving it to the point that he knew he wanted to change careers and take up the path of Software Development.</p>
+                    <span className="inline-flex">
               <a className="text-gray-500">
                 <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5"
                      viewBox="0 0 24 24">
@@ -142,18 +144,18 @@ const AboutUs = () => {
                 </svg>
               </a>
             </span>
-                </div>
+                  </div>
               </div>
             </div>
             <div className="p-4 lg:w-1/4 md:w-1/2">
-            <div className="h-full flex flex-col items-center text-center">
-              <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
-                   src="Tosin.JPG"/>
-              <div className="w-full">
-                <h2 className="title-font font-medium text-lg text-gray-900">Tosin Olaniyi</h2>
-                <h3 className="text-gray-500 mb-3">Full Stack Developer</h3>
-                <p className="mb-4">Tosin is a Pharmacist by Profession and Programmer by Passion. Tosin has keen interest in using technology and data science to improve the processes and systems used in the health sector.</p>
-                <span className="inline-flex">
+              <div className="h-full flex flex-col items-center text-center">
+                <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
+                     src="/Tosin.JPG" />
+                  <div className="w-full">
+                    <h2 className="title-font font-medium text-lg text-gray-900">Tosin Olaniyi</h2>
+                    <h3 className="text-gray-500 mb-3">Full Stack Developer</h3>
+                    <p className="mb-4">Tosin is a Pharmacist by Profession and Programmer by Passion. Tosin has keen interest in using technology and data science to improve the processes and systems used in the health sector.</p>
+                    <span className="inline-flex">
               <a className="text-gray-500">
                 <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5"
                      viewBox="0 0 24 24">
@@ -175,11 +177,10 @@ const AboutUs = () => {
                 </svg>
               </a>
             </span>
+                  </div>
               </div>
             </div>
           </div>
-          </div>
-        </div>
       </section>
     </>
   );
