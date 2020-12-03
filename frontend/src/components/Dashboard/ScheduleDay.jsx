@@ -1,7 +1,7 @@
 import React from 'react';
 import Meal from './Meal';
 
-export default ({date, plan, recipes, isEditing, fetchRecipe}) => {
+export default ({date, plan, isEditing, fetchRecipe}) => {
 
   const getModel = (time) => {
     return plan ? plan.mealByTime(time) : null

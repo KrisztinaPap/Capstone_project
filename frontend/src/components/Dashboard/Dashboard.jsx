@@ -48,10 +48,9 @@ const Dashboard = () => {
   const [errorMeals, setErrorMeals] = useState(false);
 
   const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create());
-
-  const [isEditing, setEdit] = useState(true);
-
   const [schedule, dispatchSchedule] = useReducer(scheduleReducer, defaultScheduleState)
+
+  const [isEditing, setEdit] = useState(false);
 
   // Citation
   // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
@@ -74,11 +73,6 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-    // DELETE AFTER
-    // Override date range to special day
-    // const day = dayjs("2020-11-28");
-    // dispatchSchedule(updateFocusDate(day))
-
     populateRecipes();
   }, [])
 
