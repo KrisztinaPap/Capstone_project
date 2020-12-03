@@ -10,6 +10,7 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -52,6 +53,7 @@ namespace Api.Controllers
       }
 
       // GET: api/recipes/{id}
+      [Authorize]
       [HttpGet]
       [Route("{id:int:required}")]
       public ActionResult<Recipe> Get(int id)
@@ -67,6 +69,7 @@ namespace Api.Controllers
       }
 
       // POST: api/recipes
+      [Authorize]
       [HttpPost]
       public ActionResult<Recipe> Create(
         [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
@@ -79,6 +82,7 @@ namespace Api.Controllers
 
 
       // PUT: api/recipes/id
+      [Authorize]
       [HttpPut]
       [Route("{id:int:required}")]
       public ActionResult Update(int id, [FromBody] Recipe recipe)
@@ -139,6 +143,7 @@ namespace Api.Controllers
 
 
       // DELETE: api/recipes/id
+      [Authorize]
       [HttpDelete]
       [Route("{id:int:required}")]
       public ActionResult<Recipe> Delete(int id)

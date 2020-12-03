@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -31,6 +32,7 @@ namespace Api.Controllers
     }
 
     // PUT: api/plans/
+    [Authorize]
     [HttpPut]
     public ActionResult<Plan> CreateSchedulePlan([CustomizeValidator(RuleSet = "CreateSchedulePlan")][FromBody] List<Schedule> schedule)
     {
@@ -98,6 +100,7 @@ namespace Api.Controllers
     }
 
     // GET: api/plans/{id}
+    [Authorize]
     [HttpGet]
     [Route("{id:int:required}")]
     public ActionResult<Plan> GetPlanById(int id)
@@ -196,6 +199,7 @@ namespace Api.Controllers
     }
 
     // GET: api/plans/user/{userId}/schedule?fromDate={fromDate}=&toDate={toDate}
+    [Authorize]
     [HttpGet]
     [Route("user/{userId:required}/schedule")]
     public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(string userId, DateTime fromDate, DateTime toDate)

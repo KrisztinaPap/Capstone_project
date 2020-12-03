@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Api.Controllers
 {
@@ -22,6 +23,7 @@ namespace Api.Controllers
     }
 
     // GET: api/users/{id}
+    [Authorize]
     [HttpGet]
     [Route("{id:length(8,50):required}")]
     public ActionResult<User> GetUserById(string id)
@@ -39,13 +41,5 @@ namespace Api.Controllers
 
       return Ok(result);
     }
-
-    /*
-     * TODO:
-     * 1. Password Salt Algorithm
-     * 2. User Signin & Authentication
-     * 3. User Profile Update
-     * 
-     */
   }
 }
