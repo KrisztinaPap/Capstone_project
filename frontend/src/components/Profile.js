@@ -2,9 +2,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 
-// Import Assets
-import Plate from '../assets/plate.svg';
-
 // Import Authentication
 import { UserContext } from './Authentication/UserAuthentication';
 
@@ -26,41 +23,34 @@ const Profile = () => {
 
   return (
     <>
-      <div className="container">
-
-        <div className="block text-center my-4">
-          <h1 className="font-bold">Edit Profile</h1>
-        </div>
-
-        <div className="md:grid md:grid-cols-2 md:gap-6 place-items-center">
-
-          <div className="md:col-span-1 md:inline-block">
-            <img src={Plate} alt="Drawing of a plate" className="object-contain h-64 w-full" />
+      <div className="container max-w-lg flex flex-col mx-auto">
+        <h1 className="font-bold text-center my-4">Edit Profile</h1>
+            <form className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+              
+          <div>
+            <h2 className="font-bold text-center my-4">Update Name</h2>
+            <div className="mb-6">
+              <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">New Name:</label>
+              <input
+                className="input-field w-full focus:outline-none focus:shadow-outline"
+                type="text"
+                id="name"
+                value={name}
+                onChange={event => setName(event.target.value)}
+                required
+              />
+            </div>
+             
           </div>
-
-          <div className="w-full mx-auto">
-            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-
-              <div>
-                <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Current Password:</label>
-                <input
-                  className="input-field w-full focus:outline-none focus:shadow-outline"
-                  type="text"
-                  id="password"
-                  placeholder="******"
-                />
-              </div>
-              <div>
-                <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">New Name:</label>
-                <input
-                  className="input-field w-full focus:outline-none focus:shadow-outline"
-                  type="text"
-                  id="name"
-                  value={name}
-                  onChange={event => setName( event.target.value )}
-                  required
-                />
-              </div>
+                <button
+                  className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
+                  type="submit">
+                  Update
+                </button>
+            </form>
+        <form className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <h2 className="font-bold text-center my-4">Update Password</h2>
+             
               <div>
                 <label htmlFor="newPassword" className="block text-gray-700 text-sm font-bold mb-2">New Password:</label>
                 <input
@@ -79,17 +69,16 @@ const Profile = () => {
                   placeholder="******"
                 />
               </div>
-              <div className="flex items-center justify-between">
+            
                 <button
                   className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
                   type="submit">
                   Update
                 </button>
-              </div>
+      
             </form>
           </div>
-        </div>
-      </div>
+ 
     </>
   );
 }
