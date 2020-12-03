@@ -47,11 +47,11 @@ const AboutUs = () => {
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
                 <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
-                     src="https://dummyimage.com/201x201"/>
+                     src="/kenji.png"/>
                 <div className="w-full">
                   <h2 className="title-font font-medium text-lg text-gray-900">Kenji Au</h2>
                   <h3 className="text-gray-500 mb-3">Full Stack Developer</h3>
-                  <p className="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
+                  <p className="mb-4">Kenji developed an interest in coding after taking a couple of programming courses in university. He decided to make a career change and pursue his passion in software development in 2020. He hopes to utilize his strong background in mathematics and physics to create applications to improve our standard of living.</p>
                   <span className="inline-flex">
               <a className="text-gray-500">
                 <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5"
