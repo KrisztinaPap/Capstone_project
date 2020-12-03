@@ -169,6 +169,13 @@ namespace Api.Controllers
     [Route("update/password")]
     public async Task<IActionResult> UpdatePassword([FromBody] RegisterModel model)
     {
+      /**
+      * Function updates a user's password
+      * 
+      * @param model Body JSON - Username<email>, Password
+      * @return Status
+      */
+
       // Check if the username is inside the store.
       var userExists = await userManager.FindByNameAsync(model.Username);
       if (userExists == null)
@@ -205,6 +212,57 @@ namespace Api.Controllers
         {
           Status = "Error",
           Message = "Password change failed!",
+          ErrorList = errorList
+        });
+      }
+    }
+
+    [HttpPut]
+    [Route("update/name")]
+    public async Task<IActionResult> UpdateName([FromBody] RegisterModel model)
+    {
+      /**
+      * Function updates a user's name
+      * 
+      * @param model Body JSON - Username<email>, Name
+      * @return Status
+      */
+
+      // Check if the username is inside the store.
+      var userExists = await userManager.FindByNameAsync(model.Username);
+      if (userExists == null)
+      {
+        return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User does not exist!" });
+      }
+
+      /*
+       * Citation: StackOverflow
+       * URL: https://stackoverflow.com/a/25585969/6842789
+       * Notes: Update User's Username & Email details in Identity
+       * 
+       */
+
+      // Update Name
+      userExists.Name = model.Name;
+
+      var result = await userManager.UpdateAsync(userExists);
+
+      // Handle Result Response
+      if (result.Succeeded)
+      {
+        return Ok(new Response { Status = "Success", Message = "Name changed successfully!" });
+      }
+      else
+      {
+        List<string> errorList = new List<string>();
+        foreach (IdentityError errorMessage in result.Errors)
+        {
+          errorList.Add(errorMessage.Description);
+        }
+        return StatusCode(StatusCodes.Status500InternalServerError, new Response
+        {
+          Status = "Error",
+          Message = "Name change failed!",
           ErrorList = errorList
         });
       }

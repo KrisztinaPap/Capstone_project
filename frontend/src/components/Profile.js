@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 // Import Authentication
-import { UserContext } from './Authentication/UserAuthentication';
+import { UserContext, SaveUserData } from './Authentication/UserAuthentication';
 
 const Profile = () => {
 
@@ -24,12 +24,107 @@ const Profile = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
 
+  const [loadingUpdateName, setLoadingUpdateName] = useState(false);
+  const [errorUpdateName, setErrorUpdateName] = useState(false);
+  const [errorMessageUpdateName, setErrorMessageUpdateName] = useState("");
+  const [errorsArrayUpdateName, setErrorsArrayUpdateName] = useState([]);
+  const [successUpdateName, setSuccessUpdateName] = useState(false);
+  const [successMessageUpdateName, setSuccessMessageUpdateName] = useState("");
+
   const [loadingUpdatePassword, setLoadingUpdatePassword] = useState(false);
   const [errorUpdatePassword, setErrorUpdatePassword] = useState(false);
   const [errorMessageUpdatePassword, setErrorMessageUpdatePassword] = useState("");
   const [errorsArrayUpdatePassword, setErrorsArrayUpdatePassword] = useState([]);
   const [successUpdatePassword, setSuccessUpdatePassword] = useState(false);
   const [successMessageUpdatePassword, setSuccessMessageUpdatePassword] = useState("");
+
+  // Function to Handle Submit of the Update Name Form
+  const UpdateNameSubmit = async(event) => {
+
+    // Prevent Form Refresh
+    event.preventDefault();
+
+    // Set Loading
+    setLoadingUpdateName(true);
+
+    // Check for Name Length
+    if (name.length <= 1) {
+      // Set Loading
+      setLoadingUpdateName(false);
+
+      // Set Errors
+      setErrorUpdateName(true);
+      // Set Error Message
+      setErrorMessageUpdateName("Name must be more than 1 character.");
+
+      // Break Function
+      return false;
+    }
+
+    // Continue
+    // Reset Errors
+    setErrorUpdateName(false);
+    setErrorMessageUpdateName("");
+
+    // Axios Request
+    axios
+    .put(
+      'api/authenticate/update/name',
+      {
+        Username: user.email,
+        Name: name
+      }
+    )
+    .then(response => {
+      if (response.data.status === "Success") {
+        // Reset Errors
+        setErrorUpdateName(false);
+        setErrorMessageUpdateName("");
+
+        // Set Loading
+        setLoadingUpdateName(false);
+
+        // Set Success
+        setSuccessUpdateName(true);
+        // Set Success Message
+        setSuccessMessageUpdateName(response.data.message);
+
+        // Reset Form Fields
+        setName(name);
+
+        // Set UserContext
+        const userData = {
+          email: user.email,
+          name: name,
+          token: user.token,
+          expiration: user.expiration,
+          isAuthenticated: function() {
+              return (this.token == null || this.expiration < Date.now()) ? false : true
+          }
+        }
+        setUser(userData);
+        // Save UserContext to LocalStorage
+        SaveUserData(userData);
+      }
+    })
+    .catch(error => {
+      if (error.response.data.status === "Error") {
+        // Set Errors
+        setErrorUpdateName(true);
+
+        // Set Loading
+        setLoadingUpdateName(false);
+  
+        // Set Error Message
+        setErrorMessageUpdateName(error.response.data.message);
+        setErrorsArrayUpdateName(error.response.data.errorList);
+  
+        // Break Function
+        return false;
+      }
+    });
+
+  }
 
   // Function to Handle Submit of the Update Password Form
   const UpdatePasswordSubmit = async(event) => {
@@ -120,6 +215,39 @@ const Profile = () => {
   }
 
   // Function to Display Error Message
+  const DisplayErrorMessageUpdateName = (message, errors) => {
+    return(
+      <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-md text-red-100 bg-red-700 border border-red-700">
+        <div className="text-xl font-normal max-w-full flex-initial">
+          <i className="fas fa-exclamation-circle mr-4"></i>
+          {message}
+          <ul>
+            {
+              errors.map((errMsg, index) => (
+                <li key={index}>
+                    {errMsg}
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    );
+  }
+
+  // Function to Display Success Message
+  const DisplaySuccessMessageUpdateName = (message) => {
+    return(
+      <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-md text-green-100 bg-green-700 border border-green-700">
+        <div className="text-xl font-normal max-w-full flex-initial">
+          <i className="fas fa-exclamation-circle mr-4"></i>
+          {message}
+        </div>
+      </div>
+    );
+  }
+
+  // Function to Display Error Message
   const DisplayErrorMessageUpdatePassword = (message, errors) => {
     return(
       <div className="flex justify-center items-center m-1 font-medium py-1 px-2 bg-white rounded-md text-red-100 bg-red-700 border border-red-700">
@@ -156,7 +284,7 @@ const Profile = () => {
     <>
       <div className="container max-w-lg flex flex-col mx-auto">
         <h1 className="font-bold text-center my-4">Edit Profile</h1>
-        <form className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <form className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={UpdateNameSubmit}>
           <div>
             <h2 className="font-bold text-center my-4">Update Name</h2>
             <div className="mb-6">
@@ -176,6 +304,11 @@ const Profile = () => {
             type="submit">
             Update
           </button>
+
+          {loadingUpdateName ? <i className="fas fa-spinner fa-spin"></i> : null}
+          {errorUpdateName ? DisplayErrorMessageUpdateName(errorMessageUpdateName, errorsArrayUpdateName) : null}
+          {successUpdateName ? DisplaySuccessMessageUpdateName(successMessageUpdateName) : null}
+
         </form>
         <form className="w-full bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={UpdatePasswordSubmit}>
           <h2 className="font-bold text-center my-4">Update Password</h2>
