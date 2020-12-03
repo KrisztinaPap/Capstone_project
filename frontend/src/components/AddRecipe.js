@@ -104,27 +104,6 @@ const AddRecipe = () => {
     });
   }
 
-  function AddNewIngredient(event)
-  {
-    // This funciton will add a new ingredient to the ingredient list.
-    // Ingredient list is an array of Ingredient Objects.
-    /*
-    the structure is:
-    {
-      Name:
-      UOM:
-      Quantity:
-    }
-    */
-    let newIngredient = {
-      "Name": event.name,
-      "UOM": event.UOM,
-      "Quantity": event.Quantity
-    }
-
-    ingredientList.add(newIngredient);
-    setIngredientList(ingredientList)
-  }
   function HandleFormChange(event) {
     switch (event.target.id)
     {
@@ -205,15 +184,18 @@ const AddRecipe = () => {
     newLabel.innerHTML = "Ingredient";
     newInput.setAttribute("id", `ingredient${childCount / 4 + 1}`);
     newInput.setAttribute("type", "text");
+    newInput.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline");
 
     newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
     newQuantityLabel.innerHTML = `Quantity`;
     newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
+    newQuantity.setAttribute("class", "ingredientInput");
 
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
     newMeasureLabel.innerHTML = "Measurement";
 
     newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
+    newMeasureSelect.setAttribute("class", "ingredientInput");
     // Loop to create the select options for the measurements.
     for(let measurement in measurementsList) {
       const newOption = document.createElement("OPTION");
@@ -229,6 +211,30 @@ const AddRecipe = () => {
     ingredientSection.appendChild(newMeasureLabel);
     ingredientSection.appendChild(newMeasureSelect);
   }
+
+  // function CreateIngredientList()
+  // {
+  //   // This function will take all the ingredients in the form and create an Ingredient object for each one. All the ingredients will then be stored into a list.
+  //   // Ingredient list is an array of Ingredient Objects.
+  //   /*
+  //   the structure is:
+  //   {
+  //     Name:
+  //     UOM:
+  //     Quantity:
+  //   }
+  //   */
+  //  // Grab all the ingredient input fields:
+  //  const IngredientInputFields = document.getElementsByClassName("ingredientInput");
+  //   let newIngredient = {
+  //     "Name": name,
+  //     "UOM": UOM,
+  //     "Quantity": Quantity
+  //   }
+
+  //   ingredientList.add(newIngredient);
+  //   setIngredientList(ingredientList)
+  // }
 
   return (
     <>
