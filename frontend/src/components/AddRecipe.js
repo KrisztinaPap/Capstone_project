@@ -8,13 +8,13 @@ const AddRecipe = () => {
   //Initialize States
   const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
   const [loading, setLoading] = useState(true);
-  const [measurementsList, setMeasurementsList] = useState(['placeholder']);
+  const [measurementsList, setMeasurementsList] = useState(['']);
   const [recipeCategoryList, setRecipeCategoryList] = useState([
           { Name:'placeholder',
             Id:-1
         }]);
-  const [recipeCategory, setRecipeCategory] = useState();
-  const [name, setName] = useState();
+  const [recipeCategory, setRecipeCategory] = useState("0");
+  const [name, setName] = useState("");
   const [fats, SetFats] = useState();
   const [proteins, SetProteins] = useState();
   const [carbohydrates, SetCarbohydrates] = useState();
@@ -22,14 +22,17 @@ const AddRecipe = () => {
   const [prep, SetPrep] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
+  const [ingredientList, setIngredientList] = useState([]);
+  const [validationErrors, setValidationErrors] = useState([]);
+
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
-  const [message, setMessage] = useState("");
-
-  const [ingredientList, setIngredientList] = useState([]);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorHeader, setErrorHeader] = useState("");
+  let errorList = [];
 
   /*============================================================*/
-  /*                   UOM and Category
+  /*                   Setting States
   /*============================================================*/
   async function getUOMs() {
     // Summary:
@@ -53,37 +56,92 @@ const AddRecipe = () => {
     setEditorState(event.blocks[0].text);
   }
 
+  function ValidateInputFields() {
+    const validationErrorList = [];
+    console.log(validationErrorList);
+    let validationErrorMsg;
+    if(!name) {
+      validationErrorMsg = "Your recipe is missing a name!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    const IngredientInputFields = document.getElementsByClassName("ingredientInput");
+    for(let i=0; i < IngredientInputFields.length; i += 3)
+    {
+      if(IngredientInputFields[i].value == "" || IngredientInputFields[i] == null) {
+        validationErrorList.push("One of your ingredients is missing a name!");
+      }
+      if(isNaN(parseInt(IngredientInputFields[i+1].value))) {
+        validationErrorList.push("One of your ingredients is missing a quantity!");
+      }
+      if(IngredientInputFields[i+2].value) {
+        validationErrorList.push("One of your ingredients is missing a unit of measure!");
+      }
+    }
+    if(editorState == null) {
+      validationErrorMsg = "Your recipe is missing instructions!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(prep))) {
+      validationErrorMsg = "Please enter a number for prep time (min) to make your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(servings))) {
+      validationErrorMsg = "Please enter a number for the number of servings your recipe makes!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(carbohydrates))) {
+      validationErrorMsg = "Please enter a number for the amount of carbohydrates in your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(fats))) {
+      validationErrorMsg = "Please enter a number for the amount of fat in your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(proteins))) {
+      validationErrorMsg = "Please enter a number for the amount of protein in your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(recipeCategory == "0") {
+      validationErrorMsg = "Please select a category your recipe belongs to!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    setValidationErrors(validationErrorList);
+  }
+
   function SubmitRecipe(event) {
     // Summary:
     //   This function will send the recipe data from the form the user has filled out to the database and create a new recipe.
     event.preventDefault();
+    ValidateInputFields();
     CreateIngredientList();
-    axios({
-      method: 'post',
-      url: '/api/recipes',
-      data: {
-        "CategoryId": parseInt(recipeCategory),
-        "Name": name,
-        "Fat": fats,
-        "Protein": proteins,
-        "Carbohydrates": carbohydrates,
-        "Instructions": editorState,
-        "Ingredients": ingredientList,
-        // Image: image,
-        "DateModified": new Date().toJSON(),
-        "DateCreated": new Date().toJSON(),
-        "PrepTime": prep,
-        "Servings": servings,
-        "Notes": notes
-      }
-    }).then((res) => {
-      setResponse(res.data);
-      setStatusCode(res.status);
-    })
-    .catch((err) => {
-      setResponse(err.response.data);
-      setStatusCode(err.response.status);
-    });
+    if(validationErrors.length == 0){
+      axios({
+        method: 'post',
+        url: '/api/recipes',
+        data: {
+          "CategoryId": parseInt(recipeCategory),
+          "Name": name,
+          "Fat": fats,
+          "Protein": proteins,
+          "Carbohydrates": carbohydrates,
+          "Instructions": editorState,
+          "Ingredients": ingredientList,
+          // Image: image,
+          "DateModified": new Date().toJSON(),
+          "DateCreated": new Date().toJSON(),
+          "PrepTime": prep,
+          "Servings": servings,
+          "Notes": notes
+        }
+      }).then((res) => {
+        setResponse(res.data);
+        setStatusCode(res.status);
+      })
+      .catch((err) => {
+        setResponse(err.response.data);
+        setStatusCode(err.response.status);
+      });
+    }
   }
 
   function HandleFormChange(event) {
@@ -198,14 +256,12 @@ const AddRecipe = () => {
     ingredientSection.appendChild(newMeasureSelect);
   }
 
-  function CreateIngredientList()
-  {
+  function CreateIngredientList() {
     // Summary:
     //   This function will take all the ingredients in the form and create an Ingredient object for each one. All the ingredients will then be stored into a list.
 
     // Grab all the ingredient input fields:
     const IngredientInputFields = document.getElementsByClassName("ingredientInput");
-
     const tempIngredientList = [];
     for(let i=0; i < IngredientInputFields.length; i += 3)
     {
@@ -215,9 +271,8 @@ const AddRecipe = () => {
         "UOM": IngredientInputFields[i+2].value
       }
       tempIngredientList.push(newIngredient);
-      console.log(tempIngredientList);
     }
-    setIngredientList(tempIngredientList);
+    return tempIngredientList;
   }
 
   /*============================================================*/
@@ -228,24 +283,16 @@ const AddRecipe = () => {
     getRecipeCategories();
   },[loading]);
 
-  useEffect(() => {
-    if (statusCode === 400) {
-      let errorMsg = "";
-      console.log(response.errors);
-      for(const key in response.errors)
+  useEffect(()=> {
+    if(validationErrors.length > 0) {
+      setErrorHeader("ERROR: There was problem with your recipe!");
+      for(let error in validationErrors)
       {
-        for(const errorIndex in response.errors[key])
-        {
-          errorMsg += `${response.errors[key][errorIndex]}`;
-        }
+        errorList.push(<li className="list-disc">{validationErrors[error]}</li>);
       }
-      // response.errors.Instructions.forEach(error => errorMsg += error);
-        setMessage(errorMsg);
+      setErrorMessage(errorList);
     }
-    else if (statusCode === 200) {
-        setMessage(`Successfully`)
-    }
-  }, [response, statusCode]);
+  }, [validationErrors.length]);
 
   return (
     <>
@@ -254,7 +301,10 @@ const AddRecipe = () => {
           <h1 className="font-bold">Add a New Recipe</h1>
         </div>
         <h2 className="font-bold py-4">Recipe Information</h2>
-        <p>{message}</p>
+        <h1 className="font-extrabold">{errorHeader}</h1>
+        <ul>
+          {errorMessage}
+        </ul>
         <form onSubmit={SubmitRecipe}>
           <section id="addRecipeBasics">
             <label htmlFor="addRecipeName">Name(*):</label>
@@ -278,6 +328,7 @@ const AddRecipe = () => {
               <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" onChange={HandleFormChange} />
               <label htmlFor="measurement1">Measurement:</label>
               <select className="ingredientInput" id="measurement1" onChange={HandleFormChange}>
+                <option value="0" selected="selected"></option>
                 {measurementsList.map((measurement) => {
                   return (
                     <option value={measurement}>{measurement}</option>
@@ -301,11 +352,11 @@ const AddRecipe = () => {
           </section>
           <section id="addRecipeLogistics">
             <div>
-              <label htmlFor="addRecipePrepTime">Prep. Time(*):</label>
+              <label htmlFor="addRecipePrepTime">Prep. Time(*)(min):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
             </div>
             <div>
-              <label htmlFor="addRecipeCookTime">Cook Time(*):</label>
+              <label htmlFor="addRecipeCookTime">Cook Time(*)(min):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
             </div>
             <div>
