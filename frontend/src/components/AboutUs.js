@@ -17,7 +17,8 @@ const AboutUs = () => {
                 <div className="w-full">
                   <h2 className="title-font font-medium text-lg text-gray-900">Aaron Barthel</h2>
                   <h3 className="text-gray-500 mb-3">Full Stack Developer</h3>
-                  <p className="mb-4">DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.</p>
+                  <p className="mb-4">Aaron is a Full Stack developer based in Edmonton, AB. He spends his time either playing games like
+                    Factorio and PlanetSide2 or building stylish web applications for the modern web.</p>
                   <span className="inline-flex">
               <a className="text-gray-500">
                 <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" className="w-5 h-5"
