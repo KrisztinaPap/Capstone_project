@@ -77,7 +77,9 @@ namespace Api.Controllers
           return Ok(new
           {
             token = new JwtSecurityTokenHandler().WriteToken(token),
-            expiration = token.ValidTo
+            expiration = token.ValidTo,
+            name = user.Name,
+            email = user.Email
           });
         }
         return Unauthorized();

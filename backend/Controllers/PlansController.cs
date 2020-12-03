@@ -30,38 +30,71 @@ namespace Api.Controllers
       _context = context;
     }
 
-    // POST: api/plans/
-    [HttpPost]
-    public ActionResult<Plan> CreateSchedulePlan([CustomizeValidator(RuleSet = "CreateSchedulePlan")][FromBody] Schedule schedule)
+    // PUT: api/plans/
+    [HttpPut]
+    public ActionResult<Plan> CreateSchedulePlan([CustomizeValidator(RuleSet = "CreateSchedulePlan")][FromBody] List<Schedule> schedule)
     {
       /**
        * Function creates a new plan for a user
        * 
-       * @param <Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
-       * @return <Schedule> Plan data in Schedule Model
+       * @param List<Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
+       * @return NoCotent
        */
 
-      Plan plan_ = new Plan
-                  {
-                    UserId = schedule.UserId,
-                    Day = schedule.Day
-                  };
-      Meal meal_ = new Meal
-                  {
-                    PlanId = plan_.Id,
-                    MealTimeId = schedule.MealTimeId
-                  };
-      MealRecipe mealRecipe_ = new MealRecipe
-                              {
-                                MealId = meal_.Id,
-                                RecipeId = schedule.RecipeId
-                              };
-      meal_.MealRecipes.Add(mealRecipe_);
-      plan_.Meals.Add(meal_);
-      _context.Add(plan_);
-      _context.SaveChanges();
-
-      return GetPlanById(plan_.Id);
+      // Loop Through Array of Schedules
+      foreach (Schedule eachSchedule in schedule.ToList())
+      {
+        // Check if Schedule Exists in Database
+        if (_context.Plans.Any(x => x.Day == eachSchedule.Day))
+        {
+          // Update the Schedule Plan
+          Plan plan_ = _context.Plans
+                        .Where(x => x.Day == eachSchedule.Day && x.UserId == eachSchedule.UserId)
+                        .SingleOrDefault();
+          _context.Meals
+            .Where(x => x.PlanId == plan_.Id && x.Id == eachSchedule.MealId)
+            .ToList()
+            .ForEach(x => x.MealTimeId = eachSchedule.MealTimeId);
+          if (_context.Meals.Any(x => x.Id == eachSchedule.MealId && x.PlanId == plan_.Id))
+          {
+            MealRecipe mealRecipe = _context.MealRecipes
+                                     .Where(x => x.MealId == eachSchedule.MealId)
+                                     .SingleOrDefault();
+            _context.Remove(mealRecipe);
+            MealRecipe mealRecipe_ = new MealRecipe
+            {
+              MealId = eachSchedule.MealId,
+              RecipeId = eachSchedule.RecipeId
+            };
+            _context.Add(mealRecipe_);
+          }
+          _context.SaveChanges();
+        }
+        else
+        {
+          // Add Schedule Plan
+          Plan plan_ = new Plan
+          {
+            UserId = eachSchedule.UserId,
+            Day = eachSchedule.Day
+          };
+          Meal meal_ = new Meal
+          {
+            PlanId = plan_.Id,
+            MealTimeId = eachSchedule.MealTimeId
+          };
+          MealRecipe mealRecipe_ = new MealRecipe
+          {
+            MealId = meal_.Id,
+            RecipeId = eachSchedule.RecipeId
+          };
+          meal_.MealRecipes.Add(mealRecipe_);
+          plan_.Meals.Add(meal_);
+          _context.Add(plan_);
+          _context.SaveChanges();
+        }
+       }
+      return NoContent();
     }
 
     // GET: api/plans/{id}
@@ -71,12 +104,12 @@ namespace Api.Controllers
     {
       /**
        * Function returns a plan along with its meal type, recipe and ingredients
-       * 
+       *
        * @param <int> id
        * @return <Plan> Plan data
        */
 
-      var result = _context.Plans
+          var result = _context.Plans
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealTime)
                     .Include(x => x.Meals)
@@ -84,6 +117,25 @@ namespace Api.Controllers
                         .ThenInclude(x => x.Recipe)
                           .ThenInclude(x => x.Ingredients)
                     .Where(x => x.Id == id)
+                    .Select
+                     (
+                      x => new
+                      {
+                        day = x.Day,
+                        meals = x.Meals.Select
+                        (
+                          m => new
+                          {
+                            id = m.Id,
+                            mealTime = m.MealTime.Name,
+                            recipes = m.MealRecipes.Select
+                            (
+                              mr => mr.RecipeId
+                            )
+                          }
+                        )
+                      }
+                     )
                     .SingleOrDefault();
 
       if (result == null)
@@ -101,7 +153,7 @@ namespace Api.Controllers
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients
-       * 
+       *
        * @param <int> User Id
        * @return <Plan> Plan data
        */
@@ -114,6 +166,25 @@ namespace Api.Controllers
                         .ThenInclude(x => x.Recipe)
                           .ThenInclude(x => x.Ingredients)
                     .Where(x => x.UserId == userId)
+                    .Select
+                     (
+                      x => new
+                      {
+                        day = x.Day,
+                        meals = x.Meals.Select
+                        (
+                          m => new
+                          {
+                            id = m.Id,
+                            mealTime = m.MealTime.Name,
+                            recipes = m.MealRecipes.Select
+                            (
+                              mr => mr.RecipeId
+                            )
+                          }
+                        )
+                      }
+                     )
                     .ToList();
 
       if (result.Count == 0)
@@ -131,7 +202,7 @@ namespace Api.Controllers
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients within the from and to Dates
-       * 
+       *
        * @param <int> User Id, <DateTime> fromDate, <DateTime> toDate
        * @return <Plan> Plan data
        */
@@ -141,9 +212,26 @@ namespace Api.Controllers
                       .ThenInclude(x => x.MealTime)
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealRecipes)
-                        .ThenInclude(x => x.Recipe)
-                          .ThenInclude(x => x.Ingredients)
                     .Where(x => x.UserId == userId && x.Day >= fromDate && x.Day <= toDate)
+                    .Select
+                     (
+                      x => new
+                      {
+                        day = x.Day,
+                        meals = x.Meals.Select
+                        (
+                          m => new
+                          {
+                            id = m.Id,
+                            mealTime = m.MealTime.Name,
+                            recipes = m.MealRecipes.Select
+                            (
+                              mr => mr.RecipeId
+                            )
+                          }
+                        )
+                      }
+                     )
                     .ToList();
 
       if (result.Count == 0)
