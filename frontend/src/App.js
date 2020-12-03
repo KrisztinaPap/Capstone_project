@@ -32,7 +32,7 @@ export default function App() {
           <Route exact path='/recipes' component={Recipes} />
           <Route exact path='/recipes/:recipes' component={Recipe} />
           <Route path='/add-recipe' component={AddRecipe} />
-          <Route path='/about-us' component={AboutUs} />
+          <Route exact path='/about-us' component={AboutUs} />
         </Layout>
       </UserContext.Provider>
     );
