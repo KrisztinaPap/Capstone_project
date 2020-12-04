@@ -62,6 +62,10 @@ namespace Api.Models
     public decimal PrepTime { get; set; }
 
     [Required]
+    [Column(TypeName = "decimal(10, 3)")]
+    public decimal CookTime{ get; set; }
+
+    [Required]
     [Column(TypeName = "int(10)")]
     public int Servings { get; set; } = 1;
 
