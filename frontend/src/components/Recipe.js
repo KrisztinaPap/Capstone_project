@@ -89,24 +89,24 @@ function Recipe(){
 
   // If no axios Errors, and data is returned, render page...
   return(
-    <div className="mx-2">
+    <div className="mx-2 my-8">
       {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
-      <div className="flex justify-center my-4">
-        <img className="p-2 w-1/2 border rounded" src={"https://designshack.net/wp-content/uploads/placehold.jpg"} alt={myRecipe.name} />
+      <div className="flex justify-center my-8">
+        <img className="p-2 w-1/3 border rounded" src={myRecipe.img} alt={myRecipe.name} />
       </div>
-      <h1 className="text-xl text-bold my-4 text-center">{myRecipe.name}</h1>
-      <p className="text-md text-bold text-center">Servings: {myRecipe.servings}</p>
-      <p className="text-md text-bold text-center">Prep Time: {myRecipe.prepTime}</p>
+      <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
+      <p className="text-md text-bold">Servings: {myRecipe.servings}</p>
+      <p className="text-md text-bold">Prep Time: {myRecipe.prepTime}</p>
 
-      <section className="flex flex-col md:flex-row md:justify-left my-4">
+      <section className="flex flex-col md:flex-row md:justify-center my-8">
 
-          <section className="md:w-1/2 mx-2 md:ml-4">
-            <h2 className="text-lg text-bold my-2">Ingredients:</h2>
-            <div className="text-md">{ingredientsArray}</div>
+        <section className="md:w-1/2 md:flex md:flex-col">
+            <h2 className="text-2xl text-bold my-4">Ingredients</h2>
+          <div className="text-md">{ingredientsArray}</div>
           </section>
 
-          <section className="md:w-1/2 mx-2 md:ml-4">
-            <h2 className="text-lg text-bold my-2">Macros:</h2>
+        <section className="md:w-1/2 md:ml-4 md:flex md:flex-col">
+          <h2 className="text-2xl text-bold my-4">Macros</h2>
             <p className="text-md">Calories: {(parseInt(myRecipe.fat) * 9) + (parseInt(myRecipe.protein) * 4) +(parseInt(myRecipe.carbohydrates) * 4)}</p>
             <p className="text-md">Fat: {myRecipe.fat}g</p>
             <p className="text-md">Protein: {myRecipe.protein}g</p>
@@ -115,20 +115,20 @@ function Recipe(){
 
       </section>
 
-      <section className="m-2">
-        <h2 className="text-lg text-bold my-2 md:text-center">Instructions</h2>
+      <section className="my-8 md:w-1/2 ">
+        <h2 className="text-2xl text-bold my-4">Instructions</h2>
         <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.instructions}</ReactMarkdown>
       </section>
-      <section className="m-2">
-        <h2 className="text-lg text-bold my-2 md:text-center">Notes:</h2>
+      <section className="my-8 md:w-1/2 ">
+        <h2 className="text-2xl text-bold my-4">Notes</h2>
         <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.notes}</ReactMarkdown>
       </section>
 
-      <section className="flex justify-around my-4">
-        <button className="purple-button focus:outline-none focus:shadow-outline" type="submit">
+      <section className="flex justify-around my-8">
+        <button className="purple-button hover:bg-purple-700 focus:bg-purple-700 focus:shadow-outline" type="submit">
           Edit Recipe
         </button>
-        <Link to={"/recipes/"}><button className="purple-button focus:outline-none focus:shadow-outline" type="submit">
+        <Link to={"/recipes/"}><button className="purple-button hover:bg-purple-700 focus:bg-purple-700 focus:shadow-outline" type="submit">
             Return to Recipe List
         </button></Link>
       </section>
