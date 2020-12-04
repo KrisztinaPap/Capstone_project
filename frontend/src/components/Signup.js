@@ -21,6 +21,116 @@ const Signup = () => {
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
+  const [emailValid, setEmailValid] = useState(true);
+  const [nameValid, setNameValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [password2Valid, setPassword2Valid] = useState(true);
+  const [submitValid, setSubmitValid] = useState(true);
+
+  // Function to Validate Input
+  const ValidateInput = () => {
+    // Reset errorsArray
+    setErrorsArray([]);
+    let errorList = [];
+
+    // Check if Email is Valid
+    const regexEmailTest = /\S+@\S+\.\S+/;
+    if (!regexEmailTest.test(email)) {
+      // Set Error
+      setEmailValid(false);
+      // Set Error Message
+      errorList[errorList.length] = "Invalid Email.";
+    }
+    else {
+      // Set Error
+      setEmailValid(true);
+    }
+
+    // Check If Name is Valid
+    if (name.length <= 1) {
+      // Set Error
+      setNameValid(false);
+      // Set Error Message
+      errorList[errorList.length] = "Name must be more than 1 character.";
+    }
+    else {
+      // Set Error
+      setNameValid(true);
+    }
+
+    // Check Passwords Length
+    if (password.length <= 6) {
+      // Set Error
+      setPasswordValid(false);
+      // Set Error Message
+      errorList[errorList.length] = "Password must be more than 6 character.";
+    }
+    else {
+      // Set Error
+      setPasswordValid(true);
+    }
+
+    // Check if Password Contains a Number
+    const regexPasswordNumberTest = /\d/;
+    if (!regexPasswordNumberTest.test(password)) {
+      // Set Error
+      setPasswordValid(false);
+      // Set Error Message
+      errorList[errorList.length] = "Password must be have at least a number.";
+    }
+    else {
+      // Set Error
+      setPasswordValid(true);
+    }
+
+    // Check if Password Contains an AlphaNumeric Character
+    const regexPasswordAlphaNumericTest = /[^A-Za-z0-9]/;
+    if (!regexPasswordAlphaNumericTest.test(password)) {
+      // Set Error
+      setPasswordValid(false);
+      // Set Error Message
+      errorList[errorList.length] = "Password must be have at least an alphanumeric character.";
+    }
+    else {
+      // Set Error
+      setPasswordValid(true);
+    }
+
+    // Check If Passwords Match
+    if (password !== password2) {
+      // Set Error
+      setPassword2Valid(false);
+      // Set Error Message
+      errorList[errorList.length] = "Passwords do not match.";
+    }
+    else {
+      // Set Error
+      setPassword2Valid(true);
+    }
+
+    // Add Error Message to State
+    setErrorsArray(errorList);
+
+    // Check errorsArray
+    if (errorList.length > 0) {
+      // Set Errors
+      setError(true);
+      setSubmitValid(false);
+      // Set Error Message
+      setErrorMessage("Invalid Input");
+      DisplayErrorMessage(errorMessage, errorsArray);
+      
+    }
+    else {
+      // Set Errors
+      setError(false);
+      setSubmitValid(true);
+      // Set Error Message
+      setErrorMessage("");
+      setErrorsArray([]);
+    }
+  }
+
   // Function to Handle Submit of the Signup Form
   const SignupSubmit = async(event) => {
 
@@ -30,23 +140,20 @@ const Signup = () => {
     // Set Loading
     setLoading(true);
 
-    // Check If Passwords Match
-    if (password !== password2) {
-      // Set Loading
-      setLoading(false);
+    // Reset Errors
+    setError(false);
+    setErrorMessage("");
+    setErrorsArray([]);
 
+    if (!emailValid || !nameValid || !passwordValid || !password2Valid || !submitValid) {
       // Set Errors
       setError(true);
       // Set Error Message
-      setErrorMessage("Passwords do not match");
+      setErrorMessage("Invalid Input");
+      DisplayErrorMessage(errorMessage, errorsArray);
 
-      // Break Function
+      // Break Action
       return false;
-    }
-    else {
-      // Reset Errors
-      setError(false);
-      setErrorMessage("");
     }
 
     // Axios Request
@@ -65,6 +172,7 @@ const Signup = () => {
         // Reset Errors
         setError(false);
         setErrorMessage("");
+        setErrorsArray([]);
 
         // Set Loading
         setLoading(false);
@@ -91,7 +199,9 @@ const Signup = () => {
   
         // Set Error Message
         setErrorMessage(error.response.data.message);
-        setErrorsArray(error.response.data.errorList);
+        if (error.response.data.errorList) {
+          setErrorsArray(error.response.data.errorList);
+        }
   
         // Break Function
         return false;
@@ -151,51 +261,57 @@ const Signup = () => {
               <div>
                 <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                 <input
-                  className="input-field w-full focus:outline-none focus:shadow-outline"
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!emailValid ? "input-error" : "") }
                   type="text"
                   id="email"
                   value={email}
                   onChange={event => setEmail( event.target.value )}
+                  onKeyUp={ValidateInput}
                   required
                 />
               </div>
               <div>
                 <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
                 <input
-                  className="input-field w-full focus:outline-none focus:shadow-outline"
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!nameValid ? "input-error" : "") }
                   type="text"
                   id="name"
                   value={name}
                   onChange={event => setName( event.target.value )}
+                  onKeyUp={ValidateInput}
                   required
                 />
               </div>
               <div>
                 <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password:</label>
                 <input
-                  className="input-field w-full focus:outline-none focus:shadow-outline"
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!passwordValid ? "input-error" : "") }
                   type="password"
                   id="password"
                   value={password}
                   onChange={event => setPassword( event.target.value )}
+                  onKeyUp={ValidateInput}
                   required
                 />
               </div>
               <div className="mb-6">
                 <label htmlFor="password2" className="block text-gray-700 text-sm font-bold mb-2">Re-enter Password:</label>
                 <input
-                  className="input-field w-full focus:outline-none focus:shadow-outline"
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!password2Valid ? "input-error" : "") }
                   type="password"
                   id="password2"
                   value={password2}
                   onChange={event => setPassword2( event.target.value )}
+                  onKeyUp={ValidateInput}
                   required
                   />
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
-                  type="submit">
+                  className={ "purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline " + (!submitValid ? "opacity-50 cursor-not-allowed" : "") }
+                  type="submit"
+                  disabled={ !submitValid }
+                >
                   Submit
                 </button>
                 <Link className="purple-link hover:text-purple-600" to="/login">
