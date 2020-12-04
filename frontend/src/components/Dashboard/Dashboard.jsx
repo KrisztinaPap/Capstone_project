@@ -292,7 +292,7 @@ const Dashboard = () => {
 
   return (
     <div className="container mx-auto">
-      <h1 className="text-center mt-6">Dashboard</h1>
+      <h1 className="text-center font-bold my-4">Dashboard</h1>
 
       <div className="flex flex-col gap-6 lg:flex-row">
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
