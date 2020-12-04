@@ -40,6 +40,7 @@ const AddRecipe = () => {
   const [tags, setTags] = useState([]);
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
+  const [imageUploadMessage, setImageUploadMessage] = useState();
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
@@ -252,13 +253,13 @@ const AddRecipe = () => {
       data: formData
 
     }).then((res) => {
-      SetImage(res.data);
-      const photoLabelElement = document.getElementById("photoLabel");
-      const successUploadMessage = document.createElement("P");
-      successUploadMessage.setAttribute("class", "font-bold");
-      successUploadMessage.innerHTML = "Successfully uploaded image.";
-      photoLabelElement.appendChild(successUploadMessage);
-
+      if(res.status === 200 && imageInput.files[0] != null) {
+        SetImage(res.data);
+        setImageUploadMessage("Successfully uploaded image.");
+      }
+      else {
+        setImageUploadMessage("Image upload failed.");
+      }
     });
   }
 
@@ -285,7 +286,7 @@ const AddRecipe = () => {
     newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
     newQuantityLabel.innerHTML = `Quantity`;
     newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
-    newQuantity.setAttribute("class", "ingredientInput");
+    newQuantity.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline");
 
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
     newMeasureLabel.innerHTML = "Measurement";
@@ -363,7 +364,8 @@ const AddRecipe = () => {
             <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeName" onChange={HandleFormChange} />
             <form className="py-4">
               <label id="photoLabel" htmlFor="addRecipePhoto">Photo:</label>
-              <input type="file" id="addRecipePhoto" />
+              <p className="font-bold">{imageUploadMessage}</p>
+              <input type="file" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
               <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={PhotoUpload}>Upload</button>
               <div className="px-4 text-sm">
                 <p>Upload a file</p>
