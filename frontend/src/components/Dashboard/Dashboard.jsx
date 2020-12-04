@@ -20,6 +20,7 @@ import {
 } from '../../utils/dndIdCoders';
 
 import Schedule, {Forward, Backward, Jump} from './Schedule';
+import {Link} from "react-router-dom";
 
 // Citation: https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
 
@@ -243,21 +244,36 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="mx-auto">
-        <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-        <p>Fetching your schedules...</p>
-      </div>
+      <>
+        <section className="mt-8">
+          <p className="text-center">
+            <i className="fas fa-spinner fa-spin fa-4x"></i>
+          </p>
+          <p className="text-center mt-2">
+            Fetching your schedules...
+          </p>
+        </section>
+      </>
     );
   }
 
   if (error) {
     return (
-      <>
-        <p>Failed fetching schedules. Please try again.</p>
-        <p><button className="bg-purple-500 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline shadow" type="submit" onClick={() => populateRecipes()}>
-          Retry
-        </button></p>
-      </>
+      <section className="mt-8">
+        <p className="text-center">
+          Failed fetching schedules. Please try again..
+        </p>
+        <p className="text-center mt-2">
+          <button className="purple-button focus:outline-none focus:shadow-outline mr-1" type="submit" onClick={populateRecipes}>
+            Retry
+          </button>
+          <Link to={"/"}>
+            <button className="purple-button focus:outline-none focus:shadow-outline ml-1" type="submit">
+              Return to Home Page
+            </button>
+          </Link>
+        </p>
+      </section>
     )
   }
 
