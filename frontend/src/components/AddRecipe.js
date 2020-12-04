@@ -38,13 +38,12 @@ const AddRecipe = () => {
   const [prep, SetPrep] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
-  const [ingredientList, setIngredientList] = useState([]);
   const [validationErrors, setValidationErrors] = useState([]);
 
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const [errorHeader, setErrorHeader] = useState("");
+  const [responseHeader, setResponseHeader] = useState("");
   let errorList = [];
 
   /*============================================================*/
@@ -72,9 +71,8 @@ const AddRecipe = () => {
     setEditorState(event.blocks[0].text);
   }
 
-  function ValidateInputFields() {
+  async function ValidateInputFields() {
     const validationErrorList = [];
-    console.log(validationErrorList);
     let validationErrorMsg;
     if(!name) {
       validationErrorMsg = "Your recipe is missing a name!";
@@ -83,13 +81,13 @@ const AddRecipe = () => {
     const IngredientInputFields = document.getElementsByClassName("ingredientInput");
     for(let i=0; i < IngredientInputFields.length; i += 3)
     {
-      if(IngredientInputFields[i].value == "" || IngredientInputFields[i] == null) {
+      if(IngredientInputFields[i].value === "" || IngredientInputFields[i] === null) {
         validationErrorList.push("One of your ingredients is missing a name!");
       }
       if(isNaN(parseInt(IngredientInputFields[i+1].value))) {
         validationErrorList.push("One of your ingredients is missing a quantity!");
       }
-      if(IngredientInputFields[i+2].value) {
+      if(IngredientInputFields[i+2].value === "0" || IngredientInputFields[i+2].value === null) {
         validationErrorList.push("One of your ingredients is missing a unit of measure!");
       }
     }
@@ -117,11 +115,12 @@ const AddRecipe = () => {
       validationErrorMsg = "Please enter a number for the amount of protein in your recipe!";
       validationErrorList.push(validationErrorMsg); 
     }
-    if(recipeCategory == "0") {
+    if(recipeCategory === "0") {
       validationErrorMsg = "Please select a category your recipe belongs to!";
       validationErrorList.push(validationErrorMsg); 
     }
     setValidationErrors(validationErrorList);
+    // return validationErrorList;
   }
 
   function SubmitRecipe(event) {
@@ -129,8 +128,8 @@ const AddRecipe = () => {
     //   This function will send the recipe data from the form the user has filled out to the database and create a new recipe.
     event.preventDefault();
     ValidateInputFields();
-    CreateIngredientList();
-    if(validationErrors.length == 0){
+    const ingredientsList = CreateIngredientList();
+    if( validationErrors.length === 0 ) {
       axios({
         method: 'post',
         url: '/api/recipes',
@@ -141,7 +140,7 @@ const AddRecipe = () => {
           "Protein": proteins,
           "Carbohydrates": carbohydrates,
           "Instructions": editorState,
-          "Ingredients": ingredientList,
+          "Ingredients": ingredientsList,
           // Image: image,
           "DateModified": new Date().toJSON(),
           "DateCreated": new Date().toJSON(),
@@ -150,10 +149,13 @@ const AddRecipe = () => {
           "Notes": notes
         }
       }).then((res) => {
+        setValidationErrors([]);
+        setResponseHeader("Successly added recipe");
         setResponse(res.data);
         setStatusCode(res.status);
       })
       .catch((err) => {
+        setValidationErrors(["There was an error with the server."]);
         setResponse(err.response.data);
         setStatusCode(err.response.status);
       });
@@ -290,7 +292,7 @@ const AddRecipe = () => {
     // Grab all the ingredient input fields:
     const IngredientInputFields = document.getElementsByClassName("ingredientInput");
     const tempIngredientList = [];
-    for(let i=0; i < IngredientInputFields.length; i += 3)
+    for(let i = 0; i < IngredientInputFields.length; i += 3)
     {
       let newIngredient = {
         "Name": IngredientInputFields[i].value,
@@ -312,7 +314,7 @@ const AddRecipe = () => {
 
   useEffect(()=> {
     if(validationErrors.length > 0) {
-      setErrorHeader("ERROR: There was problem with your recipe!");
+      setResponseHeader("ERROR: There was problem with your recipe!");
       for(let error in validationErrors)
       {
         errorList.push(<li className="list-disc">{validationErrors[error]}</li>);
@@ -328,7 +330,7 @@ const AddRecipe = () => {
           <h1 className="font-bold">Add a New Recipe</h1>
         </div>
         <h2 className="font-bold py-4">Recipe Information</h2>
-        <h1 className="font-extrabold">{errorHeader}</h1>
+        <h1 className="font-extrabold">{responseHeader}</h1>
         <ul>
           {errorMessage}
         </ul>
