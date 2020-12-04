@@ -98,7 +98,7 @@ export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod,
           </button>
 
           <button
-            className="border-2 border-solid border-black rounded-md px-2 shadow mx-2"
+            className="bg-purple-500 border-2 border-solid border-black rounded-md px-2 shadow mx-2"
             onClick={moveToToday}
           >
             Today
@@ -112,7 +112,7 @@ export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod,
 
 
         <button
-          className="border-2 border-solid border-black rounded-md px-2 shadow mx-2"
+          className="bg-purple-500 border-2 border-solid border-black rounded-md px-2 shadow mx-2"
           onClick={toggleEditing}
         >
           {isEditing ?
