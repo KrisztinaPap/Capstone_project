@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AboutUs from "./AboutUs";
 
 const Home = () => {
   return (
@@ -94,13 +95,15 @@ const Home = () => {
           <div
             className="md:w-1/2 md:pr-12 md:py-8 md:border-r md:border-b-0 mb-10 md:mb-0 pb-10 border-b border-gray-300">
             <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">About the Project</h1>
-            <p className="leading-relaxed text-base">This app was developed by Team PuddleJumpers over a period of 3.5 weeks as the capstone project for <a href={"http://www.techcareers.ca/"}>TECHCareers</a> Cohort 4.2. This was a team project consisting of Aaron Barthel, Kenji Au, Krisztina Pap, Lindsey Graham, & Tosin Olaniyi</p>
-            <a className="text-purple-500 inline-flex items-center mt-4" href={"https://github.com/TECHCareers-by-Manpower/capstone-project-puddlejumpers"} target={"_blank"} rel={"noopener noreferrer"}> Learn More
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                   className="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </a>
+            <p className="leading-relaxed text-base">This app was developed by Team PuddleJumpers over a period of 3.5 weeks as the capstone project for <a href={"http://www.techcareers.ca/"}>TECHCareers</a> Cohort 4.2.</p>
+            <Link to="/about-us">
+              <a className="text-purple-500 inline-flex items-center mt-4"> Learn More
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                     className="w-4 h-4 ml-2" viewBox="0 0 24 24">
+                  <path d="M5 12h14M12 5l7 7-7 7"></path>
+                </svg>
+              </a>
+            </Link>
           </div>
           <div className="flex flex-col md:w-1/2 md:pl-12">
             <h2 className="title-font font-medium text-gray-800 tracking-widest text-sm mb-3">DEVELOPERS</h2>
