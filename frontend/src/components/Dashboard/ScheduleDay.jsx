@@ -10,11 +10,11 @@ export default ({date, plan, isEditing, fetchRecipe}) => {
 
   return (
     <div className="border border-gray-600 divide-y divide-gray-600">
-      <div className="text-center p-2">
-        <div>
+      <div className="bg-purple-500 text-center p-2">
+        <div className="font-bold">
           {date.format('ddd')}
         </div>
-        <div>
+        <div className="font-bold">
           {date.format('DD')}
         </div>
       </div>
