@@ -22,85 +22,147 @@ const AddRecipe = () => {
   });
 
   //Initialize States
-  const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
   const [loading, setLoading] = useState(true);
-  const [measurementsList, setMeasurementsList] = useState(['placeholder']);
+  const [measurementsList, setMeasurementsList] = useState(['']);
   const [recipeCategoryList, setRecipeCategoryList] = useState([
           { Name:'placeholder',
             Id:-1
         }]);
-  const [recipeCategory, setRecipeCategory] = useState();
-  const [name, setName] = useState();
+  const [recipeCategory, setRecipeCategory] = useState("0");
+  const [name, setName] = useState("");
   const [fats, SetFats] = useState();
   const [proteins, SetProteins] = useState();
   const [carbohydrates, SetCarbohydrates] = useState();
-  const [calories, SetCalories] = useState();
-  const [tags, SetTags] = useState();
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
+  const [ingredientList, setIngredientList] = useState([]);
+  const [validationErrors, setValidationErrors] = useState([]);
 
+  const [response, setResponse] = useState("");
+  const [statusCode, setStatusCode] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errorHeader, setErrorHeader] = useState("");
+  let errorList = [];
+
+  /*============================================================*/
+  /*                   Setting States
+  /*============================================================*/
   async function getUOMs() {
+    // Summary:
+    //   This function will obtain the units of measure currently in the database and set the measurement list for the user to choose from.
     const response = await axios.get('https://localhost:5001/api/UOMs/all');
     setMeasurementsList(response.data);
     setLoading(false);
   }
 
   async function getRecipeCategories() {
+    // Summary:
+    //   This function will obtain the recipe categories currently in the database and set the measurement list for the user to choose from.
     const res = await axios.get('https://localhost:5001/api/recipecategories/options');
     setRecipeCategoryList(res.data);
     setLoading(false);
   }
 
-  useEffect(()=> {
-    getUOMs();
-    getRecipeCategories();
-  },[loading]);
-
   function onEditorStateChange(event) {
-    // This function will update the editorState.
+    // Summary:
+    //   This function will update the state tracked by the instructions text editor.
     setEditorState(event.blocks[0].text);
   }
 
-  function SubmitRecipe(event) {
-    // This function will send the POST request to database to insert the new recipe.
-    event.preventDefault();
-    // Request to insert the recipe to the database.
-    axios({
-      method: 'post',
-      url: '/api/recipes',
-      params: {
-        RecipeCategory: recipeCategory,
-        Name: name,
-        Fats: fats,
-        Proteins: proteins,
-        Carbohydrates: carbohydrates,
-        Calories: calories,
-        Instructions: editorState,
-        Tags: tags,
-        Image: image,
-        Date_Modified: new Date(),
-        Date_Created: new Date(),
-        Prep_Time: prep,
-        Servings: servings,
-        Notes: notes,
+  function ValidateInputFields() {
+    const validationErrorList = [];
+    console.log(validationErrorList);
+    let validationErrorMsg;
+    if(!name) {
+      validationErrorMsg = "Your recipe is missing a name!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    const IngredientInputFields = document.getElementsByClassName("ingredientInput");
+    for(let i=0; i < IngredientInputFields.length; i += 3)
+    {
+      if(IngredientInputFields[i].value == "" || IngredientInputFields[i] == null) {
+        validationErrorList.push("One of your ingredients is missing a name!");
       }
-    });
+      if(isNaN(parseInt(IngredientInputFields[i+1].value))) {
+        validationErrorList.push("One of your ingredients is missing a quantity!");
+      }
+      if(IngredientInputFields[i+2].value) {
+        validationErrorList.push("One of your ingredients is missing a unit of measure!");
+      }
+    }
+    if(editorState == null) {
+      validationErrorMsg = "Your recipe is missing instructions!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(prep))) {
+      validationErrorMsg = "Please enter a number for prep time (min) to make your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(servings))) {
+      validationErrorMsg = "Please enter a number for the number of servings your recipe makes!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(carbohydrates))) {
+      validationErrorMsg = "Please enter a number for the amount of carbohydrates in your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(fats))) {
+      validationErrorMsg = "Please enter a number for the amount of fat in your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(isNaN(parseInt(proteins))) {
+      validationErrorMsg = "Please enter a number for the amount of protein in your recipe!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    if(recipeCategory == "0") {
+      validationErrorMsg = "Please select a category your recipe belongs to!";
+      validationErrorList.push(validationErrorMsg); 
+    }
+    setValidationErrors(validationErrorList);
+  }
 
-    // Request to insert the ingredients to the database.
-/*     axios({
-      method: 'post',
-      url: '',
-      params: {
-        Name: '',
-        Quantity: "",
-        RecipeID: "",
-      }
-    }); */
+  function SubmitRecipe(event) {
+    // Summary:
+    //   This function will send the recipe data from the form the user has filled out to the database and create a new recipe.
+    event.preventDefault();
+    ValidateInputFields();
+    CreateIngredientList();
+    if(validationErrors.length == 0){
+      axios({
+        method: 'post',
+        url: '/api/recipes',
+        data: {
+          "CategoryId": parseInt(recipeCategory),
+          "Name": name,
+          "Fat": fats,
+          "Protein": proteins,
+          "Carbohydrates": carbohydrates,
+          "Instructions": editorState,
+          "Ingredients": ingredientList,
+          // Image: image,
+          "DateModified": new Date().toJSON(),
+          "DateCreated": new Date().toJSON(),
+          "PrepTime": prep,
+          "Servings": servings,
+          "Notes": notes
+        }
+      }).then((res) => {
+        setResponse(res.data);
+        setStatusCode(res.status);
+      })
+      .catch((err) => {
+        setResponse(err.response.data);
+        setStatusCode(err.response.status);
+      });
+    }
   }
 
   function HandleFormChange(event) {
+    // Summary:
+    //   This function will set the state for the associated properties for the respective fields.
     switch (event.target.id)
     {
       case "addRecipeName":
@@ -126,9 +188,9 @@ const AddRecipe = () => {
           SetServings(event.target.value);
           break;
         }
-      case "addCalories":
+      case "addRecipeCategory":
         {
-          SetCalories(event.target.value);
+          setRecipeCategory(event.target.value);
           break;
         }
       case "addCarb":
@@ -151,49 +213,102 @@ const AddRecipe = () => {
           SetNotes(event.target.value);
           break;
         }
+      default:
+        {
+          break;
+        }
     }
   }
 
   function PhotoUpload(event) {
-    // This function will handle uploading the image file corresponding to the new recipe being added.
+    // Summary:
+    //  This function will handle uploading the image file corresponding to the new recipe being added.
     event.preventDefault();
   }
 
-  function AddIngredients(event) {
-    // This function will add an input field to the ingredient section once called upon.
+  function AddIngredientForm(event) {
+    // Summary:
+    //  This function will add the required input fields to add an ingredient to the ingredient section once called upon.
     event.preventDefault();
     const ingredientSection = document.getElementById("ingredientSection");
     let childCount = ingredientSection.childElementCount;
     const newInput = document.createElement("INPUT");
     const newLabel = document.createElement("LABEL");
+    const newQuantity = document.createElement("INPUT");
+    const newQuantityLabel = document.createElement("LABEL");
     const newMeasureSelect = document.createElement("SELECT");
     const newMeasureLabel = document.createElement("LABEL");
 
     // Set the attributes for the input fields.
     newLabel.setAttribute("for", `ingredient${childCount / 4 + 1}`);
-    newLabel.innerHTML = `Ingredient ${childCount / 4 + 1}`;
+    newLabel.innerHTML = "Ingredient";
     newInput.setAttribute("id", `ingredient${childCount / 4 + 1}`);
     newInput.setAttribute("type", "text");
+    newInput.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline");
+
+    newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
+    newQuantityLabel.innerHTML = `Quantity`;
+    newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
+    newQuantity.setAttribute("class", "ingredientInput");
 
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
-    newMeasureLabel.innerHTML = `Measurement${childCount / 4 + 1}`;
+    newMeasureLabel.innerHTML = "Measurement";
 
     newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
-    // Loop to create the select options for the measurements.
-    function createOption(measurement) {
+    newMeasureSelect.setAttribute("class", "ingredientInput");
+    // Add the measurement options to the select field.
+    for(let measurement in measurementsList) {
       const newOption = document.createElement("OPTION");
-      newOption.setAttribute("value", `${measurement.Id}`);
-      newOption.innerHTML = `${measurement.Name}`;
+      newOption.setAttribute("value", `${measurementsList[measurement]}`);
+      newOption.innerHTML = `${measurementsList[measurement]}`;
       newMeasureSelect.appendChild(newOption);
     }
-    measurementsList.forEach(createOption);
-
-    // Add the new input to the section
+    // Add the new input fields to the section
     ingredientSection.appendChild(newLabel);
     ingredientSection.appendChild(newInput);
+    ingredientSection.appendChild(newQuantityLabel);
+    ingredientSection.appendChild(newQuantity);
     ingredientSection.appendChild(newMeasureLabel);
     ingredientSection.appendChild(newMeasureSelect);
   }
+
+  function CreateIngredientList() {
+    // Summary:
+    //   This function will take all the ingredients in the form and create an Ingredient object for each one. All the ingredients will then be stored into a list.
+
+    // Grab all the ingredient input fields:
+    const IngredientInputFields = document.getElementsByClassName("ingredientInput");
+    const tempIngredientList = [];
+    for(let i=0; i < IngredientInputFields.length; i += 3)
+    {
+      let newIngredient = {
+        "Name": IngredientInputFields[i].value,
+        "Quantity": IngredientInputFields[i+1].value,
+        "UOM": IngredientInputFields[i+2].value
+      }
+      tempIngredientList.push(newIngredient);
+    }
+    return tempIngredientList;
+  }
+
+  /*============================================================*/
+  /*                   State Refresh
+  /*============================================================*/
+  useEffect(()=> {
+    getUOMs();
+    getRecipeCategories();
+  },[loading]);
+
+  useEffect(()=> {
+    if(validationErrors.length > 0) {
+      setErrorHeader("ERROR: There was problem with your recipe!");
+      for(let error in validationErrors)
+      {
+        errorList.push(<li className="list-disc">{validationErrors[error]}</li>);
+      }
+      setErrorMessage(errorList);
+    }
+  }, [validationErrors.length]);
 
   return (
     <>
@@ -202,6 +317,10 @@ const AddRecipe = () => {
           <h1 className="font-bold">Add a New Recipe</h1>
         </div>
         <h2 className="font-bold py-4">Recipe Information</h2>
+        <h1 className="font-extrabold">{errorHeader}</h1>
+        <ul>
+          {errorMessage}
+        </ul>
         <form onSubmit={SubmitRecipe}>
           <section id="addRecipeBasics">
             <label htmlFor="addRecipeName">Name(*):</label>
@@ -220,9 +339,12 @@ const AddRecipe = () => {
           <section id="addRecipeRequirements">
             <section id="ingredientSection">
               <label htmlFor="ingredient1">Ingredients(*):</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" />
-              <label htmlFor="measurement1">Measurement1:</label>
-              <select id="measurement1">
+              <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" onChange={HandleFormChange} />
+              <label htmlFor="quantity1">Quantity:</label>
+              <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" onChange={HandleFormChange} />
+              <label htmlFor="measurement1">Measurement:</label>
+              <select className="ingredientInput" id="measurement1" onChange={HandleFormChange}>
+                <option value="0" selected="selected"></option>
                 {measurementsList.map((measurement) => {
                   return (
                     <option value={measurement}>{measurement}</option>
@@ -230,7 +352,7 @@ const AddRecipe = () => {
                 })}
               </select>
             </section>
-            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredients} >+</button>
+            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >+</button>
             <section id="instructionSection">
               <h3 className="font-bold py-4">Instructions:</h3>
               <p>Enter the instructions to your new recipe below!</p>
@@ -246,11 +368,11 @@ const AddRecipe = () => {
           </section>
           <section id="addRecipeLogistics">
             <div>
-              <label htmlFor="addRecipePrepTime">Prep. Time(*):</label>
+              <label htmlFor="addRecipePrepTime">Prep. Time(*)(min):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
             </div>
             <div>
-              <label htmlFor="addRecipeCookTime">Cook Time(*):</label>
+              <label htmlFor="addRecipeCookTime">Cook Time(*)(min):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
             </div>
             <div>
@@ -259,10 +381,6 @@ const AddRecipe = () => {
             </div>
           </section>
           <section id="addRecipeAdditional">
-            <div>
-              <label htmlFor="addCalories">Calories</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addCalories" onChange={HandleFormChange} />
-            </div>
             <div>
               <label htmlFor="addCarb">Carbohydrates</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addCarb" onChange={HandleFormChange} />
@@ -276,8 +394,9 @@ const AddRecipe = () => {
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addProtein" onChange={HandleFormChange} />
             </div>
             <div>
-              <label htmlFor="AddRecipeCategory">Recipe Category:</label>
-              <select className="border border-solid mx-4" id="AddRecipeCategory">
+              <label htmlFor="addRecipeCategory">Recipe Category:</label>
+              <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange}>
+                <option value="0" selected="selected"></option>
                 {recipeCategoryList.map((category) => {
                   return (
                     <option value={category.id}>{category.name}</option>

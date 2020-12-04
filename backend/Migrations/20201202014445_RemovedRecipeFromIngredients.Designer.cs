@@ -3,14 +3,16 @@ using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20201202014445_RemovedRecipeFromIngredients")]
+    partial class RemovedRecipeFromIngredients
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -411,7 +413,7 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Day = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            Day = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = "-1"
                         });
                 });
@@ -420,6 +422,9 @@ namespace Api.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int(10)");
+
+                    b.Property<int>("Calories")
                         .HasColumnType("int(10)");
 
                     b.Property<int>("Carbohydrates")
@@ -478,10 +483,11 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
+                            Calories = 860,
                             Carbohydrates = 100,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
                             Image = "",
                             Instructions = @"* Cook Chicken
@@ -497,10 +503,11 @@ namespace Api.Migrations
                         new
                         {
                             Id = -2,
+                            Calories = 770,
                             Carbohydrates = 115,
                             CategoryId = -2,
-                            DateCreated = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
                             Image = "",
                             Instructions = @"* Cook Steak on BBQ
@@ -518,10 +525,11 @@ namespace Api.Migrations
                         new
                         {
                             Id = -3,
+                            Calories = 222,
                             Carbohydrates = 10,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
                             Image = "",
                             Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
@@ -540,10 +548,11 @@ namespace Api.Migrations
                         new
                         {
                             Id = -4,
+                            Calories = 375,
                             Carbohydrates = 45,
                             CategoryId = -4,
-                            DateCreated = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
                             Image = "",
                             Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
@@ -564,10 +573,11 @@ namespace Api.Migrations
                         new
                         {
                             Id = -5,
+                            Calories = 148,
                             Carbohydrates = 6,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 2, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateCreated = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 1, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
                             Image = "",
                             Instructions = @"* 1. Preheat grill or broiler.
@@ -767,15 +777,15 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b71fc1ce-8af7-4994-b200-894b1f88c432",
+                            Id = "d8c77da8-d469-45b1-9f37-c62e34e878b2",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "69daf73e-ff43-4cbe-a5a3-bc2dadd34a4e",
+                            ConcurrencyStamp = "bbe51222-b700-4f73-8796-4927f86ffb24",
                             Email = "phprox123@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "TestAdminWarren",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "f411ded0-8750-4f80-8f5e-5d0fd1d25920",
+                            SecurityStamp = "68a40863-f1c1-4200-86ae-4dc89f398d96",
                             TwoFactorEnabled = false
                         });
                 });

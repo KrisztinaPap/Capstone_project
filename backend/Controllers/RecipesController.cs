@@ -71,8 +71,24 @@ namespace Api.Controllers
       public ActionResult<Recipe> Create(
         [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
       {
+        ICollection<Ingredient> recipeIngredients = newRecipe.Ingredients.ToList();
+        newRecipe.Ingredients.Clear();
         _context.Recipes.Add(newRecipe);
         _context.SaveChanges();
+
+      foreach(Ingredient ingredient in recipeIngredients)
+      {
+        Ingredient newIngredient = new Ingredient()
+        {
+          RecipeId = newRecipe.Id,
+          Name = ingredient.Name,
+          Quantity = ingredient.Quantity,
+          UOMId = ingredient.UOMId,
+        };
+        newRecipe.Ingredients.Add(newIngredient);
+      }
+
+      _context.SaveChanges();
 
         return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
       }

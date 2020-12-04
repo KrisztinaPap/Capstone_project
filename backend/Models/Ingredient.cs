@@ -13,7 +13,6 @@ namespace Api.Models
 {
   [Table("Ingredients")]
   public class Ingredient {
-
     [Key]
     [Column(TypeName = "int(10)")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -42,6 +41,5 @@ namespace Api.Models
     public Ingredient()
     {
     }
-
   }
 }
