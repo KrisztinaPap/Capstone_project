@@ -22,20 +22,22 @@
 ## Stack Used
 - .NET Core
 - React
-- Redux
 - MariaDB
 
 ## Installation Instructions
 #### Installing Locally
-- Install phpMyAdmin
-- Clone Repo
-    - From the base folder run:
-        - "npm run db:setup"
-- Navigate to "placeholder" in your web browser to confirm successful installation.
-
+- Install phpMyAdmin.
+- Download or Clone this Repository.
+- Create a new .env file in the project folder.
+    - For the new .env file follow the structure in the .env.sample file.
+- From the base project folder run:
+    - "npm run db:setup"
+- Navigate to phpMyAdmin in your web browser to confirm successful installation and database migration.
+- From the "frontend" folder run:
+    - "npm install"
 #### Installing via Cloud
 - Install phpMyAdmin on your cloud server and set up secure login credentials
-- Clone Repo
+- Download or Clone Repository.
     - Make the following configuration changes:
         - SETTINGS TO BE CHANGED 1
         - SETTINGS TO BE CHANGED 2
@@ -43,17 +45,56 @@
 - Upload Repo to your cloud server via your preferred method
 - Connect to your cloud server via terminal and access the root project folder and run:
     - "npm run db:setup"
-    - Note: This will fail if you skipped the previous step or put in invalid login credentials
+    - Note: This will fail if you skipped the previous step or put in invalid login credentials.
 - Configure your server to keep the Front End and Back End portions of this WebApp online at all times
-    - Support for this step will not be provided by our team and can be found in the documentation of your server provider
+    - Support for this step will not be provided by our team and can be found in the documentation of your server provider.
 - Navigate to your servers public IP address to test for a successful install.
 ##### Tip! Consider purchasing a domain and redirect to your servers public IP address as a fast way of accessing your WebApp!
 
 ## Application Usage Instructions
-
+- Ensure that the application has been properly installed.
+- From the base folder run:
+    - "npm run start:all"
+- Navigate to the port in your web browser (the application is set to listen on port 5001 initially).
 ## Test Cases & Testing Instructions
 #### Endpoint Testing via Postman
+- Ensure that the data being sent is through the Body and that the format is set to JSON.
 - API endpoints
+    - Register
+        - Method: POST 
+        - https://localhost:5001/api/Authenticate/register
+        - Body:
+            ```
+            {
+                "Name" : "PeterTest",
+                "username" : "PeterTest",
+                "email" : "PeterTest@gmail.com",
+                "password" : "Password@123"
+            }
+            ```
+    - Login
+        - This API endpoint will return a JWT. This token will be required for protected endpoints.
+        - Method: POST 
+        - https://localhost:5001/api/Authenticate/login
+        - Body: 
+            ```
+            {
+                "username" : "PeterTest",
+                "password" : "Password@123"
+            }
+            ``` 
+    - Recipes
+        - Method: GET
+        - https://localhost:5001/api/Recipes/-1
+        - The last number is the recipe ID number. This number can be changed to any as long as there exists a recipe in the database with the corresponding ID.
+        - Set the Authorization type to Bearer Token.
+            - This token is the JWT taken from the Login endpoint.
+    - UOM
+        - Method: GET
+        - https://localhost:5001/api/UOMs/all
+    - Recipe Categories
+        - Method: GET
+        - https://localhost:5001/api/recipecategories/options
 #### Endpoint Testing via Webapp
 - Navigate to the following pages to test endpoints
     - Page 1, Endpoint 1

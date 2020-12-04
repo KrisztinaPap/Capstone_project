@@ -53,7 +53,7 @@ namespace Api.Models.Validators
     private void CommonRules() {
       RuleFor(x => x.CategoryId)
         .NotEqual(0)
-        .WithName("category");
+        .WithName("CategoryId");
 
       RuleFor(x => x.Name)
         .NotEmpty()
@@ -68,10 +68,6 @@ namespace Api.Models.Validators
         .LessThanOrEqualTo(100000);
 
       RuleFor(x => x.Carbohydrates)
-        .GreaterThanOrEqualTo(0)
-        .LessThanOrEqualTo(100000);
-
-      RuleFor(x => x.Calories)
         .GreaterThanOrEqualTo(0)
         .LessThanOrEqualTo(100000);
 

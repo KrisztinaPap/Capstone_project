@@ -13,7 +13,6 @@ namespace Api.Models
 
   [Table("RecipeCategories")]
   public class RecipeCategory {
-
     [Key]
     [Column(TypeName = "int(10)")]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
