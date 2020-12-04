@@ -224,6 +224,17 @@ const AddRecipe = () => {
     // Summary:
     //  This function will handle uploading the image file corresponding to the new recipe being added.
     event.preventDefault();
+    const imageInput = document.getElementById("addRecipePhoto");
+
+    // link @ https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
+    var formData = new FormData();
+    formData.append("model", imageInput.files[0]);
+
+    axios.post('https://localhost:5001/api/recipes/image-upload', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
   }
 
   function AddIngredientForm(event) {
