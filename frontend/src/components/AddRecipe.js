@@ -36,8 +36,8 @@ const AddRecipe = () => {
   const [carbohydrates, SetCarbohydrates] = useState();
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
+  const [cook, setCookTime] = useState();
   const [servings, SetServings] = useState();
-  const [tags, setTags] = useState([]);
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
   const [imageUploadMessage, setImageUploadMessage] = useState();
@@ -145,11 +145,11 @@ const AddRecipe = () => {
           "Carbohydrates": carbohydrates,
           "Instructions": editorState,
           "Ingredients": ingredientsList,
-          "Tags": tags,
           "Image": image,
           "DateModified": new Date().toJSON(),
           "DateCreated": new Date().toJSON(),
           "PrepTime": prep,
+          "CookTime": cook,
           "Servings": servings,
           "Notes": notes
           // "userId" : _userId
@@ -189,6 +189,7 @@ const AddRecipe = () => {
         }
       case "addRecipeCookTime":
         {
+          setCookTime(event.target.value);
           break;
         }
       case "addRecipeServings":
@@ -214,11 +215,6 @@ const AddRecipe = () => {
       case "addProtein":
         {
           SetProteins(event.target.value);
-          break;
-        }
-      case "addRecipeTags":
-        {
-          setTags([event.target.value]);
           break;
         }
       case "addRecipeExtraNotes":
@@ -438,10 +434,6 @@ const AddRecipe = () => {
                   );
                 })}
                 </select>
-            </div>
-            <div className="my-3">
-              <label htmlFor="addRecipeTags">Tags:</label>
-              <textarea className="block input-field w-full lg:w-1/2 focus:outline-none focus:shadow-outline" id="addRecipeTags" onChange={HandleFormChange} />
             </div>
             <div className="my-3">
               <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
