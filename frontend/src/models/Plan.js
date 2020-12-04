@@ -39,8 +39,6 @@ export class Plan {
     if(oldMeal) {
       // Update the recipe
       const newMeal = oldMeal.updateRecipe(recipeId);
-      console.log(oldMeal)
-      console.log(newMeal)
       // if the current meal (x) has a meal time
       // that matches the oldMeal time then swap
       // out the oldMeal with the newly updated
@@ -64,7 +62,7 @@ export class Plan {
   toJson() {
     return {
       day: this.day.format('YYYY-MM-DD'),
-      meals: this.map(x => x.toJson())
+      meals: this.meals.map(x => x.toJson())
     }
   }
 

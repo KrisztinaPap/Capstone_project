@@ -23,7 +23,7 @@ export const Backward = 'backward';
 export const Jump = 'jump';
 
 
-export const Schedule = ({isEditing, toggleEditing, plans, viewPeriod, onMove, fetchRecipe, className}) => {
+export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod, onMove, fetchRecipe, className}) => {
   /**
    * Moves the user forward by the time interval.
    */
@@ -103,6 +103,11 @@ export const Schedule = ({isEditing, toggleEditing, plans, viewPeriod, onMove, f
           >
             Today
           </button>
+
+
+          {isSaving && (
+            <p><i className="fas fa-spinner fa-spin"></i> Saving...</p>
+          )}
         </div>
 
 

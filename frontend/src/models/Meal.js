@@ -1,5 +1,8 @@
 import MealTime from './MealTime'
 
+/**
+ * Represents a single meal square in a scheduled day
+ */
 export class Meal {
   _id;
   _mealTime;

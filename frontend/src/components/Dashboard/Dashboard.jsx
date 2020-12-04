@@ -44,6 +44,7 @@ const Dashboard = () => {
   const [error, setError] = useState(false);
   const [recipes, setRecipes] = useState([]);
 
+  const [isSaving, setSaving] = useState(false);
   const [loadingMeals, setLoadingMeals] = useState(true);
   const [errorMeals, setErrorMeals] = useState(false);
 
@@ -73,15 +74,29 @@ const Dashboard = () => {
 
 
   useEffect(() => {
+
+
     populateRecipes();
   }, [])
+
+  async function populateRecipes() {
+    try {
+      const response = await axios.get('api/recipes')
+      setRecipes(response.data);
+      setLoading(false);
+      setError(false);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+    }
+  }
 
   useEffect(() => {
     async function getPlans() {
       const [start, end] = schedule.viewRange;
 
       try {
-        const response = await axios.get(`api/plans/user/${userId}/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`);
+        const response = await axios.get(`api/plans/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`);
         dispatchPlans(loadPeriod(response.data));
 
         setLoadingMeals(false);
@@ -94,6 +109,24 @@ const Dashboard = () => {
 
     getPlans();
   }, [schedule, userId]);
+
+  useEffect(() => {
+    async function updatePlans() {
+      if(loadingMeals) { return; }
+
+      try {
+        setSaving(true);
+        await axios.put(`api/plans/`, plans.toJson());
+        setSaving(false);
+
+      } catch(err) {
+
+      }
+    }
+
+    updatePlans();
+  }, [plans])
+
 
   useEffect(() => {
     if(viewWidth >= 1024) {
@@ -110,17 +143,6 @@ const Dashboard = () => {
     }
   }, [viewWidth])
 
-  async function populateRecipes() {
-    try {
-      const response = await axios.get('api/recipes')
-      setRecipes(response.data);
-      setLoading(false);
-      setError(false);
-    } catch (err) {
-      setError(true);
-      setLoading(false);
-    }
-  }
 
 
 
@@ -305,6 +327,7 @@ const Dashboard = () => {
             plans={plans}
             onMove={onMove}
             isEditing={isEditing}
+            isSaving={isSaving}
             toggleEditing={toggleEditing}
             fetchRecipe={fetchRecipe}
           />
