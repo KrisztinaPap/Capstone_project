@@ -42,25 +42,6 @@ namespace Api.Models
           .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Cascade);
 
-        // Citation: A value comparer function was needed to check the values after converting from JSON
-        // to List<string> data type from the database to the server.
-        // Link @ https://docs.microsoft.com/en-us/ef/core/modeling/value-comparers
-        var valueComparer = new ValueComparer<List<string>>(
-          // Expression for checking equality
-          (c1, c2) => c1.SequenceEqual(c2),
-          // Expression for generating hash code
-          c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-          // Expression to generate snapshot
-          c => c.ToList());
-
-        entity.Property(e => e.Tags)
-          .HasColumnType("json")
-          .HasConversion(
-            v => JsonConvert.SerializeObject(v),
-            v => JsonConvert.DeserializeObject<List<string>>(v))
-          .Metadata
-          .SetValueComparer(valueComparer);
-
         entity.Property(e => e.Image)
           .HasDefaultValue(string.Empty);
 
@@ -78,7 +59,6 @@ namespace Api.Models
               "* Cook Potatoes",
               "* Smother in Hot Sauce"
             ),
-            Tags = new List<string>() {"Spicy"},
             Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chicken-potato-hotsauce.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
@@ -102,7 +82,6 @@ namespace Api.Models
               "* Cook Potatoes to personal preference",
               "* Serve and Enjoy!"
             ),
-            Tags = new List<string>() {"BBQ"},
             Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\steak-sweet-potato.jpeg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
@@ -131,7 +110,6 @@ namespace Api.Models
             "* 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.",
             "* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice."
             ),
-            Tags = new List<string>() {"Chicken, Dinner, Easy"},
             Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\butter-chicken.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
@@ -160,7 +138,6 @@ namespace Api.Models
             "* 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.",
             "* 8. Serve the quesadillas with avocado and the remaining salsa."
             ),
-            Tags = new List<string>() {"Low calorie, High fiber, Vegetarian"},
             Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3 - 594A - 455F - 9ACA - 90758B48F376\\blackbean - quesadilla.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
@@ -186,7 +163,6 @@ namespace Api.Models
             "* 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.",
             "* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer."
             ),
-            Tags = new List<string>() {"Low calorie, Low fat, Low Sodium"},
             Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chipotle-orange-chicken.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,

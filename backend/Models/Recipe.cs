@@ -43,9 +43,6 @@ namespace Api.Models
     [Column(TypeName = "longtext")]
     public string Instructions { get; set; } = string.Empty;
 
-    [Column(TypeName = "json")]
-    public List<string> Tags { get; set; } = new List<string>();
-
     [Column(TypeName = "varchar(100)")]
     public string Image { get; set; } = string.Empty;
 
