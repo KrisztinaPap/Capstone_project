@@ -37,9 +37,9 @@ const AddRecipe = () => {
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
   const [servings, SetServings] = useState();
+  const [tags, setTags] = useState([]);
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
-
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
@@ -145,7 +145,7 @@ const AddRecipe = () => {
           "Carbohydrates": carbohydrates,
           "Instructions": editorState,
           "Ingredients": ingredientsList,
-          
+          "Tags": tags,
           "Image": image,
           "DateModified": new Date().toJSON(),
           "DateCreated": new Date().toJSON(),
@@ -216,6 +216,11 @@ const AddRecipe = () => {
           SetProteins(event.target.value);
           break;
         }
+      case "addRecipeTags":
+        {
+          setTags([event.target.value]);
+          break;
+        }
       case "addRecipeExtraNotes":
         {
           SetNotes(event.target.value);
@@ -248,6 +253,12 @@ const AddRecipe = () => {
 
     }).then((res) => {
       SetImage(res.data);
+      const photoLabelElement = document.getElementById("photoLabel");
+      const successUploadMessage = document.createElement("P");
+      successUploadMessage.setAttribute("class", "font-bold");
+      successUploadMessage.innerHTML = "Successfully uploaded image.";
+      photoLabelElement.appendChild(successUploadMessage);
+
     });
   }
 
@@ -351,7 +362,7 @@ const AddRecipe = () => {
             <label htmlFor="addRecipeName">Name(*):</label>
             <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeName" onChange={HandleFormChange} />
             <form className="py-4">
-              <label htmlFor="addRecipePhoto">Photo:</label>
+              <label id="photoLabel" htmlFor="addRecipePhoto">Photo:</label>
               <input type="file" id="addRecipePhoto" />
               <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={PhotoUpload}>Upload</button>
               <div className="px-4 text-sm">
@@ -428,6 +439,10 @@ const AddRecipe = () => {
                   );
                 })}
                 </select>
+            </div>
+            <div className="my-3">
+              <label htmlFor="addRecipeTags">Tags:</label>
+              <textarea className="block input-field w-full lg:w-1/2 focus:outline-none focus:shadow-outline" id="addRecipeTags" onChange={HandleFormChange} />
             </div>
             <div className="my-3">
               <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
