@@ -20,7 +20,7 @@ namespace Api.Models
     public int Id { get; set; }
 
     [Column(TypeName = "int(10)")]
-    [JsonProperty("category")]
+    [JsonProperty("CategoryId")]
     public int CategoryId { get; set; }
 
     [Required]
@@ -38,10 +38,6 @@ namespace Api.Models
     [Required]
     [Column(TypeName = "int(10)")]
     public int Carbohydrates { get; set; }
-
-    [Required]
-    [Column(TypeName = "int(10)")]
-    public int Calories { get; set; }
 
     [Required]
     [Column(TypeName = "longtext")]

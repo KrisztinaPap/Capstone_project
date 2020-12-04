@@ -110,7 +110,7 @@ const Login = () => {
             onChange={event => setEmail( event.target.value )}
             required
             />
-          </div>
+        </div>
         <div className="mb-6">
           <label htmlFor="password" className="block text-gray-700 text-sm font-bold my-2">Password:</label>
           <input

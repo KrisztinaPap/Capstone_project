@@ -85,18 +85,33 @@ namespace Api.Controllers
       return Ok(result);
     }
 
-    // POST: api/recipes
-    [HttpPost]
-    public ActionResult<Recipe> Create(
-      [CustomizeValidator(RuleSet = "Create")][FromBody] Recipe newRecipe)
-    {
-      _context.Recipes.Add(newRecipe);
+// POST: api/recipes
+      [HttpPost]
+      public ActionResult<Recipe> Create(
+        [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
+      {
+        ICollection<Ingredient> recipeIngredients = newRecipe.Ingredients.ToList();
+        newRecipe.Ingredients.Clear();
+        _context.Recipes.Add(newRecipe);
+        _context.SaveChanges();
+
+      foreach(Ingredient ingredient in recipeIngredients)
+      {
+        Ingredient newIngredient = new Ingredient()
+        {
+          RecipeId = newRecipe.Id,
+          Name = ingredient.Name,
+          Quantity = ingredient.Quantity,
+          UOMId = ingredient.UOMId,
+        };
+        newRecipe.Ingredients.Add(newIngredient);
+      }
+
       _context.SaveChanges();
 
-      return CreatedAtAction(nameof(Get), new { newRecipe.Id }, newRecipe);
-    }
-
-
+        return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
+      }
+      
     // PUT: api/recipes/id
     [HttpPut]
     [Route("{id:int:required}")]
@@ -105,7 +120,6 @@ namespace Api.Controllers
       // Note: Below is Kenji's solution just slightly refactored to
       //       take advantage of `CurrentValues.SetValues`
       //          —Aaron
-
       Recipe oldRecipe = _context.Recipes
         .Where(x => x.Id == id)
         .Include(x => x.Ingredients)

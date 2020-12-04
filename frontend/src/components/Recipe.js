@@ -43,28 +43,39 @@ function Recipe(){
   }
 
   // If page is loading, render below...
-  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? */}
   if (loading){
     return(
       <>
-        {/* TODO: Remove center tags and apply centering via CSS */}
-        <center>
-        <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-          <p>Loading your recipe...</p></center>
+        <section className="mt-8">
+          <p className="text-center">
+            <i className="fas fa-spinner fa-spin fa-4x"></i>
+          </p>
+          <p className="text-center mt-2">
+            Loading your recipe...
+          </p>
+        </section>
       </>
     )
   }
 
   // If Axios request has an error, display error message...
-  // TODO: Design better Error page?
   if (error){
     return(
-      <>
-        <p>There was an error loading your Recipe. Please try again.</p>
-        <p><button className="purple-button focus:outline-none focus:shadow-outline" type="submit" onClick={fetchRecipe}>
-          Retry
-        </button></p>
-      </>
+        <section className="mt-8">
+          <p className="text-center">
+            There was an error loading your Recipe. Please try again.
+          </p>
+          <p className="text-center mt-2">
+            <button className="purple-button focus:outline-none focus:shadow-outline mr-1" type="submit" onClick={fetchRecipe}>
+              Retry
+            </button>
+            <Link to={"/recipes"}>
+              <button className="purple-button focus:outline-none focus:shadow-outline ml-1" type="submit">
+                Return to Recipe List
+              </button>
+            </Link>
+          </p>
+        </section>
     )
   }
 
@@ -85,9 +96,8 @@ function Recipe(){
       <p className="text-md text-bold text-center">Servings: {myRecipe.servings}</p>
       <p className="text-md text-bold text-center">Prep Time: {myRecipe.prepTime}</p>
 
-      {/* TODO: Remove style= after CSS/Tailwind style finished */}
       <section className="flex flex-col md:flex-row md:justify-left my-4">
- 
+
           <section className="md:w-1/2 mx-2 md:ml-4">
             <h2 className="text-lg text-bold my-2">Ingredients:</h2>
             <p className="text-md">{ingredientsArray}</p>
@@ -100,7 +110,7 @@ function Recipe(){
             <p className="text-md">Protein: {myRecipe.protein}g</p>
             <p className="text-md">Carbs: {myRecipe.carbohydrates}g</p>
            </section>
-        
+
       </section>
 
       <section className="m-2">
@@ -112,8 +122,6 @@ function Recipe(){
         <p className="text-md">{myRecipe.notes}</p>
       </section>
 
-      {/* TODO: Consult; perhaps this could link to a page identical to "Create" but with all the fields filled in and ready to edit? Potential better ways to handle edit page? */}
-      {/* TODO: Button Functionality */}
       <section className="flex justify-around my-4">
         <button className="purple-button focus:outline-none focus:shadow-outline" type="submit">
           Edit Recipe
