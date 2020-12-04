@@ -116,8 +116,8 @@ export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod,
           onClick={toggleEditing}
         >
           {isEditing ?
-            <i className="far fa-check-circle"></i> :
-            <i className="far fa-edit"></i>
+            <><i className="far fa-check-circle"></i><span> Done</span></> :
+            <><i className="far fa-edit"></i><span> Edit</span></>
           }
         </button>
       </div>
