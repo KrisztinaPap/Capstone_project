@@ -13,12 +13,12 @@ function Recipes() {
   const [user, setUser] = useContext(UserContext);
 
   // Check for User's Authentication
-  //const history = useHistory();
-  //useEffect(() => {
-  //  if (!user.isAuthenticated()) {
-  //    history.push("/login");
-  //  }
-  //});
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
 
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
