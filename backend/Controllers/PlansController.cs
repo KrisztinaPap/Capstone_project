@@ -24,76 +24,79 @@ namespace Api.Controllers
   {
 
     private readonly DBContext _context;
+    private readonly string _currentUserId;
 
     public PlansController(DBContext context)
     {
       _context = context;
+      // _currentUserId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      _currentUserId = "-1";
     }
 
     // PUT: api/plans/
     [HttpPut]
-    public ActionResult<Plan> CreateSchedulePlan([CustomizeValidator(RuleSet = "CreateSchedulePlan")][FromBody] List<Schedule> schedule)
+    public ActionResult<Plan> CreateSchedulePlan([FromBody] ICollection<SchedulePlan> incomingPlans)
     {
       /**
        * Function creates a new plan for a user
-       * 
+       *
        * @param List<Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
        * @return NoCotent
        */
 
-      // Loop Through Array of Schedules
-      foreach (Schedule eachSchedule in schedule.ToList())
-      {
-        // Check if Schedule Exists in Database
-        if (_context.Plans.Any(x => x.Day == eachSchedule.Day))
-        {
-          // Update the Schedule Plan
-          Plan plan_ = _context.Plans
-                        .Where(x => x.Day == eachSchedule.Day && x.UserId == eachSchedule.UserId)
-                        .SingleOrDefault();
-          _context.Meals
-            .Where(x => x.PlanId == plan_.Id && x.Id == eachSchedule.MealId)
-            .ToList()
-            .ForEach(x => x.MealTimeId = eachSchedule.MealTimeId);
-          if (_context.Meals.Any(x => x.Id == eachSchedule.MealId && x.PlanId == plan_.Id))
-          {
-            MealRecipe mealRecipe = _context.MealRecipes
-                                     .Where(x => x.MealId == eachSchedule.MealId)
-                                     .SingleOrDefault();
-            _context.Remove(mealRecipe);
-            MealRecipe mealRecipe_ = new MealRecipe
-            {
-              MealId = eachSchedule.MealId,
-              RecipeId = eachSchedule.RecipeId
-            };
-            _context.Add(mealRecipe_);
-          }
-          _context.SaveChanges();
+      ICollection<DateTime> daysToUpdate = incomingPlans.Select(x => x.Day.Date).ToList();
+
+      ICollection<MealTime> mealTimes = _context.MealTimes.ToList();
+      ICollection<Plan> oldPlans = _context.Plans
+        .Include(x => x.Meals)
+        .ThenInclude(x => x.MealRecipes)
+        .Where(x => daysToUpdate.Contains(x.Day) && x.UserId == _currentUserId)
+        .ToList();
+
+      foreach(SchedulePlan incomingPlan in incomingPlans) {
+
+        Plan oldPlan = oldPlans.FirstOrDefault(x => x.Day == incomingPlan.Day);
+
+        Plan currentPlan;
+        if(oldPlan == null) {
+          // Creating a new plan
+          currentPlan = new Plan() {
+            Day = incomingPlan.Day,
+            UserId = _currentUserId
+          };
+          _context.Attach(currentPlan);
         }
         else
         {
-          // Add Schedule Plan
-          Plan plan_ = new Plan
-          {
-            UserId = eachSchedule.UserId,
-            Day = eachSchedule.Day
-          };
-          Meal meal_ = new Meal
-          {
-            PlanId = plan_.Id,
-            MealTimeId = eachSchedule.MealTimeId
-          };
-          MealRecipe mealRecipe_ = new MealRecipe
-          {
-            MealId = meal_.Id,
-            RecipeId = eachSchedule.RecipeId
-          };
-          meal_.MealRecipes.Add(mealRecipe_);
-          plan_.Meals.Add(meal_);
-          _context.Add(plan_);
-          _context.SaveChanges();
+          currentPlan = oldPlan;
         }
-       }
+
+        // Delete all of our current meals and recreate
+        _context.Meals.RemoveRange(currentPlan.Meals);
+
+        if(incomingPlan.Meals.Count == 0) {
+          // If there are no meals then remove
+          // the current plan
+          _context.Remove(currentPlan);
+        }
+        else
+        {
+          // Add all of the incoming meals
+          foreach(var incomingMeal in incomingPlan.Meals)
+          {
+            MealTime time = mealTimes
+              .First(x => x.Name.Equals(incomingMeal.MealTime, StringComparison.OrdinalIgnoreCase));
+
+            var newMeal = new Meal() {
+              MealTimeId = time.Id
+            };
+
+            newMeal.MealRecipes.Add(new MealRecipe() { RecipeId = incomingMeal.Recipes.First() });
+            currentPlan.Meals.Add(newMeal);
+          }
+        }
+      }
+      _context.SaveChanges();
       return NoContent();
     }
 
@@ -195,10 +198,10 @@ namespace Api.Controllers
       return Ok(result);
     }
 
-    // GET: api/plans/user/{userId}/schedule?fromDate={fromDate}=&toDate={toDate}
+    // GET: api/plans/schedule?fromDate={fromDate}=&toDate={toDate}
     [HttpGet]
-    [Route("user/{userId:required}/schedule")]
-    public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(string userId, DateTime fromDate, DateTime toDate)
+    [Route("schedule/")]
+    public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(DateTime fromDate, DateTime toDate)
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients within the from and to Dates
@@ -212,7 +215,7 @@ namespace Api.Controllers
                       .ThenInclude(x => x.MealTime)
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealRecipes)
-                    .Where(x => x.UserId == userId && x.Day >= fromDate && x.Day <= toDate)
+                    .Where(x => x.UserId == _currentUserId && x.Day >= fromDate && x.Day <= toDate)
                     .Select
                      (
                       x => new
@@ -233,11 +236,6 @@ namespace Api.Controllers
                       }
                      )
                     .ToList();
-
-      if (result.Count == 0)
-      {
-        return NotFound();
-      }
 
       return Ok(result);
     }
