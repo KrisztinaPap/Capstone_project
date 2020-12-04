@@ -33,7 +33,8 @@
 - From the base project folder run:
     - "npm run db:setup"
 - Navigate to phpMyAdmin in your web browser to confirm successful installation and database migration.
-
+- From the "frontend" folder run:
+    - "npm install"
 #### Installing via Cloud
 - Install phpMyAdmin on your cloud server and set up secure login credentials
 - Download or Clone Repository.
