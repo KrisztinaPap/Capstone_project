@@ -3,16 +3,13 @@
 ## Introduction
 - Your task is to solve a problem with a full-stack web application. The problem that you solve will be your choice, but you must define the problem and demonstrate how your application solves the problem in your documentation and your presentation. You can choose your own tech stack, but you must be able to complete the project so be sure to choose a stack you are familiar with. The reason we have chosen to give such a simple assignment definition is to allow you to be creative and also to give you enough time to focus on the details. This is your final capstone assignment and should represent a professional level of quality. It is your primary portfolio piece from this program.
 
-## Project Trello
-- https://trello.com/b/zUabU848/capstone-puddlejumpers
-
-## Project Figma
-- https://www.figma.com/file/iGsjkmFikAAyslTBFRk2Bs/Capstone%3A-Wireframes?node-id=0%3A1
-
-## Project Reports
-- Project Plan: https://docs.google.com/document/d/17zrczlNhdrl03ffntK01u0-ntNX1a_EQgso7TH7D3pw/edit?usp=sharing
-- User Manual: https://docs.google.com/document/d/13sPFINRwDcYq4DSw-gK44Qg3y68dmJ_DL-zZRE-G-BY/edit?usp=sharing
-- Testing Manual: https://docs.google.com/document/d/1Pe5WhP3cspQlvyIUiBKgSVL9p2SwmnivN5Bbi0fit0w/edit?usp=sharing
+## Project Documents and Reports
+- [Project Trello Board](https://trello.com/b/zUabU848/capstone-puddlejumpers)
+- [Project Wireframes (Figma)](https://www.figma.com/file/iGsjkmFikAAyslTBFRk2Bs/Capstone%3A-Wireframes?node-id=0%3A1)
+- [Project ERD (Draw.io)](./Planning/Yummy_ERD.drawio) 
+- [Project Plan](./Planning/Capstone Project Plan Puddlejumpers.docx)
+- [User Manual](https://docs.google.com/document/d/13sPFINRwDcYq4DSw-gK44Qg3y68dmJ_DL-zZRE-G-BY/edit?usp=sharing)
+- [Testing Manual](https://docs.google.com/document/d/1Pe5WhP3cspQlvyIUiBKgSVL9p2SwmnivN5Bbi0fit0w/edit?usp=sharing)
 
 ## Team Members:
 - Krisztina Pap
@@ -31,6 +28,20 @@
 - .NET Core
 - React
 - MariaDB
+
+## Project Scope
+### In-scope features
+- Adding a recipe
+- Viewing a recipe
+- Editing/updating a recipe
+- Deleting a recipe
+- Viewing meal plan (schedule)
+- Making/editing meal plan (schedule)
+- Add a user profile
+- Edit a user profile (update name/password)
+
+### Out-of-scope features
+- Password email (send password reset link to user email)
 
 ## Installation Instructions
 #### Installing Locally
