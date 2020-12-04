@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm';
 import axios from 'axios';
 import {useParams} from "react-router";
 
@@ -100,7 +102,7 @@ function Recipe(){
 
           <section className="md:w-1/2 mx-2 md:ml-4">
             <h2 className="text-lg text-bold my-2">Ingredients:</h2>
-            <p className="text-md">{ingredientsArray}</p>
+            <div className="text-md">{ingredientsArray}</div>
           </section>
 
           <section className="md:w-1/2 mx-2 md:ml-4">
@@ -115,11 +117,11 @@ function Recipe(){
 
       <section className="m-2">
         <h2 className="text-lg text-bold my-2 md:text-center">Instructions</h2>
-        <p className="text-md">{myRecipe.instructions}</p>
+        <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.instructions}</ReactMarkdown>
       </section>
       <section className="m-2">
         <h2 className="text-lg text-bold my-2 md:text-center">Notes:</h2>
-        <p className="text-md">{myRecipe.notes}</p>
+        <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.notes}</ReactMarkdown>
       </section>
 
       <section className="flex justify-around my-4">

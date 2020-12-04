@@ -5,6 +5,8 @@
 /* Google Fonts font styles */
 @import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto&display=swap');
 
+@import url("assets/markdown.css");
+
 /* General styles */
 
 * {
