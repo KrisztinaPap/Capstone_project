@@ -21,23 +21,11 @@ namespace Api.Controllers
       _context = context;
     }
 
-    // GET: api/users/{id}
-    [HttpGet]
-    [Route("{id:length(8,50):required}")]
-    public ActionResult<User> GetUserById(string id)
-    {
-      // Users ID is a GUID string.
-      var result = _context.Users
-                    .Where(x => x.Id == id)
-                    .Select(x => new { Id = x.Id, name = x.Name, email = x.Email })
-                    .SingleOrDefault();
+    /*
+     * 
+     * Controller decommissioned for Identity
+     * 
+     */
 
-      if (result == null)
-      {
-        return NotFound();
-      }
-
-      return Ok(result);
-    }
   }
 }

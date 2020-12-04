@@ -13,16 +13,17 @@ function Recipes() {
   const [user, setUser] = useContext(UserContext);
 
   // Check for User's Authentication
-  //const history = useHistory();
-  //useEffect(() => {
-  //  if (!user.isAuthenticated()) {
-  //    history.push("/login");
-  //  }
-  //});
+  const history = useHistory();
+  useEffect(() => {
+    if (!user.isAuthenticated()) {
+      history.push("/login");
+    }
+  });
 
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [sure, setSure] = useState(false);
 
   useEffect(() => {
     populateRecipes();
@@ -32,6 +33,22 @@ function Recipes() {
     try {
       const response = await axios.get('api/recipes')
       setRecipes(response.data);
+      setLoading(false);
+      setError(false);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+    }
+  }
+
+  async function softDeleteRecipe() {
+    setSure(!sure);
+  }
+
+  async function deleteRecipe() {
+    try {
+      const toDelete = await axios.delete(`api/recipes/${recipes.id}`)
+      setRecipes(toDelete.data);
       setLoading(false);
       setError(false);
     } catch (err) {
@@ -118,11 +135,22 @@ function Recipes() {
                       </Link>
                     </td>
                     <td className="flex align-center items-center ">
-                      <Link className="flex align-center" to={`recipes/${recipes.id}`}>
-                        <button className="w-12 h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+                      {!sure &&
+                        <button onClick={softDeleteRecipe} className="w-12 h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
                           <i className="far fa-trash-alt"></i>
                         </button>
-                      </Link>
+                      }
+                      {sure &&
+                        <>
+                          <span>Are you sure?</span>
+                          <button onClick={ deleteRecipe } className="mx-2 h-12 bg-red-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                            YES
+                          </button>
+                          <button onClick={softDeleteRecipe} className="h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+                            CANCEL
+                          </button>
+                        </>
+                      }
                     </td>
                   </tr>
                 </div>
