@@ -61,11 +61,6 @@ const Profile = () => {
       return false;
     }
 
-    // Continue
-    // Reset Errors
-    setErrorUpdateName(false);
-    setErrorMessageUpdateName("");
-
     // Axios Request
     axios
     .put(
@@ -148,6 +143,37 @@ const Profile = () => {
       // Break Function
       return false;
     }
+    
+    // Check if Password Contains a Number
+    const regexPasswordNumberTest = /\d/;
+    if (!regexPasswordNumberTest.test(password)) {
+      // Set Loading
+      setLoadingUpdatePassword(false);
+
+      // Set Errors
+      setErrorUpdatePassword(true);
+      // Set Error Message
+      setErrorMessageUpdatePassword("Password must be have at least a number.");
+
+      // Break Function
+      return false;
+    }
+
+    // Check if Password Contains an AlphaNumeric Character
+    const regexPasswordAlphaNumericTest = /[^A-Za-z0-9]/;
+    if (!regexPasswordAlphaNumericTest.test(password)) {
+      // Set Loading
+      setLoadingUpdatePassword(false);
+
+      // Set Errors
+      setErrorUpdatePassword(true);
+      // Set Error Message
+      setErrorMessageUpdatePassword("Password must be have at least an alphanumeric character.");
+
+      // Break Function
+      return false;
+    }
+
     // Check If Passwords Match
     if (password !== password2) {
       // Set Loading
@@ -161,11 +187,6 @@ const Profile = () => {
       // Break Function
       return false;
     }
-
-    // Continue
-    // Reset Errors
-    setErrorUpdatePassword(false);
-    setErrorMessageUpdatePassword("");
 
     // Axios Request
     axios
@@ -254,7 +275,7 @@ const Profile = () => {
         <div className="text-xl font-normal max-w-full flex-initial">
           <i className="fas fa-exclamation-circle mr-4"></i>
           {message}
-          <ul>
+          <ul className="px-6">
             {
               errors.map((errMsg, index) => (
                 <li key={index}>

@@ -217,7 +217,7 @@ const Signup = () => {
         <div className="text-xl font-normal max-w-full flex-initial">
           <i className="fas fa-exclamation-circle mr-4"></i>
           {message}
-          <ul>
+          <ul className="px-6">
             {
               errors.map((errMsg, index) => (
                 <li key={index}>
