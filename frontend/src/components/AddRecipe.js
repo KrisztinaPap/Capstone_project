@@ -133,6 +133,10 @@ const AddRecipe = () => {
       axios({
         method: 'post',
         url: '/api/recipes',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
         data: {
           "CategoryId": parseInt(recipeCategory),
           "Name": name,
@@ -141,12 +145,14 @@ const AddRecipe = () => {
           "Carbohydrates": carbohydrates,
           "Instructions": editorState,
           "Ingredients": ingredientsList,
-          // Image: image,
+          
+          "Image": image,
           "DateModified": new Date().toJSON(),
           "DateCreated": new Date().toJSON(),
           "PrepTime": prep,
           "Servings": servings,
           "Notes": notes
+          // "userId" : _userId
         }
       }).then((res) => {
         setValidationErrors([]);
@@ -230,12 +236,18 @@ const AddRecipe = () => {
 
     // link @ https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
     var formData = new FormData();
-    formData.append("model", imageInput.files[0]);
-
+    formData.append("fileUpload", imageInput.files[0]);
+    // console.log(formData);
+    // Need to pull the users JWT token and apply it to the request.
     axios.post('https://localhost:5001/api/recipes/image-upload', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
-      }
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${user.token}`
+      },
+      data: formData
+
+    }).then((res) => {
+      SetImage(res.data);
     });
   }
 
@@ -338,10 +350,10 @@ const AddRecipe = () => {
           <section id="addRecipeBasics">
             <label htmlFor="addRecipeName">Name(*):</label>
             <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeName" onChange={HandleFormChange} />
-            <form className="py-4" onSubmit={PhotoUpload}>
+            <form className="py-4">
               <label htmlFor="addRecipePhoto">Photo:</label>
-              <input type="text" id="addRecipePhoto" value="Photo Placeholder" />
-              <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" value="Upload" />
+              <input type="file" id="addRecipePhoto" />
+              <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={PhotoUpload}>Upload</button>
               <div className="px-4 text-sm">
                 <p>Upload a file</p>
                 <p>PNG, JPEG, up to 10MB</p>
