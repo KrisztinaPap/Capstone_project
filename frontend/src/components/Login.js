@@ -160,22 +160,22 @@ const Login = () => {
       <>
         <div className="card-body p-4">
           <div className="btn-group">
-            <div className="block text-purple-700 py-5 px-4">
-              {user.name}
+            <div className="block py-5 px-4">
+              {user.name}, What would you like to do?
             </div>
-            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/dashboard">
-              Dashboard
+            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/dashboard">
+              See my dashboard
             </Link>
-            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/recipes">
-              Recipes
+            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/recipes">
+              See my recipe list
             </Link>
-            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/add-recipe">
-              Add a Recipe
+            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/add-recipe">
+              Add a recipe
             </Link>
-            <Link className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
-              {user.name}'s Profile
+            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
+              Edit my profile
             </Link>
-            <button className="block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" onClick={LogOut}>
+            <button className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" onClick={LogOut}>
               Log Out
             </button>
           </div>
