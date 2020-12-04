@@ -121,7 +121,6 @@ const AddRecipe = () => {
       validationErrorList.push(validationErrorMsg); 
     }
     setValidationErrors(validationErrorList);
-    // return validationErrorList;
   }
 
   function SubmitRecipe(event) {
@@ -243,8 +242,6 @@ const AddRecipe = () => {
     // link @ https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
     var formData = new FormData();
     formData.append("fileUpload", imageInput.files[0]);
-    // console.log(formData);
-    // Need to pull the users JWT token and apply it to the request.
     axios.post('https://localhost:5001/api/recipes/image-upload', formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
