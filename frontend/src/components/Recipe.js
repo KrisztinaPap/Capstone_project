@@ -89,7 +89,7 @@ function Recipe(){
 
   // If no axios Errors, and data is returned, render page...
   return(
-    <div className="mx-2 my-8">
+    <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
       {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
       <div className="flex justify-center my-8">
         <img className="p-2 w-1/3 border rounded" src={myRecipe.img} alt={myRecipe.name} />
@@ -115,11 +115,11 @@ function Recipe(){
 
       </section>
 
-      <section className="my-8 md:w-1/2 ">
+      <section className="my-8">
         <h2 className="text-2xl text-bold my-4">Instructions</h2>
         <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.instructions}</ReactMarkdown>
       </section>
-      <section className="my-8 md:w-1/2 ">
+      <section className="my-8">
         <h2 className="text-2xl text-bold my-4">Notes</h2>
         <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.notes}</ReactMarkdown>
       </section>
