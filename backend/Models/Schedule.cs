@@ -79,7 +79,6 @@ namespace Api.Models
 
   public class Schedule
   {
-
     public int PlanId { get; set; }
 
     public string UserId { get; set; }
@@ -102,5 +101,36 @@ namespace Api.Models
     {
     }
 
+  }
+
+
+  public class ScheduleMeal {
+    public string MealTime { get; set; }
+    public ICollection<int> Recipes { get; private set; }
+
+    public ScheduleMeal() {
+      Recipes = new HashSet<int>();
+    }
+
+    public Meal ToMeal() {
+      return null;
+    }
+  }
+
+  public class SchedulePlan {
+    public DateTime Day { get; set;}
+
+    public ICollection<ScheduleMeal> Meals { get; private set; }
+
+    public SchedulePlan() {
+      Meals = new HashSet<ScheduleMeal>();
+    }
+
+    public Plan ToPlan() {
+      return new Plan() {
+        Day = Day,
+        Meals = Meals.Select(x => x.ToMeal()).ToList()
+      };
+    }
   }
 }

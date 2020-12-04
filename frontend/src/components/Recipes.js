@@ -23,6 +23,7 @@ function Recipes() {
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [sure, setSure] = useState(false);
 
   useEffect(() => {
     populateRecipes();
@@ -40,28 +41,55 @@ function Recipes() {
     }
   }
 
-  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? Remove center after CSS applied */}
+  async function softDeleteRecipe() {
+    setSure(!sure);
+  }
+
+  async function deleteRecipe() {
+    try {
+      const toDelete = await axios.delete(`api/recipes/${recipes.id}`)
+      setRecipes(toDelete.data);
+      setLoading(false);
+      setError(false);
+    } catch (err) {
+      setError(true);
+      setLoading(false);
+    }
+  }
+
   if (loading){
     return(
       <>
-        <center>
-          <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-          <p>Gathering your recipes...</p>
-        </center>
+        <section className="mt-8">
+          <p className="text-center">
+            <i className="fas fa-spinner fa-spin fa-4x"></i>
+          </p>
+          <p className="text-center mt-2">
+            Gathering your recipes...
+          </p>
+        </section>
       </>
     );
   }
 
   // If Axios request has an error, display error message...
-  // TODO: Design better Error page?
   if (error){
     return(
-      <>
-        <p>There was an error loading the Recipes List. Please try again.</p>
-        <p><button className="purple-button focus:outline-none focus:shadow-outline" type="submit" onClick={populateRecipes}>
+    <section className="mt-8">
+      <p className="text-center">
+        There was an error loading the Recipes List. Please try again.
+      </p>
+      <p className="text-center mt-2">
+        <button className="purple-button focus:outline-none focus:shadow-outline mr-1" type="submit" onClick={populateRecipes}>
           Retry
-        </button></p>
-      </>
+        </button>
+        <Link to={"/"}>
+          <button className="purple-button focus:outline-none focus:shadow-outline ml-1" type="submit">
+            Return to Home Page
+          </button>
+        </Link>
+      </p>
+    </section>
     )
   }
 
@@ -69,17 +97,23 @@ function Recipes() {
     <>
       <main className="container my-2">
         <section>
-         
+
           <div className="block text-center my-4">
-            <p className="text-xl">Hello, {user.name}!</p>
+            <p className="text-4xl">Hello {user.name}!</p>
           </div>
 
+          <Link className="flex justify-end m-4" to="/add-recipe">
+            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+              <i className="fas fa-plus pr-2"></i>
+                Add a New Recipe
+            </button>
+          </Link>
 
           <table className="w-full mx-auto">
             <thead>
               <tr>
                 <th className="my-4">
-                  <h2><i className="fas fa-drumstick-bite px-2"></i>Your Recipes</h2>
+                  <h2 className="text-2xl"><i className="fas fa-drumstick-bite px-2"></i>Your Recipe List</h2>
                 </th>
                 <th>
                 </th>
@@ -95,15 +129,28 @@ function Recipes() {
                         <img className="p-2 w-12 h-12 border rounded" /*src={recipes.image}*/ src={Plate} alt={recipes.name}/>
                         <div className="px-4 text-gray-800 hover:text-purple-500 focus:text-purple-500">
                           {recipes.name}
+                          <span className="block text-sm">KCal: {(parseInt(recipes.fat) * 9) + (parseInt(recipes.protein) * 4) + (parseInt(recipes.carbohydrates) * 4)} | C: {recipes.carbohydrates} | F: {recipes.fat} | P: {recipes.protein}</span>
+                          
                         </div>
                       </Link>
                     </td>
-                    <td className="flex align-center">
-                      <Link className="flex align-center" to={`recipes/${recipes.id}`}>
-                        <button>
-                          <i className="fas fa-external-link-alt"></i>
+                    <td className="flex align-center items-center ">
+                      {!sure &&
+                        <button onClick={softDeleteRecipe} className="w-12 h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+                          <i className="far fa-trash-alt"></i>
                         </button>
-                      </Link>
+                      }
+                      {sure &&
+                        <>
+                          <span>Are you sure?</span>
+                          <button onClick={ deleteRecipe } className="mx-2 h-12 bg-red-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                            YES
+                          </button>
+                          <button onClick={softDeleteRecipe} className="h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+                            CANCEL
+                          </button>
+                        </>
+                      }
                     </td>
                   </tr>
                 </div>
