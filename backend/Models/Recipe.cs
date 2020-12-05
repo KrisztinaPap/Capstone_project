@@ -43,7 +43,7 @@ namespace Api.Models
     [Column(TypeName = "longtext")]
     public string Instructions { get; set; } = string.Empty;
 
-    [Column(TypeName = "varchar(100)")]
+    [Column(TypeName = "varchar(500)")]
     public string Image { get; set; } = string.Empty;
 
     [Required]

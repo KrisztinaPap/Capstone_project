@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
@@ -246,7 +246,7 @@ namespace Api.Migrations
                     Calories = table.Column<int>(type: "int(10)", nullable: false),
                     Instructions = table.Column<string>(type: "longtext", nullable: false),
                     Tags = table.Column<string>(type: "json", nullable: true),
-                    Image = table.Column<string>(type: "varchar(100)", nullable: true, defaultValue: ""),
+                    Image = table.Column<string>(type: "varchar(500)", nullable: true, defaultValue: ""),
                     DateModified = table.Column<DateTime>(type: "date", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "date", nullable: false),
                     PrepTime = table.Column<decimal>(type: "decimal(10, 3)", nullable: false),
