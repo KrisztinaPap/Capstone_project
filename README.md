@@ -6,8 +6,9 @@
 ## Project Documents and Reports
 - [Project Trello Board](https://trello.com/b/zUabU848/capstone-puddlejumpers)
 - [Project Wireframes (Figma)](https://www.figma.com/file/iGsjkmFikAAyslTBFRk2Bs/Capstone%3A-Wireframes?node-id=0%3A1)
-- [Project ERD (Draw.io)](./Planning/Yummy_ERD.drawio) 
-- [Project Plan](./Planning/Capstone Project Plan Puddlejumpers.docx)
+- [Project ERD (Draw.io)](./planning/YummyERD.png) 
+- [Project Plan](./planning/Capstone_Project_Plan_Puddlejumpers.txt)
+- [Installation Manual](https://docs.google.com/document/d/11WyFJVwn7B7u0SpiF514_CU9FgUNjTHigksCUpzdW30/edit?usp=sharing)
 - [User Manual](https://docs.google.com/document/d/13sPFINRwDcYq4DSw-gK44Qg3y68dmJ_DL-zZRE-G-BY/edit?usp=sharing)
 - [Testing Manual](https://docs.google.com/document/d/1Pe5WhP3cspQlvyIUiBKgSVL9p2SwmnivN5Bbi0fit0w/edit?usp=sharing)
 
@@ -41,9 +42,15 @@
 - Edit a user profile (update name/password)
 
 ### Out-of-scope features
-- Password email (send password reset link to user email)
+- Password email flow - to send password reset link to user's email
+- Delete a user profile
 
 ## Installation Instructions
+### Requirements
+- Windows OS
+- DOTNET Core 3
+- node.js
+
 #### Installing Locally
 - Install phpMyAdmin.
 - Download or Clone this Repository.
