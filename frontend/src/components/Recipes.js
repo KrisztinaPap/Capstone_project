@@ -98,8 +98,8 @@ function Recipes() {
       <main className="container my-2">
         <section>
 
-          <table className="w-full mx-auto mt-5 ">
-            <section className={'flex mt-5 ml-5 mr-5'}>
+          <table className="w-full mx-auto mt-8 ">
+            <section className={'flex mt-8 ml-5 mr-5'}>
               <h2 className="flex-auto justify-start text-2xl"><i className="fas fa-drumstick-bite px-2"></i>Your Recipe List</h2>
               <Link className="flex justify-end" to="/add-recipe">
                 <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
