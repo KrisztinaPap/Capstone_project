@@ -98,29 +98,19 @@ function Recipes() {
       <main className="container my-2">
         <section>
 
-          <div className="block text-center my-4">
-            <p className="text-4xl">Hello {user.name}!</p>
-          </div>
+          <table className="w-full mx-auto mt-8 ">
+            <section className={'flex mt-8 ml-5 mr-5'}>
+              <h2 className="flex-auto justify-start text-2xl"><i className="fas fa-drumstick-bite px-2"></i>Your Recipe List</h2>
+              <Link className="flex justify-end" to="/add-recipe">
+                <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+                  <i className="fas fa-plus pr-2"></i>
+                  Add a New Recipe
+                </button>
+              </Link>
+            </section>
 
-          <Link className="flex justify-end m-4" to="/add-recipe">
-            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
-              <i className="fas fa-plus pr-2"></i>
-                Add a New Recipe
-            </button>
-          </Link>
 
-          <table className="w-full mx-auto">
-            <thead>
-              <tr>
-                <th className="my-4">
-                  <h2 className="text-2xl"><i className="fas fa-drumstick-bite px-2"></i>Your Recipe List</h2>
-                </th>
-                <th>
-                </th>
-              </tr>
-            </thead>
-
-            <tbody className="m-2">
+            <tbody className="mb-2">
               {recipes.map(recipes => (
                 <div className="border-2 m-2 p-2 flex flex-row rounded shadow">
                   <tr className="w-full flex justify-between align-center" key={recipes.id}>
@@ -130,7 +120,7 @@ function Recipes() {
                         <div className="px-4 text-gray-800 hover:text-purple-500 focus:text-purple-500">
                           {recipes.name}
                           <span className="block text-sm">KCal: {(parseInt(recipes.fat) * 9) + (parseInt(recipes.protein) * 4) + (parseInt(recipes.carbohydrates) * 4)} | C: {recipes.carbohydrates} | F: {recipes.fat} | P: {recipes.protein}</span>
-                          
+
                         </div>
                       </Link>
                     </td>
