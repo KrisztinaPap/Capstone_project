@@ -37,6 +37,7 @@ export default function App() {
             <Route path='/add-recipe' component={AddRecipe} />
             <Route exact path='/page404' component={Page404} />
             <Route exact path='/page500' component={Page500} />
+            <Route exact path='/about-us' component={AboutUs} />
             <Route path="*" component={Page404} />
           </Switch>
         </Layout>
