@@ -36,15 +36,15 @@ const AddRecipe = () => {
   const [carbohydrates, SetCarbohydrates] = useState();
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
+  const [cook, setCookTime] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
-  const [ingredientList, setIngredientList] = useState([]);
   const [validationErrors, setValidationErrors] = useState([]);
-
+  const [imageUploadMessage, setImageUploadMessage] = useState();
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
-  const [errorHeader, setErrorHeader] = useState("");
+  const [responseHeader, setResponseHeader] = useState("");
   let errorList = [];
 
   /*============================================================*/
@@ -72,9 +72,8 @@ const AddRecipe = () => {
     setEditorState(event.blocks[0].text);
   }
 
-  function ValidateInputFields() {
+  async function ValidateInputFields() {
     const validationErrorList = [];
-    console.log(validationErrorList);
     let validationErrorMsg;
     if(!name) {
       validationErrorMsg = "Your recipe is missing a name!";
@@ -83,13 +82,13 @@ const AddRecipe = () => {
     const IngredientInputFields = document.getElementsByClassName("ingredientInput");
     for(let i=0; i < IngredientInputFields.length; i += 3)
     {
-      if(IngredientInputFields[i].value == "" || IngredientInputFields[i] == null) {
+      if(IngredientInputFields[i].value === "" || IngredientInputFields[i] === null) {
         validationErrorList.push("One of your ingredients is missing a name!");
       }
       if(isNaN(parseInt(IngredientInputFields[i+1].value))) {
         validationErrorList.push("One of your ingredients is missing a quantity!");
       }
-      if(IngredientInputFields[i+2].value) {
+      if(IngredientInputFields[i+2].value === "0" || IngredientInputFields[i+2].value === null) {
         validationErrorList.push("One of your ingredients is missing a unit of measure!");
       }
     }
@@ -117,7 +116,7 @@ const AddRecipe = () => {
       validationErrorMsg = "Please enter a number for the amount of protein in your recipe!";
       validationErrorList.push(validationErrorMsg); 
     }
-    if(recipeCategory == "0") {
+    if(recipeCategory === "0") {
       validationErrorMsg = "Please select a category your recipe belongs to!";
       validationErrorList.push(validationErrorMsg); 
     }
@@ -129,11 +128,15 @@ const AddRecipe = () => {
     //   This function will send the recipe data from the form the user has filled out to the database and create a new recipe.
     event.preventDefault();
     ValidateInputFields();
-    CreateIngredientList();
-    if(validationErrors.length == 0){
+    const ingredientsList = CreateIngredientList();
+    if( validationErrors.length === 0 ) {
       axios({
         method: 'post',
         url: '/api/recipes',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.token}`
+        },
         data: {
           "CategoryId": parseInt(recipeCategory),
           "Name": name,
@@ -141,19 +144,24 @@ const AddRecipe = () => {
           "Protein": proteins,
           "Carbohydrates": carbohydrates,
           "Instructions": editorState,
-          "Ingredients": ingredientList,
-          // Image: image,
+          "Ingredients": ingredientsList,
+          "Image": image,
           "DateModified": new Date().toJSON(),
           "DateCreated": new Date().toJSON(),
           "PrepTime": prep,
+          "CookTime": cook,
           "Servings": servings,
           "Notes": notes
+          // "userId" : _userId
         }
       }).then((res) => {
+        setValidationErrors([]);
+        setResponseHeader("Successly added recipe");
         setResponse(res.data);
         setStatusCode(res.status);
       })
       .catch((err) => {
+        setValidationErrors(["There was an error with the server."]);
         setResponse(err.response.data);
         setStatusCode(err.response.status);
       });
@@ -181,6 +189,7 @@ const AddRecipe = () => {
         }
       case "addRecipeCookTime":
         {
+          setCookTime(event.target.value);
           break;
         }
       case "addRecipeServings":
@@ -228,11 +237,21 @@ const AddRecipe = () => {
 
     // link @ https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
     var formData = new FormData();
-    formData.append("model", imageInput.files[0]);
-
+    formData.append("fileUpload", imageInput.files[0]);
     axios.post('https://localhost:5001/api/recipes/image-upload', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data'
+        'Content-Type': 'multipart/form-data',
+        'Authorization': `Bearer ${user.token}`
+      },
+      data: formData
+
+    }).then((res) => {
+      if(res.status === 200 && imageInput.files[0] != null) {
+        SetImage(res.data);
+        setImageUploadMessage("Successfully uploaded image.");
+      }
+      else {
+        setImageUploadMessage("Image upload failed.");
       }
     });
   }
@@ -260,7 +279,7 @@ const AddRecipe = () => {
     newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
     newQuantityLabel.innerHTML = `Quantity`;
     newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
-    newQuantity.setAttribute("class", "ingredientInput");
+    newQuantity.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline");
 
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
     newMeasureLabel.innerHTML = "Measurement";
@@ -290,7 +309,7 @@ const AddRecipe = () => {
     // Grab all the ingredient input fields:
     const IngredientInputFields = document.getElementsByClassName("ingredientInput");
     const tempIngredientList = [];
-    for(let i=0; i < IngredientInputFields.length; i += 3)
+    for(let i = 0; i < IngredientInputFields.length; i += 3)
     {
       let newIngredient = {
         "Name": IngredientInputFields[i].value,
@@ -312,7 +331,7 @@ const AddRecipe = () => {
 
   useEffect(()=> {
     if(validationErrors.length > 0) {
-      setErrorHeader("ERROR: There was problem with your recipe!");
+      setResponseHeader("ERROR: There was problem with your recipe!");
       for(let error in validationErrors)
       {
         errorList.push(<li className="list-disc">{validationErrors[error]}</li>);
@@ -328,7 +347,7 @@ const AddRecipe = () => {
           <h1 className="font-bold">Add a New Recipe</h1>
         </div>
         <h2 className="font-bold py-4">Recipe Information</h2>
-        <h1 className="font-extrabold">{errorHeader}</h1>
+        <h1 className="font-extrabold">{responseHeader}</h1>
         <ul>
           {errorMessage}
         </ul>
@@ -336,10 +355,11 @@ const AddRecipe = () => {
           <section id="addRecipeBasics">
             <label htmlFor="addRecipeName">Name(*):</label>
             <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeName" onChange={HandleFormChange} />
-            <form className="py-4" onSubmit={PhotoUpload}>
-              <label htmlFor="addRecipePhoto">Photo:</label>
-              <input type="text" id="addRecipePhoto" value="Photo Placeholder" />
-              <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" value="Upload" />
+            <form className="py-4">
+              <label id="photoLabel" htmlFor="addRecipePhoto">Photo:</label>
+              <p className="font-bold">{imageUploadMessage}</p>
+              <input type="file" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
+              <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={PhotoUpload}>Upload</button>
               <div className="px-4 text-sm">
                 <p>Upload a file</p>
                 <p>PNG, JPEG, up to 10MB</p>

@@ -3,14 +3,16 @@ using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20201204211536_RemovedTagsFromRecipe")]
+    partial class RemovedTagsFromRecipe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -442,7 +444,7 @@ namespace Api.Migrations
 
                     b.Property<string>("Image")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(500)")
+                        .HasColumnType("varchar(100)")
                         .HasDefaultValue("");
 
                     b.Property<string>("Instructions")
@@ -484,7 +486,7 @@ namespace Api.Migrations
                             DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
-                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chicken-potato-hotsauce.jpg ",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chicken-potato-hotsauce.jpg",
                             Instructions = @"* Cook Chicken
 * Cook Potatoes
 * Smother in Hot Sauce",
@@ -503,7 +505,7 @@ namespace Api.Migrations
                             DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
-                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\steak-sweet-potato.jpeg ",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\steak-sweet-potato.jpeg",
                             Instructions = @"* Cook Steak on BBQ
 * Cook Potatoes to personal preference
 * Serve and Enjoy!",
@@ -524,7 +526,7 @@ namespace Api.Migrations
                             DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
-                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\butter-chicken.jpg ",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\butter-chicken.jpg",
                             Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
 * 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
@@ -546,7 +548,7 @@ namespace Api.Migrations
                             DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
-                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\blackbean-quesadilla.jpg ",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3 - 594A - 455F - 9ACA - 90758B48F376\\blackbean - quesadilla.jpg",
                             Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
 * 2. Place tortillas on a work surface.
 * 3. Spread 1/2 cup filling on half of each tortilla.
@@ -570,7 +572,7 @@ namespace Api.Migrations
                             DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
-                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chipotle-orange-chicken.jpg ",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chipotle-orange-chicken.jpg",
                             Instructions = @"* 1. Preheat grill or broiler.
 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
 * 3. Lightly oil the grill or broiler rack (see Tip).
@@ -769,13 +771,13 @@ namespace Api.Migrations
                         {
                             Id = "E3E28BD3-594A-455F-9ACA-90758B48F376",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8ccf46f4-cb81-4973-ab6c-1cb60f98068d",
+                            ConcurrencyStamp = "9a8f8546-067a-4235-8405-eebc81baede2",
                             Email = "phprox123@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "TestAdminWarren",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "a6712106-6c30-4b19-bb87-68bb4e372623",
+                            SecurityStamp = "0074550e-edc7-45d6-9533-831cb4221170",
                             TwoFactorEnabled = false
                         });
                 });

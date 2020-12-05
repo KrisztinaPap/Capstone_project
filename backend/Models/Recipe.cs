@@ -43,10 +43,7 @@ namespace Api.Models
     [Column(TypeName = "longtext")]
     public string Instructions { get; set; } = string.Empty;
 
-    [Column(TypeName = "json")]
-    public List<string> Tags { get; set; } = new List<string>();
-
-    [Column(TypeName = "varchar(100)")]
+    [Column(TypeName = "varchar(500)")]
     public string Image { get; set; } = string.Empty;
 
     [Required]
@@ -60,6 +57,10 @@ namespace Api.Models
     [Required]
     [Column(TypeName = "decimal(10, 3)")]
     public decimal PrepTime { get; set; }
+
+    [Required]
+    [Column(TypeName = "decimal(10, 3)")]
+    public decimal CookTime{ get; set; }
 
     [Required]
     [Column(TypeName = "int(10)")]
