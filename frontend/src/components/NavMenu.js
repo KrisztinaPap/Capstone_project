@@ -23,35 +23,35 @@ function NavMenu() {
   const LoggedInMenu = () => {
     return (
       <>
-        <div>
+        <section>
           <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
             Dashboard
           </Link>
-        </div>
-        <div>
+        </section>
+        <section>
           <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
             Recipes
           </Link>
-        </div>
-        <div>
+        </section>
+        <section>
           <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
             Add a Recipe
           </Link>
-        </div>
-        <div>
+        </section>
+        <section>
           <hr className="mb-2"/>
           <p>You are logged in as: {user.name}</p>
-          </div>
-        <div>
+          </section>
+        <section>
           <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
             Edit Profile
           </Link>
-        </div>
-        <div>
+        </section>
+        <section>
           <button className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
             Log Out
           </button>
-        </div>
+        </section>
       </>
     );
   }
@@ -76,9 +76,11 @@ function NavMenu() {
       outerContainerId={'outer-container'}
     >
       <header>Site Navigation</header>
-      <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
-        Home
-      </Link>
+      <section>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
+          Home
+        </Link>
+      </section>
       { (user.isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
     </Menu>
   );
