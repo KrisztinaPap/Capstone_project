@@ -95,7 +95,7 @@ export class DraggableRecipeId {
    * @returns {number}
    */
   static decode(encoding) {
-    const [_, id] = encoding.split('.');
+    const [, id] = encoding.split('.');
     return parseInt(id);
   }
 }

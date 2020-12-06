@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AboutUs from "./AboutUs";
 
 const Home = () => {
   return (
@@ -132,5 +131,3 @@ const Home = () => {
 }
 
 export default Home;
-
-

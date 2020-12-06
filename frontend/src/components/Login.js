@@ -8,7 +8,7 @@ import Plate from '../assets/plate.svg';
 
 const Login = () => {
 
-  const {isAuthenticated, signin} = useContext(AuthContext);
+  const {user, isAuthenticated, signin} = useContext(AuthContext);
   const history = useHistory();
   const location = useLocation();
 
@@ -120,7 +120,7 @@ const Login = () => {
       <div className="container">
         <div className="block text-center my-4">
           <h1 className="font-bold">
-            { (user.isAuthenticated()) ? `Welcome ${user.name}` : "Login" }
+            { (isAuthenticated()) ? `Welcome ${user.name}` : "Login" }
           </h1>
         </div>
         <div className="md:grid md:grid-cols-2 md:gap-6 place-items-center">

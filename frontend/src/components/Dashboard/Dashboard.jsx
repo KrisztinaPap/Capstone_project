@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -21,6 +21,7 @@ import {
 
 import Schedule, {Forward, Backward, Jump} from './Schedule';
 import {Link} from "react-router-dom";
+import { AuthContext } from '../../contexts/AuthContext';
 
 // Citation: https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
 
@@ -39,6 +40,7 @@ function debounce(fn, ms) {
 const defaultScheduleState = getDefaultScheduleState(dayjs().startOf('day'), 7);
 
 const Dashboard = () => {
+  const {user} = useContext(AuthContext);
   const userId = -1;
 
   const [loading, setLoading] = useState(true);
@@ -75,8 +77,6 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-
-
     populateRecipes();
   }, [])
 
@@ -117,7 +117,7 @@ const Dashboard = () => {
     }
 
     getPlans();
-  }, [schedule, userId]);
+  }, [schedule, userId, user.token]);
 
   useEffect(() => {
     async function updatePlans() {
@@ -134,7 +134,7 @@ const Dashboard = () => {
     }
 
     updatePlans();
-  }, [plans])
+  }, [plans, loadingMeals])
 
 
   useEffect(() => {
