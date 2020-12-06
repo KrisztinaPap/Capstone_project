@@ -1,22 +1,22 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Menu from 'react-burger-menu/lib/menus/scaleRotate'
 import './NavMenu.css';
 
-// Import Authentication
-import { UserContext, resetData, SaveUserData } from './Authentication/UserAuthentication';
+import { AuthContext } from '../contexts/AuthContext';
 
 function NavMenu() {
 
   // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
+  const {user, isAuthenticated, signout} = useContext(AuthContext);
+  const [menuOpen, setMenuOpen] = useState();
 
-  // Function to LogOut
-  const LogOut = () => {
-    // Set User Context with Reset UserData
-    setUser(resetData);
-    // Save UserContext to LocalStorage
-    SaveUserData(resetData);
+  const closeMenu = () => {
+    setMenuOpen(false);
+  }
+
+  const handleStateChange = (state) => {
+    setMenuOpen(state.isOpen);
   }
 
   // Function to Display LoggedIn Menu
@@ -24,17 +24,29 @@ function NavMenu() {
     return (
       <>
         <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
+          <Link
+            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            to="/dashboard"
+            onClick={closeMenu}
+          >
             Dashboard
           </Link>
         </section>
         <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
+          <Link
+            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            to="/recipes"
+            onClick={closeMenu}
+          >
             Recipes
           </Link>
         </section>
         <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
+          <Link
+            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            to="/add-recipe"
+            onClick={closeMenu}
+          >
             Add a Recipe
           </Link>
         </section>
@@ -43,12 +55,19 @@ function NavMenu() {
           <p>You are logged in as: {user.name}</p>
           </section>
         <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
+          <Link
+            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            to="/profile"
+            onClick={closeMenu}
+          >
             Edit Profile
           </Link>
         </section>
         <section>
-          <button className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
+          <button
+            className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded"
+            onClick={() => { signout(); closeMenu(); }}
+          >
             Log Out
           </button>
         </section>
@@ -60,10 +79,18 @@ function NavMenu() {
   const LoggedOutMenu = () => {
     return (
       <>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/login">
+        <Link
+          className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+          to="/login"
+          onClick={closeMenu}
+        >
           Login
         </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/signup">
+        <Link
+          className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+          to="/signup"
+          onClick={closeMenu}
+        >
           Sign Up
         </Link>
       </>
@@ -74,14 +101,20 @@ function NavMenu() {
     <Menu
       pageWrapId={'page-wrap'}
       outerContainerId={'outer-container'}
+      isOpen={menuOpen}
+      onStateChange={(state) => { handleStateChange(state) }}
     >
       <header>Site Navigation</header>
       <section>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
+        <Link
+          className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+          to="/"
+          onClick={closeMenu}
+        >
           Home
         </Link>
       </section>
-      { (user.isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
+      { (isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
     </Menu>
   );
 
