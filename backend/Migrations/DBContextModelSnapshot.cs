@@ -411,7 +411,7 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Day = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            Day = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             UserId = "-1"
                         });
                 });
@@ -422,14 +422,14 @@ namespace Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int(10)");
 
-                    b.Property<int>("Calories")
-                        .HasColumnType("int(10)");
-
                     b.Property<int>("Carbohydrates")
                         .HasColumnType("int(10)");
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int(10)");
+
+                    b.Property<decimal>("CookTime")
+                        .HasColumnType("decimal(10, 3)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("date");
@@ -442,7 +442,7 @@ namespace Api.Migrations
 
                     b.Property<string>("Image")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("varchar(500)")
                         .HasDefaultValue("");
 
                     b.Property<string>("Instructions")
@@ -465,9 +465,6 @@ namespace Api.Migrations
                     b.Property<int>("Servings")
                         .HasColumnType("int(10)");
 
-                    b.Property<string>("Tags")
-                        .HasColumnType("json");
-
                     b.Property<string>("UserId")
                         .HasColumnType("varchar(50)");
 
@@ -481,13 +478,13 @@ namespace Api.Migrations
                         new
                         {
                             Id = -1,
-                            Calories = 860,
                             Carbohydrates = 100,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            CookTime = 30m,
+                            DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
-                            Image = "",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chicken-potato-hotsauce.jpg ",
                             Instructions = @"* Cook Chicken
 * Cook Potatoes
 * Smother in Hot Sauce",
@@ -495,19 +492,18 @@ namespace Api.Migrations
                             Notes = "* Marinate Chicken for at least 12 hours for maximum flavor",
                             PrepTime = 35m,
                             Protein = 70,
-                            Servings = 2,
-                            Tags = "[\"Spicy\"]"
+                            Servings = 2
                         },
                         new
                         {
                             Id = -2,
-                            Calories = 770,
                             Carbohydrates = 115,
                             CategoryId = -2,
-                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            CookTime = 20m,
+                            DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
-                            Image = "",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\steak-sweet-potato.jpeg ",
                             Instructions = @"* Cook Steak on BBQ
 * Cook Potatoes to personal preference
 * Serve and Enjoy!",
@@ -517,19 +513,18 @@ namespace Api.Migrations
 * Potatoes can be diced, sliced, or baked. Personal preference.",
                             PrepTime = 25m,
                             Protein = 70,
-                            Servings = 2,
-                            Tags = "[\"BBQ\"]"
+                            Servings = 2
                         },
                         new
                         {
                             Id = -3,
-                            Calories = 222,
                             Carbohydrates = 10,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            CookTime = 40m,
+                            DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
-                            Image = "",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\butter-chicken.jpg ",
                             Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
 * 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
 * 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
@@ -540,19 +535,18 @@ namespace Api.Migrations
                             Notes = "* Delicious!",
                             PrepTime = 65m,
                             Protein = 20,
-                            Servings = 8,
-                            Tags = "[\"Chicken, Dinner, Easy\"]"
+                            Servings = 8
                         },
                         new
                         {
                             Id = -4,
-                            Calories = 375,
                             Carbohydrates = 45,
                             CategoryId = -4,
-                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            CookTime = 5m,
+                            DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
-                            Image = "",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\blackbean-quesadilla.jpg ",
                             Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
 * 2. Place tortillas on a work surface.
 * 3. Spread 1/2 cup filling on half of each tortilla.
@@ -565,19 +559,18 @@ namespace Api.Migrations
                             Notes = "Tip: Look for prepared fresh salsa in the supermarket refrigerator section near other dips and spreads.",
                             PrepTime = 25m,
                             Protein = 13,
-                            Servings = 4,
-                            Tags = "[\"Low calorie, High fiber, Vegetarian\"]"
+                            Servings = 4
                         },
                         new
                         {
                             Id = -5,
-                            Calories = 148,
                             Carbohydrates = 6,
                             CategoryId = -1,
-                            DateCreated = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 11, 28, 0, 0, 0, 0, DateTimeKind.Local),
+                            CookTime = 15m,
+                            DateCreated = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
+                            DateModified = new DateTime(2020, 12, 4, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
-                            Image = "",
+                            Image = "H:\\Coding Applications\\TechCareersRepos\\Capstone\\GitRepo\\backend\\wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chipotle-orange-chicken.jpg ",
                             Instructions = @"* 1. Preheat grill or broiler.
 * 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
 * 3. Lightly oil the grill or broiler rack (see Tip).
@@ -592,8 +585,7 @@ namespace Api.Migrations
 * When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.",
                             PrepTime = 45m,
                             Protein = 23,
-                            Servings = 4,
-                            Tags = "[\"Low calorie, Low fat, Low Sodium\"]"
+                            Servings = 4
                         });
                 });
 
@@ -775,15 +767,15 @@ namespace Api.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "dc42cb55-4f73-418b-9dc5-3bb91e413700",
+                            Id = "E3E28BD3-594A-455F-9ACA-90758B48F376",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9c244e57-d31d-446d-b785-0402c6de6daf",
+                            ConcurrencyStamp = "8ccf46f4-cb81-4973-ab6c-1cb60f98068d",
                             Email = "phprox123@gmail.com",
                             EmailConfirmed = false,
                             LockoutEnabled = false,
                             Name = "TestAdminWarren",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "b5e012d2-e9af-4428-8790-f741ff9e4e6d",
+                            SecurityStamp = "a6712106-6c30-4b19-bb87-68bb4e372623",
                             TwoFactorEnabled = false
                         });
                 });

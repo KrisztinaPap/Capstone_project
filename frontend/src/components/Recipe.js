@@ -1,6 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm';
 import axios from 'axios';
 import {useParams} from "react-router";
 
@@ -43,28 +45,39 @@ function Recipe(){
   }
 
   // If page is loading, render below...
-  {/* TODO: Design better loading display. Perhaps a loading gif of some sort? */}
   if (loading){
     return(
       <>
-        {/* TODO: Remove center tags and apply centering via CSS */}
-        <center>
-        <p><i className="fas fa-spinner fa-spin fa-4x"></i></p>
-          <p>Loading your recipe...</p></center>
+        <section className="mt-8">
+          <p className="text-center">
+            <i className="fas fa-spinner fa-spin fa-4x"></i>
+          </p>
+          <p className="text-center mt-2">
+            Loading your recipe...
+          </p>
+        </section>
       </>
     )
   }
 
   // If Axios request has an error, display error message...
-  // TODO: Design better Error page?
   if (error){
     return(
-      <>
-        <p>There was an error loading your Recipe. Please try again.</p>
-        <p><button className="purple-button focus:outline-none focus:shadow-outline" type="submit" onClick={fetchRecipe}>
-          Retry
-        </button></p>
-      </>
+        <section className="mt-8">
+          <p className="text-center">
+            There was an error loading your Recipe. Please try again.
+          </p>
+          <p className="text-center mt-2">
+            <button className="purple-button focus:outline-none focus:shadow-outline mr-1" type="submit" onClick={fetchRecipe}>
+              Retry
+            </button>
+            <Link to={"/recipes"}>
+              <button className="purple-button focus:outline-none focus:shadow-outline ml-1" type="submit">
+                Return to Recipe List
+              </button>
+            </Link>
+          </p>
+        </section>
     )
   }
 
@@ -76,49 +89,46 @@ function Recipe(){
 
   // If no axios Errors, and data is returned, render page...
   return(
-    <div className="mx-2">
+    <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
       {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
-      <div className="flex justify-center my-4">
-        <img className="p-2 w-1/2 border rounded" src={"https://designshack.net/wp-content/uploads/placehold.jpg"} alt={myRecipe.name} />
+      <div className="flex justify-center my-8">
+        <img className="p-2 w-1/3 border rounded" src={myRecipe.img} alt={myRecipe.name} />
       </div>
-      <h1 className="text-xl text-bold my-4 text-center">{myRecipe.name}</h1>
-      <p className="text-md text-bold text-center">Servings: {myRecipe.servings}</p>
-      <p className="text-md text-bold text-center">Prep Time: {myRecipe.prepTime}</p>
+      <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
+      <p className="text-md text-bold">Servings: {myRecipe.servings}</p>
+      <p className="text-md text-bold">Prep Time: {myRecipe.prepTime}</p>
 
-      {/* TODO: Remove style= after CSS/Tailwind style finished */}
-      <section className="flex flex-col md:flex-row md:justify-left my-4">
- 
-          <section className="md:w-1/2 mx-2 md:ml-4">
-            <h2 className="text-lg text-bold my-2">Ingredients:</h2>
-            <p className="text-md">{ingredientsArray}</p>
+      <section className="flex flex-col md:flex-row md:justify-center my-8">
+
+        <section className="md:w-1/2 md:flex md:flex-col">
+            <h2 className="text-2xl text-bold my-4">Ingredients</h2>
+          <div className="text-md">{ingredientsArray}</div>
           </section>
 
-          <section className="md:w-1/2 mx-2 md:ml-4">
-            <h2 className="text-lg text-bold my-2">Macros:</h2>
+        <section className="md:w-1/2 md:ml-4 md:flex md:flex-col">
+          <h2 className="text-2xl text-bold my-4">Macros</h2>
             <p className="text-md">Calories: {(parseInt(myRecipe.fat) * 9) + (parseInt(myRecipe.protein) * 4) +(parseInt(myRecipe.carbohydrates) * 4)}</p>
             <p className="text-md">Fat: {myRecipe.fat}g</p>
             <p className="text-md">Protein: {myRecipe.protein}g</p>
             <p className="text-md">Carbs: {myRecipe.carbohydrates}g</p>
            </section>
-        
+
       </section>
 
-      <section className="m-2">
-        <h2 className="text-lg text-bold my-2 md:text-center">Instructions</h2>
-        <p className="text-md">{myRecipe.instructions}</p>
+      <section className="my-8">
+        <h2 className="text-2xl text-bold my-4">Instructions</h2>
+        <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.instructions}</ReactMarkdown>
       </section>
-      <section className="m-2">
-        <h2 className="text-lg text-bold my-2 md:text-center">Notes:</h2>
-        <p className="text-md">{myRecipe.notes}</p>
+      <section className="my-8">
+        <h2 className="text-2xl text-bold my-4">Notes</h2>
+        <ReactMarkdown plugins={[gfm]} className="markdown">{myRecipe.notes}</ReactMarkdown>
       </section>
 
-      {/* TODO: Consult; perhaps this could link to a page identical to "Create" but with all the fields filled in and ready to edit? Potential better ways to handle edit page? */}
-      {/* TODO: Button Functionality */}
-      <section className="flex justify-around my-4">
-        <button className="purple-button focus:outline-none focus:shadow-outline" type="submit">
+      <section className="flex justify-around my-8">
+        <button className="purple-button hover:bg-purple-700 focus:bg-purple-700 focus:shadow-outline" type="submit">
           Edit Recipe
         </button>
-        <Link to={"/recipes/"}><button className="purple-button focus:outline-none focus:shadow-outline" type="submit">
+        <Link to={"/recipes/"}><button className="purple-button hover:bg-purple-700 focus:bg-purple-700 focus:shadow-outline" type="submit">
             Return to Recipe List
         </button></Link>
       </section>

@@ -8,7 +8,8 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Api.Authentication;
-
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
 
 namespace Api.Models
 {
@@ -42,25 +43,6 @@ namespace Api.Models
           .HasForeignKey(key => key.RecipeId)
           .OnDelete(DeleteBehavior.Cascade);
 
-        // Citation: A value comparer function was needed to check the values after converting from JSON
-        // to List<string> data type from the database to the server.
-        // Link @ https://docs.microsoft.com/en-us/ef/core/modeling/value-comparers
-        var valueComparer = new ValueComparer<List<string>>(
-          // Expression for checking equality
-          (c1, c2) => c1.SequenceEqual(c2),
-          // Expression for generating hash code
-          c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-          // Expression to generate snapshot
-          c => c.ToList());
-
-        entity.Property(e => e.Tags)
-          .HasColumnType("json")
-          .HasConversion(
-            v => JsonConvert.SerializeObject(v),
-            v => JsonConvert.DeserializeObject<List<string>>(v))
-          .Metadata
-          .SetValueComparer(valueComparer);
-
         entity.Property(e => e.Image)
           .HasDefaultValue(string.Empty);
 
@@ -73,16 +55,16 @@ namespace Api.Models
             Fat = 30,
             Protein = 70,
             Carbohydrates = 100,
-            Calories = 860,
             Instructions = string.Join("\n",
               "* Cook Chicken",
               "* Cook Potatoes",
               "* Smother in Hot Sauce"
             ),
-            Tags = new List<string>() {"Spicy"},
+            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chicken-potato-hotsauce.jpg "),
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 35,
+            CookTime = 30,
             Servings = 2,
             Notes = string.Join("\n",
               "* Marinate Chicken for at least 12 hours for maximum flavor"
@@ -96,16 +78,16 @@ namespace Api.Models
             Fat = 10,
             Protein = 70,
             Carbohydrates = 115,
-            Calories = 770,
             Instructions = string.Join("\n",
               "* Cook Steak on BBQ",
               "* Cook Potatoes to personal preference",
               "* Serve and Enjoy!"
             ),
-            Tags = new List<string>() {"BBQ"},
+            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\steak-sweet-potato.jpeg "),
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
+            CookTime = 20,
             Servings = 2,
             Notes = string.Join("\n",
               "* Marinate Steak for at least 12 hours for maximum flavor",
@@ -121,7 +103,6 @@ namespace Api.Models
             Fat = 11,
             Protein = 20,
             Carbohydrates = 10,
-            Calories = 222,
             Instructions = string.Join("\n",
               "* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.",
             "* 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.",
@@ -130,10 +111,11 @@ namespace Api.Models
             "* 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.",
             "* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice."
             ),
-            Tags = new List<string>() {"Chicken, Dinner, Easy"},
+            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\butter-chicken.jpg "),
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 65,
+            CookTime = 40,
             Servings = 8,
             Notes = string.Join("\n",
               "* Delicious!"
@@ -147,7 +129,6 @@ namespace Api.Models
             Fat = 16,
             Protein = 13,
             Carbohydrates = 45,
-            Calories = 375,
             Instructions = string.Join("\n",
               "* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.",
             "* 2. Place tortillas on a work surface.",
@@ -158,10 +139,11 @@ namespace Api.Models
             "* 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.",
             "* 8. Serve the quesadillas with avocado and the remaining salsa."
             ),
-            Tags = new List<string>() {"Low calorie, High fiber, Vegetarian"},
+            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\blackbean-quesadilla.jpg "),
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
+            CookTime = 5,
             Servings = 4,
             Notes = string.Join("\n",
               "Tip: Look for prepared fresh salsa in the supermarket refrigerator section near other dips and spreads.")
@@ -174,7 +156,6 @@ namespace Api.Models
             Fat = 3,
             Protein = 23,
             Carbohydrates = 6,
-            Calories = 148,
             Instructions = string.Join("\n",
               "* 1. Preheat grill or broiler.",
             "* 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.",
@@ -183,10 +164,11 @@ namespace Api.Models
             "* 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.",
             "* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer."
             ),
-            Tags = new List<string>() {"Low calorie, Low fat, Low Sodium"},
+            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chipotle-orange-chicken.jpg "),
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 45,
+            CookTime = 15,
             Servings = 4,
             Notes = string.Join("\n",
               "* Chipotle chiles in adobo sauce are smoked jalapeños packed in a flavorful sauce.",
@@ -625,7 +607,7 @@ namespace Api.Models
           new User()
           {
             // Identity uses a GUID method to generate unqiue user id.
-            Id = Guid.NewGuid().ToString(),
+            Id = "E3E28BD3-594A-455F-9ACA-90758B48F376",
             Name = "TestAdminWarren",
             Email = "phprox123@gmail.com"
           }
@@ -652,7 +634,6 @@ namespace Api.Models
           }
         );
       });
-
     }
   }
 }

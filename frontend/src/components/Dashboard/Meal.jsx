@@ -1,10 +1,11 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Droppable, Draggable } from 'react-beautiful-dnd';
 import { DraggableMealRecipeId, DroppableMealId } from '../../utils/dndIdCoders';
 
 
 
-export default ({date, time, model, recipes, isEditing}) => {
+export default ({date, time, model, isEditing, fetchRecipe}) => {
   const id = DroppableMealId.encode(date, time);
 
   let recipe;
@@ -15,9 +16,26 @@ export default ({date, time, model, recipes, isEditing}) => {
     return isDragging ? "bg-blue-200" : ""
   };
 
+  const wrapInLink = (recipeJSX) => {
+    return (
+        <Link to={`/recipes/${recipe.id}`}>
+          {recipeJSX}
+        </Link>
+      );
+  }
+
+  const renderRecipe = () => {
+    const r = (
+      <div className="select-none m-1 px-2 py-1 bg-blue-800 text-white rounded-md">
+        <p className="">{recipe.name}</p>
+      </div>
+    );
+
+    return isEditing ?  r : wrapInLink(r)
+  }
 
   if(model) {
-    recipe = recipes.find(r => r.id === model.recipeId);
+    recipe = fetchRecipe(model.recipeId);
     recipeId = DraggableMealRecipeId.encode(date, time, recipe.id);
   }
 
@@ -32,17 +50,14 @@ export default ({date, time, model, recipes, isEditing}) => {
             className={`min-h-32 ${getListStyle(droppableSnapshot.isDraggingOver)}`}
           >
             { recipe &&
-              <Draggable key={recipes.id} draggableId={recipeId} index={index} isDragDisabled={!isEditing} className="h-full">
-                {(draggableProvided, draggableSnapshot) => (
+              <Draggable draggableId={recipeId} index={index} isDragDisabled={!isEditing} className="h-full">
+                {(draggableProvided) => (
                   <div
                     ref={draggableProvided.innerRef}
                     {...draggableProvided.draggableProps}
                     {...draggableProvided.dragHandleProps}
                   >
-                    <div className="select-none m-1 px-2 py-1 bg-blue-800 text-white rounded-md">
-                      <img src={recipe.image} />
-                      <p className="">{recipe.name}</p>
-                    </div>
+                    { renderRecipe() }
                   </div>
                 )}
               </Draggable>

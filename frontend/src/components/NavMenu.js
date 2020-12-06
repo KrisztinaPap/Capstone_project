@@ -23,21 +23,35 @@ function NavMenu() {
   const LoggedInMenu = () => {
     return (
       <>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
-          Dashboard
-        </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
-          Recipes
-        </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
-          Add a Recipe
-        </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
-          {user.name}'s Profile
-        </Link>
-        <button className="transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
-          Log Out
-        </button>
+        <section>
+          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
+            Dashboard
+          </Link>
+        </section>
+        <section>
+          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
+            Recipes
+          </Link>
+        </section>
+        <section>
+          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
+            Add a Recipe
+          </Link>
+        </section>
+        <section>
+          <hr className="mb-2"/>
+          <p>You are logged in as: {user.name}</p>
+          </section>
+        <section>
+          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
+            Edit Profile
+          </Link>
+        </section>
+        <section>
+          <button className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
+            Log Out
+          </button>
+        </section>
       </>
     );
   }
@@ -62,9 +76,11 @@ function NavMenu() {
       outerContainerId={'outer-container'}
     >
       <header>Site Navigation</header>
-      <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
-        Home
-      </Link>
+      <section>
+        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
+          Home
+        </Link>
+      </section>
       { (user.isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
     </Menu>
   );
