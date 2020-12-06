@@ -37,8 +37,17 @@ export const AuthProvider = ({children}) => {
     return authService.isAuthenticated(user);
   }
 
+  /**
+   * Updates the name of the currently logged in user;
+   * @param {string} name new name of the current logged in user
+   */
+  const updateName = (name) => {
+    const newUser = authService.updateName(user, name);
+    setUser(newUser);
+  }
+
   return (
-    <AuthContext.Provider value={{user, signin, signout, isAuthenticated}}>
+    <AuthContext.Provider value={{user, signin, signout, isAuthenticated, updateName}}>
       {children}
     </AuthContext.Provider>
   );

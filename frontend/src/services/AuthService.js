@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useRouteMatch } from 'react-router-dom';
 import {User, AnonymousUser} from '../models/User';
 
 
@@ -27,5 +28,10 @@ export default class AuthService {
   signout() {
       localStorage.removeItem('user');
       return AnonymousUser;
+  }
+
+  updateName(user, newName) {
+    const newUser = {email: user.email, name: newName, token: user.token, expiration: user.expiration};
+    return this.signin(newUser);
   }
 }

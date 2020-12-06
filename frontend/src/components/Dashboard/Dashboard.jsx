@@ -82,7 +82,11 @@ const Dashboard = () => {
 
   async function populateRecipes() {
     try {
-      const response = await axios.get('api/recipes')
+      const response = await axios.get('api/recipes', {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
       setRecipes(response.data);
       setLoading(false);
       setError(false);
@@ -97,7 +101,11 @@ const Dashboard = () => {
       const [start, end] = schedule.viewRange;
 
       try {
-        const response = await axios.get(`api/plans/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`);
+        const response = await axios.get(`api/plans/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`, {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        });
         dispatchPlans(loadPeriod(response.data));
 
         setLoadingMeals(false);

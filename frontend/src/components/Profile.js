@@ -1,23 +1,10 @@
-// Import Resources
-import React, { useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import {AuthContext} from '../contexts/AuthContext';
 import axios from 'axios';
-
-// Import Authentication
-import { UserContext, SaveUserData } from './Authentication/UserAuthentication';
 
 const Profile = () => {
 
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
-
-  // Check for User's Authentication
-  const history = useHistory();
-  useEffect(() => {
-    if (!user.isAuthenticated()) {
-      history.push("/login");
-    }
-  });
+  const {user, updateName} = useContext(AuthContext);
 
   // Set Up States
   const [name, setName] = useState( (user.name) ? user.name : "" );
@@ -64,12 +51,15 @@ const Profile = () => {
     // Axios Request
     axios
     .put(
-      'api/authenticate/update/name',
-      {
+      'api/authenticate/update/name', {
+      data: {
         Username: user.email,
         Name: name
+      },
+      headers: {
+        'Authorization': `Bearer ${user.token}`
       }
-    )
+    })
     .then(response => {
       if (response.data.status === "Success") {
         // Reset Errors
@@ -87,19 +77,8 @@ const Profile = () => {
         // Reset Form Fields
         setName(name);
 
-        // Set UserContext
-        const userData = {
-          email: user.email,
-          name: name,
-          token: user.token,
-          expiration: user.expiration,
-          isAuthenticated: function() {
-              return (this.token == null || this.expiration < Date.now()) ? false : true
-          }
-        }
-        setUser(userData);
-        // Save UserContext to LocalStorage
-        SaveUserData(userData);
+        // Updates the logged in users name
+        updateName(name);
       }
     })
     .catch(error => {
@@ -109,11 +88,11 @@ const Profile = () => {
 
         // Set Loading
         setLoadingUpdateName(false);
-  
+
         // Set Error Message
         setErrorMessageUpdateName(error.response.data.message);
         setErrorsArrayUpdateName(error.response.data.errorList);
-  
+
         // Break Function
         return false;
       }
@@ -143,7 +122,7 @@ const Profile = () => {
       // Break Function
       return false;
     }
-    
+
     // Check if Password Contains a Number
     const regexPasswordNumberTest = /\d/;
     if (!regexPasswordNumberTest.test(password)) {
@@ -191,12 +170,15 @@ const Profile = () => {
     // Axios Request
     axios
     .put(
-      'api/authenticate/update/password',
-      {
-        Username: user.email,
-        Password: password
-      }
-    )
+      'api/authenticate/update/password', {
+        data: {
+          Username: user.email,
+          Password: password
+        },
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
     .then(response => {
       if (response.data.status === "Success") {
         // Reset Errors
@@ -223,11 +205,11 @@ const Profile = () => {
 
         // Set Loading
         setLoadingUpdatePassword(false);
-  
+
         // Set Error Message
         setErrorMessageUpdatePassword(error.response.data.message);
         setErrorsArrayUpdatePassword(error.response.data.errorList);
-  
+
         // Break Function
         return false;
       }

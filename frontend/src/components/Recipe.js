@@ -1,26 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm';
 import axios from 'axios';
 import {useParams} from "react-router";
-
-// Import Authentication
-import { UserContext } from './Authentication/UserAuthentication';
+import { AuthContext } from '../contexts/AuthContext';
 
 function Recipe(){
-
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
-
-  // Check for User's Authentication
-  const history = useHistory();
-  useEffect(() => {
-    if (!user.isAuthenticated()) {
-      history.push("/login");
-    }
-  });
+  const {user} = useContext(AuthContext);
 
   const [myRecipe, setMyRecipe] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +21,11 @@ function Recipe(){
 
   async function fetchRecipe() {
     try {
-      const response = await axios.get(`api/recipes/${recipes}`)
+      const response = await axios.get(`api/recipes/${recipes}`, {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      });
       setMyRecipe(response.data);
       setLoading(false);
       setError(false);

@@ -1,27 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useHistory } from 'react-router-dom';
+import {AuthContext} from "../contexts/AuthContext";
 import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
-// Import Authentication
-import { UserContext } from './Authentication/UserAuthentication';
-
 const AddRecipe = () => {
 
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
-
-  // Check for User's Authentication
-  const history = useHistory();
-  useEffect(() => {
-    if (!user.isAuthenticated()) {
-      history.push("/login");
-    }
-  });
-
   //Initialize States
+  const {user} = useContext(AuthContext);
   const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
   const [loading, setLoading] = useState(true);
   const [measurementsList, setMeasurementsList] = useState(['']);
@@ -53,7 +40,11 @@ const AddRecipe = () => {
   async function getUOMs() {
     // Summary:
     //   This function will obtain the units of measure currently in the database and set the measurement list for the user to choose from.
-    const response = await axios.get('https://localhost:5001/api/UOMs/all');
+    const response = await axios.get('/api/UOMs/all', {
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    });
     setMeasurementsList(response.data);
     setLoading(false);
   }
@@ -61,7 +52,11 @@ const AddRecipe = () => {
   async function getRecipeCategories() {
     // Summary:
     //   This function will obtain the recipe categories currently in the database and set the measurement list for the user to choose from.
-    const res = await axios.get('https://localhost:5001/api/recipecategories/options');
+    const res = await axios.get('/api/recipecategories/options', {
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    });
     setRecipeCategoryList(res.data);
     setLoading(false);
   }
@@ -77,7 +72,7 @@ const AddRecipe = () => {
     let validationErrorMsg;
     if(!name) {
       validationErrorMsg = "Your recipe is missing a name!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     const IngredientInputFields = document.getElementsByClassName("ingredientInput");
     for(let i=0; i < IngredientInputFields.length; i += 3)
@@ -94,31 +89,31 @@ const AddRecipe = () => {
     }
     if(editorState == null) {
       validationErrorMsg = "Your recipe is missing instructions!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     if(isNaN(parseInt(prep))) {
       validationErrorMsg = "Please enter a number for prep time (min) to make your recipe!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     if(isNaN(parseInt(servings))) {
       validationErrorMsg = "Please enter a number for the number of servings your recipe makes!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     if(isNaN(parseInt(carbohydrates))) {
       validationErrorMsg = "Please enter a number for the amount of carbohydrates in your recipe!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     if(isNaN(parseInt(fats))) {
       validationErrorMsg = "Please enter a number for the amount of fat in your recipe!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     if(isNaN(parseInt(proteins))) {
       validationErrorMsg = "Please enter a number for the amount of protein in your recipe!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     if(recipeCategory === "0") {
       validationErrorMsg = "Please select a category your recipe belongs to!";
-      validationErrorList.push(validationErrorMsg); 
+      validationErrorList.push(validationErrorMsg);
     }
     setValidationErrors(validationErrorList);
   }
@@ -343,7 +338,7 @@ const AddRecipe = () => {
   return (
     <>
       <div className="container mx-2 my-4">
-        <div className="block text-center my-4"> 
+        <div className="block text-center my-4">
           <h1 className="font-bold">Add a New Recipe</h1>
         </div>
         <h2 className="font-bold py-4">Recipe Information</h2>
@@ -365,7 +360,7 @@ const AddRecipe = () => {
                 <p>PNG, JPEG, up to 10MB</p>
               </div>
             </form>
-           
+
           </section>
           <section id="addRecipeRequirements">
             <section id="ingredientSection">
