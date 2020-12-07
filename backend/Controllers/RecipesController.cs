@@ -233,6 +233,16 @@ namespace Api.Controllers
       }
     }
 
+    [HttpGet]
+    [Route("filter")]
+    public ActionResult<IEnumerable<Recipe>> FilterRecipe(string category)
+    {
+      //  Summary:
+      //    This action will return a list of recipes with the category that corresponds to the user input.
+      List<Recipe> recipes = _context.Recipes.Include(x => x.RecipeCategory).Where(y => y.RecipeCategory.Name == category).ToList();
+      return recipes;
+    }
+
     [NonAction]
     public bool SameUser()
     {
