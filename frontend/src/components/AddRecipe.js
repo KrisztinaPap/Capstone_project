@@ -12,10 +12,7 @@ const AddRecipe = () => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
   const [loading, setLoading] = useState(true);
   const [measurementsList, setMeasurementsList] = useState(['']);
-  const [recipeCategoryList, setRecipeCategoryList] = useState([
-          { Name:'placeholder',
-            Id:-1
-        }]);
+  const [recipeCategoryList, setRecipeCategoryList] = useState([{ name: '', id: -1 }]);
   const [recipeCategory, setRecipeCategory] = useState("0");
   const [name, setName] = useState("");
   const [fats, SetFats] = useState();
@@ -32,34 +29,10 @@ const AddRecipe = () => {
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [responseHeader, setResponseHeader] = useState("");
-  let errorList = [];
 
   /*============================================================*/
   /*                   Setting States
   /*============================================================*/
-  async function getUOMs() {
-    // Summary:
-    //   This function will obtain the units of measure currently in the database and set the measurement list for the user to choose from.
-    const response = await axios.get('/api/UOMs/all', {
-      headers: {
-        'Authorization': `Bearer ${user.token}`
-      }
-    });
-    setMeasurementsList(response.data);
-    setLoading(false);
-  }
-
-  async function getRecipeCategories() {
-    // Summary:
-    //   This function will obtain the recipe categories currently in the database and set the measurement list for the user to choose from.
-    const res = await axios.get('/api/recipecategories/options', {
-      headers: {
-        'Authorization': `Bearer ${user.token}`
-      }
-    });
-    setRecipeCategoryList(res.data);
-    setLoading(false);
-  }
 
   function onEditorStateChange(event) {
     // Summary:
@@ -147,11 +120,10 @@ const AddRecipe = () => {
           "CookTime": cook,
           "Servings": servings,
           "Notes": notes
-          // "userId" : _userId
         }
       }).then((res) => {
         setValidationErrors([]);
-        setResponseHeader("Successly added recipe");
+        setResponseHeader("Successfully added recipe");
         setResponse(res.data);
         setStatusCode(res.status);
       })
@@ -327,11 +299,36 @@ const AddRecipe = () => {
   /*                   State Refresh
   /*============================================================*/
   useEffect(()=> {
+    async function getUOMs() {
+      // Summary:
+      //   This function will obtain the units of measure currently in the database and set the measurement list for the user to choose from.
+      const response = await axios.get('/api/UOMs/all', {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      });
+      setMeasurementsList(response.data);
+      setLoading(false);
+    }
+
+    async function getRecipeCategories() {
+      // Summary:
+      //   This function will obtain the recipe categories currently in the database and set the measurement list for the user to choose from.
+      const res = await axios.get('/api/recipecategories/options', {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      });
+      setRecipeCategoryList(res.data);
+      setLoading(false);
+    }
+
     getUOMs();
     getRecipeCategories();
-  },[loading]);
+  },[loading, user.token]);
 
   useEffect(()=> {
+    const errorList = [];
     if(validationErrors.length > 0) {
       setResponseHeader("ERROR: There was problem with your recipe!");
       for(let error in validationErrors)
@@ -340,13 +337,13 @@ const AddRecipe = () => {
       }
       setErrorMessage(errorList);
     }
-  }, [validationErrors.length]);
+  }, [validationErrors]);
 
   return (
     <>
 
       <div className="container mx-2 my-4 w-full">
-        <div className="block text-center my-4"> 
+        <div className="block text-center my-4">
           <h1 className="font-bold text-lg">Add a New Recipe</h1>
         </div>
         <h1 className="font-extrabold">{responseHeader}</h1>
@@ -386,14 +383,14 @@ const AddRecipe = () => {
               </div>
               <div>
                 <label htmlFor="addRecipeCategory" className="block pl-4 pb-2">Recipe Category(*):</label>
-                <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange}>
-                  <option value="0" selected="selected"></option>
+                <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange} defaultValue="0">
+                  <option value="0" />
                   {recipeCategoryList.map((category) => {
                     return (
-                      <option value={category.id}>{category.name}</option>
+                      <option key={category.id} value={category.id}>{category.name}</option>
                     );
                   })}
-                  </select>
+                </select>
               </div>
             </div>
           </section>
@@ -411,11 +408,11 @@ const AddRecipe = () => {
                   <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
                   <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="quantity1" onChange={HandleFormChange} />
                   <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
-                  <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange}>
-                    <option value="0" selected="selected"></option>
+                  <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange} defaultValue="0">
+                    <option value="0"></option>
                     {measurementsList.map((measurement) => {
                       return (
-                        <option className="pl-4" value={measurement}>{measurement}</option>
+                        <option className="pl-4" key={measurement} value={measurement}>{measurement}</option>
                       );
                     })}
                   </select>
