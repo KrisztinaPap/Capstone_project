@@ -125,8 +125,6 @@ For detailed testing instructions please see the [Yummy Testing Manual](./yummy_
 - [StackOverflow: make footer fixed on the bottom with tailwindCSS](https://stackoverflow.com/questions/59812003/make-footer-fixed-on-the-bottom-with-tailwindcss)
 - [TailwindCSS docs](https://tailwindcss.com/docs)
 - [FontAwesome icons](https://fontawesome.com)
-- [Swiper React](https://swiperjs.com/react/)
-- [Moment.js](https://momentjs.com/)
 - [React conditional rendering based on screen size](https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size)
 - [Rendering dates from an array](https://dyclassroom.com/javascript-code/create-an-array-of-dates-between-start-date-and-end-date-in-javascript)
 - [TailwindCSS Tailblocks Component](https://mertjf.github.io/tailblocks/)
