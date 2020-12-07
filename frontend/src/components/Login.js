@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Link, useHistory, useLocation } from 'react-router-dom';
+
 import axios from 'axios';
 import { AuthContext } from '../contexts/AuthContext';
 
@@ -13,6 +14,7 @@ const Login = () => {
   const location = useLocation();
 
 
+
   // Set Up States
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,6 +23,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+
 
   useEffect(() => {
     if(isAuthenticated()) {
@@ -34,11 +37,46 @@ const Login = () => {
     history.push(path);
   }
 
+  const [emailValid, setEmailValid] = useState(true);
+  const [submitValid, setSubmitValid] = useState(true);
+
+  // Function to Validate Input
+  const ValidateInput = () => {
+
+    // Only Validate On Email Input
+    if (email) {
+
+      // Check if Email is Valid
+      const regexEmailTest = /\S+@\S+\.\S+/;
+      if (!regexEmailTest.test(email)) {
+        // Set Error
+        setEmailValid(false);
+        setError(true);
+        setSubmitValid(false);
+        // Set Error Message
+        setErrorMessage("Invalid Email.");
+        DisplayErrorMessage(errorMessage);
+      }
+      else {
+        // Set Error
+        setEmailValid(true);
+        setError(false);
+        setSubmitValid(true);
+        // Set Error Message
+        setErrorMessage("");
+      }
+
+    }
+  }
+
   // Function to Handle Submit of the Signup Form
   const LoginSubmit = async(event) => {
 
     // Prevent Form Refresh
     event.preventDefault();
+
+    // Set Loading
+    setLoading(true);
 
     // Reset Errors
     setError(false);
@@ -46,8 +84,19 @@ const Login = () => {
     setErrorMessage("");
     setSuccessMessage("");
 
-    // Set Loading
-    setLoading(true);
+    if (!emailValid || !submitValid) {
+      // Set Loading
+      setLoading(false);
+
+      // Set Errors
+      setError(true);
+      // Set Error Message
+      setErrorMessage("Invalid Input");
+      DisplayErrorMessage(errorMessage);
+
+      // Break Action
+      return false;
+    }
 
     // Axios Request
     axios
@@ -81,11 +130,19 @@ const Login = () => {
         setLoading(false);
 
         // Set Error Message
-        let errorMessageString = error.response.data.title;
-        setErrorMessage(errorMessageString);
-
+        setErrorMessage(error.response.data.title);
         // Break Function
         return false;
+      }
+      
+      // 404 Error
+      if (error.response.status == 404) {
+        history.push("/page404");
+      }
+
+      // 500 Error
+      if (error.response.status == 500) {
+        history.push("/page500");
       }
     });
 
@@ -134,11 +191,12 @@ const Login = () => {
               <div>
                 <label htmlFor="email" className="block text-gray-700 text-sm font-bold my-2">Email:</label>
                 <input
-                  className="input-field w-full focus:outline-none focus:shadow-outline"
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!emailValid ? "border-red-600" : "") }
                   type="text"
                   id="email"
                   value={email}
                   onChange={event => setEmail( event.target.value )}
+                  onBlur={ValidateInput}
                   required
                   />
               </div>
@@ -155,8 +213,10 @@ const Login = () => {
               </div>
               <div className="flex items-center justify-between">
                 <button
-                  className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
-                  type="submit">
+                  className={ "purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline " + (!submitValid ? "opacity-50 cursor-not-allowed" : "") }
+                  type="submit"
+                  disabled={ !submitValid }
+                >
                   Submit
                 </button>
                 <Link className="purple-link hover:text-purple-600" to="/signup">

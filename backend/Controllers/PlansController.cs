@@ -138,15 +138,18 @@ namespace Api.Controllers
                           {
                             id = m.Id,
                             mealTime = m.MealTime.Name,
-                            recipes = m.MealRecipes.Select
-                            (
-                              mr => mr.RecipeId
-                            )
+                            recipes = m.MealRecipes.Select(mr => mr.RecipeId)
                           }
                         )
                       }
                      )
                     .ToList();
+
+      // Note: We don't check for empty results here
+      //       because plans is a "stream" of time.
+      //       If there are no entries for a particular
+      //       span of time, that's ok and it's not an
+      //       error.
 
       return Ok(result);
     }
