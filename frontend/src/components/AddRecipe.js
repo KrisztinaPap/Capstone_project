@@ -342,50 +342,83 @@ const AddRecipe = () => {
 
   return (
     <>
-      <div className="container mx-2 my-4">
+      <div className="container mx-2 my-4 w-full">
         <div className="block text-center my-4"> 
-          <h1 className="font-bold">Add a New Recipe</h1>
+          <h1 className="font-bold text-lg">Add a New Recipe</h1>
         </div>
-        <h2 className="font-bold py-4">Recipe Information</h2>
         <h1 className="font-extrabold">{responseHeader}</h1>
         <ul>
           {errorMessage}
         </ul>
-        <form onSubmit={SubmitRecipe}>
-          <section id="addRecipeBasics">
-            <label htmlFor="addRecipeName">Name(*):</label>
-            <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeName" onChange={HandleFormChange} />
-            <form className="py-4">
-              <label id="photoLabel" htmlFor="addRecipePhoto">Photo:</label>
-              <p className="font-bold">{imageUploadMessage}</p>
-              <input type="file" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
-              <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={PhotoUpload}>Upload</button>
-              <div className="px-4 text-sm">
-                <p>Upload a file</p>
-                <p>PNG, JPEG, up to 10MB</p>
+        <form onSubmit={SubmitRecipe} >
+          <section id="addRecipeBasics" className="border-t-4 flex flex-row py-4">
+            <div className="w-1/2 ">
+              <h2 className="font-bold">Basic Information</h2>
+              <p>Please enter some information about your new recipe!</p>
+            </div>
+            <div className="w-1/2 md:pl-12">
+              <label htmlFor="addRecipeName" className="block pl-4 pb-2">Name(*):</label>
+              <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeName" onChange={HandleFormChange} />
+              <form className="py-4">
+                <label id="photoLabel" htmlFor="addRecipePhoto" className="pl-4 block pb-2">Photo:</label>
+                <p className="font-bold pl-4">{imageUploadMessage}</p>
+                <input type="file" className="pl-4 sm:w-3/4 md: w-full" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
+                <div className="px-4 text-sm block">
+                  <p>Upload a file</p>
+                  <p>PNG, JPEG, up to 10MB</p>
+                </div>
+                <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline ml-4" onClick={PhotoUpload}>Upload</button>
+              </form>
+              <div>
+                <label htmlFor="addRecipePrepTime" className="block pl-4 pb-2">Prep. Time(*)(min):</label>
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
               </div>
-            </form>
-           
+              <div>
+                <label htmlFor="addRecipeCookTime" className="block pl-4 pb-2">Cook Time(*)(min):</label>
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
+              </div>
+              <div>
+                <label htmlFor="addRecipeServings" className="block pl-4 pb-2">Servings:</label>
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeServings" onChange={HandleFormChange} />
+              </div>
+              <div>
+                <label htmlFor="addRecipeCategory" className="block pl-4 pb-2">Recipe Category(*):</label>
+                <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange}>
+                  <option value="0" selected="selected"></option>
+                  {recipeCategoryList.map((category) => {
+                    return (
+                      <option value={category.id}>{category.name}</option>
+                    );
+                  })}
+                  </select>
+              </div>
+            </div>
           </section>
-          <section id="addRecipeRequirements">
-            <section id="ingredientSection">
-              <label htmlFor="ingredient1">Ingredients(*):</label>
-              <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="ingredient1" onChange={HandleFormChange} />
-              <label htmlFor="quantity1">Quantity:</label>
-              <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="quantity1" onChange={HandleFormChange} />
-              <label htmlFor="measurement1">Measurement:</label>
-              <select className="ingredientInput" id="measurement1" onChange={HandleFormChange}>
-                <option value="0" selected="selected"></option>
-                {measurementsList.map((measurement) => {
-                  return (
-                    <option value={measurement}>{measurement}</option>
-                  );
-                })}
-              </select>
+          <section id="addRecipeRequirements" className="border-t-4">
+            <section id="ingredientSection" className="flex flex-row py-4">
+              <div className="w-1/2">
+                <h2 className="font-bold">Ingredients</h2>
+                <p>Please enter in the ingredients required to make your new recipe!</p>
+                <button className=" block purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >Add Another Ingredient</button>
+              </div>
+              <div className="md:pl-12 w-1/2">
+                <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
+                <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
+                <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
+                <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="quantity1" onChange={HandleFormChange} />
+                <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
+                <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange}>
+                  <option value="0" selected="selected"></option>
+                  {measurementsList.map((measurement) => {
+                    return (
+                      <option className="pl-4" value={measurement}>{measurement}</option>
+                    );
+                  })}
+                </select>
+              </div>
             </section>
-            <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >+</button>
-            <section id="instructionSection">
-              <h3 className="font-bold py-4">Instructions:</h3>
+            <section id="instructionSection" className="border-t-4 py-4">
+              <h3 className="font-bold block">Instructions:</h3>
               <p>Enter the instructions to your new recipe below!</p>
               <div className="input-field">
                 <Editor
@@ -397,47 +430,34 @@ const AddRecipe = () => {
               </div>
             </section>
           </section>
-          <section id="addRecipeLogistics">
-            <div>
-              <label htmlFor="addRecipePrepTime">Prep. Time(*)(min):</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
+          <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row">
+            <div className="w-1/2">
+              <h2 className="font-bold">Nutritional  Information</h2>
+              <p>Please enter in the nutritional information for your new recipe!</p>
             </div>
-            <div>
-              <label htmlFor="addRecipeCookTime">Cook Time(*)(min):</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
-            </div>
-            <div>
-              <label htmlFor="addRecipeServings">Servings:</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addRecipeServings" onChange={HandleFormChange} />
+            <div className="md:pl-12">
+              <div>
+                <label htmlFor="addCarb" className="block pl-4 pb-2">Carbohydrates(*)</label>
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addCarb" onChange={HandleFormChange} />
+              </div>
+              <div>
+                <label htmlFor="addFat" className="block pl-4 pb-2">Fats(*)</label>
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addFat" onChange={HandleFormChange} />
+              </div>
+              <div>
+                <label htmlFor="addProtein" className="block pl-4 pb-2">Proteins(*)</label>
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addProtein" onChange={HandleFormChange} />
+              </div>
             </div>
           </section>
-          <section id="addRecipeAdditional">
-            <div>
-              <label htmlFor="addCarb">Carbohydrates</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addCarb" onChange={HandleFormChange} />
+          <section className="my-3 border-t-4 flex flex-row py-4">
+            <div className="w-1/2">
+              <h2 className="font-bold">Additional</h2>
+              <p>Add any additional notes to your recipe here!</p>
             </div>
-            <div>
-              <label htmlFor="addFat">Fats</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addFat" onChange={HandleFormChange} />
-            </div>
-            <div>
-              <label htmlFor="addProtein">Proteins</label>
-              <input className="input-field mx-2 focus:outline-none focus:shadow-outline" type="text" id="addProtein" onChange={HandleFormChange} />
-            </div>
-            <div>
-              <label htmlFor="addRecipeCategory">Recipe Category:</label>
-              <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange}>
-                <option value="0" selected="selected"></option>
-                {recipeCategoryList.map((category) => {
-                  return (
-                    <option value={category.id}>{category.name}</option>
-                  );
-                })}
-                </select>
-            </div>
-            <div className="my-3">
-              <label htmlFor="addRecipeExtraNotes">Extra Notes:</label>
-              <textarea className="block input-field w-full lg:w-1/2 focus:outline-none focus:shadow-outline" id="addRecipeExtraNotes" onChange={HandleFormChange} />
+            <div className="w-1/2 md:pl-12">
+              <label htmlFor="addRecipeExtraNotes" className="block pl-4 pb-2">Extra Notes:</label>
+              <textarea className="block input-field w-3/4 h-full lg:w-1/2 focus:outline-none focus:shadow-outline resize-none" id="addRecipeExtraNotes" onChange={HandleFormChange} />
             </div>
           </section>
           <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
