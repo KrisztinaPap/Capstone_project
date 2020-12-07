@@ -78,7 +78,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     populateRecipes();
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function populateRecipes() {
     try {
@@ -142,7 +142,7 @@ const Dashboard = () => {
     }
 
     updatePlans();
-  }, [plans, loadingMeals, isMealsStale])
+  }, [plans, loadingMeals, isMealsStale]) // eslint-disable-line react-hooks/exhaustive-deps
 
 
   useEffect(() => {
