@@ -7,6 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 
 using Api.Models;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 
 namespace Api.Controllers
 {
@@ -24,16 +27,18 @@ namespace Api.Controllers
   {
 
     private readonly DBContext _context;
+    private readonly UserManager<User> userManager;
     private readonly string _currentUserId;
 
-    public PlansController(DBContext context)
+    public PlansController(DBContext context, UserManager<User> userManager)
     {
       _context = context;
-      // _currentUserId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      this.userManager = userManager;
       _currentUserId = "-1";
     }
 
     // PUT: api/plans/
+    [Authorize]
     [HttpPut]
     public ActionResult<Plan> CreateSchedulePlan([FromBody] ICollection<SchedulePlan> incomingPlans)
     {
@@ -43,7 +48,10 @@ namespace Api.Controllers
        * @param List<Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
        * @return NoCotent
        */
-
+      if (!SameUser())
+      {
+        return NotFound();
+      }
       ICollection<DateTime> daysToUpdate = incomingPlans.Select(x => x.Day.Date).ToList();
 
       ICollection<MealTime> mealTimes = _context.MealTimes.ToList();
@@ -101,6 +109,7 @@ namespace Api.Controllers
     }
 
     // GET: api/plans/{id}
+    [Authorize]
     [HttpGet]
     [Route("{id:int:required}")]
     public ActionResult<Plan> GetPlanById(int id)
@@ -111,8 +120,11 @@ namespace Api.Controllers
        * @param <int> id
        * @return <Plan> Plan data
        */
-
-          var result = _context.Plans
+      if (!SameUser())
+      {
+        return NotFound();
+      }
+      var result = _context.Plans
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealTime)
                     .Include(x => x.Meals)
@@ -199,6 +211,7 @@ namespace Api.Controllers
     }
 
     // GET: api/plans/schedule?fromDate={fromDate}=&toDate={toDate}
+    [Authorize]
     [HttpGet]
     [Route("schedule/")]
     public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(DateTime fromDate, DateTime toDate)
@@ -209,7 +222,10 @@ namespace Api.Controllers
        * @param <int> User Id, <DateTime> fromDate, <DateTime> toDate
        * @return <Plan> Plan data
        */
-
+      if (!SameUser())
+      {
+        return NotFound();
+      }
       var result = _context.Plans
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealTime)
@@ -239,6 +255,23 @@ namespace Api.Controllers
 
       return Ok(result);
     }
-
+    public bool SameUser()
+    {
+      // Summary:
+      //  This function will check the user manager store credentials with the incoming HTTP request credentials to verfiy the user is the same as the one logged in. It will return true if they match and false otherwise.
+      bool result;
+      ClaimsPrincipal currentUser = this.User;
+      string claimUserID = userManager.GetUserId(currentUser);
+      string requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      if (claimUserID == requestUserID)
+      {
+        result = true;
+      }
+      else
+      {
+        result = false;
+      }
+      return result;
+    }
   }
 }

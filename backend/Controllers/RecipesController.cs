@@ -27,7 +27,15 @@ namespace Api.Controllers
   {
     private readonly ILogger<RecipesController> _logger;
 
-    private readonly DBContext _context;
+      private readonly DBContext _context;
+      private readonly UserManager<User> _userManager;
+
+    public RecipesController(ILogger<RecipesController> logger, DBContext context, UserManager<User> userManager)
+      {
+          _logger = logger;
+          _context = context;
+          this._userManager = userManager;
+      }
 
     private readonly IWebHostEnvironment hostingEnvironment;
 
@@ -46,13 +54,8 @@ namespace Api.Controllers
       this.roleManager = roleManager;
     }
 
-    // TODO: Missing Authentication. Meaning most of these routes
-    //       will likely change a bit once authentication is enabled
-    //       We'll very likely implement AuthorizationTokens via
-    //       HTTP_HEADERS so that these actions can just
-    //       pull the "current logged" in user.
-
     // GET: api/recipes
+    [Authorize]
     [HttpGet]
     public ActionResult<IEnumerable<Recipe>> Index(int offset = 0, int limit = 50)
     {
@@ -71,6 +74,7 @@ namespace Api.Controllers
     }
 
     // GET: api/recipes/{id}
+    [Authorize]
     [HttpGet]
     [Route("{id:int:required}")]
     public ActionResult<Recipe> Get(int id)
@@ -90,29 +94,32 @@ namespace Api.Controllers
       public ActionResult<Recipe> Create(
         [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
       {
+        if(!SameUser())
+        {
+          return NotFound();
+        }
         ICollection<Ingredient> recipeIngredients = newRecipe.Ingredients.ToList();
         newRecipe.Ingredients.Clear();
         _context.Recipes.Add(newRecipe);
         _context.SaveChanges();
 
-      foreach(Ingredient ingredient in recipeIngredients)
-      {
-        Ingredient newIngredient = new Ingredient()
+        foreach(Ingredient ingredient in recipeIngredients)
         {
-          RecipeId = newRecipe.Id,
-          Name = ingredient.Name,
-          Quantity = ingredient.Quantity,
-          UOMId = ingredient.UOMId,
-        };
-        newRecipe.Ingredients.Add(newIngredient);
-      }
-
-      _context.SaveChanges();
-
+          Ingredient newIngredient = new Ingredient()
+          {
+            RecipeId = newRecipe.Id,
+            Name = ingredient.Name,
+            Quantity = ingredient.Quantity,
+            UOMId = ingredient.UOMId,
+          };
+          newRecipe.Ingredients.Add(newIngredient);
+        }
+        _context.SaveChanges();
         return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
       }
       
     // PUT: api/recipes/id
+    [Authorize]
     [HttpPut]
     [Route("{id:int:required}")]
     public ActionResult Update(int id, [FromBody] Recipe recipe)
@@ -120,6 +127,10 @@ namespace Api.Controllers
       // Note: Below is Kenji's solution just slightly refactored to
       //       take advantage of `CurrentValues.SetValues`
       //          —Aaron
+      if(!SameUser())
+      {
+        return NotFound();
+      }
       Recipe oldRecipe = _context.Recipes
         .Where(x => x.Id == id)
         .Include(x => x.Ingredients)
@@ -170,17 +181,20 @@ namespace Api.Controllers
       return NoContent();
     }
 
-
     // DELETE: api/recipes/id
+    [Authorize]
     [HttpDelete]
     [Route("{id:int:required}")]
     public ActionResult<Recipe> Delete(int id)
     {
+      if (!SameUser())
+      {
+        return NotFound();
+      }
       Recipe recipe = _context.Recipes
-        .Where(x => x.Id == id)
-        .Include(x => x.Ingredients)
-        .SingleOrDefault();
-
+          .Where(x => x.Id == id)
+          .Include(x => x.Ingredients)
+          .SingleOrDefault();
       if (recipe == null) {
         return NotFound();
       }
@@ -202,14 +216,9 @@ namespace Api.Controllers
       // Citation: A method of accepting image files from a form for the recipe pages was needed.
       // The following code was adapted from the source below:
       // link @ https://www.youtube.com/watch?v=aoxEJii70_I
-
-      // Checking HttpContext (request from the browser) name identifier and make sure it matches with the name identifier with the user in the userManager
-      ClaimsPrincipal currentUser = this.User;
-      var userTestID =  userManager.GetUserId(currentUser);
-
-      var requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-      if (fileUpload != null && userTestID == requestUserID)
+      
+      string requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      if (fileUpload != null && SameUser())
       {
         // Create path to the users images.
         string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"images/User_{requestUserID}");
@@ -232,6 +241,25 @@ namespace Api.Controllers
         }
         return message;
       }
+    }
+
+    public bool SameUser()
+    {
+      // Summary:
+      //  This function will check the user manager store credentials with the incoming HTTP request credentials to verfiy the user is the same as the one logged in. It will return true if they match and false otherwise.
+      bool result;
+      ClaimsPrincipal currentUser = this.User;
+      string claimUserID = userManager.GetUserId(currentUser);
+      string requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      if( claimUserID == requestUserID)
+      {
+        result = true;
+      }
+      else
+      {
+        result = false;
+      }
+      return result;
     }
   }
 }
