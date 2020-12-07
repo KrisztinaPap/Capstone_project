@@ -40,7 +40,12 @@ const AddRecipe = () => {
   function onEditorStateChange(event) {
     // Summary:
     //   This function will update the state tracked by the instructions text editor.
-    setEditorState(event.blocks[0].text);
+    let instructions = []
+    for(let index in event.blocks)
+    { 
+      instructions.push(event.blocks[index].text);
+    }
+    setEditorState(instructions);
   }
 
   async function ValidateInputFields() {
