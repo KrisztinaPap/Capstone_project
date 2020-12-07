@@ -359,7 +359,7 @@ const AddRecipe = () => {
             <div className="w-1/2 md:pl-12">
               <label htmlFor="addRecipeName" className="block pl-4 pb-2">Name(*):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeName" onChange={HandleFormChange} />
-              <form className="py-4">
+              <div className="py-4">
                 <label id="photoLabel" htmlFor="addRecipePhoto" className="pl-4 block pb-2">Photo:</label>
                 <p className="font-bold pl-4">{imageUploadMessage}</p>
                 <input type="file" className="pl-4 sm:w-3/4 md: w-full" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
@@ -368,7 +368,7 @@ const AddRecipe = () => {
                   <p>PNG, JPEG, up to 10MB</p>
                 </div>
                 <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline ml-4" onClick={PhotoUpload}>Upload</button>
-              </form>
+              </div>
               <div>
                 <label htmlFor="addRecipePrepTime" className="block pl-4 pb-2">Prep. Time(*)(min):</label>
                 <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
