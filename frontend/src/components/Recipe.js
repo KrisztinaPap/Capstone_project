@@ -130,7 +130,7 @@ function Recipe(){
     setValidationErrors(validationErrorList);
   }
 
-  function SubmitRecipe(event) {
+  function EditRecipe(event) {
     // Summary:
     //   This function will send the recipe data from the form the user has filled out to the database and create a new recipe.
     event.preventDefault();
@@ -138,8 +138,8 @@ function Recipe(){
     const ingredientsList = CreateIngredientList();
     if( validationErrors.length === 0 ) {
       axios({
-        method: 'post',
-        url: '/api/recipes',
+        method: 'put',
+        url: `/api/recipes/${recipes}`,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${user.token}`
@@ -152,9 +152,7 @@ function Recipe(){
           "Carbohydrates": carbohydrates,
           "Instructions": editorState,
           "Ingredients": ingredientsList,
-          "Image": image,
           "DateModified": new Date().toJSON(),
-          "DateCreated": new Date().toJSON(),
           "PrepTime": prep,
           "CookTime": cook,
           "Servings": servings,
@@ -235,33 +233,6 @@ function Recipe(){
         break;
       }
     }
-  }
-
-  function PhotoUpload(event) {
-    // Summary:
-    //  This function will handle uploading the image file corresponding to the new recipe being added.
-    event.preventDefault();
-    const imageInput = document.getElementById("addRecipePhoto");
-
-    // link @ https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
-    var formData = new FormData();
-    formData.append("fileUpload", imageInput.files[0]);
-    axios.post('https://localhost:5001/api/recipes/image-upload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        'Authorization': `Bearer ${user.token}`
-      },
-      data: formData
-
-    }).then((res) => {
-      if(res.status === 200 && imageInput.files[0] != null) {
-        SetImage(res.data);
-        setImageUploadMessage("Successfully uploaded image.");
-      }
-      else {
-        setImageUploadMessage("Image upload failed.");
-      }
-    });
   }
 
   function AddIngredientForm(event) {
@@ -462,7 +433,7 @@ function Recipe(){
           <ul>
             {errorMessage}
           </ul>
-          <form onSubmit={SubmitRecipe}>
+          <form /*onSubmit={EditRecipe}*/>
             <section id="addRecipeBasics" className="border-t-4 flex flex-row py-4">
               <div className="w-1/2 ">
                 <h2 className="font-bold">Basic Information</h2>
