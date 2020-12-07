@@ -17,6 +17,8 @@
         "db:drop": "cd ./backend && dotnet ef database drop --force",
         "migrate": "cd ./backend && dotnet ef migrations add",
         "migrate:remove": "cd ./backend && dotnet ef migrations remove --force",
-        "migrate:up": "cd ./backend && dotnet ef database update"
+        "migrate:up": "cd ./backend && dotnet ef database update",
+
+        "install:all": "dotnet restore && dotnet dev-certs https --trust && cd ./frontend && npm install"
     }
 }
