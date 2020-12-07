@@ -95,7 +95,6 @@ This is a Windows OS (Windows 10) application.
 - Run the command: “npm run db:setup”
 - Run the command: “npm run start:all”
 5. Open a browser and navigate to “https://localhost:5001/”
-01/”
 
 For detailed installation instructions please see the [Yummy Installation Manual](./yummy_installation_manual.md)
 
