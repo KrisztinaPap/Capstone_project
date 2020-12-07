@@ -15,6 +15,7 @@ function Recipe(){
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [editSuccess, setEditSuccess] = useState(false);
   const {recipes} = useParams();
 
   useEffect(() => {
@@ -164,6 +165,8 @@ function Recipe(){
         setResponseHeader("Successfully added recipe");
         setResponse(res.data);
         setStatusCode(res.status);
+        setEditSuccess(true);
+        setEditing(false);
       })
         .catch((err) => {
           setValidationErrors(["There was an error with the server."]);
@@ -402,6 +405,13 @@ function Recipe(){
     ))
   }
 
+  function EditSuccess(){
+    return(
+          <p className={"p-2 bg-green-500 font-bold text-white text-center border rounded w-2/3 justify-center"}>
+            Successfully Updated Recipe!
+          </p>
+    )
+  }
 
   // If page is loading, render below...
   if (loading){
@@ -584,10 +594,22 @@ function Recipe(){
     ))
   }
 
+  // DELETE THIS FUNCTION BEFORE PROD!!!!! TODO
+  function ToggleEditSuccess(){
+    if (editSuccess){
+      setEditSuccess(false);
+    } else {
+      setEditSuccess(true);
+    }
+  }
+
   // If no axios Errors, and data is returned, render page...
   return(
     <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
-      {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
+      <section className="flex justify-center my-8">
+        {editSuccess && EditSuccess()}
+      </section>
+      <button className="purple-button hover:bg-purple-700 focus:bg-purple-700 focus:shadow-outline" onClick={ToggleEditSuccess}>Toggle Edit Success</button>
       <div className="flex justify-center my-8">
         <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
       </div>
