@@ -7,14 +7,13 @@
 - Deciding on what to eat or what meal to serve the family three times a day can be a source of significant stress for many. We aim to provide our users with a convenient and easy-to-use repository for their favourite recipes and a way to organize them into daily or weekly meal plans. This could save them a lot of last minute decision-making, headaches about what ingredients they do or do not have on hand, and most importantly those energy- and time-consuming last minute trips to pick up that crucial missing ingredient.
 
 ### Project Documents and Reports
-- [Approved Project Plan](./planning/Capstone_Project_Plan_Puddlejumpers.txt)
+- [Approved Project Plan](./planning/Capstone_Project_Plan_Puddlejumpers.md)
 - [Project Trello Board](https://trello.com/b/zUabU848/capstone-puddlejumpers)
 - [Project Wireframes (Figma)](https://www.figma.com/file/iGsjkmFikAAyslTBFRk2Bs/Capstone%3A-Wireframes?node-id=0%3A1)
 - [Project ERD (Draw.io)](./planning/YummyERD.png) 
-- [Yummy Installation Manual](./planning/Yummy_Installation_Manual.txt)
-- [Yummy User Manual](./planning/Yummy_User_Manual.txt)
-- [Yummy Testing Manual](./planning/Yummy_Testing_Manual.txt)
-- [Yummy Testing Manual](./planning/Yummy_Testing_Manual.md)
+- [Yummy Installation Manual](./planning/yummy_installation_manual.md)
+- [Yummy User Manual](./planning/yummy_user_manual.md)
+- [Yummy Testing Manual](./planning/yummy_testing_manual.md)
 
 ### Team Members:
 - Krisztina Pap
@@ -67,7 +66,7 @@ The Recipes page displays all the user’s recipes for easy browsing. Clicking o
 In the spirit of maximum user-friendliness and transparency, the Yummy landing page includes information on both the application and the team who built it.
 
 
-For detailed user information please see the [Yummy User Manual](./planning/Yummy_User_Manual.txt)
+For detailed user information please see the [Yummy User Manual](./planning/Yummy_User_Manual.md)
 
 ## Installation Instructions
 ### Requirements
@@ -98,7 +97,7 @@ This is a Windows OS (Windows 10) application.
 5. Open a browser and navigate to “https://localhost:5001/”
 01/”
 
-For detailed installation instructions please see the [Yummy Installation Manual](./yummy_installation_manual.txt)
+For detailed installation instructions please see the [Yummy Installation Manual](./yummy_installation_manual.md)
 
 ## Testing Instructions
 
@@ -118,7 +117,7 @@ Password: Demo1!
  - [AutoRollbackAttribute.cs](https://github.com/xunit/samples.xunit/blob/main/AutoRollbackExample/AutoRollbackAttribute.cs)
 
 
-For detailed testing instructions please see the [Yummy Testing Manual](./yummy_testing_manual.txt)
+For detailed testing instructions please see the [Yummy Testing Manual](./yummy_testing_manual.md)
 
 ## Citations:
 - [React Context](https://reactjs.org/docs/context.html)
