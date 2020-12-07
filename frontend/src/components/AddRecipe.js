@@ -406,8 +406,8 @@ const AddRecipe = () => {
                 <p>Please enter in the ingredients required to make your new recipe!</p>
                 <button className=" block purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >Add Another Ingredient</button>
               </div>
-              <div className="md:pl-12 w-1/2">
-                <div className="block" id="ingredientBlock">
+              <div className="md:pl-12 w-1/2" id="ingredientBlock">
+                <div className="block">
                   <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
                   <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
                   <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
