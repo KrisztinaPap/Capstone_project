@@ -123,8 +123,8 @@ function Recipes() {
             <section className={'flex mt-8 ml-5 mr-5'}>
               <h2 className="flex-auto justify-start text-2xl"><i className="fas fa-drumstick-bite px-2"></i>Your Recipe List</h2>
               <label htmlFor="addRecipeCategory" className="block pl-4 pb-2">Recipe Category:</label>
-                <select className="border border-solid mx-4" id="addRecipeCategory" onChange={filterRecipes} defaultValue="0">
-                  <option value="0" />
+                <select className="border border-solid mx-4" id="addRecipeCategory" onChange={filterRecipes} defaultValue="all">
+                  <option value="all" />
                   {recipeCategoryList.map((category) => {
                     return (
                       <option key={category.id} value={category.name}>{category.name}</option>
