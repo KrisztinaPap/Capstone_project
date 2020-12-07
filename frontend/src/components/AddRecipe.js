@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import {AuthContext} from "../contexts/AuthContext";
 import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
+import {Redirect } from "react-router-dom";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -25,6 +26,8 @@ const AddRecipe = () => {
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
   const [imageUploadMessage, setImageUploadMessage] = useState();
+  const [recipeID, setRecipeID] = useState(0);
+  const [redirect, setRedirect] = useState(false);
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
@@ -125,7 +128,9 @@ const AddRecipe = () => {
         setValidationErrors([]);
         setResponseHeader("Successfully added recipe");
         setResponse(res.data);
+        setRecipeID(res.data.id);
         setStatusCode(res.status);
+        setRedirect(true);
       })
       .catch((err) => {
         setValidationErrors(["There was an error with the server."]);
@@ -341,7 +346,7 @@ const AddRecipe = () => {
 
   return (
     <>
-
+      {redirect? <Redirect to={`/recipes/${recipeID}`} /> : null}
       <div className="container mx-2 my-4 w-full">
         <div className="block text-center my-4">
           <h1 className="font-bold text-lg">Add a New Recipe</h1>
