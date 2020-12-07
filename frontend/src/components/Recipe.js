@@ -48,7 +48,10 @@ function Recipe(){
     }
   }
 
-  // VARIABLES & FUNCTIONS FOR EDIT PAGE
+  /*============================================================*/
+  /*            VARIABLES & FUNCTIONS FOR EDIT PAGE             */
+  /*============================================================*/
+
   const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
   const [measurementsList, setMeasurementsList] = useState(['']);
   const [recipeCategoryList, setRecipeCategoryList] = useState([{ name: '', id: -1 }]);
@@ -57,13 +60,11 @@ function Recipe(){
   const [fats, SetFats] = useState();
   const [proteins, SetProteins] = useState();
   const [carbohydrates, SetCarbohydrates] = useState();
-  const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
   const [cook, setCookTime] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
-  const [imageUploadMessage, setImageUploadMessage] = useState();
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
@@ -540,16 +541,14 @@ function Recipe(){
                   id="addRecipeExtraNotes" defaultValue={myRecipe.notes} onChange={HandleFormChange}/>
               </div>
             </section>
-            <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
-                   type="submit"/>
+            <section className="flex flex-row justify-around my-8">
+              <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline mt-8 mb-5 w-1/4" type="submit"/>
+              <button className="cursor-pointer red-button hover:bg-red-700 focus:outline-none focus:shadow-outline ml-5 mt-8 mb-5 w-1/4" type="submit" onClick={toggleEditMode}>
+                Cancel Editing
+              </button>
+            </section>
           </form>
         </div>
-
-        <br/>
-        <button className="purple-button hover:bg-purple-700 focus:bg-purple-700 focus:shadow-outline" type="submit"
-                onClick={toggleEditMode}>
-          Disable Edit Mode - Dev Button - Remove Before Prod
-        </button>
       </>
     )
   }
