@@ -48,8 +48,12 @@
 ## Installation Instructions
 ### Requirements
 This is a Windows OS (Windows 10) application.
-- DOTNET Core 3.1 
+- .NET Core 3.1 
     - Install from: https://dotnet.microsoft.com/download/dotnet-core/3.1
+- .NET EF Tools Global
+    - Install by running the following command in your command prompt or PowerShell: “dotnet tool install --global”
+    - For details, refer to: https://docs.microsoft.com/en-us/dotnet/core/tools/global-tools-how-to-use
+
 - Node.js LTS 
     - Install from: https://nodejs.org/en/
 - XAMPP
