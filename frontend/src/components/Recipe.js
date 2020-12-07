@@ -377,6 +377,31 @@ function Recipe(){
     }
   }, [validationErrors]);
 
+  // Assigning Ingredients to an array. Array is called in JSX below
+  let editIngredientsArray = [];
+  for(let i in myRecipe.ingredients){
+    editIngredientsArray.push((
+    <div key={i} className="block" id="ingredientBlock">
+      <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
+      <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4"
+             type="text" id="ingredient1" defaultValue={myRecipe.ingredients[i].name} onChange={HandleFormChange}/>
+      <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
+      <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4"
+             type="text" id="quantity1" defaultValue={myRecipe.ingredients[i].quantity} onChange={HandleFormChange}/>
+      <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
+      <select className="border border-solid mx-4 ingredientInput" id="measurement1"
+              onChange={HandleFormChange} defaultValue="0">
+        <option value="0"></option>
+        {measurementsList.map((measurement) => {
+          return (
+            <option className="pl-4" key={measurement} value={measurement}>{measurement}</option>
+          );
+        })}
+      </select>
+    </div>
+    ))
+  }
+
 
   // If page is loading, render below...
   if (loading){
@@ -476,24 +501,7 @@ function Recipe(){
                   </button>
                 </div>
                 <div className="md:pl-12 w-1/2">
-                  <div className="block" id="ingredientBlock">
-                    <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
-                    <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4"
-                           type="text" id="ingredient1" onChange={HandleFormChange}/>
-                    <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
-                    <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4"
-                           type="text" id="quantity1" onChange={HandleFormChange}/>
-                    <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
-                    <select className="border border-solid mx-4 ingredientInput" id="measurement1"
-                            onChange={HandleFormChange} defaultValue="0">
-                      <option value="0"></option>
-                      {measurementsList.map((measurement) => {
-                        return (
-                          <option className="pl-4" key={measurement} value={measurement}>{measurement}</option>
-                        );
-                      })}
-                    </select>
-                  </div>
+                  {editIngredientsArray}
                 </div>
               </section>
               <section id="instructionSection" className="border-t-4 py-4">
