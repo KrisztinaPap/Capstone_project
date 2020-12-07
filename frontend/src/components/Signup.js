@@ -52,6 +52,18 @@ const Signup = () => {
         setEmailValid(true);
       }
 
+      // Check if Email is Too Long
+      if (email.length >= 320) {
+        // Set Error
+        setEmailValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Email must be less than 320 characters.";
+      }
+      else {
+        // Set Error
+        setEmailValid(true);
+      }
+
     }
 
     // Only Validate On Name Input
