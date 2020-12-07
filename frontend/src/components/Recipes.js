@@ -10,9 +10,11 @@ function Recipes() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sure, setSure] = useState(false);
+  const [recipeCategoryList, setRecipeCategoryList] = useState([{ name: '', id: -1 }]);
 
   useEffect(() => {
     populateRecipes();
+    getRecipeCategories();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   async function populateRecipes() {
@@ -49,6 +51,30 @@ function Recipes() {
       setError(true);
       setLoading(false);
     }
+  }
+
+  async function getRecipeCategories() {
+    // Summary:
+    //   This function will obtain the recipe categories currently in the database and set the measurement list for the user to choose from.
+    const res = await axios.get('/api/recipecategories/options', {
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    });
+    setRecipeCategoryList(res.data);
+    setLoading(false);
+  }
+
+  async function filterRecipes(event) {
+    event.preventDefault();
+    //  Summary:
+    //    This function will update the recipe list once a category has been selected to filter by.
+    let filteredRecipeList = await axios.get('api/recipes/filter', {
+      params: {
+        category: event.target.value
+      }
+    })
+    setRecipes(filteredRecipeList.data);
   }
 
   if (loading){
@@ -93,6 +119,14 @@ function Recipes() {
         <section>
           <section className={'flex mt-8 ml-5 mr-5'}>
             <h2 className="flex-auto justify-start text-2xl"><i className="fas fa-drumstick-bite px-2"></i>Your Recipe List</h2>
+            <select className="border border-solid mx-4" id="addRecipeCategory" onChange={filterRecipes} defaultValue="all">
+                  <option value="all">All Recipes</option>
+                  {recipeCategoryList.map((category) => {
+                    return (
+                      <option key={category.id} value={category.name}>{category.name}</option>
+                    );
+                  })}
+                </select>
             <Link className="flex justify-end" to="/add-recipe">
               <button className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
                 <i className="fas fa-plus pr-2"></i>
@@ -100,7 +134,6 @@ function Recipes() {
               </button>
             </Link>
           </section>
-
           <table className="w-full mx-auto mt-1 ">
             <tbody className="mb-2">
               {recipes.map(recipes => (
