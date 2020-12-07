@@ -1,10 +1,12 @@
 import React, { useContext, useState } from 'react';
 import {AuthContext} from '../contexts/AuthContext';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
 
   const {user, updateName} = useContext(AuthContext);
+  const history = useHistory();
 
   // Set Up States
   const [name, setName] = useState( (user.name) ? user.name : "" );
@@ -226,7 +228,7 @@ const Profile = () => {
 
         // Set Error Message
         setErrorMessageUpdateName(error.response.data.message);
-        
+
         if (error.response.data.errorList) {
           setErrorsArrayUpdateName(error.response.data.errorList);
         }
