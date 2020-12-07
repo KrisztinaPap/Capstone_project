@@ -37,7 +37,8 @@ namespace Api.Controllers
     // The RoleManager class provides a persistent store for manaing user roles.
     // It tracks roles for users by roleID and provides role names.
 
-    public RecipesController(ILogger<RecipesController> logger, DBContext context, IWebHostEnvironment _hostingEnvironment, UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
+    public RecipesController(ILogger<RecipesController> logger, DBContext context, IWebHostEnvironment _hostingEnvironment,
+                             UserManager<User> userManager, RoleManager<IdentityRole> roleManager)
     {
       _logger = logger;
       _context = context;
@@ -46,22 +47,19 @@ namespace Api.Controllers
       this.roleManager = roleManager;
     }
 
-    // TODO: Missing Authentication. Meaning most of these routes
-    //       will likely change a bit once authentication is enabled
-    //       We'll very likely implement AuthorizationTokens via
-    //       HTTP_HEADERS so that these actions can just
-    //       pull the "current logged" in user.
-
     // GET: api/recipes
     [HttpGet]
+    [Authorize]
     public ActionResult<IEnumerable<Recipe>> Index(int offset = 0, int limit = 50)
     {
       // Don't allow users to query more than 100
       // recipe entries at a time.
       limit = Math.Clamp(limit, 10, 100);
+      string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
       var results = _context.Recipes
               .Include(x => x.Ingredients)
+              .Where(x => x.UserId == userId)
               .OrderBy(x => x.Name)
               .Skip(offset)
               .Take(limit)
@@ -73,6 +71,7 @@ namespace Api.Controllers
     // GET: api/recipes/{id}
     [HttpGet]
     [Route("{id:int:required}")]
+    [Authorize]
     public ActionResult<Recipe> Get(int id)
     {
       var result = _context.Recipes
@@ -85,15 +84,18 @@ namespace Api.Controllers
       return Ok(result);
     }
 
-// POST: api/recipes
-      [HttpPost]
-      public ActionResult<Recipe> Create(
-        [CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
-      {
-        ICollection<Ingredient> recipeIngredients = newRecipe.Ingredients.ToList();
-        newRecipe.Ingredients.Clear();
-        _context.Recipes.Add(newRecipe);
-        _context.SaveChanges();
+    // POST: api/recipes
+    [HttpPost]
+    [Authorize]
+    public ActionResult<Recipe> Create([CustomizeValidator(RuleSet="Create")] [FromBody] Recipe newRecipe)
+    {
+      string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+      newRecipe.UserId = userId; // Ensure the userid belongs to the currently logged in user.
+
+      ICollection<Ingredient> recipeIngredients = newRecipe.Ingredients.ToList();
+      newRecipe.Ingredients.Clear();
+      _context.Recipes.Add(newRecipe);
+      _context.SaveChanges();
 
       foreach(Ingredient ingredient in recipeIngredients)
       {
@@ -106,17 +108,19 @@ namespace Api.Controllers
         };
         newRecipe.Ingredients.Add(newIngredient);
       }
-
       _context.SaveChanges();
+      return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
+    }
 
-        return CreatedAtAction(nameof(Get), new {newRecipe.Id}, newRecipe);
-      }
-      
     // PUT: api/recipes/id
     [HttpPut]
     [Route("{id:int:required}")]
+    [Authorize]
     public ActionResult Update(int id, [FromBody] Recipe recipe)
     {
+      string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+      recipe.UserId = userId; // Ensure the userid belongs to the currently logged in user.
+
       // Note: Below is Kenji's solution just slightly refactored to
       //       take advantage of `CurrentValues.SetValues`
       //          —Aaron
@@ -170,16 +174,16 @@ namespace Api.Controllers
       return NoContent();
     }
 
-
     // DELETE: api/recipes/id
     [HttpDelete]
     [Route("{id:int:required}")]
+    [Authorize]
     public ActionResult<Recipe> Delete(int id)
     {
       Recipe recipe = _context.Recipes
-        .Where(x => x.Id == id)
-        .Include(x => x.Ingredients)
-        .SingleOrDefault();
+          .Where(x => x.Id == id)
+          .Include(x => x.Ingredients)
+          .SingleOrDefault();
 
       if (recipe == null) {
         return NotFound();
@@ -190,9 +194,9 @@ namespace Api.Controllers
       return NoContent();
     }
 
-    [Authorize]
     [HttpPost]
     [Route("image-upload")]
+    [Authorize]
     public ActionResult<string> UploadImage(IFormFile fileUpload)
     {
       // This API endpoint will save the image file to the project files.
@@ -203,26 +207,21 @@ namespace Api.Controllers
       // The following code was adapted from the source below:
       // link @ https://www.youtube.com/watch?v=aoxEJii70_I
 
-      // Checking HttpContext (request from the browser) name identifier and make sure it matches with the name identifier with the user in the userManager
-      ClaimsPrincipal currentUser = this.User;
-      var userTestID =  userManager.GetUserId(currentUser);
-
-      var requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-
-      if (fileUpload != null && userTestID == requestUserID)
+      string requestUserID = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+      if (fileUpload != null)
       {
         // Create path to the users images.
-        string uploadsFolder = Path.Combine(hostingEnvironment.WebRootPath, $"images/User_{requestUserID}");
+        string uploadsFolder = $"images/User_{requestUserID}";
 
         // Create unique file name.
         string uniqueFileName = Guid.NewGuid().ToString() + "_" + fileUpload.FileName;
-        string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+        string filePath = Path.Combine(hostingEnvironment.WebRootPath, uploadsFolder, uniqueFileName);
 
         // Copy the file to the users folder.
         fileUpload.CopyTo(new FileStream(filePath, FileMode.Create));
 
         // Return the folder path to the new image.
-        return uploadsFolder;
+        return Path.Combine(uploadsFolder, uniqueFileName);
       }
       else
       {
@@ -232,6 +231,26 @@ namespace Api.Controllers
         }
         return message;
       }
+    }
+
+    [NonAction]
+    public bool SameUser()
+    {
+      // Summary:
+      //  This function will check the user manager store credentials with the incoming HTTP request credentials to verfiy the user is the same as the one logged in. It will return true if they match and false otherwise.
+      bool result;
+      ClaimsPrincipal currentUser = this.User;
+      string claimUserID = userManager.GetUserId(currentUser);
+      string requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      if( claimUserID == requestUserID)
+      {
+        result = true;
+      }
+      else
+      {
+        result = false;
+      }
+      return result;
     }
   }
 }

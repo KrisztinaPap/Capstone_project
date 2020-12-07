@@ -1,22 +1,19 @@
-// Import Resources
-import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useHistory, useLocation } from 'react-router-dom';
+
 import axios from 'axios';
+import { AuthContext } from '../contexts/AuthContext';
 
 // Import Assets
 import Plate from '../assets/plate.svg';
 
-// Import Authentication
-import { UserContext, resetData, SaveUserData } from './Authentication/UserAuthentication';
-
-// Login Component
 const Login = () => {
 
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
-
-  // Prepare for History Redirect
+  const {user, isAuthenticated, signin} = useContext(AuthContext);
   const history = useHistory();
+  const location = useLocation();
+
+
 
   // Set Up States
   const [email, setEmail] = useState("");
@@ -26,6 +23,19 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [success, setSuccess] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+
+
+  useEffect(() => {
+    if(isAuthenticated()) {
+      redirect();
+    }
+  });
+
+  const redirect = () => {
+    const locationState = location.state;
+    const path = locationState ? locationState.from.pathname : '/dashboard';
+    history.push(path);
+  }
 
   const [emailValid, setEmailValid] = useState(true);
   const [submitValid, setSubmitValid] = useState(true);
@@ -57,7 +67,6 @@ const Login = () => {
       }
 
     }
-
   }
 
   // Function to Handle Submit of the Signup Form
@@ -108,23 +117,8 @@ const Login = () => {
         // Set Success Message
         setSuccessMessage("Authorized");
 
-        // Set UserContext
-        const userData = {
-          email: response.data.email,
-          name: response.data.name,
-          token: response.data.token,
-          expiration: response.data.expiration,
-          isAuthenticated: function() {
-              return (this.token == null || this.expiration < Date.now()) ? false : true
-          }
-        }
-        setUser(userData);
-        // Save UserContext to LocalStorage
-        SaveUserData(userData);
-
-        // Reset Form Fields
-        setEmail("");
-        setPassword("");
+        signin(response.data);
+        redirect();
       }
     })
     .catch(error => {
@@ -134,10 +128,9 @@ const Login = () => {
 
         // Set Loading
         setLoading(false);
-  
+
         // Set Error Message
         setErrorMessage(error.response.data.title);
-  
         // Break Function
         return false;
       }
@@ -153,97 +146,6 @@ const Login = () => {
       }
     });
 
-  }
-
-  // Function to Display Login Form
-  const LoginForm = () => {
-    return (
-      <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 justify-center align-middle" onSubmit={LoginSubmit}>
-        <div>
-          <label htmlFor="email" className="block text-gray-700 text-sm font-bold my-2">Email:</label>
-          <input
-            className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!emailValid ? "border-red-600" : "") }
-            type="text"
-            id="email"
-            value={email}
-            onChange={event => setEmail( event.target.value )}
-            onBlur={ValidateInput}
-            required
-            />
-        </div>
-        <div className="mb-6">
-          <label htmlFor="password" className="block text-gray-700 text-sm font-bold my-2">Password:</label>
-          <input
-            className="input-field w-full focus:outline-none focus:shadow-outline"
-            type="password"
-            id="password"
-            value={password}
-            onChange={event => setPassword( event.target.value )}
-            required
-            />
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            className={ "purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline " + (!submitValid ? "opacity-50 cursor-not-allowed" : "") }
-            type="submit"
-            disabled={ !submitValid }
-          >
-            Submit
-          </button>
-          <Link className="purple-link hover:text-purple-600" to="/signup">
-            No account? Sign up
-          </Link>
-        </div>
-
-        {loading ? <i className="fas fa-spinner fa-spin"></i> : null}
-        {error ? DisplayErrorMessage(errorMessage) : null}
-        {success ? DisplaySuccessMessage(successMessage) : null}
-
-      </form>
-    );
-  }
-
-  // Function to LogOut
-  const LogOut = () => {
-    // Set User Context with Reset UserData
-    setUser(resetData);
-    // Save UserContext to LocalStorage
-    SaveUserData(resetData);
-    
-    // Set Success
-    setSuccess(true);
-    // Set Success Message
-    setSuccessMessage("Logged Out");
-  }
-
-  // Function to Display LoggedIn User Info and Action
-  const LoggedInDisplay = () => {
-    return (
-      <>
-        <div className="card-body p-4">
-          <div className="btn-group">
-            <div className="block py-5 px-4">
-              {user.name}, What would you like to do?
-            </div>
-            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/dashboard">
-              See my dashboard
-            </Link>
-            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/recipes">
-              See my recipe list
-            </Link>
-            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/add-recipe">
-              Add a recipe
-            </Link>
-            <Link className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" to="/profile">
-              Edit my profile
-            </Link>
-            <button className="mb-1 block transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-2 px-4 mr-4 rounded" onClick={LogOut}>
-              Log Out
-            </button>
-          </div>
-        </div>
-      </>
-    );
   }
 
   // Function to Display Error Message
@@ -273,9 +175,9 @@ const Login = () => {
   return (
     <>
       <div className="container">
-        <div className="block text-center my-4"> 
+        <div className="block text-center my-4">
           <h1 className="font-bold">
-            { (user.isAuthenticated()) ? `Welcome ${user.name}` : "Login" }
+            { (isAuthenticated()) ? `Welcome ${user.name}` : "Login" }
           </h1>
         </div>
         <div className="md:grid md:grid-cols-2 md:gap-6 place-items-center">
@@ -285,7 +187,48 @@ const Login = () => {
           </div>
 
           <div className="md:col-span-1 w-full">
-            { (user.isAuthenticated()) ? LoggedInDisplay() : LoginForm() }
+            <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 justify-center align-middle" onSubmit={LoginSubmit}>
+              <div>
+                <label htmlFor="email" className="block text-gray-700 text-sm font-bold my-2">Email:</label>
+                <input
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!emailValid ? "border-red-600" : "") }
+                  type="text"
+                  id="email"
+                  value={email}
+                  onChange={event => setEmail( event.target.value )}
+                  onBlur={ValidateInput}
+                  required
+                  />
+              </div>
+              <div className="mb-6">
+                <label htmlFor="password" className="block text-gray-700 text-sm font-bold my-2">Password:</label>
+                <input
+                  className="input-field w-full focus:outline-none focus:shadow-outline"
+                  type="password"
+                  id="password"
+                  value={password}
+                  onChange={event => setPassword( event.target.value )}
+                  required
+                  />
+              </div>
+              <div className="flex items-center justify-between">
+                <button
+                  className={ "purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline " + (!submitValid ? "opacity-50 cursor-not-allowed" : "") }
+                  type="submit"
+                  disabled={ !submitValid }
+                >
+                  Submit
+                </button>
+                <Link className="purple-link hover:text-purple-600" to="/signup">
+                  No account? Sign up
+                </Link>
+              </div>
+
+              {loading ? <i className="fas fa-spinner fa-spin"></i> : null}
+              {error ? DisplayErrorMessage(errorMessage) : null}
+              {success ? DisplaySuccessMessage(successMessage) : null}
+
+            </form>
           </div>
         </div>
       </div>

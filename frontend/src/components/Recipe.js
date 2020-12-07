@@ -1,26 +1,13 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown'
 import gfm from 'remark-gfm';
 import axios from 'axios';
 import {useParams} from "react-router";
-
-// Import Authentication
-import { UserContext } from './Authentication/UserAuthentication';
+import { AuthContext } from '../contexts/AuthContext';
 
 function Recipe(){
-
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
-
-  // Check for User's Authentication
-  const history = useHistory();
-  useEffect(() => {
-    if (!user.isAuthenticated()) {
-      history.push("/login");
-    }
-  });
+  const {user} = useContext(AuthContext);
 
   const [myRecipe, setMyRecipe] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -34,7 +21,11 @@ function Recipe(){
 
   async function fetchRecipe() {
     try {
-      const response = await axios.get(`api/recipes/${recipes}`)
+      const response = await axios.get(`api/recipes/${recipes}`, {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      });
       setMyRecipe(response.data);
       setLoading(false);
       setError(false);
@@ -92,7 +83,7 @@ function Recipe(){
     <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
       {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
       <div className="flex justify-center my-8">
-        <img className="p-2 w-1/3 border rounded" src={myRecipe.img} alt={myRecipe.name} />
+        <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
       </div>
       <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
       <p className="text-md text-bold">Servings: {myRecipe.servings}</p>
