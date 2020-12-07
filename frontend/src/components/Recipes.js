@@ -104,9 +104,9 @@ function Recipes() {
           <table className="w-full mx-auto mt-1 ">
             <tbody className="mb-2">
               {recipes.map(recipes => (
-                <div key={recipes.id} className="border-2 m-2 p-2 flex flex-row rounded shadow">
-                  <tr className="w-full flex justify-between align-center">
-                    <td className="flex align-center justify-start">
+                <tr key={recipes.id} className="border-2 m-2 p-2 flex flex-row rounded shadow">
+                  <td className="w-full flex justify-between align-center">
+                    <div className="flex align-center justify-start">
                       <Link className="flex align-center justify-start items-center" to={`/recipes/${recipes.id}`}>
                         <img className="p-2 w-12 h-12 border rounded" src={recipes.image} alt={recipes.name}/>
                         <div className="px-4 text-gray-800 hover:text-purple-500 focus:text-purple-500">
@@ -115,8 +115,8 @@ function Recipes() {
 
                         </div>
                       </Link>
-                    </td>
-                    <td className="flex align-center items-center ">
+                    </div>
+                    <div className="flex align-center items-center ">
                       {!sure &&
                         <button onClick={softDeleteRecipe} className="w-12 h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
                           <i className="far fa-trash-alt"></i>
@@ -133,9 +133,9 @@ function Recipes() {
                           </button>
                         </>
                       }
-                    </td>
-                  </tr>
-                </div>
+                    </div>
+                  </td>
+                </tr>
               ))}
             </tbody>
 
