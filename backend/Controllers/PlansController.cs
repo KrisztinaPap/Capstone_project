@@ -27,38 +27,36 @@ namespace Api.Controllers
   {
 
     private readonly DBContext _context;
-    private readonly UserManager<User> userManager;
-    private readonly string _currentUserId;
 
-    public PlansController(DBContext context, UserManager<User> userManager)
+    public PlansController(DBContext context)
     {
       _context = context;
-      this.userManager = userManager;
-      _currentUserId = "-1";
     }
 
     // PUT: api/plans/
-    [Authorize]
     [HttpPut]
-    public ActionResult<Plan> CreateSchedulePlan([FromBody] ICollection<SchedulePlan> incomingPlans)
+    [Authorize]
+    public ActionResult<Plan> CreateOrUpdate([FromBody] ICollection<SchedulePlan> incomingPlans)
     {
       /**
        * Function creates a new plan for a user
        *
        * @param List<Schedule> Body JSON - UserId, Day, MealTimeId, RecipeId
-       * @return NoCotent
+       * @return NoContent
        */
-      if (!SameUser())
-      {
-        return NotFound();
+
+      if(incomingPlans == null || incomingPlans.Count == 0) {
+        return NoContent(); // No plans to update so ignore the request
       }
+
+      string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
       ICollection<DateTime> daysToUpdate = incomingPlans.Select(x => x.Day.Date).ToList();
 
       ICollection<MealTime> mealTimes = _context.MealTimes.ToList();
       ICollection<Plan> oldPlans = _context.Plans
         .Include(x => x.Meals)
         .ThenInclude(x => x.MealRecipes)
-        .Where(x => daysToUpdate.Contains(x.Day) && x.UserId == _currentUserId)
+        .Where(x => daysToUpdate.Contains(x.Day) && x.UserId == userId)
         .ToList();
 
       foreach(SchedulePlan incomingPlan in incomingPlans) {
@@ -70,7 +68,7 @@ namespace Api.Controllers
           // Creating a new plan
           currentPlan = new Plan() {
             Day = incomingPlan.Day,
-            UserId = _currentUserId
+            UserId = userId
           };
           _context.Attach(currentPlan);
         }
@@ -108,113 +106,12 @@ namespace Api.Controllers
       return NoContent();
     }
 
-    // GET: api/plans/{id}
-    [Authorize]
-    [HttpGet]
-    [Route("{id:int:required}")]
-    public ActionResult<Plan> GetPlanById(int id)
-    {
-      /**
-       * Function returns a plan along with its meal type, recipe and ingredients
-       *
-       * @param <int> id
-       * @return <Plan> Plan data
-       */
-      if (!SameUser())
-      {
-        return NotFound();
-      }
-      var result = _context.Plans
-                    .Include(x => x.Meals)
-                      .ThenInclude(x => x.MealTime)
-                    .Include(x => x.Meals)
-                      .ThenInclude(x => x.MealRecipes)
-                        .ThenInclude(x => x.Recipe)
-                          .ThenInclude(x => x.Ingredients)
-                    .Where(x => x.Id == id)
-                    .Select
-                     (
-                      x => new
-                      {
-                        day = x.Day,
-                        meals = x.Meals.Select
-                        (
-                          m => new
-                          {
-                            id = m.Id,
-                            mealTime = m.MealTime.Name,
-                            recipes = m.MealRecipes.Select
-                            (
-                              mr => mr.RecipeId
-                            )
-                          }
-                        )
-                      }
-                     )
-                    .SingleOrDefault();
-
-      if (result == null)
-      {
-        return NotFound();
-      }
-
-      return Ok(result);
-    }
-
-    // GET: api/plans/user/{userId}
-    [HttpGet]
-    [Route("user/{userId:required}")]
-    public ActionResult<IEnumerable<Plan>> GetUserPlans(string userId)
-    {
-      /**
-       * Function returns all user's plans along with their meal types, recipes and ingredients
-       *
-       * @param <int> User Id
-       * @return <Plan> Plan data
-       */
-
-      var result = _context.Plans
-                    .Include(x => x.Meals)
-                      .ThenInclude(x => x.MealTime)
-                    .Include(x => x.Meals)
-                      .ThenInclude(x => x.MealRecipes)
-                        .ThenInclude(x => x.Recipe)
-                          .ThenInclude(x => x.Ingredients)
-                    .Where(x => x.UserId == userId)
-                    .Select
-                     (
-                      x => new
-                      {
-                        day = x.Day,
-                        meals = x.Meals.Select
-                        (
-                          m => new
-                          {
-                            id = m.Id,
-                            mealTime = m.MealTime.Name,
-                            recipes = m.MealRecipes.Select
-                            (
-                              mr => mr.RecipeId
-                            )
-                          }
-                        )
-                      }
-                     )
-                    .ToList();
-
-      if (result.Count == 0)
-      {
-        return NotFound();
-      }
-
-      return Ok(result);
-    }
 
     // GET: api/plans/schedule?fromDate={fromDate}=&toDate={toDate}
-    [Authorize]
     [HttpGet]
     [Route("schedule/")]
-    public ActionResult<IEnumerable<Plan>> GetUserSchedulePlans(DateTime fromDate, DateTime toDate)
+    [Authorize]
+    public ActionResult<IEnumerable<Plan>> GetRange(DateTime fromDate, DateTime toDate)
     {
       /**
        * Function returns all user's plans along with their meal types, recipes and ingredients within the from and to Dates
@@ -222,16 +119,14 @@ namespace Api.Controllers
        * @param <int> User Id, <DateTime> fromDate, <DateTime> toDate
        * @return <Plan> Plan data
        */
-      if (!SameUser())
-      {
-        return NotFound();
-      }
+      string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
       var result = _context.Plans
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealTime)
                     .Include(x => x.Meals)
                       .ThenInclude(x => x.MealRecipes)
-                    .Where(x => x.UserId == _currentUserId && x.Day >= fromDate && x.Day <= toDate)
+                    .Where(x => x.UserId == userId && x.Day >= fromDate && x.Day <= toDate)
                     .Select
                      (
                       x => new
@@ -254,24 +149,6 @@ namespace Api.Controllers
                     .ToList();
 
       return Ok(result);
-    }
-    public bool SameUser()
-    {
-      // Summary:
-      //  This function will check the user manager store credentials with the incoming HTTP request credentials to verfiy the user is the same as the one logged in. It will return true if they match and false otherwise.
-      bool result;
-      ClaimsPrincipal currentUser = this.User;
-      string claimUserID = userManager.GetUserId(currentUser);
-      string requestUserID = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-      if (claimUserID == requestUserID)
-      {
-        result = true;
-      }
-      else
-      {
-        result = false;
-      }
-      return result;
     }
   }
 }

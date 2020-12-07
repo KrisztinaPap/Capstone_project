@@ -49,6 +49,7 @@ const Dashboard = () => {
   const [isSaving, setSaving] = useState(false);
   const [loadingMeals, setLoadingMeals] = useState(true);
   const [errorMeals, setErrorMeals] = useState(false);
+  const [isMealsStale, setMealsStale] = useState(false);
 
   const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create());
   const [schedule, dispatchSchedule] = useReducer(scheduleReducer, defaultScheduleState)
@@ -120,12 +121,20 @@ const Dashboard = () => {
 
   useEffect(() => {
     async function updatePlans() {
-      if(loadingMeals) { return; }
+      if(loadingMeals || !isMealsStale) { return; }
 
       try {
         setSaving(true);
-        await axios.put(`api/plans/`, plans.toJson());
+        await axios.put(`api/plans/`,
+          plans.toJson(),
+          {
+            headers: {
+            'Authorization': `Bearer ${user.token}`
+            }
+          }
+        );
         setSaving(false);
+        setMealsStale(false)
 
       } catch(err) {
 
@@ -133,7 +142,7 @@ const Dashboard = () => {
     }
 
     updatePlans();
-  }, [plans, loadingMeals])
+  }, [plans, loadingMeals, isMealsStale])
 
 
   useEffect(() => {
@@ -193,6 +202,7 @@ const Dashboard = () => {
     const recipeId = DraggableRecipeId.decode(encodedRecipeId);
 
     dispatchPlans(updateMeal(day, time, recipeId));
+    setMealsStale(true);
   }
 
   function moveRecipe(encodedSrcMealId, encodedDestMealId, encodedRecipeId) {
@@ -201,6 +211,7 @@ const Dashboard = () => {
     const { recipeId } = DraggableMealRecipeId.decode(encodedRecipeId);
 
     dispatchPlans(moveMeal(src.day, src.time, dest.day, dest.time, recipeId));
+    setMealsStale(true);
   }
 
   function removeRecipe(encodedSrcMealId, encodedRecipeId) {
@@ -208,6 +219,7 @@ const Dashboard = () => {
     const { recipeId } = DraggableMealRecipeId.decode(encodedRecipeId);
 
     dispatchPlans(removeMeal(src.day, src.time, recipeId));
+    setMealsStale(true);
   }
 
 

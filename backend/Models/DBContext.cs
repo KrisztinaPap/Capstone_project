@@ -64,7 +64,7 @@ namespace Api.Models
               "* Cook Potatoes",
               "* Smother in Hot Sauce"
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chicken-potato-hotsauce.jpg "),
+            Image = $"images/User_{userId}/chicken-potato-hotsauce.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 35,
@@ -88,7 +88,7 @@ namespace Api.Models
               "* Cook Potatoes to personal preference",
               "* Serve and Enjoy!"
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\steak-sweet-potato.jpeg "),
+            Image = $"images/User_{userId}/steak-sweet-potato.jpeg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -117,7 +117,7 @@ namespace Api.Models
             "* 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.",
             "* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice."
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\butter-chicken.jpg "),
+            Image = $"images/User_{userId}/butter-chicken.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 65,
@@ -146,7 +146,7 @@ namespace Api.Models
             "* 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.",
             "* 8. Serve the quesadillas with avocado and the remaining salsa."
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\blackbean-quesadilla.jpg "),
+            Image = $"images/User_{userId}/blackbean-quesadilla.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -172,7 +172,7 @@ namespace Api.Models
             "* 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.",
             "* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer."
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chipotle-orange-chicken.jpg "),
+            Image = $"images/User_{userId}/chipotle-orange-chicken.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 45,

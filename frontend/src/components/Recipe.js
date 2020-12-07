@@ -83,7 +83,7 @@ function Recipe(){
     <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
       {/* TODO: change to myRecipe.image once images are stored in DB. Placeholder image used for now for styling */}
       <div className="flex justify-center my-8">
-        <img className="p-2 w-1/3 border rounded" src={myRecipe.img} alt={myRecipe.name} />
+        <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
       </div>
       <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
       <p className="text-md text-bold">Servings: {myRecipe.servings}</p>

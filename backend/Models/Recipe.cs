@@ -72,13 +72,6 @@ namespace Api.Models
     [Column(TypeName = "varchar(50)")]
     public string UserId { get; set; }
 
-    public Recipe(string name) {
-      Name = name;
-    }
-
-    // TODO: More investigation, but required by EF
-    //protected Recipe() {}
-
     public virtual ICollection<Ingredient> Ingredients { get; private set; } = new HashSet<Ingredient>();
 
     [JsonIgnore]
