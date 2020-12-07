@@ -384,7 +384,7 @@ const AddRecipe = () => {
               <div>
                 <label htmlFor="addRecipeCategory" className="block pl-4 pb-2">Recipe Category(*):</label>
                 <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange} defaultValue="0">
-                  <option value="0" />
+                  <option defaultValue="0" />
                   {recipeCategoryList.map((category) => {
                     return (
                       <option key={category.id} value={category.id}>{category.name}</option>
