@@ -35,6 +35,9 @@ namespace Api.Models
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      string userId = "927249ee-afd9-4bd0-b74e62053687d989";
+      DateTime anchorDate = new DateTime(2020, 12, 9);
+
       base.OnModelCreating(modelBuilder);
       modelBuilder.Entity<Recipe>(entity =>
       {
@@ -51,6 +54,7 @@ namespace Api.Models
           {
             Id = -1,
             CategoryId = -1,
+            UserId = userId,
             Name = "Chicken and Potatoes with Hot Sauce",
             Fat = 30,
             Protein = 70,
@@ -74,6 +78,7 @@ namespace Api.Models
           {
             Id = -2,
             CategoryId = -2,
+            UserId = userId,
             Name = "Steak and Sweet Potatoes",
             Fat = 10,
             Protein = 70,
@@ -99,6 +104,7 @@ namespace Api.Models
           {
             Id = -3,
             CategoryId = -1,
+            UserId = userId,
             Name = "Butter Chicken",
             Fat = 11,
             Protein = 20,
@@ -125,6 +131,7 @@ namespace Api.Models
           {
             Id = -4,
             CategoryId = -4,
+            UserId = userId,
             Name = "Black Bean Quesadillas",
             Fat = 16,
             Protein = 13,
@@ -152,6 +159,7 @@ namespace Api.Models
           {
             Id = -5,
             CategoryId = -1,
+            UserId = userId,
             Name = "Chipotle and Orange grilled Chicken",
             Fat = 3,
             Protein = 23,
@@ -221,8 +229,8 @@ namespace Api.Models
           new Plan()
           {
             Id = -1,
-            UserId = "-1",
-            Day = DateTime.Today
+            UserId = userId,
+            Day = anchorDate
           }
         );
       });
@@ -314,7 +322,7 @@ namespace Api.Models
           {
             Id = -3,
             RecipeId = -1,
-            Name = "Poatato",
+            Name = "Potato",
             Quantity = 4,
             UOMId = "ea"
           },
@@ -606,10 +614,18 @@ namespace Api.Models
         entity.HasData(
           new User()
           {
-            // Identity uses a GUID method to generate unqiue user id.
-            Id = "E3E28BD3-594A-455F-9ACA-90758B48F376",
-            Name = "TestAdminWarren",
-            Email = "phprox123@gmail.com"
+            // Identity uses a GUID method to generate unique user id.
+            Id = userId,
+            Name = "DemoUser",
+            UserName = "demo@example.com",
+            NormalizedUserName = "DEMO@EXAMPLE.COM",
+            Email = "demo@example.com",
+            NormalizedEmail = "DEMO@EXAMPLE.COM",
+            EmailConfirmed = true,
+            PasswordHash = "AQAAAAEAACcQAAAAEF2K8rjzLW+Pg5eripVafumGQa/4BRTSboiXDMa95qTMTPdH249hphHAkUQHUE0Ctw==",
+            SecurityStamp = "MVLR77ABXD2ZQFYVDR6NAJB7UASX45MD",
+            ConcurrencyStamp = "9ce7c801-2204-473c-9967-110632a96a79",
+            LockoutEnabled = true
           }
         );
       });

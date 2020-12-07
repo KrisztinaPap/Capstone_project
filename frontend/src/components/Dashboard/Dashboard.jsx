@@ -41,7 +41,6 @@ const defaultScheduleState = getDefaultScheduleState(dayjs().startOf('day'), 7);
 
 const Dashboard = () => {
   const {user} = useContext(AuthContext);
-  const userId = -1;
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -117,7 +116,7 @@ const Dashboard = () => {
     }
 
     getPlans();
-  }, [schedule, userId, user.token]);
+  }, [schedule, user.token]);
 
   useEffect(() => {
     async function updatePlans() {
