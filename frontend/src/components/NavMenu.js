@@ -1,57 +1,80 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import Menu from 'react-burger-menu/lib/menus/scaleRotate'
 import './NavMenu.css';
 
-// Import Authentication
-import { UserContext, resetData, SaveUserData } from './Authentication/UserAuthentication';
+import { AuthContext } from '../contexts/AuthContext';
 
 function NavMenu() {
 
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
+  const location = useLocation();
+  const {user, isAuthenticated, signout} = useContext(AuthContext);
+  const [menuOpen, setMenuOpen] = useState();
 
-  // Function to LogOut
-  const LogOut = () => {
-    // Set User Context with Reset UserData
-    setUser(resetData);
-    // Save UserContext to LocalStorage
-    SaveUserData(resetData);
+  const closeMenu = () => {
+    setMenuOpen(false);
+  }
+
+  const handleStateChange = (state) => {
+    setMenuOpen(state.isOpen);
+  }
+
+  const linkClasses = (path) => {
+    return `white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline ${activeClasses(path)}`;
+  }
+
+  const activeClasses = (path) => {
+    if(path.toLowerCase() === location.pathname.toLowerCase()) {
+      return 'underline';
+    }
+    return '';
   }
 
   // Function to Display LoggedIn Menu
   const LoggedInMenu = () => {
     return (
       <>
-        <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/dashboard">
-            Dashboard
-          </Link>
-        </section>
-        <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/recipes">
-            Recipes
-          </Link>
-        </section>
-        <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/add-recipe">
-            Add a Recipe
-          </Link>
-        </section>
-        <section>
-          <hr className="mb-2"/>
-          <p>You are logged in as: {user.name}</p>
-          </section>
-        <section>
-          <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/profile">
-            Edit Profile
-          </Link>
-        </section>
-        <section>
-          <button className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded" onClick={LogOut}>
-            Log Out
-          </button>
-        </section>
+        <Link
+          className={linkClasses("/dashboard")}
+          to="/dashboard"
+          onClick={closeMenu}
+        >
+          Dashboard
+        </Link>
+
+        <Link
+          className={linkClasses("/recipes")}
+          to="/recipes"
+          onClick={closeMenu}
+        >
+          Recipes
+        </Link>
+
+        <Link
+          className={linkClasses("/add-recipe")}
+          to="/add-recipe"
+          onClick={closeMenu}
+        >
+          Add a Recipe
+        </Link>
+
+        <hr className="mb-2"/>
+        <p>You are logged in as: {user.name}</p>
+
+        <Link
+          className={linkClasses("/profile")}
+          to="/profile"
+          onClick={closeMenu}
+        >
+          Edit Profile
+        </Link>
+
+        <button
+          className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded"
+          onClick={() => { signout(); closeMenu(); }}
+        >
+          Log Out
+        </button>
       </>
     );
   }
@@ -60,28 +83,54 @@ function NavMenu() {
   const LoggedOutMenu = () => {
     return (
       <>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/login">
+        <Link
+          className={linkClasses("/login")}
+          to="/login"
+          onClick={closeMenu}
+        >
           Login
         </Link>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/signup">
+        <Link
+          className={linkClasses("/signup")}
+          to="/signup"
+          onClick={closeMenu}
+        >
           Sign Up
         </Link>
       </>
     );
   }
 
+
+  const styles = {
+    bmBurgerButton: {
+      position: 'absolute',
+      width: '36px',
+      height: '30px',
+      left: '36px',
+      top: '36px'
+    },
+  }
+
   return (
     <Menu
       pageWrapId={'page-wrap'}
       outerContainerId={'outer-container'}
+      isOpen={menuOpen}
+      onStateChange={(state) => { handleStateChange(state) }}
+      styles={styles}
+      disableAutoFocus
     >
       <header>Site Navigation</header>
-      <section>
-        <Link className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline" to="/">
-          Home
-        </Link>
-      </section>
-      { (user.isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
+      <Link
+        className={linkClasses("/")}
+        to="/"
+        onClick={closeMenu}
+      >
+        Home
+      </Link>
+
+      { (isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
     </Menu>
   );
 

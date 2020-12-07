@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from 'react';
+import React, { useState, useEffect, useReducer, useContext } from 'react';
 import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -21,6 +21,7 @@ import {
 
 import Schedule, {Forward, Backward, Jump} from './Schedule';
 import {Link} from "react-router-dom";
+import { AuthContext } from '../../contexts/AuthContext';
 
 // Citation: https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
 
@@ -39,7 +40,7 @@ function debounce(fn, ms) {
 const defaultScheduleState = getDefaultScheduleState(dayjs().startOf('day'), 7);
 
 const Dashboard = () => {
-  const userId = -1;
+  const {user} = useContext(AuthContext);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -48,6 +49,7 @@ const Dashboard = () => {
   const [isSaving, setSaving] = useState(false);
   const [loadingMeals, setLoadingMeals] = useState(true);
   const [errorMeals, setErrorMeals] = useState(false);
+  const [isMealsStale, setMealsStale] = useState(false);
 
   const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create());
   const [schedule, dispatchSchedule] = useReducer(scheduleReducer, defaultScheduleState)
@@ -75,14 +77,16 @@ const Dashboard = () => {
 
 
   useEffect(() => {
-
-
     populateRecipes();
   }, [])
 
   async function populateRecipes() {
     try {
-      const response = await axios.get('api/recipes')
+      const response = await axios.get('api/recipes', {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
       setRecipes(response.data);
       setLoading(false);
       setError(false);
@@ -97,7 +101,11 @@ const Dashboard = () => {
       const [start, end] = schedule.viewRange;
 
       try {
-        const response = await axios.get(`api/plans/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`);
+        const response = await axios.get(`api/plans/schedule?fromDate=${start.format('YYYY-MM-DD')}&toDate=${end.format('YYYY-MM-DD')}`, {
+          headers: {
+            'Authorization': `Bearer ${user.token}`
+          }
+        });
         dispatchPlans(loadPeriod(response.data));
 
         setLoadingMeals(false);
@@ -109,16 +117,24 @@ const Dashboard = () => {
     }
 
     getPlans();
-  }, [schedule, userId]);
+  }, [schedule, user.token]);
 
   useEffect(() => {
     async function updatePlans() {
-      if(loadingMeals) { return; }
+      if(loadingMeals || !isMealsStale) { return; }
 
       try {
         setSaving(true);
-        await axios.put(`api/plans/`, plans.toJson());
+        await axios.put(`api/plans/`,
+          plans.toJson(),
+          {
+            headers: {
+            'Authorization': `Bearer ${user.token}`
+            }
+          }
+        );
         setSaving(false);
+        setMealsStale(false)
 
       } catch(err) {
 
@@ -126,7 +142,7 @@ const Dashboard = () => {
     }
 
     updatePlans();
-  }, [plans])
+  }, [plans, loadingMeals, isMealsStale])
 
 
   useEffect(() => {
@@ -186,6 +202,7 @@ const Dashboard = () => {
     const recipeId = DraggableRecipeId.decode(encodedRecipeId);
 
     dispatchPlans(updateMeal(day, time, recipeId));
+    setMealsStale(true);
   }
 
   function moveRecipe(encodedSrcMealId, encodedDestMealId, encodedRecipeId) {
@@ -194,6 +211,7 @@ const Dashboard = () => {
     const { recipeId } = DraggableMealRecipeId.decode(encodedRecipeId);
 
     dispatchPlans(moveMeal(src.day, src.time, dest.day, dest.time, recipeId));
+    setMealsStale(true);
   }
 
   function removeRecipe(encodedSrcMealId, encodedRecipeId) {
@@ -201,6 +219,7 @@ const Dashboard = () => {
     const { recipeId } = DraggableMealRecipeId.decode(encodedRecipeId);
 
     dispatchPlans(removeMeal(src.day, src.time, recipeId));
+    setMealsStale(true);
   }
 
 

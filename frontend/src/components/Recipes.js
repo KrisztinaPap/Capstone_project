@@ -1,24 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Plate from '../assets/plate.svg';
-
-// Import Authentication
-import { UserContext } from './Authentication/UserAuthentication';
+import { AuthContext } from '../contexts/AuthContext';
 
 function Recipes() {
-
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
-
-  // Check for User's Authentication
-  const history = useHistory();
-  useEffect(() => {
-    if (!user.isAuthenticated()) {
-      history.push("/login");
-    }
-  });
+  const {user} = useContext(AuthContext);
 
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +18,11 @@ function Recipes() {
 
   async function populateRecipes() {
     try {
-      const response = await axios.get('api/recipes')
+      const response = await axios.get('api/recipes', {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
       setRecipes(response.data);
       setLoading(false);
       setError(false);
@@ -47,7 +38,11 @@ function Recipes() {
 
   async function deleteRecipe() {
     try {
-      const toDelete = await axios.delete(`api/recipes/${recipes.id}`)
+      const toDelete = await axios.delete(`api/recipes/${recipes.id}`, {
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
       setRecipes(toDelete.data);
       setLoading(false);
       setError(false);
@@ -112,8 +107,8 @@ function Recipes() {
 
             <tbody className="mb-2">
               {recipes.map(recipes => (
-                <div className="border-2 m-2 p-2 flex flex-row rounded shadow">
-                  <tr className="w-full flex justify-between align-center" key={recipes.id}>
+                <div key={recipes.id} className="border-2 m-2 p-2 flex flex-row rounded shadow">
+                  <tr className="w-full flex justify-between align-center">
                     <td className="flex align-center justify-start">
                       <Link className="flex align-center justify-start items-center" to={`/recipes/${recipes.id}`}>
                         <img className="p-2 w-12 h-12 border rounded" /*src={recipes.image}*/ src={Plate} alt={recipes.name}/>
@@ -156,4 +151,3 @@ function Recipes() {
 
 //Export Function
 export default Recipes;
-

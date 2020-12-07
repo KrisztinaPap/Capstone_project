@@ -1,23 +1,12 @@
-// Import Resources
-import React, { useContext, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import {AuthContext} from '../contexts/AuthContext';
 import axios from 'axios';
-
-// Import Authentication
-import { UserContext, SaveUserData } from './Authentication/UserAuthentication';
+import { useHistory } from 'react-router-dom';
 
 const Profile = () => {
 
-  // Create user from UserContext
-  const [user, setUser] = useContext(UserContext);
-
-  // Check for User's Authentication
+  const {user, updateName} = useContext(AuthContext);
   const history = useHistory();
-  useEffect(() => {
-    if (!user.isAuthenticated()) {
-      history.push("/login");
-    }
-  });
 
   // Set Up States
   const [name, setName] = useState( (user.name) ? user.name : "" );
@@ -38,6 +27,142 @@ const Profile = () => {
   const [successUpdatePassword, setSuccessUpdatePassword] = useState(false);
   const [successMessageUpdatePassword, setSuccessMessageUpdatePassword] = useState("");
 
+  const [nameValid, setNameValid] = useState(true);
+  const [submitNameValid, setSubmitNameValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [password2Valid, setPassword2Valid] = useState(true);
+  const [submitPasswordValid, setSubmitPasswordValid] = useState(true);
+
+  // Function to Validate Input
+  const ValidateInputName = () => {
+
+    // Only Validate On Name Input
+    if (name) {
+
+      // Check If Name is Valid
+      if (name.length <= 1) {
+        // Set Error
+        setNameValid(false);
+        setErrorUpdateName(true);
+        setSubmitNameValid(false);
+        // Set Error Message
+        setErrorMessageUpdateName("Name must be more than 1 character.");
+        DisplayErrorMessageUpdateName(errorMessageUpdateName, errorsArrayUpdateName);
+      }
+      else {
+        // Set Error
+        setNameValid(true);
+        setErrorUpdateName(false);
+        setSubmitNameValid(true);
+        // Set Error Message
+        setErrorMessageUpdateName("");
+      }
+
+    }
+
+  }
+
+  // Function to Validate Input
+  const ValidateInputPassword = () => {
+    // Reset errorsArray
+    setErrorsArrayUpdatePassword([]);
+    let errorList = [];
+
+    // Only Validate On Password Input
+    if (password) {
+
+      // Check Passwords Length
+      if (password.length <= 5) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must be more than 5 characters.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
+      // Check Passwords Contains Captial Letter
+      if (password.toLowerCase() === password) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must have at least a capital letter.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
+      // Check if Password Contains a Number
+      const regexPasswordNumberTest = /\d/;
+      if (!regexPasswordNumberTest.test(password)) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must have at least a number.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
+      // Check if Password Contains an AlphaNumeric Character
+      const regexPasswordAlphaNumericTest = /[^A-Za-z0-9]/;
+      if (!regexPasswordAlphaNumericTest.test(password)) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must be have at least an alphanumeric character.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
+    }
+
+    // Only Validate On Password2 Input
+    if (password2) {
+
+      // Check If Passwords Match
+      if (password !== password2) {
+        // Set Error
+        setPassword2Valid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Passwords do not match.";
+      }
+      else {
+        // Set Error
+        setPassword2Valid(true);
+      }
+
+    }
+
+    // Add Error Message to State
+    setErrorsArrayUpdatePassword(errorList);
+
+    // Check errorsArray
+    if (errorList.length > 0) {
+      // Set Errors
+      setErrorUpdatePassword(true);
+      setSubmitPasswordValid(false);
+      // Set Error Message
+      setErrorMessageUpdatePassword("Invalid Input");
+      DisplayErrorMessageUpdatePassword(errorMessageUpdatePassword, errorsArrayUpdatePassword);
+    }
+    else {
+      // Set Errors
+      setErrorUpdatePassword(false);
+      setSubmitPasswordValid(true);
+      // Set Error Message
+      setErrorMessageUpdatePassword("");
+      setErrorsArrayUpdatePassword([]);
+    }
+
+  }
+
   // Function to Handle Submit of the Update Name Form
   const UpdateNameSubmit = async(event) => {
 
@@ -47,8 +172,7 @@ const Profile = () => {
     // Set Loading
     setLoadingUpdateName(true);
 
-    // Check for Name Length
-    if (name.length <= 1) {
+    if (!nameValid || !submitNameValid) {
       // Set Loading
       setLoadingUpdateName(false);
 
@@ -64,12 +188,15 @@ const Profile = () => {
     // Axios Request
     axios
     .put(
-      'api/authenticate/update/name',
-      {
+      'api/authenticate/update/name', {
+      data: {
         Username: user.email,
         Name: name
+      },
+      headers: {
+        'Authorization': `Bearer ${user.token}`
       }
-    )
+    })
     .then(response => {
       if (response.data.status === "Success") {
         // Reset Errors
@@ -87,19 +214,8 @@ const Profile = () => {
         // Reset Form Fields
         setName(name);
 
-        // Set UserContext
-        const userData = {
-          email: user.email,
-          name: name,
-          token: user.token,
-          expiration: user.expiration,
-          isAuthenticated: function() {
-              return (this.token == null || this.expiration < Date.now()) ? false : true
-          }
-        }
-        setUser(userData);
-        // Save UserContext to LocalStorage
-        SaveUserData(userData);
+        // Updates the logged in users name
+        updateName(name);
       }
     })
     .catch(error => {
@@ -109,13 +225,26 @@ const Profile = () => {
 
         // Set Loading
         setLoadingUpdateName(false);
-  
+
         // Set Error Message
         setErrorMessageUpdateName(error.response.data.message);
-        setErrorsArrayUpdateName(error.response.data.errorList);
-  
+
+        if (error.response.data.errorList) {
+          setErrorsArrayUpdateName(error.response.data.errorList);
+        }
+
         // Break Function
         return false;
+      }
+
+      // 404 Error
+      if (error.response.status === 404) {
+        history.push("/page404");
+      }
+
+      // 500 Error
+      if (error.response.status === 500) {
+        history.push("/page500");
       }
     });
 
@@ -143,7 +272,7 @@ const Profile = () => {
       // Break Function
       return false;
     }
-    
+
     // Check if Password Contains a Number
     const regexPasswordNumberTest = /\d/;
     if (!regexPasswordNumberTest.test(password)) {
@@ -191,12 +320,15 @@ const Profile = () => {
     // Axios Request
     axios
     .put(
-      'api/authenticate/update/password',
-      {
-        Username: user.email,
-        Password: password
-      }
-    )
+      'api/authenticate/update/password', {
+        data: {
+          Username: user.email,
+          Password: password
+        },
+        headers: {
+          'Authorization': `Bearer ${user.token}`
+        }
+      })
     .then(response => {
       if (response.data.status === "Success") {
         // Reset Errors
@@ -223,13 +355,25 @@ const Profile = () => {
 
         // Set Loading
         setLoadingUpdatePassword(false);
-  
+
         // Set Error Message
         setErrorMessageUpdatePassword(error.response.data.message);
-        setErrorsArrayUpdatePassword(error.response.data.errorList);
-  
+
+        if (error.response.data.errorList) {
+          setErrorsArrayUpdatePassword(error.response.data.errorList);
+        }
         // Break Function
         return false;
+      }
+
+      // 404 Error
+      if (error.response.status === 404) {
+        history.push("/page404");
+      }
+
+      // 500 Error
+      if (error.response.status === 500) {
+        history.push("/page500");
       }
     });
 
@@ -242,7 +386,7 @@ const Profile = () => {
         <div className="text-xl font-normal max-w-full flex-initial">
           <i className="fas fa-exclamation-circle mr-4"></i>
           {message}
-          <ul>
+          <ul className="px-6 list-disc">
             {
               errors.map((errMsg, index) => (
                 <li key={index}>
@@ -275,7 +419,7 @@ const Profile = () => {
         <div className="text-xl font-normal max-w-full flex-initial">
           <i className="fas fa-exclamation-circle mr-4"></i>
           {message}
-          <ul className="px-6">
+          <ul className="px-6 list-disc">
             {
               errors.map((errMsg, index) => (
                 <li key={index}>
@@ -311,18 +455,21 @@ const Profile = () => {
             <div className="mb-6">
               <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">New Name:</label>
               <input
-                className="input-field w-full focus:outline-none focus:shadow-outline"
+                className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!nameValid ? "border-red-600" : "") }
                 type="text"
                 id="name"
                 value={name}
                 onChange={event => setName(event.target.value)}
+                onBlur={ValidateInputName}
                 required
               />
             </div>
           </div>
           <button
-            className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
-            type="submit">
+            className={ "purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline " + (!submitNameValid ? "opacity-50 cursor-not-allowed" : "") }
+            type="submit"
+            disabled={ !submitNameValid }
+          >
             Update
           </button>
 
@@ -336,30 +483,34 @@ const Profile = () => {
           <div>
             <label htmlFor="newPassword" className="block text-gray-700 text-sm font-bold mb-2">New Password:</label>
             <input
-              className="input-field w-full focus:outline-none focus:shadow-outline"
+              className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!passwordValid ? "border-red-600" : "") }
               type="password"
               id="newPassword"
               placeholder="******"
               value={password}
               onChange={event => setPassword( event.target.value )}
+              onBlur={ValidateInputPassword}
               required
             />
           </div>
           <div className="mb-6">
             <label htmlFor="newPassword2" className="block text-gray-700 text-sm font-bold mb-2">Re-enter New Password:</label>
             <input
-              className="input-field w-full focus:outline-none focus:shadow-outline"
+              className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!password2Valid ? "border-red-600" : "") }
               type="password"
               id="newPassword2"
               placeholder="******"
               value={password2}
               onChange={event => setPassword2( event.target.value )}
+              onBlur={ValidateInputPassword}
               required
             />
           </div>
           <button
-            className="purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline"
-            type="submit">
+            className={ "purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline " + (!submitPasswordValid ? "opacity-50 cursor-not-allowed" : "") }
+            type="submit"
+            disabled={ !submitPasswordValid }
+          >
             Update
           </button>
 

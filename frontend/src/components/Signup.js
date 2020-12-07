@@ -1,6 +1,6 @@
 // Import Resources
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 // Import Assets
@@ -8,6 +8,9 @@ import Plate from '../assets/plate.svg';
 
 // Signup Component
 const Signup = () => {
+
+  // Prepare for History Redirect
+  const history = useHistory();
 
   // Set Up States
   const [email, setEmail] = useState("");
@@ -33,79 +36,123 @@ const Signup = () => {
     setErrorsArray([]);
     let errorList = [];
 
-    // Check if Email is Valid
-    const regexEmailTest = /\S+@\S+\.\S+/;
-    if (!regexEmailTest.test(email)) {
-      // Set Error
-      setEmailValid(false);
-      // Set Error Message
-      errorList[errorList.length] = "Invalid Email.";
-    }
-    else {
-      // Set Error
-      setEmailValid(true);
+    // Only Validate On Email Input
+    if (email) {
+
+      // Check if Email is Valid
+      const regexEmailTest = /\S+@\S+\.\S+/;
+      if (!regexEmailTest.test(email)) {
+        // Set Error
+        setEmailValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Invalid Email.";
+      }
+      else {
+        // Set Error
+        setEmailValid(true);
+      }
+
+      // Check if Email is Too Long
+      if (email.length >= 320) {
+        // Set Error
+        setEmailValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Email must be less than 320 characters.";
+      }
+      else {
+        // Set Error
+        setEmailValid(true);
+      }
+
     }
 
-    // Check If Name is Valid
-    if (name.length <= 1) {
-      // Set Error
-      setNameValid(false);
-      // Set Error Message
-      errorList[errorList.length] = "Name must be more than 1 character.";
-    }
-    else {
-      // Set Error
-      setNameValid(true);
+    // Only Validate On Name Input
+    if (name) {
+
+      // Check If Name is Valid
+      if (name.length <= 1) {
+        // Set Error
+        setNameValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Name must be more than 1 character.";
+      }
+      else {
+        // Set Error
+        setNameValid(true);
+      }
+
     }
 
-    // Check Passwords Length
-    if (password.length <= 6) {
-      // Set Error
-      setPasswordValid(false);
-      // Set Error Message
-      errorList[errorList.length] = "Password must be more than 6 character.";
-    }
-    else {
-      // Set Error
-      setPasswordValid(true);
+    // Only Validate On Password Input
+    if (password) {
+
+      // Check Passwords Length
+      if (password.length <= 5) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must be more than 5 characters.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
+      // Check Passwords Contains Capital Letter
+      if (password.toLowerCase() === password) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must have at least a capital letter.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
+      // Check if Password Contains a Number
+      const regexPasswordNumberTest = /\d/;
+      if (!regexPasswordNumberTest.test(password)) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must have at least a number.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
+      // Check if Password Contains an AlphaNumeric Character
+      const regexPasswordAlphaNumericTest = /[^A-Za-z0-9]/;
+      if (!regexPasswordAlphaNumericTest.test(password)) {
+        // Set Error
+        setPasswordValid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Password must have at least an alphanumeric character.";
+      }
+      else {
+        // Set Error
+        setPasswordValid(true);
+      }
+
     }
 
-    // Check if Password Contains a Number
-    const regexPasswordNumberTest = /\d/;
-    if (!regexPasswordNumberTest.test(password)) {
-      // Set Error
-      setPasswordValid(false);
-      // Set Error Message
-      errorList[errorList.length] = "Password must be have at least a number.";
-    }
-    else {
-      // Set Error
-      setPasswordValid(true);
-    }
+    // Only Validate On Password2 Input
+    if (password2) {
 
-    // Check if Password Contains an AlphaNumeric Character
-    const regexPasswordAlphaNumericTest = /[^A-Za-z0-9]/;
-    if (!regexPasswordAlphaNumericTest.test(password)) {
-      // Set Error
-      setPasswordValid(false);
-      // Set Error Message
-      errorList[errorList.length] = "Password must be have at least an alphanumeric character.";
-    }
-    else {
-      // Set Error
-      setPasswordValid(true);
-    }
+      // Check If Passwords Match
+      if (password !== password2) {
+        // Set Error
+        setPassword2Valid(false);
+        // Set Error Message
+        errorList[errorList.length] = "Passwords do not match.";
+      }
+      else {
+        // Set Error
+        setPassword2Valid(true);
+      }
 
-    // Check If Passwords Match
-    if (password !== password2) {
-      // Set Error
-      setPassword2Valid(false);
-      // Set Error Message
-      errorList[errorList.length] = "Passwords do not match.";
-    }
-    else {
-      // Set Error
-      setPassword2Valid(true);
     }
 
     // Add Error Message to State
@@ -119,7 +166,6 @@ const Signup = () => {
       // Set Error Message
       setErrorMessage("Invalid Input");
       DisplayErrorMessage(errorMessage, errorsArray);
-      
     }
     else {
       // Set Errors
@@ -146,6 +192,9 @@ const Signup = () => {
     setErrorsArray([]);
 
     if (!emailValid || !nameValid || !passwordValid || !password2Valid || !submitValid) {
+      // Set Loading
+      setLoading(false);
+
       // Set Errors
       setError(true);
       // Set Error Message
@@ -196,15 +245,25 @@ const Signup = () => {
 
         // Set Loading
         setLoading(false);
-  
+
         // Set Error Message
         setErrorMessage(error.response.data.message);
         if (error.response.data.errorList) {
           setErrorsArray(error.response.data.errorList);
         }
-  
+
         // Break Function
         return false;
+      }
+
+      // 404 Error
+      if (error.response.status === 404) {
+        history.push("/page404");
+      }
+
+      // 500 Error
+      if (error.response.status === 500) {
+        history.push("/page500");
       }
     });
 
@@ -217,7 +276,7 @@ const Signup = () => {
         <div className="text-xl font-normal max-w-full flex-initial">
           <i className="fas fa-exclamation-circle mr-4"></i>
           {message}
-          <ul className="px-6">
+          <ul className="px-6 list-disc">
             {
               errors.map((errMsg, index) => (
                 <li key={index}>
@@ -261,48 +320,48 @@ const Signup = () => {
               <div>
                 <label htmlFor="email" className="block text-gray-700 text-sm font-bold mb-2">Email:</label>
                 <input
-                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!emailValid ? "input-error" : "") }
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!emailValid ? "border-red-600" : "") }
                   type="text"
                   id="email"
                   value={email}
                   onChange={event => setEmail( event.target.value )}
-                  onKeyUp={ValidateInput}
+                  onBlur={ValidateInput}
                   required
                 />
               </div>
               <div>
                 <label htmlFor="name" className="block text-gray-700 text-sm font-bold mb-2">Name:</label>
                 <input
-                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!nameValid ? "input-error" : "") }
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!nameValid ? "border-red-600" : "") }
                   type="text"
                   id="name"
                   value={name}
                   onChange={event => setName( event.target.value )}
-                  onKeyUp={ValidateInput}
+                  onBlur={ValidateInput}
                   required
                 />
               </div>
               <div>
                 <label htmlFor="password" className="block text-gray-700 text-sm font-bold mb-2">Password:</label>
                 <input
-                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!passwordValid ? "input-error" : "") }
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!passwordValid ? "border-red-600" : "") }
                   type="password"
                   id="password"
                   value={password}
                   onChange={event => setPassword( event.target.value )}
-                  onKeyUp={ValidateInput}
+                  onBlur={ValidateInput}
                   required
                 />
               </div>
               <div className="mb-6">
                 <label htmlFor="password2" className="block text-gray-700 text-sm font-bold mb-2">Re-enter Password:</label>
                 <input
-                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!password2Valid ? "input-error" : "") }
+                  className={ "input-field w-full focus:outline-none focus:shadow-outline " + (!password2Valid ? "border-red-600" : "") }
                   type="password"
                   id="password2"
                   value={password2}
                   onChange={event => setPassword2( event.target.value )}
-                  onKeyUp={ValidateInput}
+                  onBlur={ValidateInput}
                   required
                   />
               </div>

@@ -35,6 +35,9 @@ namespace Api.Models
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+      string userId = "927249ee-afd9-4bd0-b74e62053687d989";
+      DateTime anchorDate = new DateTime(2020, 12, 9);
+
       base.OnModelCreating(modelBuilder);
       modelBuilder.Entity<Recipe>(entity =>
       {
@@ -51,6 +54,7 @@ namespace Api.Models
           {
             Id = -1,
             CategoryId = -1,
+            UserId = userId,
             Name = "Chicken and Potatoes with Hot Sauce",
             Fat = 30,
             Protein = 70,
@@ -60,7 +64,7 @@ namespace Api.Models
               "* Cook Potatoes",
               "* Smother in Hot Sauce"
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chicken-potato-hotsauce.jpg "),
+            Image = $"images/User_{userId}/chicken-potato-hotsauce.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 35,
@@ -74,6 +78,7 @@ namespace Api.Models
           {
             Id = -2,
             CategoryId = -2,
+            UserId = userId,
             Name = "Steak and Sweet Potatoes",
             Fat = 10,
             Protein = 70,
@@ -83,7 +88,7 @@ namespace Api.Models
               "* Cook Potatoes to personal preference",
               "* Serve and Enjoy!"
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\steak-sweet-potato.jpeg "),
+            Image = $"images/User_{userId}/steak-sweet-potato.jpeg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -99,6 +104,7 @@ namespace Api.Models
           {
             Id = -3,
             CategoryId = -1,
+            UserId = userId,
             Name = "Butter Chicken",
             Fat = 11,
             Protein = 20,
@@ -111,7 +117,7 @@ namespace Api.Models
             "* 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.",
             "* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice."
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\butter-chicken.jpg "),
+            Image = $"images/User_{userId}/butter-chicken.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 65,
@@ -125,6 +131,7 @@ namespace Api.Models
           {
             Id = -4,
             CategoryId = -4,
+            UserId = userId,
             Name = "Black Bean Quesadillas",
             Fat = 16,
             Protein = 13,
@@ -139,7 +146,7 @@ namespace Api.Models
             "* 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.",
             "* 8. Serve the quesadillas with avocado and the remaining salsa."
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\blackbean-quesadilla.jpg "),
+            Image = $"images/User_{userId}/blackbean-quesadilla.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 25,
@@ -152,6 +159,7 @@ namespace Api.Models
           {
             Id = -5,
             CategoryId = -1,
+            UserId = userId,
             Name = "Chipotle and Orange grilled Chicken",
             Fat = 3,
             Protein = 23,
@@ -164,7 +172,7 @@ namespace Api.Models
             "* 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.",
             "* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer."
             ),
-            Image = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot\\images\\User_E3E28BD3-594A-455F-9ACA-90758B48F376\\chipotle-orange-chicken.jpg "),
+            Image = $"images/User_{userId}/chipotle-orange-chicken.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 45,
@@ -221,8 +229,8 @@ namespace Api.Models
           new Plan()
           {
             Id = -1,
-            UserId = "-1",
-            Day = DateTime.Today
+            UserId = userId,
+            Day = anchorDate
           }
         );
       });
@@ -314,7 +322,7 @@ namespace Api.Models
           {
             Id = -3,
             RecipeId = -1,
-            Name = "Poatato",
+            Name = "Potato",
             Quantity = 4,
             UOMId = "ea"
           },
@@ -606,10 +614,18 @@ namespace Api.Models
         entity.HasData(
           new User()
           {
-            // Identity uses a GUID method to generate unqiue user id.
-            Id = "E3E28BD3-594A-455F-9ACA-90758B48F376",
-            Name = "TestAdminWarren",
-            Email = "phprox123@gmail.com"
+            // Identity uses a GUID method to generate unique user id.
+            Id = userId,
+            Name = "DemoUser",
+            UserName = "demo@example.com",
+            NormalizedUserName = "DEMO@EXAMPLE.COM",
+            Email = "demo@example.com",
+            NormalizedEmail = "DEMO@EXAMPLE.COM",
+            EmailConfirmed = true,
+            PasswordHash = "AQAAAAEAACcQAAAAEF2K8rjzLW+Pg5eripVafumGQa/4BRTSboiXDMa95qTMTPdH249hphHAkUQHUE0Ctw==",
+            SecurityStamp = "MVLR77ABXD2ZQFYVDR6NAJB7UASX45MD",
+            ConcurrencyStamp = "9ce7c801-2204-473c-9967-110632a96a79",
+            LockoutEnabled = true
           }
         );
       });
