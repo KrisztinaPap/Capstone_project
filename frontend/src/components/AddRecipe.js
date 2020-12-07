@@ -260,7 +260,8 @@ const AddRecipe = () => {
     // Summary:
     //  This function will add the required input fields to add an ingredient to the ingredient section once called upon.
     event.preventDefault();
-    const ingredientSection = document.getElementById("ingredientSection");
+    const ingredientSection = document.getElementById("ingredientBlock");
+    const newIngredient = document.createElement("DIV");
     let childCount = ingredientSection.childElementCount;
     const newInput = document.createElement("INPUT");
     const newLabel = document.createElement("LABEL");
@@ -271,21 +272,24 @@ const AddRecipe = () => {
 
     // Set the attributes for the input fields.
     newLabel.setAttribute("for", `ingredient${childCount / 4 + 1}`);
+    newLabel.setAttribute("class", "block pl-4 pb-2 border-t-4 mt-2");
     newLabel.innerHTML = "Ingredient";
     newInput.setAttribute("id", `ingredient${childCount / 4 + 1}`);
     newInput.setAttribute("type", "text");
-    newInput.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline");
+    newInput.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4");
 
     newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
+    newQuantityLabel.setAttribute("class", "block pl-4 pb-2");
     newQuantityLabel.innerHTML = `Quantity`;
     newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
-    newQuantity.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline");
+    newQuantity.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4");
 
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
+    newMeasureLabel.setAttribute("class", "block pl-4 pb-2");
     newMeasureLabel.innerHTML = "Measurement";
 
     newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
-    newMeasureSelect.setAttribute("class", "ingredientInput");
+    newMeasureSelect.setAttribute("class", "border border-solid mx-4 ingredientInput");
     // Add the measurement options to the select field.
     for(let measurement in measurementsList) {
       const newOption = document.createElement("OPTION");
@@ -293,13 +297,16 @@ const AddRecipe = () => {
       newOption.innerHTML = `${measurementsList[measurement]}`;
       newMeasureSelect.appendChild(newOption);
     }
+
+    newIngredient.setAttribute("class", "block");
     // Add the new input fields to the section
-    ingredientSection.appendChild(newLabel);
-    ingredientSection.appendChild(newInput);
-    ingredientSection.appendChild(newQuantityLabel);
-    ingredientSection.appendChild(newQuantity);
-    ingredientSection.appendChild(newMeasureLabel);
-    ingredientSection.appendChild(newMeasureSelect);
+    newIngredient.appendChild(newLabel);
+    newIngredient.appendChild(newInput);
+    newIngredient.appendChild(newQuantityLabel);
+    newIngredient.appendChild(newQuantity);
+    newIngredient.appendChild(newMeasureLabel);
+    newIngredient.appendChild(newMeasureSelect);
+    ingredientSection.appendChild(newIngredient);
   }
 
   function CreateIngredientList() {
@@ -402,19 +409,21 @@ const AddRecipe = () => {
                 <button className=" block purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >Add Another Ingredient</button>
               </div>
               <div className="md:pl-12 w-1/2">
-                <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
-                <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
-                <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
-                <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="quantity1" onChange={HandleFormChange} />
-                <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
-                <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange}>
-                  <option value="0" selected="selected"></option>
-                  {measurementsList.map((measurement) => {
-                    return (
-                      <option className="pl-4" value={measurement}>{measurement}</option>
-                    );
-                  })}
-                </select>
+                <div className="block" id="ingredientBlock">
+                  <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
+                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
+                  <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
+                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="quantity1" onChange={HandleFormChange} />
+                  <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
+                  <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange}>
+                    <option value="0" selected="selected"></option>
+                    {measurementsList.map((measurement) => {
+                      return (
+                        <option className="pl-4" value={measurement}>{measurement}</option>
+                      );
+                    })}
+                  </select>
+                </div>
               </div>
             </section>
             <section id="instructionSection" className="border-t-4 py-4">
