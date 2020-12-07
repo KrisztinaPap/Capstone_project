@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useContext } from "react";
-import {AuthContext} from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
-import {Redirect } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { EditorState } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -27,11 +27,13 @@ const AddRecipe = () => {
   const [validationErrors, setValidationErrors] = useState([]);
   const [imageUploadMessage, setImageUploadMessage] = useState();
   const [recipeID, setRecipeID] = useState(0);
-  const [redirect, setRedirect] = useState(false);
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [responseHeader, setResponseHeader] = useState("");
+  const history = useHistory();
+  const location = useLocation();
+  const [createRecipeSuccess, setCreateRecipeSuccess] = useState(false);
 
   /*============================================================*/
   /*                   Setting States
@@ -40,11 +42,12 @@ const AddRecipe = () => {
   function onEditorStateChange(event) {
     // Summary:
     //   This function will update the state tracked by the instructions text editor.
-    let instructions = []
+    let instructions = "";
     for(let index in event.blocks)
     { 
-      instructions.push(event.blocks[index].text);
+      instructions += (event.blocks[index].text) + `\n`;
     }
+    // Need to create a single string with \n for new lines in a markdown format.
     setEditorState(instructions);
   }
 
@@ -135,7 +138,7 @@ const AddRecipe = () => {
         setResponse(res.data);
         setRecipeID(res.data.id);
         setStatusCode(res.status);
-        setRedirect(true);
+        setCreateRecipeSuccess(true);
       })
       .catch((err) => {
         setValidationErrors(["There was an error with the server."]);
@@ -305,6 +308,12 @@ const AddRecipe = () => {
     return tempIngredientList;
   }
 
+  const redirect = () => {
+    const locationState = location.state;
+    const path = locationState ? locationState.from.pathname : `/recipes/${recipeID}`;
+    history.push(path);
+  }
+
   /*============================================================*/
   /*                   State Refresh
   /*============================================================*/
@@ -349,9 +358,14 @@ const AddRecipe = () => {
     }
   }, [validationErrors]);
 
+  useEffect(() => {
+    if(createRecipeSuccess) {
+      redirect();
+    }
+  }, [createRecipeSuccess]);
+
   return (
     <>
-      {redirect? <Redirect to={`/recipes/${recipeID}`} /> : null}
       <div className="container mx-2 my-4 w-full">
         <div className="block text-center my-4">
           <h1 className="font-bold text-lg">Add a New Recipe</h1>
@@ -438,6 +452,13 @@ const AddRecipe = () => {
                   wrapperClassName="wrapperClassName"
                   editorClassName="editorClassName"
                   onChange={onEditorStateChange}
+                  toolbar={{
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                  }}
                   />
               </div>
             </section>
