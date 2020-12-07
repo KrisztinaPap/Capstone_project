@@ -239,7 +239,7 @@ namespace Api.Controllers
     {
       //  Summary:
       //    This action will return a list of recipes with the category that corresponds to the user input.
-      List<Recipe> recipes = _context.Recipes.Include(x => x.RecipeCategory).Where(y => y.RecipeCategory.Name == category).ToList();
+      List<Recipe> recipes = _context.Recipes.Include(x => x.RecipeCategory).Where(y => y.RecipeCategory.Name.ToLower() == category.ToLower()).ToList();
       return recipes;
     }
 
