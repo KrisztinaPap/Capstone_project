@@ -238,12 +238,12 @@ const Profile = () => {
       }
 
       // 404 Error
-      if (error.response.status == 404) {
+      if (error.response.status === 404) {
         history.push("/page404");
       }
 
       // 500 Error
-      if (error.response.status == 500) {
+      if (error.response.status === 500) {
         history.push("/page500");
       }
     });
@@ -367,12 +367,12 @@ const Profile = () => {
       }
 
       // 404 Error
-      if (error.response.status == 404) {
+      if (error.response.status === 404) {
         history.push("/page404");
       }
 
       // 500 Error
-      if (error.response.status == 500) {
+      if (error.response.status === 500) {
         history.push("/page500");
       }
     });

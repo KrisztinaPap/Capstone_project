@@ -75,7 +75,11 @@ function Recipe(){
   // Assigning Ingredients to an array. Array is called in JSX below
   let ingredientsArray = [];
   for(let i in myRecipe.ingredients){
-    ingredientsArray.push(<p key={i}>{`${parseInt(i) + 1}. ${myRecipe.ingredients[i].name}` + ' - ' + `${myRecipe.ingredients[i].quantity} ${myRecipe.ingredients[i].uom}`}</p>)
+    ingredientsArray.push((
+      <p key={i}>
+        {`${parseInt(i) + 1}. ${myRecipe.ingredients[i].name} - ${myRecipe.ingredients[i].quantity} ${myRecipe.ingredients[i].uom}`}
+      </p>
+    ))
   }
 
   // If no axios Errors, and data is returned, render page...

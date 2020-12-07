@@ -86,7 +86,7 @@ const Signup = () => {
         setPasswordValid(true);
       }
 
-      // Check Passwords Contains Captial Letter
+      // Check Passwords Contains Capital Letter
       if (password.toLowerCase() === password) {
         // Set Error
         setPasswordValid(false);
@@ -233,24 +233,24 @@ const Signup = () => {
 
         // Set Loading
         setLoading(false);
-  
+
         // Set Error Message
         setErrorMessage(error.response.data.message);
         if (error.response.data.errorList) {
           setErrorsArray(error.response.data.errorList);
         }
-  
+
         // Break Function
         return false;
       }
 
       // 404 Error
-      if (error.response.status == 404) {
+      if (error.response.status === 404) {
         history.push("/page404");
       }
 
       // 500 Error
-      if (error.response.status == 500) {
+      if (error.response.status === 500) {
         history.push("/page500");
       }
     });
