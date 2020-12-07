@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import Menu from 'react-burger-menu/lib/menus/scaleRotate'
 import './NavMenu.css';
 
@@ -7,7 +7,7 @@ import { AuthContext } from '../contexts/AuthContext';
 
 function NavMenu() {
 
-  // Create user from UserContext
+  const location = useLocation();
   const {user, isAuthenticated, signout} = useContext(AuthContext);
   const [menuOpen, setMenuOpen] = useState();
 
@@ -19,13 +19,24 @@ function NavMenu() {
     setMenuOpen(state.isOpen);
   }
 
+  const linkClasses = (path) => {
+    return `white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline ${activeClasses(path)}`;
+  }
+
+  const activeClasses = (path) => {
+    if(path.toLowerCase() === location.pathname.toLowerCase()) {
+      return 'underline';
+    }
+    return '';
+  }
+
   // Function to Display LoggedIn Menu
   const LoggedInMenu = () => {
     return (
       <>
         <section>
           <Link
-            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            className={linkClasses("/dashboard")}
             to="/dashboard"
             onClick={closeMenu}
           >
@@ -34,7 +45,7 @@ function NavMenu() {
         </section>
         <section>
           <Link
-            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            className={linkClasses("/recipes")}
             to="/recipes"
             onClick={closeMenu}
           >
@@ -43,7 +54,7 @@ function NavMenu() {
         </section>
         <section>
           <Link
-            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            className={linkClasses("/add-recipe")}
             to="/add-recipe"
             onClick={closeMenu}
           >
@@ -56,7 +67,7 @@ function NavMenu() {
           </section>
         <section>
           <Link
-            className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+            className={linkClasses("/profile")}
             to="/profile"
             onClick={closeMenu}
           >
@@ -80,14 +91,14 @@ function NavMenu() {
     return (
       <>
         <Link
-          className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+          className={linkClasses("/login")}
           to="/login"
           onClick={closeMenu}
         >
           Login
         </Link>
         <Link
-          className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+          className={linkClasses("/signup")}
           to="/signup"
           onClick={closeMenu}
         >
@@ -107,7 +118,7 @@ function NavMenu() {
       <header>Site Navigation</header>
       <section>
         <Link
-          className="white-link hover:bg-purple-700 hover:font-bold focus:outline-none focus:shadow-outline"
+          className={linkClasses("/")}
           to="/"
           onClick={closeMenu}
         >
