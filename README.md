@@ -101,8 +101,8 @@ For detailed installation instructions please see the [Yummy Installation Manual
 ## Testing Instructions
 
 ### DEMO USER LOGIN INFORMATION:
-Email: demo@example.com
-Password: Demo1!
+- Email: demo@example.com
+- Password: Demo1!
 
 ### Testing Prerequisites
 - Yummy currently only supports Windows OS
