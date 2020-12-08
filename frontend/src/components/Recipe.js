@@ -591,10 +591,6 @@ function Recipe(){
   // If no axios Errors, and data is returned, render page...
   return(
     <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
-      <section className="flex justify-center my-8">
-        {editSuccess && EditSuccess()}
-      </section>
-      <button className="purple-button hover:bg-purple-700 focus:bg-purple-700 focus:shadow-outline" onClick={ToggleEditSuccess}>Toggle Edit Success</button>
       <div className="flex justify-center my-8">
         <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
       </div>
