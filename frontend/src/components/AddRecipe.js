@@ -446,7 +446,7 @@ const AddRecipe = () => {
                   editorState={editorState}
                   toolbarClassName="toolbarClassName"
                   wrapperClassName="wrapperClassName"
-                  editorClassName="editorClassName"
+                  editorClassName="markdown"
                   onEditorStateChange={onEditorStateChange}
                   toolbar={{
                     inline: { inDropdown: true },
@@ -457,11 +457,6 @@ const AddRecipe = () => {
                   }}
                   />
               </div>
-              <h3>Instructions Preview</h3>
-              <p>Your instructions will be displayed as shown below:</p>
-                <p>{draftToMarkdown(convertToRaw(editorState.getCurrentContent()))}</p>
-                <p>CUTOFF</p>
-              <ReactMarkdown plugins={[gfm]} className="markdown">{draftToMarkdown(convertToRaw(editorState.getCurrentContent()), escapeMarkdownCharacters=false)}</ReactMarkdown>
             </section>
           </section>
           <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row">

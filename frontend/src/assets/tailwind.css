@@ -61,3 +61,20 @@ h1, h2, h3, h4, h5, h6 {
 .min-h-32 {
   min-height: 8rem;
 }
+
+/* Markdown styles */
+.markdown ol {
+  list-style: decimal;
+}
+
+.markdown ul {
+  list-style: disc;
+}
+
+.markdown h1 {
+  @apply text-2xl;
+}
+
+.markdown h2 {
+  @apply text-xl;
+}
