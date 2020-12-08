@@ -28,8 +28,6 @@ const AddRecipe = () => {
   const [validationErrors, setValidationErrors] = useState([]);
   const [imageUploadMessage, setImageUploadMessage] = useState();
   const [recipeID, setRecipeID] = useState(0);
-  const [response, setResponse] = useState("");
-  const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [responseHeader, setResponseHeader] = useState("");
   const history = useHistory();
@@ -130,14 +128,8 @@ const AddRecipe = () => {
         }
       }).then((res) => {
         setValidationErrors([]);
-        setResponse(res.data);
         setRecipeID(res.data.id);
-        setStatusCode(res.status);
         setCreateRecipeSuccess(true);
-      })
-      .catch((err) => {
-        setResponse(err.response.data);
-        setStatusCode(err.response.status);
       });
     }
   }
@@ -362,7 +354,7 @@ const AddRecipe = () => {
     if(createRecipeSuccess) {
       redirect();
     }
-  }, [createRecipeSuccess]);
+  }, [createRecipeSuccess]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>

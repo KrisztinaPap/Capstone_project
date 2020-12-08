@@ -31,7 +31,6 @@ function Recipe(){
         }
       });
       setMyRecipe(response.data);
-      console.log(response.data);
       setLoading(false);
       setError(false);
       setName(response.data.name);
@@ -79,8 +78,6 @@ function Recipe(){
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
-  const [response, setResponse] = useState("");
-  const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [responseHeader, setResponseHeader] = useState("");
   const [image, setImage] = useState("");
@@ -176,16 +173,10 @@ function Recipe(){
       }).then((res) => {
         setValidationErrors([]);
         setResponseHeader("Successfully added recipe");
-        setResponse(res.data);
-        setStatusCode(res.status);
         setEditSuccess(true);
         setEditing(false);
         fetchRecipe();
-      })
-        .catch((err) => {
-          setResponse(err.response.data);
-          setStatusCode(err.response.status);
-        });
+      });
     }
   }
 
@@ -577,15 +568,6 @@ function Recipe(){
         {`${parseInt(i) + 1}. ${myRecipe.ingredients[i].name} - ${myRecipe.ingredients[i].quantity} ${myRecipe.ingredients[i].uom}`}
       </p>
     ))
-  }
-
-  // DELETE THIS FUNCTION BEFORE PROD!!!!! TODO
-  function ToggleEditSuccess(){
-    if (editSuccess){
-      setEditSuccess(false);
-    } else {
-      setEditSuccess(true);
-    }
   }
 
   // If no axios Errors, and data is returned, render page...
