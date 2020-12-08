@@ -7,7 +7,7 @@ const Home = () => {
       <section className="text-gray-700 body-font">
         <div className="container px-5 py-24 mx-auto">
           <div className="text-center mb-20">
-            <h2 className="text-xs text-purple-500 tracking-widest font-medium title-font mb-1">Welcome to...</h2>
+            <p className="text-3xl text-purple-500 tracking-widest font-medium title-font mb-1">Welcome to...</p>
             <h1 className="sm:text-3xl text-2xl font-medium title-font text-gray-900 mb-4">Yummy</h1>
             <p className="text-base leading-relaxed xl:w-2/4 lg:w-3/4 mx-auto">The FREE meal planning app for the person who just wants to keep it simple!</p>
             <div className="flex mt-6 justify-center">
@@ -16,8 +16,7 @@ const Home = () => {
           </div>
           <div className="flex flex-wrap mb-10 mt-4">
             <div className="p-4 md:w-1/3 md:mb-0 mb-6 flex flex-col text-center items-center">
-              <div
-                className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-purple-100 text-purple-500 mb-5 flex-shrink-0">
+              <div className="w-20 h-20 inline-flex items-center justify-center rounded-full bg-purple-100 text-purple-500 mb-5 flex-shrink-0">
                 <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
                      className="w-10 h-10" viewBox="0 0 24 24">
                   <circle cx="6" cy="6" r="3"></circle>
@@ -91,7 +90,7 @@ const Home = () => {
         <div className="container flex flex-wrap px-5 py-24 mx-auto items-center">
           <div
             className="md:w-1/2 md:pr-12 md:py-8 md:border-r md:border-b-0 mb-10 md:mb-0 pb-10 border-b border-gray-300">
-            <h1 className="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-900">About the Project</h1>
+            <h2 className="text-3xl font-medium title-font mb-2 text-gray-900">About the Project</h2>
             <p className="leading-relaxed text-base">This app was developed by Team PuddleJumpers over a period of 3.5 weeks as the capstone project for <a href={"http://www.techcareers.ca/"}>TECHCareers</a> Cohort 4.2.</p>
             <Link className="text-purple-500 inline-flex items-center mt-4" to="/about-us">
               Learn More
