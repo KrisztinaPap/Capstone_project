@@ -6,8 +6,6 @@ import { useHistory, useLocation } from "react-router-dom";
 import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { draftToMarkdown } from 'markdown-draft-js';
-import ReactMarkdown from 'react-markdown'
-import gfm from 'remark-gfm';
 
 const AddRecipe = () => {
 
@@ -24,7 +22,7 @@ const AddRecipe = () => {
   const [carbohydrates, SetCarbohydrates] = useState();
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
-  const [cook, setCookTime] = useState();
+  const [cookTime, setCookTime] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
@@ -69,7 +67,11 @@ const AddRecipe = () => {
       validationErrorMsg = "Your recipe is missing instructions!";
       validationErrorList.push(validationErrorMsg);
     }
-    if(isNaN(parseInt(prep))) {
+    if(isNaN(parseFloat(prep))) {
+      validationErrorMsg = "Please enter a number for prep time (min) to make your recipe!";
+      validationErrorList.push(validationErrorMsg);
+    }
+    if(isNaN(parseFloat(cookTime))) {
       validationErrorMsg = "Please enter a number for prep time (min) to make your recipe!";
       validationErrorList.push(validationErrorMsg);
     }
@@ -122,7 +124,7 @@ const AddRecipe = () => {
           "DateModified": new Date().toJSON(),
           "DateCreated": new Date().toJSON(),
           "PrepTime": prep,
-          "CookTime": cook,
+          "CookTime": cookTime,
           "Servings": servings,
           "Notes": notes
         }
