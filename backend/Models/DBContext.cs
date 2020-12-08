@@ -333,10 +333,10 @@ namespace Api.Models
             CookTime = 3,
             Servings = 2,
             Notes = string.Join("\n",
-              "* Guacish is made by pitting 2 avocados, mashing them in a bowl, and adding the juice of 1 lime and chopped cilantro to taste.",
-              "* For best results, warm tortillas in the oven - Heat oven to 350 degrees and wrap tortillas 4 at a time in aluminum foil and cook for 15-20 minutes",
-              "* Homemade refried beans are great if you have time to whip them up, otherwise canned vegetarian refried beans are available at most supermarkets.",
-              "* If using canned refried beans may need some additional cumin or chilli powder to add taste.")
+              "* Great Toppings Include: Salsa or Pico de Gallo, Red Onion, Cilantro, Lettuce, Sour Cream, Jalapeno, and Crema.",
+              "* Dont scrape the pan too much! You don't want tiny bits of eggs, you'll want it to hold together into a cohesive texture",
+              "* Cook over low medium heat. Don't have the heat too high! This can burn the eggs!",
+              "* This quick recipe makes for a great speedy breakfast for those on the go!")
           }
         );
       });
@@ -1125,6 +1125,94 @@ namespace Api.Models
             RecipeId = -9,
             Name = "Vegetarian Refried Beans",
             Quantity = 15,
+            UOMId = "oz"
+          },
+          new Ingredient()
+          {
+            Id = -88,
+            RecipeId = -10,
+            Name = "Eggs",
+            Quantity = 4,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -89,
+            RecipeId = -10,
+            Name = "Chili Powder",
+            Quantity = 0.5m,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -90,
+            RecipeId = -10,
+            Name = "Garlic Powder",
+            Quantity = 0.5m,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -91,
+            RecipeId = -10,
+            Name = "Cumin",
+            Quantity = 0.5m,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -92,
+            RecipeId = -10,
+            Name = "Kosher Salt",
+            Quantity = 0.25m,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -93,
+            RecipeId = -10,
+            Name = "Olive Oil",
+            Quantity = 0.5m,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -94,
+            RecipeId = -10,
+            Name = "Taco-Sized Tortillas",
+            Quantity = 4,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -95,
+            RecipeId = -10,
+            Name = "Pico de Gallo",
+            Quantity = 8,
+            UOMId = "oz"
+          },
+          new Ingredient()
+          {
+            Id = -96,
+            RecipeId = -10,
+            Name = "Red Onion - Sliced",
+            Quantity = 0.5m,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -97,
+            RecipeId = -10,
+            Name = "Cilantro Leaves - To Taste",
+            Quantity = 1,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -98,
+            RecipeId = -10,
+            Name = "Hot Sauce",
+            Quantity = 4,
             UOMId = "oz"
           }
         );
