@@ -370,18 +370,18 @@ const AddRecipe = () => {
           {errorMessage}
         </ul>
         <form onSubmit={SubmitRecipe} >
-          <section id="addRecipeBasics" className="border-t-4 flex flex-row py-4">
-            <div className="w-1/2 ">
+          <section id="addRecipeBasics" className="flex-wrap md:flex-nowrap border-t-4 flex flex-row py-4">
+            <div className="w-screen md:w-1/2 ">
               <h2 className="font-bold">Basic Information</h2>
               <p>Please enter some information about your new recipe!</p>
             </div>
-            <div className="w-1/2 md:pl-12">
+            <div className="w-full md:w-1/2 md:pl-12">
               <label htmlFor="addRecipeName" className="block pl-4 pb-2">Name(*):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeName" onChange={HandleFormChange} />
               <form className="py-4">
                 <label id="photoLabel" htmlFor="addRecipePhoto" className="pl-4 block pb-2">Photo:</label>
                 <p className="font-bold pl-4">{imageUploadMessage}</p>
-                <input type="file" className="pl-4 sm:w-3/4 md: w-full" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
+                <input type="file" className="pl-4 w-3/4 md: w-full" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
                 <div className="px-4 text-sm block">
                   <p>Upload a file</p>
                   <p>PNG, JPEG, up to 10MB</p>
@@ -414,13 +414,13 @@ const AddRecipe = () => {
             </div>
           </section>
           <section id="addRecipeRequirements" className="border-t-4">
-            <section id="ingredientSection" className="flex flex-row py-4">
-              <div className="w-1/2">
+            <section id="ingredientSection" className="flex flex-row py-4 flex-wrap md:flex-nowrap">
+              <div className="w-full md:w-1/2">
                 <h2 className="font-bold">Ingredients</h2>
                 <p>Please enter in the ingredients required to make your new recipe!</p>
-                <button className=" block purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >Add Another Ingredient</button>
+                <button className="my-4 block purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >Add Another Ingredient</button>
               </div>
-              <div className="md:pl-12 w-1/2" id="ingredientBlock">
+              <div className="w-full md:w-1/2 md:pl-12" id="ingredientBlock">
                 <div className="block">
                   <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
                   <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
@@ -459,12 +459,12 @@ const AddRecipe = () => {
               </div>
             </section>
           </section>
-          <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row">
-            <div className="w-1/2">
+          <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-1/2">
               <h2 className="font-bold">Nutritional  Information</h2>
               <p>Please enter in the nutritional information for your new recipe!</p>
             </div>
-            <div className="md:pl-12">
+            <div className="w-full md:w-1/2 md:pl-12">
               <div>
                 <label htmlFor="addCarb" className="block pl-4 pb-2">Carbohydrates(*)</label>
                 <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addCarb" onChange={HandleFormChange} />
@@ -479,17 +479,17 @@ const AddRecipe = () => {
               </div>
             </div>
           </section>
-          <section className="my-3 border-t-4 flex flex-row py-4">
-            <div className="w-1/2">
+          <section className="my-3 border-t-4 flex flex-row py-4 flex-wrap md:flex-nowrap" >
+            <div className="w-full md:w-1/2">
               <h2 className="font-bold">Additional</h2>
               <p>Add any additional notes to your recipe here!</p>
             </div>
-            <div className="w-1/2 md:pl-12">
+            <div className="w-full md:w-1/2 md:pl-12">
               <label htmlFor="addRecipeExtraNotes" className="block pl-4 pb-2">Extra Notes:</label>
               <textarea className="block input-field w-3/4 h-full lg:w-1/2 focus:outline-none focus:shadow-outline resize-none" id="addRecipeExtraNotes" onChange={HandleFormChange} />
             </div>
           </section>
-          <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
+          <input className=" my-6 cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
           </form>
         </div>
     </>
