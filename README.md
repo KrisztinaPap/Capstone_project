@@ -101,7 +101,7 @@ This is a Windows OS (Windows 10) application.
 - Run the command: “npm run start:all”
 5. Open a browser and navigate to “https://localhost:5001/”
 
-For detailed installation instructions please see the [Yummy Installation Manual](./Yummy_Installation_Manual.md)
+For detailed installation instructions please see the [Yummy Installation Manual](./planning/Yummy_Installation_Manual.md)
 
 ## Testing Instructions
 
@@ -121,7 +121,7 @@ For detailed installation instructions please see the [Yummy Installation Manual
  - [AutoRollbackAttribute.cs](https://github.com/xunit/samples.xunit/blob/main/AutoRollbackExample/AutoRollbackAttribute.cs)
 
 
-For detailed testing instructions please see the [Yummy Testing Manual](./Yummy_Testing_Manual.md)
+For detailed testing instructions please see the [Yummy Testing Manual](./planning/Yummy_Testing_Manual.md)
 
 ## Citations:
 - [React Context](https://reactjs.org/docs/context.html)
