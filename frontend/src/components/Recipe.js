@@ -356,7 +356,7 @@ function Recipe(){
   let editIngredientsArray = [];
   for(let i in myRecipe.ingredients){
     editIngredientsArray.push((
-    <div key={i} className="block" id="ingredientBlock">
+    <div key={i} className="block" >
       <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
       <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4"
              type="text" id="ingredient1" defaultValue={myRecipe.ingredients[i].name} onChange={HandleFormChange}/>
@@ -365,7 +365,7 @@ function Recipe(){
              type="text" id="quantity1" defaultValue={myRecipe.ingredients[i].quantity} onChange={HandleFormChange}/>
       <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
       <select className="border border-solid mx-4 ingredientInput" id="measurement1"
-              onChange={HandleFormChange} defaultValue="0">
+              onChange={HandleFormChange} defaultValue={myRecipe.ingredients[i].uom} >
         <option value="0"></option>
         {measurementsList.map((measurement) => {
           return (
@@ -482,7 +482,7 @@ function Recipe(){
                           onClick={AddIngredientForm}>Add Another Ingredient
                   </button>
                 </div>
-                <div className="md:pl-12 w-1/2">
+                <div className="md:pl-12 w-1/2" id="ingredientBlock">
                   {editIngredientsArray}
                 </div>
               </section>
