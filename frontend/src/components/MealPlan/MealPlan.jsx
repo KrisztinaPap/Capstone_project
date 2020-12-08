@@ -124,7 +124,7 @@ const MealPlan = () => {
     }
 
     getPlans();
-  }, [schedule, user.token]);
+  }, [schedule, user.token]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     async function updatePlans() {

@@ -11,6 +11,7 @@ function Recipes() {
   const [error, setError] = useState(false);
   const [sure, setSure] = useState(false);
   const [sureID, setSureID] = useState(0);
+  const [recipeCategoryList, setRecipeCategoryList] = useState("");
 
   useEffect(() => {
     populateRecipes();
@@ -35,7 +36,7 @@ function Recipes() {
 
   async function softDeleteRecipe(recipeID) {
     setSure(!sure);
-    (sureID == 0) ? setSureID(recipeID) : setSureID(0);
+    (sureID === 0) ? setSureID(recipeID) : setSureID(0);
   }
 
   async function deleteRecipe(recipeID) {
