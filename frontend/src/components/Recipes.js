@@ -11,7 +11,7 @@ function Recipes() {
   const [error, setError] = useState(false);
   const [sure, setSure] = useState(false);
   const [sureID, setSureID] = useState(0);
-  const [recipeCategoryList, setRecipeCategoryList] = useState("");
+  const [recipeCategoryList, setRecipeCategoryList] = useState([]);
 
   useEffect(() => {
     populateRecipes();
