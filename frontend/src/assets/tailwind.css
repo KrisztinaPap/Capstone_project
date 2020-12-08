@@ -32,7 +32,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .white-link {
-  @apply font-bold inline-block text-white p-2 m-2;
+  @apply font-bold block text-white p-2 m-2;
 }
 
 /* Dashboard styles */

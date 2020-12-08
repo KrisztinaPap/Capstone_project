@@ -12,7 +12,7 @@ function Layout (props) {
           <div id="page-wrap" className="bg-white bg-opacity-90 bg-fixed">
             <HeaderComp />
             <div className="flex flex-col h-screen justify-between">
-              <div className="container mx-auto mb-auto content-start">
+              <div className="container px-2 mx-auto mb-auto content-start">
                 {props.children}
               </div>
               <div className="h-10">

@@ -241,6 +241,35 @@ namespace Api.Controllers
       }
     }
 
+    [HttpGet]
+    [Route("filter")]
+    public ActionResult<IEnumerable<Recipe>> FilterRecipe(string category)
+    {
+      //  Summary:
+      //    This action will return a list of recipes with the category that corresponds to the user input.
+      List<Recipe> results;
+      if(category != "all")
+      {
+        results = _context.Recipes.Include(x => x.RecipeCategory).Where(y => y.RecipeCategory.Name.ToLower() == category.ToLower()).ToList();
+      }
+      else
+      {
+        int offset = 0;
+        int limit = 50;
+        limit = Math.Clamp(limit, 10, 100);
+        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        results = _context.Recipes
+                .Include(x => x.Ingredients)
+                // .Where(x => x.UserId == userId)
+                .OrderBy(x => x.Name)
+                .Skip(offset)
+                .Take(limit)
+                .ToList();
+      }
+      return Ok(results);
+    }
+
     [NonAction]
     public bool SameUser()
     {
