@@ -183,14 +183,22 @@ namespace Api.Controllers
       Recipe recipe = _context.Recipes
           .Where(x => x.Id == id)
           .Include(x => x.Ingredients)
+          .Include(x => x.MealRecipes)
           .SingleOrDefault();
 
       if (recipe == null) {
         return NotFound();
       }
 
-      _context.Remove(recipe);
+      var mealsIds = recipe.MealRecipes.Select(x => x.MealId).ToList();
+
+      var meals = _context.Meals.Where(x => mealsIds.Contains(x.Id)).ToList();
+      _context.Meals.RemoveRange(meals);
+
+      _context.Remove(recipe);      
+
       _context.SaveChanges();
+
       return NoContent();
     }
 
