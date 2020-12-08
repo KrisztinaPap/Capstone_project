@@ -11,9 +11,13 @@
 - [Project Trello Board](https://trello.com/b/zUabU848/capstone-puddlejumpers)
 - [Project Wireframes (Figma)](https://www.figma.com/file/iGsjkmFikAAyslTBFRk2Bs/Capstone%3A-Wireframes?node-id=0%3A1)
 - [Project ERD (Draw.io)](./planning/YummyERD.png) 
-- [Yummy Installation Manual](./planning/yummy_installation_manual.md)
-- [Yummy User Manual](./planning/yummy_user_manual.md)
-- [Yummy Testing Manual](./planning/yummy_testing_manual.md)
+- [Yummy Installation Manual](./planning/Yummy_Installation_Manual.md)
+- [Yummy User Manual](./planning/Yummy_User_Manual.md)
+- [Yummy Testing Manual](./planning/Yummy_Testing_Manual.md)
+
+### DEMO USER LOGIN INFORMATION:
+- Email: demo@example.com
+- Password: Demo1!
 
 ### Team Members:
 - Krisztina Pap
@@ -26,6 +30,7 @@
 - .NET Core
 - React
 - MariaDB
+- TailwindCSS
 
 ### Project Scope
 #### In-scope features
@@ -33,19 +38,19 @@
 - Viewing a recipe
 - Editing/updating a recipe
 - Deleting a recipe
-- Viewing meal plan (schedule)
-- Making/editing meal plan (schedule)
-- Add a user profile
-- Edit a user profile (update name/password)
+- Viewing meal plan
+- Making/editing meal plan
+- Adding a user profile
+- Editing a user profile (updating name/password)
 
 #### Out-of-scope features
-- Password email flow - to send password reset link to user's email
-- Delete a user profile
+- Password email flow
+- Deleting user profiles
 
 ## User Manual/Quick Start Guide
 Yummy allows users to plan their meals in advance, therefore saving them time and last-minute runs to the grocery store.
 
-To properly install the application, please follow the steps described in the Yummy Installation Manual document or in the Yummy GitHub repository README file. 
+To properly install the application, please follow the steps described in the Installation Instructions section below or in the [Yummy Installation Manual](./planning/Yummy_Installation_Manual.md). 
 
 Main Yummy Features:
 - Site Navigation
@@ -96,7 +101,7 @@ This is a Windows OS (Windows 10) application.
 - Run the command: “npm run start:all”
 5. Open a browser and navigate to “https://localhost:5001/”
 
-For detailed installation instructions please see the [Yummy Installation Manual](./yummy_installation_manual.md)
+For detailed installation instructions please see the [Yummy Installation Manual](./Yummy_Installation_Manual.md)
 
 ## Testing Instructions
 
@@ -116,7 +121,7 @@ For detailed installation instructions please see the [Yummy Installation Manual
  - [AutoRollbackAttribute.cs](https://github.com/xunit/samples.xunit/blob/main/AutoRollbackExample/AutoRollbackAttribute.cs)
 
 
-For detailed testing instructions please see the [Yummy Testing Manual](./yummy_testing_manual.md)
+For detailed testing instructions please see the [Yummy Testing Manual](./Yummy_Testing_Manual.md)
 
 ## Citations:
 - [React Context](https://reactjs.org/docs/context.html)
