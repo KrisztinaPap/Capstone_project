@@ -28,7 +28,7 @@ const HeaderComp = () => {
     const debouncedHandleResize = debounce(function handleResize() {
       setViewWidth(window.innerWidth);
 
-    }, 100)
+    }, 1)
 
     window.addEventListener('resize', debouncedHandleResize)
 
