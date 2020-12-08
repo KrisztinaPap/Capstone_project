@@ -43,6 +43,7 @@ function Recipe(){
       SetServings(response.data.servings);
       SetNotes(response.data.notes);
       setRecipeCategory(response.data.CategoryId);
+      setImage(response.data.Image);
       // markdown string
       const rawInstruction = markdownToDraft(response.data.instructions);
       const contentInstructions = convertFromRaw(rawInstruction);
@@ -82,6 +83,7 @@ function Recipe(){
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [responseHeader, setResponseHeader] = useState("");
+  const [image, setImage] = useState("");
 
   /*============================================================*/
   /*                   Setting States
@@ -163,6 +165,7 @@ function Recipe(){
           "Protein": proteins,
           "Carbohydrates": carbohydrates,
           "Instructions": draftToMarkdown(convertToRaw(editorState.getCurrentContent())),
+          "Image": image,
           "Ingredients": ingredientsList,
           "DateModified": new Date().toJSON(),
           "PrepTime": prep,
