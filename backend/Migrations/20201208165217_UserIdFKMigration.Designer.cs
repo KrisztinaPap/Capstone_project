@@ -3,14 +3,16 @@ using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20201208165217_UserIdFKMigration")]
+    partial class UserIdFKMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -293,518 +295,6 @@ namespace Api.Migrations
                             Quantity = 1m,
                             RecipeId = -5,
                             UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -35,
-                            Name = "Halibut, Black Cod, or Sea Bass",
-                            Quantity = 1.5m,
-                            RecipeId = -6,
-                            UOMId = "lb"
-                        },
-                        new
-                        {
-                            Id = -36,
-                            Name = "Salt",
-                            Quantity = 0.5m,
-                            RecipeId = -6,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -37,
-                            Name = "Coconut Oil or Olive Oil",
-                            Quantity = 3m,
-                            RecipeId = -6,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -38,
-                            Name = "Onion - Diced",
-                            Quantity = 1m,
-                            RecipeId = -6,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -39,
-                            Name = "Carrot - Diced",
-                            Quantity = 1m,
-                            RecipeId = -6,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -40,
-                            Name = "Red Bell Pepper - Diced",
-                            Quantity = 1m,
-                            RecipeId = -6,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -41,
-                            Name = "Clove of Garlic - Chopped",
-                            Quantity = 4m,
-                            RecipeId = -6,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -42,
-                            Name = "Jalapeno - Diced",
-                            Quantity = 0.5m,
-                            RecipeId = -6,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -43,
-                            Name = "Tomato Paste",
-                            Quantity = 1m,
-                            RecipeId = -6,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -44,
-                            Name = "Paprika",
-                            Quantity = 2m,
-                            RecipeId = -6,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -45,
-                            Name = "Chicken or Fish Stock",
-                            Quantity = 1m,
-                            RecipeId = -6,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -46,
-                            Name = "Diced Tomatoes",
-                            Quantity = 1.5m,
-                            RecipeId = -6,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -47,
-                            Name = "Coconut Milk",
-                            Quantity = 14m,
-                            RecipeId = -6,
-                            UOMId = "oz"
-                        },
-                        new
-                        {
-                            Id = -48,
-                            Name = "Cilantro - Chopped",
-                            Quantity = 0.5m,
-                            RecipeId = -6,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -49,
-                            Name = "Lime Juice - To Taste",
-                            Quantity = 1m,
-                            RecipeId = -6,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -50,
-                            Name = "Olive Oil",
-                            Quantity = 3m,
-                            RecipeId = -7,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -51,
-                            Name = "Onion - Diced",
-                            Quantity = 1m,
-                            RecipeId = -7,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -52,
-                            Name = "Small Fennel Bulb - Diced",
-                            Quantity = 1.5m,
-                            RecipeId = -7,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -53,
-                            Name = "Celery - Sliced",
-                            Quantity = 1m,
-                            RecipeId = -7,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -54,
-                            Name = "Garlic Cloves",
-                            Quantity = 4m,
-                            RecipeId = -7,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -55,
-                            Name = "Dry Thyme",
-                            Quantity = 0.5m,
-                            RecipeId = -7,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -56,
-                            Name = "Smoked Paprika",
-                            Quantity = 0.5m,
-                            RecipeId = -7,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -57,
-                            Name = "Vermouth (Can leave out, see notes)",
-                            Quantity = 0.33m,
-                            RecipeId = -7,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -58,
-                            Name = "Fish or Chicken Stock (See Notes)",
-                            Quantity = 3m,
-                            RecipeId = -7,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -59,
-                            Name = "Sliced Baby Potatoes",
-                            Quantity = 0.75m,
-                            RecipeId = -7,
-                            UOMId = "lb"
-                        },
-                        new
-                        {
-                            Id = -60,
-                            Name = "Salt",
-                            Quantity = 1m,
-                            RecipeId = -7,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -61,
-                            Name = "Bay Leaf",
-                            Quantity = 1m,
-                            RecipeId = -7,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -62,
-                            Name = "Salmon, Skinless (See Notes)",
-                            Quantity = 1m,
-                            RecipeId = -7,
-                            UOMId = "lb"
-                        },
-                        new
-                        {
-                            Id = -63,
-                            Name = "Milk (See Notes)",
-                            Quantity = 2m,
-                            RecipeId = -7,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -64,
-                            Name = "Flank Steak",
-                            Quantity = 1m,
-                            RecipeId = -8,
-                            UOMId = "lb"
-                        },
-                        new
-                        {
-                            Id = -65,
-                            Name = "Cornstarch",
-                            Quantity = 0.25m,
-                            RecipeId = -8,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -66,
-                            Name = "Canola Oil",
-                            Quantity = 0.25m,
-                            RecipeId = -8,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -67,
-                            Name = "Fresh Minced Ginger",
-                            Quantity = 2m,
-                            RecipeId = -8,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -68,
-                            Name = "Minced Garlic",
-                            Quantity = 1m,
-                            RecipeId = -8,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -69,
-                            Name = "Soy Sauce",
-                            Quantity = 0.33m,
-                            RecipeId = -8,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -70,
-                            Name = "Water",
-                            Quantity = 0.33m,
-                            RecipeId = -8,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -71,
-                            Name = "Dark Brown Sugar",
-                            Quantity = 0.5m,
-                            RecipeId = -8,
-                            UOMId = "cup"
-                        },
-                        new
-                        {
-                            Id = -72,
-                            Name = "Scallion Stalks, Green Parts Only, 2 Inch Pieces",
-                            Quantity = 4m,
-                            RecipeId = -8,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -73,
-                            Name = "White Onion",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -74,
-                            Name = "Bell Peppers",
-                            Quantity = 2m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -75,
-                            Name = "Head of Cauliflower",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -76,
-                            Name = "Portobello Mushroom",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -77,
-                            Name = "Olive Oil",
-                            Quantity = 2m,
-                            RecipeId = -9,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -78,
-                            Name = "Chili Powder",
-                            Quantity = 1m,
-                            RecipeId = -1,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -79,
-                            Name = "Cumin",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -80,
-                            Name = "Smoked Paprika",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -81,
-                            Name = "Garlic Powder",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -82,
-                            Name = "Kosher Salt",
-                            Quantity = 1.5m,
-                            RecipeId = -9,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -83,
-                            Name = "Ripe Avocado",
-                            Quantity = 2m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -84,
-                            Name = "Lime",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -85,
-                            Name = "Fresh Cilantro - to taste",
-                            Quantity = 1m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -86,
-                            Name = "Tortillas",
-                            Quantity = 8m,
-                            RecipeId = -9,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -87,
-                            Name = "Vegetarian Refried Beans",
-                            Quantity = 15m,
-                            RecipeId = -9,
-                            UOMId = "oz"
-                        },
-                        new
-                        {
-                            Id = -88,
-                            Name = "Eggs",
-                            Quantity = 4m,
-                            RecipeId = -10,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -89,
-                            Name = "Chili Powder",
-                            Quantity = 0.5m,
-                            RecipeId = -10,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -90,
-                            Name = "Garlic Powder",
-                            Quantity = 0.5m,
-                            RecipeId = -10,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -91,
-                            Name = "Cumin",
-                            Quantity = 0.5m,
-                            RecipeId = -10,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -92,
-                            Name = "Kosher Salt",
-                            Quantity = 0.25m,
-                            RecipeId = -10,
-                            UOMId = "tsp"
-                        },
-                        new
-                        {
-                            Id = -93,
-                            Name = "Olive Oil",
-                            Quantity = 0.5m,
-                            RecipeId = -10,
-                            UOMId = "tbsp"
-                        },
-                        new
-                        {
-                            Id = -94,
-                            Name = "Taco-Sized Tortillas",
-                            Quantity = 4m,
-                            RecipeId = -10,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -95,
-                            Name = "Pico de Gallo",
-                            Quantity = 8m,
-                            RecipeId = -10,
-                            UOMId = "oz"
-                        },
-                        new
-                        {
-                            Id = -96,
-                            Name = "Red Onion - Sliced",
-                            Quantity = 0.5m,
-                            RecipeId = -10,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -97,
-                            Name = "Cilantro Leaves - To Taste",
-                            Quantity = 1m,
-                            RecipeId = -10,
-                            UOMId = "ea"
-                        },
-                        new
-                        {
-                            Id = -98,
-                            Name = "Hot Sauce",
-                            Quantity = 4m,
-                            RecipeId = -10,
-                            UOMId = "oz"
                         });
                 });
 
@@ -1001,10 +491,9 @@ namespace Api.Migrations
                             DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 30,
                             Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/chicken-potato-hotsauce.jpg",
-                            Instructions = @"1. Season Chicken with any desired spices
-2. Cook Chicken
-3. Cook Potatoes
-4. Smother in Hot Sauce",
+                            Instructions = @"* Cook Chicken
+* Cook Potatoes
+* Smother in Hot Sauce",
                             Name = "Chicken and Potatoes with Hot Sauce",
                             Notes = "* Marinate Chicken for at least 12 hours for maximum flavor",
                             PrepTime = 35m,
@@ -1022,9 +511,9 @@ namespace Api.Migrations
                             DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 10,
                             Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/steak-sweet-potato.jpeg",
-                            Instructions = @"1. Cook Steak on BBQ
-2. Cook Potatoes to personal preference
-3. Serve and Enjoy!",
+                            Instructions = @"* Cook Steak on BBQ
+* Cook Potatoes to personal preference
+* Serve and Enjoy!",
                             Name = "Steak and Sweet Potatoes",
                             Notes = @"* Marinate Steak for at least 12 hours for maximum flavor
 * Can be cooked on the stovetop but is better when BBQ'd
@@ -1044,12 +533,12 @@ namespace Api.Migrations
                             DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 11,
                             Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/butter-chicken.jpg",
-                            Instructions = @"1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
-2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
-3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
-4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.
-5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.
-6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice.",
+                            Instructions = @"* 1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.
+* 2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.
+* 3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.
+* 4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.
+* 5. Stir in the tomato puree and fenugreek leaves and increase the heat to high. Bring to a boil, then reduce the heat to maintain a simmer. Cover and cook, stirring occasionally, until thick, about 1 hour. Add the chicken and cook until the chicken is cooked through, about 15 minutes more.
+* 6. Add the cream and butter and stir to combine. Season with salt and serve garnished with fresh cilantro with steamed Jasmine rice.",
                             Name = "Butter Chicken",
                             Notes = "* Delicious!",
                             PrepTime = 65m,
@@ -1067,14 +556,14 @@ namespace Api.Migrations
                             DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 16,
                             Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/blackbean-quesadilla.jpg",
-                            Instructions = @"1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
-2. Place tortillas on a work surface.
-3. Spread 1/2 cup filling on half of each tortilla.
-4. Fold tortillas in half, pressing gently to flatten.
-5. Heat 1 teaspoon oil in a large nonstick skillet over medium heat.
-6. Add 2 quesadillas and cook, turning once, until golden on both sides, 2 to 4 minutes total.
-7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.
-8. Serve the quesadillas with avocado and the remaining salsa.",
+                            Instructions = @"* 1. Combine beans, cheese and 1/4 cup salsa in a medium bowl.
+* 2. Place tortillas on a work surface.
+* 3. Spread 1/2 cup filling on half of each tortilla.
+* 4. Fold tortillas in half, pressing gently to flatten.
+* 5. Heat 1 teaspoon oil in a large nonstick skillet over medium heat.
+* 6. Add 2 quesadillas and cook, turning once, until golden on both sides, 2 to 4 minutes total.
+* 7. Transfer to a cutting board and tent with foil to keep warm. Repeat with the remaining 1 teaspoon oil and quesadillas.
+* 8. Serve the quesadillas with avocado and the remaining salsa.",
                             Name = "Black Bean Quesadillas",
                             Notes = "Tip: Look for prepared fresh salsa in the supermarket refrigerator section near other dips and spreads.",
                             PrepTime = 25m,
@@ -1092,13 +581,13 @@ namespace Api.Migrations
                             DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
                             Fat = 3,
                             Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/chipotle-orange-chicken.jpg",
-                            Instructions = @"1. Preheat grill or broiler.
-2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
-3. Lightly oil the grill or broiler rack (see Tip).
-4. Season chicken with salt and grill or broil for 2 minutes.
-5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.
-6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer.",
-                            Name = "Chipotle and Orange Grilled Chicken",
+                            Instructions = @"* 1. Preheat grill or broiler.
+* 2. Whisk together orange-juice concentrate, chipotle pepper, vinegar, molasses and mustard in a small bowl.
+* 3. Lightly oil the grill or broiler rack (see Tip).
+* 4. Season chicken with salt and grill or broil for 2 minutes.
+* 5. Turn, brush with the glaze and cook for 4 minutes, brushing occasionally with glaze.
+* 6. Turn again, brush with the glaze, and cook until the center is no longer pink, 1 to 2 minutes longer.",
+                            Name = "Chipotle and Orange grilled Chicken",
                             Notes = @"* Chipotle chiles in adobo sauce are smoked jalapeños packed in a flavorful sauce.
 * Look for the small cans with the Mexican foods in large supermarkets.
 * Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.
@@ -1107,143 +596,6 @@ namespace Api.Migrations
                             PrepTime = 45m,
                             Protein = 23,
                             Servings = 4,
-                            UserId = "927249ee-afd9-4bd0-b74e62053687d989"
-                        },
-                        new
-                        {
-                            Id = -6,
-                            Carbohydrates = 13,
-                            CategoryId = -3,
-                            CookTime = 45m,
-                            DateCreated = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            Fat = 20,
-                            Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/braz-fish-stew.jpg",
-                            Instructions = @"1. Rinse and pat dry the fish and cut into 2 inch peices. Place in a bowl. Add salt, zest from half the lime and 1 tablespoon lime juice. Massage lightly to coat all pieces well. Set aside.
-2. In a large saute pan, heat the olive oil over medium high heat. Add onion and salt, and sauté 2-3 minutes. Turn heat down to medium, add carrot, bell pepper, garlic and jalapeno and cook 4-5 more minutes. Add tomato paste, spices and stock. Mix and bring to a simmer and add tomatoes. Cover and simmer gently on medium low for 5 mintues or until carrots are tender.
-3. Add the coconut milk and taste and add more salt if necessary.
-4. Nestle the fish in the stew and simmer gently until it’s cooked through, about 4-6 minutes.  Spoon the flavorful coconut broth over the fish and cook until desired doneness or longer for thicker pieces. ( You can also finish this in a 350F oven).
-5. Taste and adjust salt and squeeze with lime.
-6. To serve, serve over rice, sprinkle with cilantro or scallions and a squeeze of lime.
-7. (Optional) Drizzle with a little olive oil to taste.",
-                            Name = "Brazilian Fish Stew (Moqueca)",
-                            Notes = @"* Serve with rice or crusty bread to mop up all the juices
-* Look for Coconut Milk in a can at the supermarket
-* Fresh Tomatoes make the recipe better than Canned Tomato
-* Cumin can be substituted for whole seed cumin",
-                            PrepTime = 30m,
-                            Protein = 45,
-                            Servings = 4,
-                            UserId = "927249ee-afd9-4bd0-b74e62053687d989"
-                        },
-                        new
-                        {
-                            Id = -7,
-                            Carbohydrates = 21,
-                            CategoryId = -3,
-                            CookTime = 20m,
-                            DateCreated = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            Fat = 12,
-                            Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/simple-salmon-chowder.jpg",
-                            Instructions = @"1. Heat oil over medium heat, and saute onion, fennel and celery until fragrant, 5-6 minutes. Add garlic, fennel seeds, thyme and saute two more minutes, stirring. Add the smoked paprika.
-2. Add vermouth, and cook it off, about 1-2 minutes. Add stock, salt, thyme and bay, and bring to a simmer over high heat. Add potatoes and stir. Bring to a simmer, cover and simmer over med-low heat until tender, about 8-10 minutes (check at 7 mins, be careful to not overcook).  While this is cooking prep the salmon.
-3. Cut salmon into 2-inch pieces, removing any of the brown fat ( see notes) and bones. Sprinkle lightly with salt.
-4. Once the potatoes are just fork-tender, add the milk and bring to a low simmer (do not boil) and add the salmon, gently poaching it in the soup for just about  2 minutes. Turn heat off.  Fish will continue to cook. If you continue to simmer the soup any longer it may cause a slight curdling. ( Don’t worry, it’s still edible, but not as pretty.)  Flake the fish apart, into bite-sized pieces, with a fork.
-5. Taste, adjust seasonings to your liking and serve immediately.
-6. Garnish with fennel fronds, lemon wedges, fresh dill or tarragon.",
-                            Name = "Simple Salmon Chowder",
-                            Notes = @"* If using chicken stock, add 1 teaspoon fish sauce for depth. You can also sub some clam juice for the stock.
-* If skipping the vermouth or sherry cooking wine, which FYI does give this a lovely elevated nuanced flavor, add a couple of drops of AC vinegar at the end along with a pinch of sugar. Advanced cooks- you could experiment with Pernod (subbing it for the vermouth, starting with 2-3 tablespoons, making sure to cook this off) which will give it a beautiful anise flavor.
-* If you notice grey/brown fat located between the skin and salmon flesh, feel free to remove it -which ultimately will look better in the stew. If using wild salmon, it is ok to eat (healthy, actually)  just not quite as “pretty”.
-* Keto option, sub potatoes with cauliflower. Use 1 cup of heavy whipping cream.
-* Dairy-Free option: Add 1 cup of coconut milk, more to taste.
-* Soup will keep 3 days in the fridge.
-* Salmon can be substituted for Cod or Shrimp. Cut in to 1-2 inch pieces
-* Garnish with Lemon Wedges, Fresh Dill, Tarragon, and Fennel Fronds if you desire.",
-                            PrepTime = 20m,
-                            Protein = 25,
-                            Servings = 6,
-                            UserId = "927249ee-afd9-4bd0-b74e62053687d989"
-                        },
-                        new
-                        {
-                            Id = -8,
-                            Carbohydrates = 21,
-                            CategoryId = -2,
-                            CookTime = 15m,
-                            DateCreated = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            Fat = 12,
-                            Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/mongolian-beef.jpg",
-                            Instructions = @"1. Slice the flank steak against the grain (the grain is the length of the steak) the long way 1/4 inch think pieces and add it to a ziploc bag with the cornstarch.
-2. Press the steak around in the bag making sure each piece is fully coated with cornstarch and leave it to sit.
-3. Add the canola oil to a large frying pan and heat on medium high heat.
-4. Add the steak, shaking off any excess corn starch, to the pan in a single layer and cook on each side for 1 minute.
-5. If you need to cook the steak in batches because your pan isn't big enough do that rather than crowding the pan, you want to get a good sear on the steak and if you crowd the pan your steak with steam instead of sear.
-6. When the steak is done cooking remove it from the pan.
-7. Add the ginger and garlic to the pan and saute for 10-15 seconds
-8. Add the soy sauce, water, and dark brown sugar to the pan and let it come to a boil
-9. Add the steak back in and let the sauce thicken for 20-30 seconds
-10. The cornstarch we used on the steak should thicken the sauce, if you find it isn't thickening enough, add 1 tablespoon of cornstarch to 1 tablespoon of cold water and stir to dissolve the cornstarch and add it to the pan.
-11. Add the green onions, stir to combine everything, and cook for a final 20-30 seconds
-12. Serve immediately.",
-                            Name = "Easy Mongolian Beef",
-                            Notes = "* Mongolian Beef that's easy to make in just 30 minutes, crispy, sweet and full of garlic and ginger flavors you love from your favorite Chinese restaurant.",
-                            PrepTime = 10m,
-                            Protein = 25,
-                            Servings = 4,
-                            UserId = "927249ee-afd9-4bd0-b74e62053687d989"
-                        },
-                        new
-                        {
-                            Id = -9,
-                            Carbohydrates = 78,
-                            CategoryId = -5,
-                            CookTime = 25m,
-                            DateCreated = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            Fat = 29,
-                            Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/vegan-fajitas.jpg",
-                            Instructions = @"1. Preheat the oven to 425 degrees Fahrenheit.
-2. Thinly slice the onion. Slice the bell peppers. Chop the cauliflower into small florets. Chop the mushroom into bite-sized pieces. Add the veggies to a big bowl and toss them with the olive oil, chili powder, cumin, paprika, garlic powder, onion powder, and kosher salt.
-3. Line 2 baking sheets with parchment paper. Add the vegetables in a single layer. Roast 15 minutes, then remove the sheets, stir the veggies, and sprinkle on another 1/2 teaspoon salt spread between the trays (1/4 teaspoon on each). Stir again, then return to the oven and roast another 10 minutes until tender.
-4. Meanwhile, pit the avocados. Scoop out the flesh into a bowl and mash with a fork. Add the lime juice, salt, and cilantro.
-5. Heat the refried beans in a small sauce pan.
-6. If desired, char the tortillas by placing them on an open gas flame on medium for a few seconds per side, flipping with tongs, until they are slightly blackened and warm.
-7. To serve, place the refried beans and roasted veggies in tortillas, and top with guac-ish.",
-                            Name = "Vegan Fajitas",
-                            Notes = @"* Guacish is made by pitting 2 avocados, mashing them in a bowl, and adding the juice of 1 lime and chopped cilantro to taste.
-* For best results, warm tortillas in the oven - Heat oven to 350 degrees and wrap tortillas 4 at a time in aluminum foil and cook for 15-20 minutes
-* Homemade refried beans are great if you have time to whip them up, otherwise canned vegetarian refried beans are available at most supermarkets.
-* If using canned refried beans may need some additional cumin or chilli powder to add taste.",
-                            PrepTime = 15m,
-                            Protein = 18,
-                            Servings = 4,
-                            UserId = "927249ee-afd9-4bd0-b74e62053687d989"
-                        },
-                        new
-                        {
-                            Id = -10,
-                            Carbohydrates = 26,
-                            CategoryId = -4,
-                            CookTime = 3m,
-                            DateCreated = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            DateModified = new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local),
-                            Fat = 15,
-                            Image = "images/User_927249ee-afd9-4bd0-b74e62053687d989/vegan-fajitas.jpg",
-                            Instructions = @"1. In a medium bowl, whisk together the 4 eggs. Add the chili powder, garlic powder, cumin, and kosher salt, and whisk until combined
-2. In a skillet, heat the olive oil. Add the eggs and cook over medium low heat, scraping as the eggs solidify, about 3 to 4 minutes total. As you scrape, they’ll start to form together into a meat-like texture. Don’t scrape too much or you’ll make too small of pieces: just enough for that it comes together!
-3. If time, warm and char the tortillas by placing them on an open gas flame on medium for a few seconds per side, flipping with tongs, until they are slightly blackened and warm.
-4. Top with salsa fresca (drain extra liquid before serving), thin sliced red onions, torn cilantro leaves, and hot sauce.",
-                            Name = "5 Minute Vegetarian Egg Tacos",
-                            Notes = @"* Great Toppings Include: Salsa or Pico de Gallo, Red Onion, Cilantro, Lettuce, Sour Cream, Jalapeno, and Crema.
-* Dont scrape the pan too much! You don't want tiny bits of eggs, you'll want it to hold together into a cohesive texture
-* Cook over low medium heat. Don't have the heat too high! This can burn the eggs!
-* This quick recipe makes for a great speedy breakfast for those on the go!",
-                            PrepTime = 2m,
-                            Protein = 16,
-                            Servings = 2,
                             UserId = "927249ee-afd9-4bd0-b74e62053687d989"
                         });
                 });

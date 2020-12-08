@@ -34,54 +34,47 @@ function NavMenu() {
   const LoggedInMenu = () => {
     return (
       <>
-        <section>
-          <Link
-            className={linkClasses("/dashboard")}
-            to="/dashboard"
-            onClick={closeMenu}
-          >
-            Dashboard
-          </Link>
-        </section>
-        <section>
-          <Link
-            className={linkClasses("/recipes")}
-            to="/recipes"
-            onClick={closeMenu}
-          >
-            Recipes
-          </Link>
-        </section>
-        <section>
-          <Link
-            className={linkClasses("/add-recipe")}
-            to="/add-recipe"
-            onClick={closeMenu}
-          >
-            Add a Recipe
-          </Link>
-        </section>
-        <section>
-          <hr className="mb-2"/>
-          <p>You are logged in as: {user.name}</p>
-          </section>
-        <section>
-          <Link
-            className={linkClasses("/profile")}
-            to="/profile"
-            onClick={closeMenu}
-          >
-            Edit Profile
-          </Link>
-        </section>
-        <section>
-          <button
-            className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded"
-            onClick={() => { signout(); closeMenu(); }}
-          >
-            Log Out
-          </button>
-        </section>
+        <Link
+          className={linkClasses("/mealplan")}
+          to="/mealplan"
+          onClick={closeMenu}
+        >
+          Meal Plan
+        </Link>
+
+        <Link
+          className={linkClasses("/recipes")}
+          to="/recipes"
+          onClick={closeMenu}
+        >
+          Recipes
+        </Link>
+
+        <Link
+          className={linkClasses("/add-recipe")}
+          to="/add-recipe"
+          onClick={closeMenu}
+        >
+          Add a Recipe
+        </Link>
+
+        <hr className="mb-2"/>
+        <p>You are logged in as: {user.name}</p>
+
+        <Link
+          className={linkClasses("/profile")}
+          to="/profile"
+          onClick={closeMenu}
+        >
+          Edit Profile
+        </Link>
+
+        <button
+          className="m-2 transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-purple-500 hover:bg-purple-700 text-white py-1 px-4 rounded"
+          onClick={() => { signout(); closeMenu(); }}
+        >
+          Log Out
+        </button>
       </>
     );
   }
@@ -108,23 +101,35 @@ function NavMenu() {
     );
   }
 
+
+  const styles = {
+    bmBurgerButton: {
+      position: 'absolute',
+      width: '36px',
+      height: '30px',
+      left: '36px',
+      top: '36px'
+    },
+  }
+
   return (
     <Menu
       pageWrapId={'page-wrap'}
       outerContainerId={'outer-container'}
       isOpen={menuOpen}
       onStateChange={(state) => { handleStateChange(state) }}
+      styles={styles}
+      disableAutoFocus
     >
       <header>Site Navigation</header>
-      <section>
-        <Link
-          className={linkClasses("/")}
-          to="/"
-          onClick={closeMenu}
-        >
-          Home
-        </Link>
-      </section>
+      <Link
+        className={linkClasses("/")}
+        to="/"
+        onClick={closeMenu}
+      >
+        Home
+      </Link>
+
       { (isAuthenticated()) ? LoggedInMenu() : LoggedOutMenu() }
     </Menu>
   );

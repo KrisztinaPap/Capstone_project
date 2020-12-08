@@ -33,7 +33,7 @@ const Login = () => {
 
   const redirect = () => {
     const locationState = location.state;
-    const path = locationState ? locationState.from.pathname : '/dashboard';
+    const path = locationState ? locationState.from.pathname : '/mealplan';
     history.push(path);
   }
 
@@ -56,6 +56,14 @@ const Login = () => {
         // Set Error Message
         setErrorMessage("Invalid Email.");
         DisplayErrorMessage(errorMessage);
+
+        // Check if Email is Too Long
+        if (email.length >= 320) {
+          // Set Error Message
+          setErrorMessage("Email must be less than 320 characters.");
+          DisplayErrorMessage(errorMessage);
+        }
+
       }
       else {
         // Set Error
@@ -64,6 +72,17 @@ const Login = () => {
         setSubmitValid(true);
         // Set Error Message
         setErrorMessage("");
+
+        // Check if Email is Too Long
+        if (email.length >= 320) {
+          // Set Error
+          setEmailValid(false);
+          setError(true);
+          setSubmitValid(false);
+          // Set Error Message
+          setErrorMessage("Email must be less than 320 characters.");
+          DisplayErrorMessage(errorMessage);
+        }
       }
 
     }

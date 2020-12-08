@@ -183,14 +183,22 @@ namespace Api.Controllers
       Recipe recipe = _context.Recipes
           .Where(x => x.Id == id)
           .Include(x => x.Ingredients)
+          .Include(x => x.MealRecipes)
           .SingleOrDefault();
 
       if (recipe == null) {
         return NotFound();
       }
 
-      _context.Remove(recipe);
+      // Query and Remove all Meals and MealRecipes associated with the Recipe
+      var mealsIds = recipe.MealRecipes.Select(x => x.MealId).ToList();
+      var meals = _context.Meals.Where(x => mealsIds.Contains(x.Id)).ToList();
+      _context.Meals.RemoveRange(meals);
+
+      _context.Remove(recipe);      
+
       _context.SaveChanges();
+
       return NoContent();
     }
 
@@ -231,6 +239,35 @@ namespace Api.Controllers
         }
         return message;
       }
+    }
+
+    [HttpGet]
+    [Route("filter")]
+    public ActionResult<IEnumerable<Recipe>> FilterRecipe(string category)
+    {
+      //  Summary:
+      //    This action will return a list of recipes with the category that corresponds to the user input.
+      List<Recipe> results;
+      if(category != "all")
+      {
+        results = _context.Recipes.Include(x => x.RecipeCategory).Where(y => y.RecipeCategory.Name.ToLower() == category.ToLower()).ToList();
+      }
+      else
+      {
+        int offset = 0;
+        int limit = 50;
+        limit = Math.Clamp(limit, 10, 100);
+        string userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+        results = _context.Recipes
+                .Include(x => x.Ingredients)
+                // .Where(x => x.UserId == userId)
+                .OrderBy(x => x.Name)
+                .Skip(offset)
+                .Take(limit)
+                .ToList();
+      }
+      return Ok(results);
     }
 
     [NonAction]

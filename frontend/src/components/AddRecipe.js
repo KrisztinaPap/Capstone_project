@@ -1,15 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
-import {AuthContext} from "../contexts/AuthContext";
+import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
-import { EditorState } from "draft-js";
+import { useHistory, useLocation } from "react-router-dom";
+import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { draftToMarkdown } from 'markdown-draft-js';
 
 const AddRecipe = () => {
 
   //Initialize States
   const {user} = useContext(AuthContext);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
   const [measurementsList, setMeasurementsList] = useState(['']);
   const [recipeCategoryList, setRecipeCategoryList] = useState([{ name: '', id: -1 }]);
@@ -20,24 +22,25 @@ const AddRecipe = () => {
   const [carbohydrates, SetCarbohydrates] = useState();
   const [image, SetImage] = useState();
   const [prep, SetPrep] = useState();
-  const [cook, setCookTime] = useState();
+  const [cookTime, setCookTime] = useState();
   const [servings, SetServings] = useState();
   const [notes, SetNotes] = useState();
   const [validationErrors, setValidationErrors] = useState([]);
   const [imageUploadMessage, setImageUploadMessage] = useState();
+  const [recipeID, setRecipeID] = useState(0);
   const [response, setResponse] = useState("");
   const [statusCode, setStatusCode] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
   const [responseHeader, setResponseHeader] = useState("");
+  const history = useHistory();
+  const location = useLocation();
+  const [createRecipeSuccess, setCreateRecipeSuccess] = useState(false);
 
   /*============================================================*/
   /*                   Setting States
   /*============================================================*/
-
-  function onEditorStateChange(event) {
-    // Summary:
-    //   This function will update the state tracked by the instructions text editor.
-    setEditorState(event.blocks[0].text);
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
   }
 
   async function ValidateInputFields() {
@@ -64,7 +67,11 @@ const AddRecipe = () => {
       validationErrorMsg = "Your recipe is missing instructions!";
       validationErrorList.push(validationErrorMsg);
     }
-    if(isNaN(parseInt(prep))) {
+    if(isNaN(parseFloat(prep))) {
+      validationErrorMsg = "Please enter a number for prep time (min) to make your recipe!";
+      validationErrorList.push(validationErrorMsg);
+    }
+    if(isNaN(parseFloat(cookTime))) {
       validationErrorMsg = "Please enter a number for prep time (min) to make your recipe!";
       validationErrorList.push(validationErrorMsg);
     }
@@ -111,24 +118,24 @@ const AddRecipe = () => {
           "Fat": fats,
           "Protein": proteins,
           "Carbohydrates": carbohydrates,
-          "Instructions": editorState,
+          "Instructions": draftToMarkdown(convertToRaw(editorState.getCurrentContent())),
           "Ingredients": ingredientsList,
           "Image": image,
           "DateModified": new Date().toJSON(),
           "DateCreated": new Date().toJSON(),
           "PrepTime": prep,
-          "CookTime": cook,
+          "CookTime": cookTime,
           "Servings": servings,
           "Notes": notes
         }
       }).then((res) => {
         setValidationErrors([]);
-        setResponseHeader("Successfully added recipe");
         setResponse(res.data);
+        setRecipeID(res.data.id);
         setStatusCode(res.status);
+        setCreateRecipeSuccess(true);
       })
       .catch((err) => {
-        setValidationErrors(["There was an error with the server."]);
         setResponse(err.response.data);
         setStatusCode(err.response.status);
       });
@@ -202,6 +209,7 @@ const AddRecipe = () => {
     event.preventDefault();
     const imageInput = document.getElementById("addRecipePhoto");
 
+    // Citation: The following code allows for the user to attach a file onto a FormData model object. This object has the correct file type for axios to communicate to the server.
     // link @ https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
     var formData = new FormData();
     formData.append("fileUpload", imageInput.files[0]);
@@ -239,6 +247,7 @@ const AddRecipe = () => {
 
     // Set the attributes for the input fields.
     newLabel.setAttribute("for", `ingredient${childCount / 4 + 1}`);
+    newLabel.setAttribute("key", `ingredient${childCount / 4 + 1}`);
     newLabel.setAttribute("class", "block pl-4 pb-2 border-t-4 mt-2");
     newLabel.innerHTML = "Ingredient";
     newInput.setAttribute("id", `ingredient${childCount / 4 + 1}`);
@@ -246,16 +255,20 @@ const AddRecipe = () => {
     newInput.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4");
 
     newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
+    newQuantityLabel.setAttribute("key", `quantity${childCount / 4 + 1}`);
     newQuantityLabel.setAttribute("class", "block pl-4 pb-2");
     newQuantityLabel.innerHTML = `Quantity`;
     newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
     newQuantity.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4");
+    newQuantity.setAttribute("type", "number");
 
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
+    newMeasureLabel.setAttribute("key", `measurement${childCount / 4 + 1}`);
     newMeasureLabel.setAttribute("class", "block pl-4 pb-2");
     newMeasureLabel.innerHTML = "Measurement";
 
     newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
+    newMeasureSelect.setAttribute("key", `measurement${childCount / 4 + 1}`);
     newMeasureSelect.setAttribute("class", "border border-solid mx-4 ingredientInput");
     // Add the measurement options to the select field.
     for(let measurement in measurementsList) {
@@ -295,6 +308,12 @@ const AddRecipe = () => {
     return tempIngredientList;
   }
 
+  const redirect = () => {
+    const locationState = location.state;
+    const path = locationState ? locationState.from.pathname : `/recipes/${recipeID}`;
+    history.push(path);
+  }
+
   /*============================================================*/
   /*                   State Refresh
   /*============================================================*/
@@ -330,18 +349,23 @@ const AddRecipe = () => {
   useEffect(()=> {
     const errorList = [];
     if(validationErrors.length > 0) {
-      setResponseHeader("ERROR: There was problem with your recipe!");
+      setResponseHeader("ERROR: There was a problem with your recipe!");
       for(let error in validationErrors)
       {
-        errorList.push(<li className="list-disc">{validationErrors[error]}</li>);
+        errorList.push(<li key={`error-${error}`} className="list-disc text-red-800">{validationErrors[error]}</li>);
       }
       setErrorMessage(errorList);
     }
   }, [validationErrors]);
 
+  useEffect(() => {
+    if(createRecipeSuccess) {
+      redirect();
+    }
+  }, [createRecipeSuccess]);
+
   return (
     <>
-
       <div className="container mx-2 my-4 w-full">
         <div className="block text-center my-4">
           <h1 className="font-bold text-lg">Add a New Recipe</h1>
@@ -351,24 +375,24 @@ const AddRecipe = () => {
           {errorMessage}
         </ul>
         <form onSubmit={SubmitRecipe} >
-          <section id="addRecipeBasics" className="border-t-4 flex flex-row py-4">
-            <div className="w-1/2 ">
+          <section id="addRecipeBasics" className="flex-wrap md:flex-nowrap border-t-4 flex flex-row py-4">
+            <div className="w-screen md:w-1/2 ">
               <h2 className="font-bold">Basic Information</h2>
               <p>Please enter some information about your new recipe!</p>
             </div>
-            <div className="w-1/2 md:pl-12">
+            <div className="w-full md:w-1/2 md:pl-12">
               <label htmlFor="addRecipeName" className="block pl-4 pb-2">Name(*):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeName" onChange={HandleFormChange} />
-              <form className="py-4">
+              <div className="py-4">
                 <label id="photoLabel" htmlFor="addRecipePhoto" className="pl-4 block pb-2">Photo:</label>
                 <p className="font-bold pl-4">{imageUploadMessage}</p>
-                <input type="file" className="pl-4 sm:w-3/4 md: w-full" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
+                <input type="file" className="pl-4 w-3/4 md: w-full" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
                 <div className="px-4 text-sm block">
                   <p>Upload a file</p>
                   <p>PNG, JPEG, up to 10MB</p>
                 </div>
                 <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline ml-4" onClick={PhotoUpload}>Upload</button>
-              </form>
+              </div>
               <div>
                 <label htmlFor="addRecipePrepTime" className="block pl-4 pb-2">Prep. Time(*)(min):</label>
                 <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
@@ -384,7 +408,7 @@ const AddRecipe = () => {
               <div>
                 <label htmlFor="addRecipeCategory" className="block pl-4 pb-2">Recipe Category(*):</label>
                 <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange} defaultValue="0">
-                  <option value="0" />
+                  <option defaultValue="0" />
                   {recipeCategoryList.map((category) => {
                     return (
                       <option key={category.id} value={category.id}>{category.name}</option>
@@ -395,18 +419,18 @@ const AddRecipe = () => {
             </div>
           </section>
           <section id="addRecipeRequirements" className="border-t-4">
-            <section id="ingredientSection" className="flex flex-row py-4">
-              <div className="w-1/2">
+            <section id="ingredientSection" className="flex flex-row py-4 flex-wrap md:flex-nowrap">
+              <div className="w-full md:w-1/2">
                 <h2 className="font-bold">Ingredients</h2>
                 <p>Please enter in the ingredients required to make your new recipe!</p>
-                <button className=" block purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >Add Another Ingredient</button>
+                <button className="my-4 block purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" onClick={AddIngredientForm} >Add Another Ingredient</button>
               </div>
-              <div className="md:pl-12 w-1/2">
-                <div className="block" id="ingredientBlock">
+              <div className="w-full md:w-1/2 md:pl-12" id="ingredientBlock">
+                <div className="block">
                   <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
                   <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
                   <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
-                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="quantity1" onChange={HandleFormChange} />
+                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="quantity1" value="0" onChange={HandleFormChange} />
                   <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
                   <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange} defaultValue="0">
                     <option value="0"></option>
@@ -424,20 +448,28 @@ const AddRecipe = () => {
               <p>Enter the instructions to your new recipe below!</p>
               <div className="input-field">
                 <Editor
+                  editorState={editorState}
                   toolbarClassName="toolbarClassName"
                   wrapperClassName="wrapperClassName"
-                  editorClassName="editorClassName"
-                  onChange={onEditorStateChange}
+                  editorClassName="markdown"
+                  onEditorStateChange={onEditorStateChange}
+                  toolbar={{
+                    inline: { inDropdown: true },
+                    list: { inDropdown: true },
+                    textAlign: { inDropdown: true },
+                    link: { inDropdown: true },
+                    history: { inDropdown: true },
+                  }}
                   />
               </div>
             </section>
           </section>
-          <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row">
-            <div className="w-1/2">
+          <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row flex-wrap md:flex-nowrap">
+            <div className="w-full md:w-1/2">
               <h2 className="font-bold">Nutritional  Information</h2>
               <p>Please enter in the nutritional information for your new recipe!</p>
             </div>
-            <div className="md:pl-12">
+            <div className="w-full md:w-1/2 md:pl-12">
               <div>
                 <label htmlFor="addCarb" className="block pl-4 pb-2">Carbohydrates(*)</label>
                 <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addCarb" onChange={HandleFormChange} />
@@ -452,17 +484,17 @@ const AddRecipe = () => {
               </div>
             </div>
           </section>
-          <section className="my-3 border-t-4 flex flex-row py-4">
-            <div className="w-1/2">
+          <section className="my-3 border-t-4 flex flex-row py-4 flex-wrap md:flex-nowrap" >
+            <div className="w-full md:w-1/2">
               <h2 className="font-bold">Additional</h2>
               <p>Add any additional notes to your recipe here!</p>
             </div>
-            <div className="w-1/2 md:pl-12">
+            <div className="w-full md:w-1/2 md:pl-12">
               <label htmlFor="addRecipeExtraNotes" className="block pl-4 pb-2">Extra Notes:</label>
               <textarea className="block input-field w-3/4 h-full lg:w-1/2 focus:outline-none focus:shadow-outline resize-none" id="addRecipeExtraNotes" onChange={HandleFormChange} />
             </div>
           </section>
-          <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
+          <input className=" my-6 cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
           </form>
         </div>
     </>

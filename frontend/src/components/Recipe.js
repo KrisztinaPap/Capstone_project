@@ -595,8 +595,12 @@ function Recipe(){
         <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
       </div>
       <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
-      <p className="text-md text-bold">Servings: {myRecipe.servings}</p>
-      <p className="text-md text-bold">Prep Time: {myRecipe.prepTime}</p>
+      <section className="flex justify-between">
+        <p className="text-md font-bold">Servings: <span className="font-normal">{myRecipe.servings}</span></p>
+        <p className="text-md font-bold">Prep Time: <span className="font-normal">{myRecipe.prepTime} minutes</span></p>
+        <p className="text-md font-bold">Cook Time: <span className="font-normal">{myRecipe.cookTime} minutes</span></p>
+        <p className="text-md font-bold">Total Time: <span className="font-normal">{parseInt(myRecipe.prepTime) + parseInt(myRecipe.cookTime)} minutes</span></p>
+      </section>
 
       <section className="flex flex-col md:flex-row md:justify-center my-8">
 
