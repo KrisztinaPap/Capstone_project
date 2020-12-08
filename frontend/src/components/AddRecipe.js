@@ -3,14 +3,17 @@ import { AuthContext } from "../contexts/AuthContext";
 import axios from "axios";
 import { Editor } from "react-draft-wysiwyg";
 import { useHistory, useLocation } from "react-router-dom";
-import { EditorState } from "draft-js";
+import { EditorState, convertToRaw } from "draft-js";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { draftToMarkdown } from 'markdown-draft-js';
+import ReactMarkdown from 'react-markdown'
+import gfm from 'remark-gfm';
 
 const AddRecipe = () => {
 
   //Initialize States
   const {user} = useContext(AuthContext);
-  const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [loading, setLoading] = useState(true);
   const [measurementsList, setMeasurementsList] = useState(['']);
   const [recipeCategoryList, setRecipeCategoryList] = useState([{ name: '', id: -1 }]);
@@ -38,17 +41,8 @@ const AddRecipe = () => {
   /*============================================================*/
   /*                   Setting States
   /*============================================================*/
-
-  function onEditorStateChange(event) {
-    // Summary:
-    //   This function will update the state tracked by the instructions text editor.
-    let instructions = "";
-    for(let index in event.blocks)
-    { 
-      instructions += (event.blocks[index].text) + `\n`;
-    }
-    // Need to create a single string with \n for new lines in a markdown format.
-    setEditorState(instructions);
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
   }
 
   async function ValidateInputFields() {
@@ -122,7 +116,7 @@ const AddRecipe = () => {
           "Fat": fats,
           "Protein": proteins,
           "Carbohydrates": carbohydrates,
-          "Instructions": editorState,
+          "Instructions": draftToMarkdown(convertToRaw(editorState.getCurrentContent())),
           "Ingredients": ingredientsList,
           "Image": image,
           "DateModified": new Date().toJSON(),
@@ -215,6 +209,7 @@ const AddRecipe = () => {
     event.preventDefault();
     const imageInput = document.getElementById("addRecipePhoto");
 
+    // Citation: The following code allows for the user to attach a file onto a FormData model object. This object has the correct file type for axios to communicate to the server.
     // link @ https://stackoverflow.com/questions/43013858/how-to-post-a-file-from-a-form-with-axios
     var formData = new FormData();
     formData.append("fileUpload", imageInput.files[0]);
@@ -448,10 +443,11 @@ const AddRecipe = () => {
               <p>Enter the instructions to your new recipe below!</p>
               <div className="input-field">
                 <Editor
+                  editorState={editorState}
                   toolbarClassName="toolbarClassName"
                   wrapperClassName="wrapperClassName"
                   editorClassName="editorClassName"
-                  onChange={onEditorStateChange}
+                  onEditorStateChange={onEditorStateChange}
                   toolbar={{
                     inline: { inDropdown: true },
                     list: { inDropdown: true },
@@ -461,6 +457,9 @@ const AddRecipe = () => {
                   }}
                   />
               </div>
+              <h3>Instructions Preview</h3>
+              <p>Your instructions will be displayed as shown below:</p>
+              <ReactMarkdown plugins={[gfm]} className="markdown">{draftToMarkdown(convertToRaw(editorState.getCurrentContent()))}</ReactMarkdown>
             </section>
           </section>
           <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row">
