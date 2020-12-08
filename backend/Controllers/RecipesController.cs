@@ -190,8 +190,8 @@ namespace Api.Controllers
         return NotFound();
       }
 
+      // Query and Remove all Meals and MealRecipes associated with the Recipe
       var mealsIds = recipe.MealRecipes.Select(x => x.MealId).ToList();
-
       var meals = _context.Meals.Where(x => mealsIds.Contains(x.Id)).ToList();
       _context.Meals.RemoveRange(meals);
 
