@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch } from 'react-router';
 import Layout from './components/Layout';
 import Home from './components/Home';
-import Dashboard from './components/Dashboard/Dashboard';
+import MealPlan from './components/MealPlan/MealPlan';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Profile from './components/Profile';
@@ -24,7 +24,7 @@ export default function App() {
         <Layout>
           <Switch>
             <Route exact path='/' component={Home} />
-            <AuthRoute path='/dashboard' component={Dashboard} />
+            <AuthRoute path='/mealplan' component={MealPlan} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
             <AuthRoute path='/profile' component={Profile} />

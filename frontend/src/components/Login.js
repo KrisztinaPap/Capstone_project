@@ -33,7 +33,7 @@ const Login = () => {
 
   const redirect = () => {
     const locationState = location.state;
-    const path = locationState ? locationState.from.pathname : '/dashboard';
+    const path = locationState ? locationState.from.pathname : '/mealplan';
     history.push(path);
   }
 

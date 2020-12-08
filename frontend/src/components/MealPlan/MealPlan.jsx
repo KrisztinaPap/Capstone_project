@@ -1,10 +1,15 @@
 import React, { useState, useEffect, useReducer, useContext } from 'react';
-import { DragDropContext, Draggable, Droppable } from 'react-beautiful-dnd';
+import { useHistory } from "react-router-dom";
+import { DragDropContext } from 'react-beautiful-dnd';
 import axios from 'axios';
 import dayjs from 'dayjs';
 
+import {
+  DraggableMealRecipeId,
+  DraggableRecipeId,
+  DroppableMealId
+} from '../../utils/dndIdCoders';
 import Plans from '../../models/Plans'
-
 import { plansReducer, updateMeal, moveMeal, loadPeriod, removeMeal} from '../../reducers/plansReducer';
 import {
   scheduleReducer,
@@ -12,19 +17,11 @@ import {
   updatePeriod,
   getDefaultScheduleState
 } from '../../reducers/scheduleReducer';
-
-import {
-  DraggableMealRecipeId,
-  DraggableRecipeId,
-  DroppableMealId
-} from '../../utils/dndIdCoders';
-
+import RecipeList from './RecipeList'
 import Schedule, {Forward, Backward, Jump} from './Schedule';
-import {Link} from "react-router-dom";
 import { AuthContext } from '../../contexts/AuthContext';
 
 // Citation: https://www.pluralsight.com/guides/re-render-react-component-on-window-resize
-
 function debounce(fn, ms) {
   let timer
   return _ => {
@@ -39,8 +36,9 @@ function debounce(fn, ms) {
 
 const defaultScheduleState = getDefaultScheduleState(dayjs().startOf('day'), 7);
 
-const Dashboard = () => {
+const MealPlan = () => {
   const {user} = useContext(AuthContext);
+  const history = useHistory();
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -48,7 +46,6 @@ const Dashboard = () => {
 
   const [isSaving, setSaving] = useState(false);
   const [loadingMeals, setLoadingMeals] = useState(true);
-  const [errorMeals, setErrorMeals] = useState(false);
   const [isMealsStale, setMealsStale] = useState(false);
 
   const [plans, dispatchPlans] = useReducer(plansReducer, Plans.Create());
@@ -87,6 +84,8 @@ const Dashboard = () => {
           'Authorization': `Bearer ${user.token}`
         }
       })
+      await new Promise(x=> setTimeout(x,3000));
+
       setRecipes(response.data);
       setLoading(false);
       setError(false);
@@ -109,9 +108,17 @@ const Dashboard = () => {
         dispatchPlans(loadPeriod(response.data));
 
         setLoadingMeals(false);
-        setErrorMeals(false);
       } catch(err) {
-        setErrorMeals(true);
+        if(err.response?.status === 401) {
+          history.push('/login');
+        }
+        else
+        {
+          // There are no other errors this page
+          // should throw so its pretty safe to just
+          // escape to our catch all error page.
+          history.push('/page500')
+        }
         setLoadingMeals(false);
       }
     }
@@ -137,13 +144,21 @@ const Dashboard = () => {
         setMealsStale(false)
 
       } catch(err) {
-
+        if(err.response?.status === 401) {
+          history.push('/login');
+        }
+        else
+        {
+          // There are no other errors this page
+          // should throw so its pretty safe to just
+          // escape to our catch all error page.
+          history.push('/page500')
+        }
       }
     }
 
     updatePlans();
   }, [plans, loadingMeals, isMealsStale]) // eslint-disable-line react-hooks/exhaustive-deps
-
 
   useEffect(() => {
     if(viewWidth >= 1024) {
@@ -159,8 +174,6 @@ const Dashboard = () => {
       dispatchSchedule(updatePeriod(1));
     }
   }, [viewWidth])
-
-
 
 
   function toggleEditing() {
@@ -261,100 +274,20 @@ const Dashboard = () => {
     }
   }
 
-  if (loading) {
-    return (
-      <>
-        <section className="mt-8">
-          <p className="text-center">
-            <i className="fas fa-spinner fa-spin fa-4x"></i>
-          </p>
-          <p className="text-center mt-2">
-            Fetching your schedules...
-          </p>
-        </section>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="mt-8">
-        <p className="text-center">
-          Failed fetching schedules. Please try again..
-        </p>
-        <p className="text-center mt-2">
-          <button className="purple-button focus:outline-none focus:shadow-outline mr-1" type="submit" onClick={populateRecipes}>
-            Retry
-          </button>
-          <Link to={"/"}>
-            <button className="purple-button focus:outline-none focus:shadow-outline ml-1" type="submit">
-              Return to Home Page
-            </button>
-          </Link>
-        </p>
-      </section>
-    )
-  }
-
-  function getRecipesDragStyle(style, snapshot) {
-    if (!snapshot.isDragging) return {};
-    if (!snapshot.isDropAnimating) {
-      return style;
-    }
-
-    return {
-      ...style,
-      // cannot be 0, but make it super tiny
-      transitionDuration: `0.001s`
-    };
-  }
-
   return (
     <div className="container mx-auto">
-      <h1 className="text-left font-bold my-4">Dashboard</h1>
+      <h1 className="text-left font-bold my-4">Meal Plan</h1>
 
       <div className="flex flex-col gap-6 lg:flex-row">
         <DragDropContext onDragEnd={onDragEnd} onDragStart={onDragStart}>
 
           {isEditing &&
-            <Droppable droppableId="recipes" type="recipes">
-              {({innerRef, droppableProps, placeholder}) => (
-
-                <div
-                  ref={innerRef}
-                  {...droppableProps}
-                  className=""
-                >
-                  <div className="overflow-auto py-6">
-                    <div className="inline-flex flex-grow divide-gray-500 divide-solid lg:flex lg:divide-y lg:flex-col">
-                      {recipes.map((recipes, index) => (
-                        <Draggable
-                          key={recipes.id}
-                          draggableId={DraggableRecipeId.encode(recipes.id)}
-                          index={index}
-                        >
-                          {({innerRef, draggableProps, dragHandleProps }, snapshot) => (
-                            <div
-                              ref={innerRef}
-                              {...draggableProps}
-                              {...dragHandleProps}
-                              className="w-24 max-w-sm bg-white flex flex-col items-center justify-center gap-4 lg:w-auto lg:flex-row"
-                              style={getRecipesDragStyle(draggableProps.style, snapshot)}
-                            >
-                              <div className="bg-gray-200 w-20 h-20 flex-none">
-                                <img src={recipes.image} alt=""/>
-                              </div>
-                              <p className=" flex-1 break-words text-center lg:text-left lg:truncate">{recipes.name}</p>
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                    </div>
-                  </div>
-                  {placeholder}
-                </div>
-              )}
-            </Droppable>
+            <RecipeList
+              isLoading={loading}
+              error={error}
+              recipes={recipes}
+              retry={populateRecipes}
+            />
           }
 
           <Schedule
@@ -363,6 +296,7 @@ const Dashboard = () => {
             onMove={onMove}
             isEditing={isEditing}
             isSaving={isSaving}
+            isLoading={loading || loadingMeals}
             toggleEditing={toggleEditing}
             fetchRecipe={fetchRecipe}
           />
@@ -374,4 +308,4 @@ const Dashboard = () => {
 }
 
 
-export default Dashboard;
+export default MealPlan;

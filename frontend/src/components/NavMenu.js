@@ -35,11 +35,11 @@ function NavMenu() {
     return (
       <>
         <Link
-          className={linkClasses("/dashboard")}
-          to="/dashboard"
+          className={linkClasses("/mealplan")}
+          to="/mealplan"
           onClick={closeMenu}
         >
-          Dashboard
+          Meal Plan
         </Link>
 
         <Link
