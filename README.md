@@ -156,9 +156,6 @@ For detailed installation instructions please see the [Yummy Installation Manual
         - Method: GET
         - https://localhost:5001/api/recipecategories/options
 
-#### Endpoint Testing via Webapp
-- Navigate to the following pages to test endpoints
-    - Page 1, Endpoint 1
 
 ## Backend Testing
  - [AutoRollbackAttribute.cs](https://github.com/xunit/samples.xunit/blob/main/AutoRollbackExample/AutoRollbackAttribute.cs)
