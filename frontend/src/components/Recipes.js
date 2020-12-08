@@ -10,7 +10,7 @@ function Recipes() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [sure, setSure] = useState(false);
-  const [recipeCategoryList, setRecipeCategoryList] = useState([{ name: '', id: -1 }]);
+  const [sureID, setSureID] = useState(0);
 
   useEffect(() => {
     populateRecipes();
@@ -33,24 +33,26 @@ function Recipes() {
     }
   }
 
-  async function softDeleteRecipe() {
+  async function softDeleteRecipe(recipeID) {
     setSure(!sure);
+    (sureID == 0) ? setSureID(recipeID) : setSureID(0);
   }
 
-  async function deleteRecipe() {
+  async function deleteRecipe(recipeID) {
     try {
-      const toDelete = await axios.delete(`api/recipes/${recipes.id}`, {
+      await axios.delete(`api/recipes/${recipeID}`, {
         headers: {
           'Authorization': `Bearer ${user.token}`
         }
       })
-      setRecipes(toDelete.data);
+      populateRecipes();
       setLoading(false);
       setError(false);
     } catch (err) {
       setError(true);
       setLoading(false);
     }
+    softDeleteRecipe(recipeID);
   }
 
   async function getRecipeCategories() {
@@ -151,17 +153,17 @@ function Recipes() {
                     </div>
                     <div className="flex align-center items-center ">
                       {!sure &&
-                        <button onClick={softDeleteRecipe} className="w-12 h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+                        <button onClick={ () => softDeleteRecipe(recipes.id) } className="w-12 h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
                           <i className="far fa-trash-alt"></i>
                         </button>
                       }
-                      {sure &&
+                      {sure && sureID === recipes.id &&
                         <>
                           <span>Are you sure?</span>
-                          <button onClick={ deleteRecipe } className="mx-2 h-12 bg-red-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                          <button onClick={ () => deleteRecipe(recipes.id) } className="mx-2 h-12 bg-red-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-red-700 focus:outline-none focus:shadow-outline">
                             YES
                           </button>
-                          <button onClick={softDeleteRecipe} className="h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
+                          <button onClick={ () => softDeleteRecipe(recipes.id) } className="h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
                             CANCEL
                           </button>
                         </>
