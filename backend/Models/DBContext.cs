@@ -160,7 +160,7 @@ namespace Api.Models
             Id = -5,
             CategoryId = -1,
             UserId = userId,
-            Name = "Chipotle and Orange grilled Chicken",
+            Name = "Chipotle and Orange Grilled Chicken",
             Fat = 3,
             Protein = 23,
             Carbohydrates = 6,
@@ -184,6 +184,89 @@ namespace Api.Models
             "* Once opened, they'll keep up to 2 weeks in the refrigerator or 6 months in the freezer.",
             "* Tip: To oil a grill rack: Oil a folded paper towel, hold it with tongs and rub it over the rack. (Do not use cooking spray on a hot grill.)",
             "* When grilling delicate foods like tofu and fish, it is helpful to spray the food with cooking spray.")
+          },
+          new Recipe()
+          {
+            Id = -6,
+            CategoryId = -3,
+            UserId = userId,
+            Name = "Brazilian Fish Stew (Moqueca)",
+            Fat = 20,
+            Protein = 45,
+            Carbohydrates = 13,
+            Instructions = string.Join("\n",
+              "* 1. Rinse and pat dry the fish and cut into 2 inch peices. Place in a bowl. Add salt, zest from half the lime and 1 tablespoon lime juice. Massage lightly to coat all pieces well. Set aside.",
+              "* 2. In a large saute pan, heat the olive oil over medium high heat. Add onion and salt, and sauté 2-3 minutes. Turn heat down to medium, add carrot, bell pepper, garlic and jalapeno and cook 4-5 more minutes. Add tomato paste, spices and stock. Mix and bring to a simmer and add tomatoes. Cover and simmer gently on medium low for 5 mintues or until carrots are tender.",
+              "* 3. Add the coconut milk and taste and add more salt if necessary.",
+              "* 4. Nestle the fish in the stew and simmer gently until it’s cooked through, about 4-6 minutes.  Spoon the flavorful coconut broth over the fish and cook until desired doneness or longer for thicker pieces. ( You can also finish this in a 350F oven).",
+              "* 5. Taste and adjust salt and squeeze with lime.",
+              "* 6. To serve, serve over rice, sprinkle with cilantro or scallions and a squeeze of lime.",
+              "* 7. (Optional) Drizzle with a little olive oil to taste."
+            ),
+            Image = $"images/User_{userId}/braz-fish-stew.jpg",
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 45,
+            CookTime = 15,
+            Servings = 4,
+            Notes = string.Join("\n",
+              "* Serve with rice or crusty bread to mop up all the juices",
+              "* Look for Coconut Milk in a can at the supermarket",
+              "* Fresh Tomatoes make the recipe better than Canned Tomato",
+              "* Cumin can be substituted for whole seed cumin")
+          },
+          new Recipe()
+          {
+            Id = -7,
+            CategoryId = -3,
+            UserId = userId,
+            Name = "Simple Salmon Chowder",
+            Fat = 12,
+            Protein = 25,
+            Carbohydrates = 21,
+            Instructions = string.Join("\n",
+              "* 1. Heat oil over medium heat, and saute onion, fennel and celery until fragrant, 5-6 minutes. Add garlic, fennel seeds, thyme and saute two more minutes, stirring. Add the smoked paprika.",
+              "* 2. Add vermouth, and cook it off, about 1-2 minutes. Add stock, salt, thyme and bay, and bring to a simmer over high heat. Add potatoes and stir. Bring to a simmer, cover and simmer over med-low heat until tender, about 8-10 minutes (check at 7 mins, be careful to not overcook).  While this is cooking prep the salmon.",
+              "* 3. Cut salmon into 2-inch pieces, removing any of the brown fat ( see notes) and bones. Sprinkle lightly with salt.",
+              "* 4. Once the potatoes are just fork-tender, add the milk and bring to a low simmer (do not boil) and add the salmon, gently poaching it in the soup for just about  2 minutes. Turn heat off.  Fish will continue to cook. If you continue to simmer the soup any longer it may cause a slight curdling. ( Don’t worry, it’s still edible, but not as pretty.)  Flake the fish apart, into bite-sized pieces, with a fork.",
+              "* 5. Taste, adjust seasonings to your liking and serve immediately.",
+              "* 6. Garnish with fennel fronds, lemon wedges, fresh dill or tarragon."
+            ),
+            Image = $"images/User_{userId}/simple-salmon-chowder.jpg",
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 45,
+            CookTime = 15,
+            Servings = 6,
+            Notes = string.Join("\n",
+              "* If using chicken stock, add 1 teaspoon fish sauce for depth. You can also sub some clam juice for the stock.",
+              "* If skipping the vermouth or sherry cooking wine, which FYI does give this a lovely elevated nuanced flavor, add a couple of drops of AC vinegar at the end along with a pinch of sugar. Advanced cooks- you could experiment with Pernod (subbing it for the vermouth, starting with 2-3 tablespoons, making sure to cook this off) which will give it a beautiful anise flavor.",
+              "* If you notice grey/brown fat located between the skin and salmon flesh, feel free to remove it -which ultimately will look better in the stew. If using wild salmon, it is ok to eat (healthy, actually)  just not quite as “pretty”.",
+              "* Keto option, sub potatoes with cauliflower. Use 1 cup of heavy whipping cream.",
+              "* Dairy-Free option: Add 1 cup of coconut milk, more to taste.",
+              "* Soup will keep 3 days in the fridge.",
+              "* Salmon can be substituted for Cod or Shrimp. Cut in to 1-2 inch pieces",
+              "* Garnish with Lemon Wedges, Fresh Dill, Tarragon, and Fennel Fronds if you desire.")
+          },
+          new Recipe()
+          {
+
+          },
+          new Recipe()
+          {
+
+          },
+          new Recipe()
+          {
+
+          },
+          new Recipe()
+          {
+
+          },
+          new Recipe()
+          {
+
           }
         );
       });
@@ -549,6 +632,238 @@ namespace Api.Models
             Name = "Salt",
             Quantity = 1,
             UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -35,
+            RecipeId = -6,
+            Name = "Halibut, Black Cod, or Sea Bass",
+            Quantity = 1.5m,
+            UOMId = "lb"
+          },
+          new Ingredient()
+          {
+            Id = -36,
+            RecipeId = -6,
+            Name = "Salt",
+            Quantity = .5m,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -37,
+            RecipeId = -6,
+            Name = "Coconut Oil or Olive Oil",
+            Quantity = 3,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -38,
+            RecipeId = -6,
+            Name = "Onion - Diced",
+            Quantity = 1,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -39,
+            RecipeId = -6,
+            Name = "Carrot - Diced",
+            Quantity = 1,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -40,
+            RecipeId = -6,
+            Name = "Red Bell Pepper - Diced",
+            Quantity = 1,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -41,
+            RecipeId = -6,
+            Name = "Clove of Garlic - Chopped",
+            Quantity = 4,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -42,
+            RecipeId = -6,
+            Name = "Jalapeno - Diced",
+            Quantity = 0.5m,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -43,
+            RecipeId = -6,
+            Name = "Tomato Paste",
+            Quantity = 1,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -44,
+            RecipeId = -6,
+            Name = "Paprika",
+            Quantity = 2,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -45,
+            RecipeId = -6,
+            Name = "Chicken or Fish Stock",
+            Quantity = 1,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -46,
+            RecipeId = -6,
+            Name = "Diced Tomatoes",
+            Quantity = 1.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -47,
+            RecipeId = -6,
+            Name = "Coconut Milk",
+            Quantity = 14,
+            UOMId = "oz"
+          },
+          new Ingredient()
+          {
+            Id = -48,
+            RecipeId = -6,
+            Name = "Cilantro - Chopped",
+            Quantity = 0.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -49,
+            RecipeId = -6,
+            Name = "Lime Juice - To Taste",
+            Quantity = 1,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -50,
+            RecipeId = -7,
+            Name = "Olive Oil",
+            Quantity = 3,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -51,
+            RecipeId = -7,
+            Name = "Onion - Diced",
+            Quantity = 1,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -52,
+            RecipeId = -7,
+            Name = "Small Fennel Bulb - Diced",
+            Quantity = 1.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -53,
+            RecipeId = -7,
+            Name = "Celery - Sliced",
+            Quantity = 1,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -54,
+            RecipeId = -7,
+            Name = "Garlic Cloves",
+            Quantity = 4,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -55,
+            RecipeId = -7,
+            Name = "Dry Thyme",
+            Quantity = 0.5m,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -56,
+            RecipeId = -7,
+            Name = "Smoked Paprika",
+            Quantity = 0.5m,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -57,
+            RecipeId = -7,
+            Name = "Vermouth (Can leave out, see notes)",
+            Quantity = 0.33m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -58,
+            RecipeId = -7,
+            Name = "Fish or Chicken Stock (See Notes)",
+            Quantity = 3,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -59,
+            RecipeId = -7,
+            Name = "Sliced Baby Potatoes",
+            Quantity = 0.75m,
+            UOMId = "lb"
+          },
+          new Ingredient()
+          {
+            Id = -60,
+            RecipeId = -7,
+            Name = "Salt",
+            Quantity = 1,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -61,
+            RecipeId = -7,
+            Name = "Bay Leaf",
+            Quantity = 1,
+            UOMId = "ea"
+          },
+          new Ingredient()
+          {
+            Id = -62,
+            RecipeId = -7,
+            Name = "Salmon, Skinless (See Notes)",
+            Quantity = 1,
+            UOMId = "lb"
+          },
+          new Ingredient()
+          {
+            Id = -63,
+            RecipeId = -7,
+            Name = "Milk (See Notes)",
+            Quantity = 2,
+            UOMId = "cup"
           }
         );
       });
