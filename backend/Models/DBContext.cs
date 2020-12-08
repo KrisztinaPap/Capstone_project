@@ -111,7 +111,7 @@ namespace Api.Models
             Protein = 20,
             Carbohydrates = 10,
             Instructions = string.Join("\n",
-              "1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.",
+            "1. Place the olive oil, garlic, chilies, onion, and ginger in a blender and purée until smooth.",
             "2. Heat ghee in a large dutch oven over medium-high. Add the onion purée and cook until the mixture darkens slightly and softens, about 15 minutes.",
             "3. Add the tomato paste, turmeric, chili powder, garam masala, coriander, and cumin and cook for 5 minutes, or until dark and sticky.",
             "4. Add in 1 1/2 cups water. Using a wooden spoon, scrape up any browned bits at the bottom of the pan.",
@@ -326,7 +326,7 @@ namespace Api.Models
               "3. If time, warm and char the tortillas by placing them on an open gas flame on medium for a few seconds per side, flipping with tongs, until they are slightly blackened and warm.",
               "4. Top with salsa fresca (drain extra liquid before serving), thin sliced red onions, torn cilantro leaves, and hot sauce."
              ),
-            Image = $"images/User_{userId}/vegan-fajitas.jpg",
+            Image = $"images/User_{userId}/vegetarian-egg-tacos.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
             PrepTime = 2,
