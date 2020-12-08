@@ -117,6 +117,46 @@ For detailed installation instructions please see the [Yummy Installation Manual
 - Must have DOTNET Core 3 installed
 - Must have node.js installed
 
+#### Endpoint Testing via Postman
+- Ensure that the data being sent is through the Body and that the format is set to JSON.
+- API endpoints
+    - Register
+        - Method: POST 
+        - https://localhost:5001/api/Authenticate/register
+        - Body:
+            ```
+            {
+                "Name" : "PeterTest",
+                "username" : "PeterTest",
+                "email" : "PeterTest@gmail.com",
+                "password" : "Password@123"
+            }
+            ```
+    - Login
+        - This API endpoint will return a JWT. This token will be required for protected endpoints.
+        - Method: POST 
+        - https://localhost:5001/api/Authenticate/login
+        - Body: 
+            ```
+            {
+                "username" : "PeterTest",
+                "password" : "Password@123"
+            }
+            ``` 
+    - Recipes
+        - Method: GET
+        - https://localhost:5001/api/Recipes/-1
+        - The last number is the recipe ID number. This number can be changed to any as long as there exists a recipe in the database with the corresponding ID.
+        - Set the Authorization type to Bearer Token.
+            - This token is the JWT taken from the Login endpoint.
+    - UOM
+        - Method: GET
+        - https://localhost:5001/api/UOMs/all
+    - Recipe Categories
+        - Method: GET
+        - https://localhost:5001/api/recipecategories/options
+
+
 ## Backend Testing
  - [AutoRollbackAttribute.cs](https://github.com/xunit/samples.xunit/blob/main/AutoRollbackExample/AutoRollbackAttribute.cs)
 
