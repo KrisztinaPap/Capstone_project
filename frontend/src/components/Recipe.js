@@ -183,7 +183,6 @@ function Recipe(){
         fetchRecipe();
       })
         .catch((err) => {
-          setValidationErrors(["There was an error with the server."]);
           setResponse(err.response.data);
           setStatusCode(err.response.status);
         });
@@ -361,7 +360,7 @@ function Recipe(){
       setResponseHeader("ERROR: There was problem with your recipe!");
       for(let error in validationErrors)
       {
-        errorList.push(<li className="list-disc">{validationErrors[error]}</li>);
+        errorList.push(<li key={`error-${error}`} className="list-disc">{validationErrors[error]}</li>);
       }
       setErrorMessage(errorList);
     }
