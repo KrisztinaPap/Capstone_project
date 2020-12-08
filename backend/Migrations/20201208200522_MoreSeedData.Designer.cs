@@ -3,14 +3,16 @@ using System;
 using Api.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Api.Migrations
 {
     [DbContext(typeof(DBContext))]
-    partial class DBContextModelSnapshot : ModelSnapshot
+    [Migration("20201208200522_MoreSeedData")]
+    partial class MoreSeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -917,8 +919,6 @@ namespace Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
                     b.ToTable("Plan");
 
                     b.HasData(
@@ -985,8 +985,6 @@ namespace Api.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Recipes");
 
@@ -1616,15 +1614,6 @@ namespace Api.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Api.Models.Plan", b =>
-                {
-                    b.HasOne("Api.Models.User", "User")
-                        .WithMany("Plans")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Api.Models.Recipe", b =>
                 {
                     b.HasOne("Api.Models.RecipeCategory", "RecipeCategory")
@@ -1632,10 +1621,6 @@ namespace Api.Migrations
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.HasOne("Api.Models.User", "User")
-                        .WithMany("Recipes")
-                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
