@@ -206,8 +206,8 @@ namespace Api.Models
             Image = $"images/User_{userId}/braz-fish-stew.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
-            PrepTime = 45,
-            CookTime = 15,
+            PrepTime = 30,
+            CookTime = 45,
             Servings = 4,
             Notes = string.Join("\n",
               "* Serve with rice or crusty bread to mop up all the juices",
@@ -235,8 +235,8 @@ namespace Api.Models
             Image = $"images/User_{userId}/simple-salmon-chowder.jpg",
             DateModified = DateTime.Today,
             DateCreated = DateTime.Today,
-            PrepTime = 45,
-            CookTime = 15,
+            PrepTime = 20,
+            CookTime = 20,
             Servings = 6,
             Notes = string.Join("\n",
               "* If using chicken stock, add 1 teaspoon fish sauce for depth. You can also sub some clam juice for the stock.",
@@ -250,23 +250,35 @@ namespace Api.Models
           },
           new Recipe()
           {
-
-          },
-          new Recipe()
-          {
-
-          },
-          new Recipe()
-          {
-
-          },
-          new Recipe()
-          {
-
-          },
-          new Recipe()
-          {
-
+            Id = -8,
+            CategoryId = -2,
+            UserId = userId,
+            Name = "Easy Mongolian Beef",
+            Fat = 12,
+            Protein = 25,
+            Carbohydrates = 21,
+            Instructions = string.Join("\n",
+              "* 1. Slice the flank steak against the grain (the grain is the length of the steak) the long way 1/4 inch think pieces and add it to a ziploc bag with the cornstarch.",
+              "* 2. Press the steak around in the bag making sure each piece is fully coated with cornstarch and leave it to sit.",
+              "* 3. Add the canola oil to a large frying pan and heat on medium high heat.",
+              "* 4. Add the steak, shaking off any excess corn starch, to the pan in a single layer and cook on each side for 1 minute.",
+              "* 5. If you need to cook the steak in batches because your pan isn't big enough do that rather than crowding the pan, you want to get a good sear on the steak and if you crowd the pan your steak with steam instead of sear.",
+              "* 6. When the steak is done cooking remove it from the pan.",
+              "* 7. Add the ginger and garlic to the pan and saute for 10-15 seconds",
+              "* 8. Add the soy sauce, water, and dark brown sugar to the pan and let it come to a boil",
+              "* 9. Add the steak back in and let the sauce thicken for 20-30 seconds",
+              "* 10. The cornstarch we used on the steak should thicken the sauce, if you find it isn't thickening enough, add 1 tablespoon of cornstarch to 1 tablespoon of cold water and stir to dissolve the cornstarch and add it to the pan.",
+              "* 11. Add the green onions, stir to combine everything, and cook for a final 20-30 seconds",
+              "* 12. Serve immediately."
+            ),
+            Image = $"images/User_{userId}/mongolian-beef.jpg",
+            DateModified = DateTime.Today,
+            DateCreated = DateTime.Today,
+            PrepTime = 10,
+            CookTime = 15,
+            Servings = 4,
+            Notes = string.Join("\n",
+              "* Mongolian Beef that's easy to make in just 30 minutes, crispy, sweet and full of garlic and ginger flavors you love from your favorite Chinese restaurant.")
           }
         );
       });
@@ -864,6 +876,78 @@ namespace Api.Models
             Name = "Milk (See Notes)",
             Quantity = 2,
             UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -64,
+            RecipeId = -8,
+            Name = "Flank Steak",
+            Quantity = 1,
+            UOMId = "lb"
+          },
+          new Ingredient()
+          {
+            Id = -65,
+            RecipeId = -8,
+            Name = "Cornstarch",
+            Quantity = 0.25m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -66,
+            RecipeId = -8,
+            Name = "Canola Oil",
+            Quantity = 0.25m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -67,
+            RecipeId = -8,
+            Name = "Fresh Minced Ginger",
+            Quantity = 2,
+            UOMId = "tsp"
+          },
+          new Ingredient()
+          {
+            Id = -68,
+            RecipeId = -8,
+            Name = "Minced Garlic",
+            Quantity = 1,
+            UOMId = "tbsp"
+          },
+          new Ingredient()
+          {
+            Id = -69,
+            RecipeId = -8,
+            Name = "Soy Sauce",
+            Quantity = 0.33m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -70,
+            RecipeId = -8,
+            Name = "Water",
+            Quantity = 0.33m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -71,
+            RecipeId = -8,
+            Name = "Dark Brown Sugar",
+            Quantity = 0.5m,
+            UOMId = "cup"
+          },
+          new Ingredient()
+          {
+            Id = -72,
+            RecipeId = -8,
+            Name = "Scallion Stalks, Green Parts Only, 2 Inch Pieces",
+            Quantity = 4,
+            UOMId = "ea"
           }
         );
       });
