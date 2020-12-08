@@ -12,6 +12,7 @@ namespace Api.Models.Validators {
 
         RuleFor(x => x.UOMId)
           .NotEmpty()
+          .NotEqual("0")
           .WithMessage("UOM must be Selected");
 
         RuleFor(x => x.Name)
