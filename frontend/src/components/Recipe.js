@@ -175,6 +175,7 @@ function Recipe(){
         setResponseHeader("Successfully added recipe");
         setEditSuccess(true);
         setEditing(false);
+        setEditSuccess(true);
         fetchRecipe();
       });
     }
@@ -573,8 +574,13 @@ function Recipe(){
   // If no axios Errors, and data is returned, render page...
   return(
     <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
-      <div className="flex justify-center my-8">
-        <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
+      <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
+        <section className="flex justify-center my-8">
+          {editSuccess && EditSuccess()}
+        </section>
+        <div className="flex justify-center my-8">
+          <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
+        </div>
       </div>
       <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
       <section className="flex justify-between">
