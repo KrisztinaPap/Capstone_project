@@ -3,12 +3,11 @@
 @tailwind utilities;
 
 /* Google Fonts font styles */
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
 
 @import url("assets/markdown.css");
 
 /* General styles */
-
 * {
   font-family: 'Lato', sans-serif;
 }
@@ -35,12 +34,7 @@ h1, h2, h3, h4, h5, h6 {
   @apply font-bold block text-white p-2 m-2;
 }
 
-/* Dashboard styles */
-
-/* Recipe swiper & list styles */
-.swiper-item {
-  @apply border-2 border-gray-800 rounded-md px-2 bg-white cursor-pointer;
-}
+/* Meal Plan styles */
 
 .recipe-list-item {
   @apply border-2 border-gray-800 rounded-md px-2 bg-white cursor-pointer;
@@ -52,7 +46,6 @@ h1, h2, h3, h4, h5, h6 {
 .meal-container {
   @apply border border-solid border-gray-800 h-24;
 }
-
 
 .min-w-32 {
   min-width: 8rem;

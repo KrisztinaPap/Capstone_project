@@ -23,7 +23,7 @@ export const Backward = 'backward';
 export const Jump = 'jump';
 
 
-export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod, onMove, fetchRecipe, className}) => {
+export const Schedule = ({isEditing, isLoading, isSaving, toggleEditing, plans, viewPeriod, onMove, fetchRecipe, className}) => {
   /**
    * Moves the user forward by the time interval.
    */
@@ -72,7 +72,7 @@ export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod,
     } else {
       let currentDate = start;
 
-      while(currentDate.diff(end) < 0) {
+      while(currentDate.diff(end) <= 0) {
         dates.push(currentDate);
         currentDate = currentDate.add(1, 'days');
       }
@@ -80,7 +80,6 @@ export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod,
 
     return dates;
   }
-
 
   return (
     <div className={`flex-1 ${className}`}>
@@ -108,6 +107,9 @@ export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod,
           {isSaving && (
             <p><i className="fas fa-spinner fa-spin"></i> Saving...</p>
           )}
+          {isLoading && (
+            <p><i className="fas fa-spinner fa-spin"></i> Loading...</p>
+          )}
         </div>
 
 
@@ -129,6 +131,7 @@ export const Schedule = ({isEditing, isSaving, toggleEditing, plans, viewPeriod,
             fetchRecipe={fetchRecipe}
             plan={plans.byDate(day)}
             isEditing={isEditing}
+            isLoading={isLoading}
             className=""
           />
         ))}
