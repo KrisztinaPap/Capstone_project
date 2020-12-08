@@ -19,6 +19,10 @@ namespace Api.Models
     [Column(TypeName = "varchar(50)")]
     public string Name { get; set; }
 
+    public virtual ICollection<Plan> Plans { get; set; } = new HashSet<Plan>();
+
+    public virtual ICollection<Recipe> Recipes { get; set; } = new HashSet<Recipe>();
+
     public User()
     {
     }
