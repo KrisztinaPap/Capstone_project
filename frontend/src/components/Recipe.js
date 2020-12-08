@@ -5,8 +5,9 @@ import gfm from 'remark-gfm';
 import axios from 'axios';
 import {useParams} from "react-router";
 import { AuthContext } from '../contexts/AuthContext';
-import {EditorState} from "draft-js";
+import {convertFromRaw, EditorState, convertToRaw} from "draft-js";
 import {Editor} from "react-draft-wysiwyg";
+import { draftToMarkdown, markdownToDraft } from 'markdown-draft-js';
 
 function Recipe(){
   const {user} = useContext(AuthContext);
@@ -22,7 +23,6 @@ function Recipe(){
     fetchRecipe();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-
   async function fetchRecipe() {
     try {
       const response = await axios.get(`api/recipes/${recipes}`, {
@@ -34,6 +34,19 @@ function Recipe(){
       console.log(response.data);
       setLoading(false);
       setError(false);
+      setName(response.data.name);
+      SetFats(response.data.fat);
+      SetProteins(response.data.protein);
+      SetCarbohydrates(response.data.carbohydrates);
+      SetPrep(response.data.prepTime);
+      setCookTime(response.data.cookTime);
+      SetServings(response.data.servings);
+      SetNotes(response.data.notes);
+      setRecipeCategory(response.data.CategoryId);
+      // markdown string
+      const rawInstruction = markdownToDraft(response.data.instructions);
+      const contentInstructions = convertFromRaw(rawInstruction);
+      setEditorState(EditorState.createWithContent(contentInstructions));
     } catch (err) {
       setError(true)
       setLoading(false)
@@ -52,7 +65,7 @@ function Recipe(){
   /*            VARIABLES & FUNCTIONS FOR EDIT PAGE             */
   /*============================================================*/
 
-  const [editorState, setEditorState] = useState(EditorState.createEmpty(""));
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [measurementsList, setMeasurementsList] = useState(['']);
   const [recipeCategoryList, setRecipeCategoryList] = useState([{ name: '', id: -1 }]);
   const [recipeCategory, setRecipeCategory] = useState("0");
@@ -73,11 +86,8 @@ function Recipe(){
   /*============================================================*/
   /*                   Setting States
   /*============================================================*/
-
-  function onEditorStateChange(event) {
-    // Summary:
-    //   This function will update the state tracked by the instructions text editor.
-    setEditorState(event.blocks[0].text);
+  const onEditorStateChange = (editorState) => {
+    setEditorState(editorState);
   }
 
   async function ValidateInputFields() {
@@ -146,12 +156,13 @@ function Recipe(){
           'Authorization': `Bearer ${user.token}`
         },
         data: {
+          "Id": myRecipe.id,
           "CategoryId": parseInt(recipeCategory),
           "Name": name,
           "Fat": fats,
           "Protein": proteins,
           "Carbohydrates": carbohydrates,
-          "Instructions": editorState,
+          "Instructions": draftToMarkdown(convertToRaw(editorState.getCurrentContent())),
           "Ingredients": ingredientsList,
           "DateModified": new Date().toJSON(),
           "PrepTime": prep,
@@ -166,6 +177,7 @@ function Recipe(){
         setStatusCode(res.status);
         setEditSuccess(true);
         setEditing(false);
+        fetchRecipe();
       })
         .catch((err) => {
           setValidationErrors(["There was an error with the server."]);
@@ -434,7 +446,7 @@ function Recipe(){
           <ul>
             {errorMessage}
           </ul>
-          <form /*onSubmit={EditRecipe}*/>
+          <form onSubmit={EditRecipe}>
             <section id="addRecipeBasics" className="border-t-4 flex flex-row py-4">
               <div className="w-1/2 ">
                 <h2 className="font-bold">Basic Information</h2>
@@ -462,11 +474,11 @@ function Recipe(){
                 <div>
                   <label htmlFor="addRecipeCategory" className="block pl-4 pb-2">Recipe Category(*):</label>
                   <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange}
-                          defaultValue="0">
+                          defaultValue={myRecipe.CategoryId}>
                     <option value="0"/>
                     {recipeCategoryList.map((category) => {
                       return (
-                        <option key={category.id} value={category.id}>{category.name}</option>
+                        <option key={category.id} id={category.id}value={category.id}>{category.name}</option>
                       );
                     })}
                   </select>
@@ -491,10 +503,11 @@ function Recipe(){
                 <p>Review Instructions for your recipe</p>
                 <div className="input-field">
                   <Editor
+                    editorState={editorState}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
-                    onChange={onEditorStateChange}
+                    editorClassName="markdown"
+                    onEditorStateChange={onEditorStateChange}
                     toolbar={{
                       inline: { inDropdown: true },
                       list: { inDropdown: true },
@@ -502,7 +515,7 @@ function Recipe(){
                       link: { inDropdown: true },
                       history: { inDropdown: true },
                     }}
-                  />
+                    />
                 </div>
               </section>
             </section>
