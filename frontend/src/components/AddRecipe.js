@@ -130,14 +130,12 @@ const AddRecipe = () => {
         }
       }).then((res) => {
         setValidationErrors([]);
-        setResponseHeader("Successfully added recipe");
         setResponse(res.data);
         setRecipeID(res.data.id);
         setStatusCode(res.status);
         setCreateRecipeSuccess(true);
       })
       .catch((err) => {
-        setValidationErrors(["There was an error with the server."]);
         setResponse(err.response.data);
         setStatusCode(err.response.status);
       });
@@ -346,10 +344,10 @@ const AddRecipe = () => {
   useEffect(()=> {
     const errorList = [];
     if(validationErrors.length > 0) {
-      setResponseHeader("ERROR: There was problem with your recipe!");
+      setResponseHeader("ERROR: There was a problem with your recipe!");
       for(let error in validationErrors)
       {
-        errorList.push(<li className="list-disc">{validationErrors[error]}</li>);
+        errorList.push(<li className="list-disc text-red-800">{validationErrors[error]}</li>);
       }
       setErrorMessage(errorList);
     }
@@ -427,7 +425,7 @@ const AddRecipe = () => {
                   <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
                   <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
                   <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
-                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="quantity1" onChange={HandleFormChange} />
+                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="quantity1" value="0" onChange={HandleFormChange} />
                   <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
                   <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange} defaultValue="0">
                     <option value="0"></option>
