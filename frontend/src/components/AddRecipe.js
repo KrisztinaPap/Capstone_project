@@ -247,6 +247,7 @@ const AddRecipe = () => {
 
     // Set the attributes for the input fields.
     newLabel.setAttribute("for", `ingredient${childCount / 4 + 1}`);
+    newLabel.setAttribute("key", `ingredient${childCount / 4 + 1}`);
     newLabel.setAttribute("class", "block pl-4 pb-2 border-t-4 mt-2");
     newLabel.innerHTML = "Ingredient";
     newInput.setAttribute("id", `ingredient${childCount / 4 + 1}`);
@@ -254,16 +255,20 @@ const AddRecipe = () => {
     newInput.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4");
 
     newQuantityLabel.setAttribute("for", `quantity${childCount / 4 + 1}`);
+    newQuantityLabel.setAttribute("key", `quantity${childCount / 4 + 1}`);
     newQuantityLabel.setAttribute("class", "block pl-4 pb-2");
     newQuantityLabel.innerHTML = `Quantity`;
     newQuantity.setAttribute("id", `quantity${childCount / 4 + 1}`);
     newQuantity.setAttribute("class", "ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4");
+    newQuantity.setAttribute("type", "number");
 
     newMeasureLabel.setAttribute("id", `measurement${childCount / 4 + 1}`);
+    newMeasureLabel.setAttribute("key", `measurement${childCount / 4 + 1}`);
     newMeasureLabel.setAttribute("class", "block pl-4 pb-2");
     newMeasureLabel.innerHTML = "Measurement";
 
     newMeasureSelect.setAttribute("id", `measurement${childCount / 4 + 1}`);
+    newMeasureSelect.setAttribute("key", `measurement${childCount / 4 + 1}`);
     newMeasureSelect.setAttribute("class", "border border-solid mx-4 ingredientInput");
     // Add the measurement options to the select field.
     for(let measurement in measurementsList) {
@@ -347,7 +352,7 @@ const AddRecipe = () => {
       setResponseHeader("ERROR: There was a problem with your recipe!");
       for(let error in validationErrors)
       {
-        errorList.push(<li className="list-disc text-red-800">{validationErrors[error]}</li>);
+        errorList.push(<li key={`error-${error}`} className="list-disc text-red-800">{validationErrors[error]}</li>);
       }
       setErrorMessage(errorList);
     }
@@ -378,7 +383,7 @@ const AddRecipe = () => {
             <div className="w-full md:w-1/2 md:pl-12">
               <label htmlFor="addRecipeName" className="block pl-4 pb-2">Name(*):</label>
               <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeName" onChange={HandleFormChange} />
-              <form className="py-4">
+              <section className="py-4">
                 <label id="photoLabel" htmlFor="addRecipePhoto" className="pl-4 block pb-2">Photo:</label>
                 <p className="font-bold pl-4">{imageUploadMessage}</p>
                 <input type="file" className="pl-4 w-3/4 md: w-full" accept="image/x-png,image/gif,image/jpeg" id="addRecipePhoto" />
@@ -387,7 +392,7 @@ const AddRecipe = () => {
                   <p>PNG, JPEG, up to 10MB</p>
                 </div>
                 <button className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline ml-4" onClick={PhotoUpload}>Upload</button>
-              </form>
+              </section>
               <div>
                 <label htmlFor="addRecipePrepTime" className="block pl-4 pb-2">Prep. Time(*)(min):</label>
                 <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
