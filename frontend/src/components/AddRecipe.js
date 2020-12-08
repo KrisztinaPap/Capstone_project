@@ -459,7 +459,9 @@ const AddRecipe = () => {
               </div>
               <h3>Instructions Preview</h3>
               <p>Your instructions will be displayed as shown below:</p>
-              <ReactMarkdown plugins={[gfm]} className="markdown">{draftToMarkdown(convertToRaw(editorState.getCurrentContent()))}</ReactMarkdown>
+                <p>{draftToMarkdown(convertToRaw(editorState.getCurrentContent()))}</p>
+                <p>CUTOFF</p>
+              <ReactMarkdown plugins={[gfm]} className="markdown">{draftToMarkdown(convertToRaw(editorState.getCurrentContent()), escapeMarkdownCharacters=false)}</ReactMarkdown>
             </section>
           </section>
           <section id="addRecipeNutritional" className="py-4 border-t-4 flex flex-row">
