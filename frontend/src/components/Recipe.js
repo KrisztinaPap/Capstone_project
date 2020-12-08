@@ -43,7 +43,7 @@ function Recipe(){
       SetServings(response.data.servings);
       SetNotes(response.data.notes);
       setRecipeCategory(response.data.CategoryId);
-      setImage(response.data.Image);
+      setImage(response.data.image);
       // markdown string
       const rawInstruction = markdownToDraft(response.data.instructions);
       const contentInstructions = convertFromRaw(rawInstruction);
