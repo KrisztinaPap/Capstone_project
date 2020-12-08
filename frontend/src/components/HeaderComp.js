@@ -28,7 +28,7 @@ const HeaderComp = () => {
     const debouncedHandleResize = debounce(function handleResize() {
       setViewWidth(window.innerWidth);
 
-    }, 100)
+    }, 1)
 
     window.addEventListener('resize', debouncedHandleResize)
 
@@ -52,7 +52,7 @@ const HeaderComp = () => {
       <>
         <section>
           <div className="w-full h-1 border-top box-shadow bg-purple-500"/>
-          <img src={"/yummy-mobile-banner.png"} alt="test logo" className="mx-auto"/>
+          <img src={"/yummy-mobile-banner.png"} alt="yummy mobile banner" className="mx-auto"/>
         </section>
       </>
     )
@@ -62,7 +62,7 @@ const HeaderComp = () => {
       <>
         <section>
           <div className="w-full h-1 border-top box-shadow bg-purple-500"/>
-          <img src={"/yummy-banner.png"} alt="test logo" className="mx-auto"/>
+          <img src={"/yummy-banner.png"} alt="yummy desktop banner" className="mx-auto"/>
         </section>
       </>
     );
