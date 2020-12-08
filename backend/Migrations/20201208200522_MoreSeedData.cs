@@ -81,57 +81,57 @@ namespace Api.Migrations
                 values: new object[,]
                 {
                     { -6, 13, -3, 45m, new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), 20, "images/User_927249ee-afd9-4bd0-b74e62053687d989/braz-fish-stew.jpg", @"1. Rinse and pat dry the fish and cut into 2 inch peices. Place in a bowl. Add salt, zest from half the lime and 1 tablespoon lime juice. Massage lightly to coat all pieces well. Set aside.
-                2. In a large saute pan, heat the olive oil over medium high heat. Add onion and salt, and sauté 2-3 minutes. Turn heat down to medium, add carrot, bell pepper, garlic and jalapeno and cook 4-5 more minutes. Add tomato paste, spices and stock. Mix and bring to a simmer and add tomatoes. Cover and simmer gently on medium low for 5 mintues or until carrots are tender.
-                3. Add the coconut milk and taste and add more salt if necessary.
-                4. Nestle the fish in the stew and simmer gently until it’s cooked through, about 4-6 minutes.  Spoon the flavorful coconut broth over the fish and cook until desired doneness or longer for thicker pieces. ( You can also finish this in a 350F oven).
-                5. Taste and adjust salt and squeeze with lime.
-                6. To serve, serve over rice, sprinkle with cilantro or scallions and a squeeze of lime.
-                7. (Optional) Drizzle with a little olive oil to taste.", "Brazilian Fish Stew (Moqueca)", @"* Serve with rice or crusty bread to mop up all the juices
-                * Look for Coconut Milk in a can at the supermarket
-                * Fresh Tomatoes make the recipe better than Canned Tomato
-                * Cumin can be substituted for whole seed cumin", 30m, 45, 4, "927249ee-afd9-4bd0-b74e62053687d989" },
+2. In a large saute pan, heat the olive oil over medium high heat. Add onion and salt, and sauté 2-3 minutes. Turn heat down to medium, add carrot, bell pepper, garlic and jalapeno and cook 4-5 more minutes. Add tomato paste, spices and stock. Mix and bring to a simmer and add tomatoes. Cover and simmer gently on medium low for 5 mintues or until carrots are tender.
+3. Add the coconut milk and taste and add more salt if necessary.
+4. Nestle the fish in the stew and simmer gently until it’s cooked through, about 4-6 minutes.  Spoon the flavorful coconut broth over the fish and cook until desired doneness or longer for thicker pieces. ( You can also finish this in a 350F oven).
+5. Taste and adjust salt and squeeze with lime.
+6. To serve, serve over rice, sprinkle with cilantro or scallions and a squeeze of lime.
+7. (Optional) Drizzle with a little olive oil to taste.", "Brazilian Fish Stew (Moqueca)", @"* Serve with rice or crusty bread to mop up all the juices
+* Look for Coconut Milk in a can at the supermarket
+* Fresh Tomatoes make the recipe better than Canned Tomato
+* Cumin can be substituted for whole seed cumin", 30m, 45, 4, "927249ee-afd9-4bd0-b74e62053687d989" },
                     { -7, 21, -3, 20m, new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), 12, "images/User_927249ee-afd9-4bd0-b74e62053687d989/simple-salmon-chowder.jpg", @"1. Heat oil over medium heat, and saute onion, fennel and celery until fragrant, 5-6 minutes. Add garlic, fennel seeds, thyme and saute two more minutes, stirring. Add the smoked paprika.
-                2. Add vermouth, and cook it off, about 1-2 minutes. Add stock, salt, thyme and bay, and bring to a simmer over high heat. Add potatoes and stir. Bring to a simmer, cover and simmer over med-low heat until tender, about 8-10 minutes (check at 7 mins, be careful to not overcook).  While this is cooking prep the salmon.
-                3. Cut salmon into 2-inch pieces, removing any of the brown fat ( see notes) and bones. Sprinkle lightly with salt.
-                4. Once the potatoes are just fork-tender, add the milk and bring to a low simmer (do not boil) and add the salmon, gently poaching it in the soup for just about  2 minutes. Turn heat off.  Fish will continue to cook. If you continue to simmer the soup any longer it may cause a slight curdling. ( Don’t worry, it’s still edible, but not as pretty.)  Flake the fish apart, into bite-sized pieces, with a fork.
-                5. Taste, adjust seasonings to your liking and serve immediately.
-                6. Garnish with fennel fronds, lemon wedges, fresh dill or tarragon.", "Simple Salmon Chowder", @"* If using chicken stock, add 1 teaspoon fish sauce for depth. You can also sub some clam juice for the stock.
-                * If skipping the vermouth or sherry cooking wine, which FYI does give this a lovely elevated nuanced flavor, add a couple of drops of AC vinegar at the end along with a pinch of sugar. Advanced cooks- you could experiment with Pernod (subbing it for the vermouth, starting with 2-3 tablespoons, making sure to cook this off) which will give it a beautiful anise flavor.
-                * If you notice grey/brown fat located between the skin and salmon flesh, feel free to remove it -which ultimately will look better in the stew. If using wild salmon, it is ok to eat (healthy, actually)  just not quite as “pretty”.
-                * Keto option, sub potatoes with cauliflower. Use 1 cup of heavy whipping cream.
-                * Dairy-Free option: Add 1 cup of coconut milk, more to taste.
-                * Soup will keep 3 days in the fridge.
-                * Salmon can be substituted for Cod or Shrimp. Cut in to 1-2 inch pieces
-                * Garnish with Lemon Wedges, Fresh Dill, Tarragon, and Fennel Fronds if you desire.", 20m, 25, 6, "927249ee-afd9-4bd0-b74e62053687d989" },
+2. Add vermouth, and cook it off, about 1-2 minutes. Add stock, salt, thyme and bay, and bring to a simmer over high heat. Add potatoes and stir. Bring to a simmer, cover and simmer over med-low heat until tender, about 8-10 minutes (check at 7 mins, be careful to not overcook).  While this is cooking prep the salmon.
+3. Cut salmon into 2-inch pieces, removing any of the brown fat ( see notes) and bones. Sprinkle lightly with salt.
+4. Once the potatoes are just fork-tender, add the milk and bring to a low simmer (do not boil) and add the salmon, gently poaching it in the soup for just about  2 minutes. Turn heat off.  Fish will continue to cook. If you continue to simmer the soup any longer it may cause a slight curdling. ( Don’t worry, it’s still edible, but not as pretty.)  Flake the fish apart, into bite-sized pieces, with a fork.
+5. Taste, adjust seasonings to your liking and serve immediately.
+6. Garnish with fennel fronds, lemon wedges, fresh dill or tarragon.", "Simple Salmon Chowder", @"* If using chicken stock, add 1 teaspoon fish sauce for depth. You can also sub some clam juice for the stock.
+* If skipping the vermouth or sherry cooking wine, which FYI does give this a lovely elevated nuanced flavor, add a couple of drops of AC vinegar at the end along with a pinch of sugar. Advanced cooks- you could experiment with Pernod (subbing it for the vermouth, starting with 2-3 tablespoons, making sure to cook this off) which will give it a beautiful anise flavor.
+* If you notice grey/brown fat located between the skin and salmon flesh, feel free to remove it -which ultimately will look better in the stew. If using wild salmon, it is ok to eat (healthy, actually)  just not quite as “pretty”.
+* Keto option, sub potatoes with cauliflower. Use 1 cup of heavy whipping cream.
+* Dairy-Free option: Add 1 cup of coconut milk, more to taste.
+* Soup will keep 3 days in the fridge.
+* Salmon can be substituted for Cod or Shrimp. Cut in to 1-2 inch pieces
+* Garnish with Lemon Wedges, Fresh Dill, Tarragon, and Fennel Fronds if you desire.", 20m, 25, 6, "927249ee-afd9-4bd0-b74e62053687d989" },
                     { -8, 21, -2, 15m, new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), 12, "images/User_927249ee-afd9-4bd0-b74e62053687d989/mongolian-beef.jpg", @"1. Slice the flank steak against the grain (the grain is the length of the steak) the long way 1/4 inch think pieces and add it to a ziploc bag with the cornstarch.
-                2. Press the steak around in the bag making sure each piece is fully coated with cornstarch and leave it to sit.
-                3. Add the canola oil to a large frying pan and heat on medium high heat.
-                4. Add the steak, shaking off any excess corn starch, to the pan in a single layer and cook on each side for 1 minute.
-                5. If you need to cook the steak in batches because your pan isn't big enough do that rather than crowding the pan, you want to get a good sear on the steak and if you crowd the pan your steak with steam instead of sear.
-                6. When the steak is done cooking remove it from the pan.
-                7. Add the ginger and garlic to the pan and saute for 10-15 seconds
-                8. Add the soy sauce, water, and dark brown sugar to the pan and let it come to a boil
-                9. Add the steak back in and let the sauce thicken for 20-30 seconds
-                10. The cornstarch we used on the steak should thicken the sauce, if you find it isn't thickening enough, add 1 tablespoon of cornstarch to 1 tablespoon of cold water and stir to dissolve the cornstarch and add it to the pan.
-                11. Add the green onions, stir to combine everything, and cook for a final 20-30 seconds
-                12. Serve immediately.", "Easy Mongolian Beef", "* Mongolian Beef that's easy to make in just 30 minutes, crispy, sweet and full of garlic and ginger flavors you love from your favorite Chinese restaurant.", 10m, 25, 4, "927249ee-afd9-4bd0-b74e62053687d989" },
+2. Press the steak around in the bag making sure each piece is fully coated with cornstarch and leave it to sit.
+3. Add the canola oil to a large frying pan and heat on medium high heat.
+4. Add the steak, shaking off any excess corn starch, to the pan in a single layer and cook on each side for 1 minute.
+5. If you need to cook the steak in batches because your pan isn't big enough do that rather than crowding the pan, you want to get a good sear on the steak and if you crowd the pan your steak with steam instead of sear.
+6. When the steak is done cooking remove it from the pan.
+7. Add the ginger and garlic to the pan and saute for 10-15 seconds
+8. Add the soy sauce, water, and dark brown sugar to the pan and let it come to a boil
+9. Add the steak back in and let the sauce thicken for 20-30 seconds
+10. The cornstarch we used on the steak should thicken the sauce, if you find it isn't thickening enough, add 1 tablespoon of cornstarch to 1 tablespoon of cold water and stir to dissolve the cornstarch and add it to the pan.
+11. Add the green onions, stir to combine everything, and cook for a final 20-30 seconds
+12. Serve immediately.", "Easy Mongolian Beef", "* Mongolian Beef that's easy to make in just 30 minutes, crispy, sweet and full of garlic and ginger flavors you love from your favorite Chinese restaurant.", 10m, 25, 4, "927249ee-afd9-4bd0-b74e62053687d989" },
                     { -9, 78, -5, 25m, new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), 29, "images/User_927249ee-afd9-4bd0-b74e62053687d989/vegan-fajitas.jpg", @"1. Preheat the oven to 425 degrees Fahrenheit.
-                2. Thinly slice the onion. Slice the bell peppers. Chop the cauliflower into small florets. Chop the mushroom into bite-sized pieces. Add the veggies to a big bowl and toss them with the olive oil, chili powder, cumin, paprika, garlic powder, onion powder, and kosher salt.
-                3. Line 2 baking sheets with parchment paper. Add the vegetables in a single layer. Roast 15 minutes, then remove the sheets, stir the veggies, and sprinkle on another 1/2 teaspoon salt spread between the trays (1/4 teaspoon on each). Stir again, then return to the oven and roast another 10 minutes until tender.
-                4. Meanwhile, pit the avocados. Scoop out the flesh into a bowl and mash with a fork. Add the lime juice, salt, and cilantro.
-                5. Heat the refried beans in a small sauce pan.
-                6. If desired, char the tortillas by placing them on an open gas flame on medium for a few seconds per side, flipping with tongs, until they are slightly blackened and warm.
-                7. To serve, place the refried beans and roasted veggies in tortillas, and top with guac-ish.", "Vegan Fajitas", @"* Guacish is made by pitting 2 avocados, mashing them in a bowl, and adding the juice of 1 lime and chopped cilantro to taste.
-                * For best results, warm tortillas in the oven - Heat oven to 350 degrees and wrap tortillas 4 at a time in aluminum foil and cook for 15-20 minutes
-                * Homemade refried beans are great if you have time to whip them up, otherwise canned vegetarian refried beans are available at most supermarkets.
-                * If using canned refried beans may need some additional cumin or chilli powder to add taste.", 15m, 18, 4, "927249ee-afd9-4bd0-b74e62053687d989" },
-                    { -10, 26, -4, 3m, new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), 15, "images/User_927249ee-afd9-4bd0-b74e62053687d989/vegan-fajitas.jpg", @"1. In a medium bowl, whisk together the 4 eggs. Add the chili powder, garlic powder, cumin, and kosher salt, and whisk until combined
-                2. In a skillet, heat the olive oil. Add the eggs and cook over medium low heat, scraping as the eggs solidify, about 3 to 4 minutes total. As you scrape, they’ll start to form together into a meat-like texture. Don’t scrape too much or you’ll make too small of pieces: just enough for that it comes together!
-                3. If time, warm and char the tortillas by placing them on an open gas flame on medium for a few seconds per side, flipping with tongs, until they are slightly blackened and warm.
-                4. Top with salsa fresca (drain extra liquid before serving), thin sliced red onions, torn cilantro leaves, and hot sauce.", "5 Minute Vegetarian Egg Tacos", @"* Great Toppings Include: Salsa or Pico de Gallo, Red Onion, Cilantro, Lettuce, Sour Cream, Jalapeno, and Crema.
-                * Dont scrape the pan too much! You don't want tiny bits of eggs, you'll want it to hold together into a cohesive texture
-                * Cook over low medium heat. Don't have the heat too high! This can burn the eggs!
-                * This quick recipe makes for a great speedy breakfast for those on the go!", 2m, 16, 2, "927249ee-afd9-4bd0-b74e62053687d989" }
+2. Thinly slice the onion. Slice the bell peppers. Chop the cauliflower into small florets. Chop the mushroom into bite-sized pieces. Add the veggies to a big bowl and toss them with the olive oil, chili powder, cumin, paprika, garlic powder, onion powder, and kosher salt.
+3. Line 2 baking sheets with parchment paper. Add the vegetables in a single layer. Roast 15 minutes, then remove the sheets, stir the veggies, and sprinkle on another 1/2 teaspoon salt spread between the trays (1/4 teaspoon on each). Stir again, then return to the oven and roast another 10 minutes until tender.
+4. Meanwhile, pit the avocados. Scoop out the flesh into a bowl and mash with a fork. Add the lime juice, salt, and cilantro.
+5. Heat the refried beans in a small sauce pan.
+6. If desired, char the tortillas by placing them on an open gas flame on medium for a few seconds per side, flipping with tongs, until they are slightly blackened and warm.
+7. To serve, place the refried beans and roasted veggies in tortillas, and top with guac-ish.", "Vegan Fajitas", @"* Guacish is made by pitting 2 avocados, mashing them in a bowl, and adding the juice of 1 lime and chopped cilantro to taste.
+* For best results, warm tortillas in the oven - Heat oven to 350 degrees and wrap tortillas 4 at a time in aluminum foil and cook for 15-20 minutes
+* Homemade refried beans are great if you have time to whip them up, otherwise canned vegetarian refried beans are available at most supermarkets.
+* If using canned refried beans may need some additional cumin or chilli powder to add taste.", 15m, 18, 4, "927249ee-afd9-4bd0-b74e62053687d989" },
+                    { -10, 26, -4, 3m, new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), new DateTime(2020, 12, 8, 0, 0, 0, 0, DateTimeKind.Local), 15, "images/User_927249ee-afd9-4bd0-b74e62053687d989/vegetarian-egg-tacos.jpg", @"1. In a medium bowl, whisk together the 4 eggs. Add the chili powder, garlic powder, cumin, and kosher salt, and whisk until combined
+2. In a skillet, heat the olive oil. Add the eggs and cook over medium low heat, scraping as the eggs solidify, about 3 to 4 minutes total. As you scrape, they’ll start to form together into a meat-like texture. Don’t scrape too much or you’ll make too small of pieces: just enough for that it comes together!
+3. If time, warm and char the tortillas by placing them on an open gas flame on medium for a few seconds per side, flipping with tongs, until they are slightly blackened and warm.
+4. Top with salsa fresca (drain extra liquid before serving), thin sliced red onions, torn cilantro leaves, and hot sauce.", "5 Minute Vegetarian Egg Tacos", @"* Great Toppings Include: Salsa or Pico de Gallo, Red Onion, Cilantro, Lettuce, Sour Cream, Jalapeno, and Crema.
+* Dont scrape the pan too much! You don't want tiny bits of eggs, you'll want it to hold together into a cohesive texture
+* Cook over low medium heat. Don't have the heat too high! This can burn the eggs!
+* This quick recipe makes for a great speedy breakfast for those on the go!", 2m, 16, 2, "927249ee-afd9-4bd0-b74e62053687d989" }
                 });
 
             migrationBuilder.InsertData(

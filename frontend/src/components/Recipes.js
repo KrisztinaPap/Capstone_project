@@ -11,7 +11,7 @@ function Recipes() {
   const [error, setError] = useState(false);
   const [sure, setSure] = useState(false);
   const [sureID, setSureID] = useState(0);
-  const [recipeCategoryList, setRecipeCategoryList] = useState("");
+  const [recipeCategoryList, setRecipeCategoryList] = useState([]);
 
   useEffect(() => {
     populateRecipes();
@@ -120,10 +120,10 @@ function Recipes() {
     <>
       <main className="container my-2">
         <section>
-          <section className={'flex mt-8 ml-5 mr-5'}>
+          <section className="flex-col md:flex-row mt-8 ml-5 mr-5">
             <h2 className="flex-auto justify-start text-2xl"><i className="fas fa-drumstick-bite px-2"></i>Your Recipe List</h2>
-            <select className="border border-solid mx-4" id="addRecipeCategory" onChange={filterRecipes} defaultValue="all">
-                  <option value="all">All Recipes</option>
+            <select className="text-lg border border-solid mx-4" id="addRecipeCategory" onChange={filterRecipes} defaultValue="all">
+                  <option className="text-lg" value="all">All Recipes</option>
                   {recipeCategoryList.map((category) => {
                     return (
                       <option key={category.id} value={category.name}>{category.name}</option>
@@ -152,22 +152,22 @@ function Recipes() {
                         </div>
                       </Link>
                     </div>
-                    <div className="flex align-center items-center ">
+                    <div className="flex-col md:flex-row align-center items-center">
                       {!sure &&
                         <button onClick={ () => softDeleteRecipe(recipes.id) } className="w-12 h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
                           <i className="far fa-trash-alt"></i>
                         </button>
                       }
                       {sure && sureID === recipes.id &&
-                        <>
-                          <span>Are you sure?</span>
-                          <button onClick={ () => deleteRecipe(recipes.id) } className="mx-2 h-12 bg-red-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-red-700 focus:outline-none focus:shadow-outline">
+                        <div className="flex-row flex-wrap justify-end">
+                          <span className="block md:inline">Are you sure?</span>
+                          <button onClick={ () => deleteRecipe(recipes.id) } className="md:mx-2 h-12 bg-red-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-red-700 focus:outline-none focus:shadow-outline">
                             YES
                           </button>
                           <button onClick={ () => softDeleteRecipe(recipes.id) } className="h-12 purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline">
                             CANCEL
                           </button>
-                        </>
+                        </div>
                       }
                     </div>
                   </td>

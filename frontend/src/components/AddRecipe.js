@@ -358,7 +358,7 @@ const AddRecipe = () => {
 
   return (
     <>
-      <div className="container mx-2 my-4 w-full">
+      <div className="container mx-4 my-4 w-full">
         <div className="block text-center my-4">
           <h1 className="font-bold text-lg">Add a New Recipe</h1>
         </div>
@@ -387,19 +387,19 @@ const AddRecipe = () => {
               </div>
               <div>
                 <label htmlFor="addRecipePrepTime" className="block pl-4 pb-2">Prep. Time(*)(min):</label>
-                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipePrepTime" onChange={HandleFormChange} />
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addRecipePrepTime" onChange={HandleFormChange} />
               </div>
               <div>
                 <label htmlFor="addRecipeCookTime" className="block pl-4 pb-2">Cook Time(*)(min):</label>
-                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeCookTime" onChange={HandleFormChange} />
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addRecipeCookTime" onChange={HandleFormChange} />
               </div>
               <div>
                 <label htmlFor="addRecipeServings" className="block pl-4 pb-2">Servings:</label>
-                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="addRecipeServings" onChange={HandleFormChange} />
+                <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="addRecipeServings" onChange={HandleFormChange} />
               </div>
               <div>
                 <label htmlFor="addRecipeCategory" className="block pl-4 pb-2">Recipe Category(*):</label>
-                <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange} defaultValue="0">
+                <select className="border border-solid mx-4" id="addRecipeCategory" onChange={HandleFormChange} >
                   <option defaultValue="0" />
                   {recipeCategoryList.map((category) => {
                     return (
@@ -422,7 +422,7 @@ const AddRecipe = () => {
                   <label htmlFor="ingredient1" className="block pl-4 pb-2">Ingredient:</label>
                   <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text" id="ingredient1" onChange={HandleFormChange} />
                   <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
-                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="quantity1" value="0" onChange={HandleFormChange} />
+                  <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number" id="quantity1" onChange={HandleFormChange} />
                   <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
                   <select className="border border-solid mx-4 ingredientInput" id="measurement1" onChange={HandleFormChange} defaultValue="0">
                     <option value="0"></option>

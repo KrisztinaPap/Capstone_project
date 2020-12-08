@@ -105,7 +105,7 @@ function Recipe(){
       if(isNaN(parseInt(IngredientInputFields[i+1].value))) {
         validationErrorList.push("One of your ingredients is missing a quantity!");
       }
-      if(IngredientInputFields[i+2].value === "0" || IngredientInputFields[i+2].value === null) {
+      if(IngredientInputFields[i+2].value === "0" || IngredientInputFields[i+2].value === "") {
         validationErrorList.push("One of your ingredients is missing a unit of measure!");
       }
     }
@@ -175,6 +175,7 @@ function Recipe(){
         setResponseHeader("Successfully added recipe");
         setEditSuccess(true);
         setEditing(false);
+        setEditSuccess(true);
         fetchRecipe();
       });
     }
@@ -367,7 +368,7 @@ function Recipe(){
              type="text" id="ingredient1" defaultValue={myRecipe.ingredients[i].name} onChange={HandleFormChange}/>
       <label htmlFor="quantity1" className="block pl-4 pb-2">Quantity:</label>
       <input className="ingredientInput input-field mx-2 focus:outline-none focus:shadow-outline w-3/4"
-             type="text" id="quantity1" defaultValue={myRecipe.ingredients[i].quantity} onChange={HandleFormChange}/>
+             type="number" id="quantity1" defaultValue={myRecipe.ingredients[i].quantity} onChange={HandleFormChange}/>
       <label htmlFor="measurement1" className="block pl-4 pb-2">Measurement:</label>
       <select className="border border-solid mx-4 ingredientInput" id="measurement1"
               onChange={HandleFormChange} defaultValue={myRecipe.ingredients[i].uom} >
@@ -451,17 +452,17 @@ function Recipe(){
                        id="addRecipeName" defaultValue={myRecipe.name} onChange={HandleFormChange}/>
                 <div>
                   <label htmlFor="addRecipePrepTime" className="block pl-4 pb-2">Prep. Time(*)(min):</label>
-                  <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text"
+                  <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number"
                          id="addRecipePrepTime" defaultValue={myRecipe.prepTime} onChange={HandleFormChange}/>
                 </div>
                 <div>
                   <label htmlFor="addRecipeCookTime" className="block pl-4 pb-2">Cook Time(*)(min):</label>
-                  <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text"
+                  <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number"
                          id="addRecipeCookTime" defaultValue={myRecipe.cookTime} onChange={HandleFormChange}/>
                 </div>
                 <div>
                   <label htmlFor="addRecipeServings" className="block pl-4 pb-2">Servings:</label>
-                  <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="text"
+                  <input className="input-field mx-2 focus:outline-none focus:shadow-outline w-3/4" type="number"
                          id="addRecipeServings" defaultValue={myRecipe.servings} onChange={HandleFormChange}/>
                 </div>
                 <div>
@@ -573,8 +574,13 @@ function Recipe(){
   // If no axios Errors, and data is returned, render page...
   return(
     <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
-      <div className="flex justify-center my-8">
-        <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
+      <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
+        <section className="flex justify-center my-8">
+          {editSuccess && EditSuccess()}
+        </section>
+        <div className="flex justify-center my-8">
+          <img className="p-2 w-1/3 border rounded" src={myRecipe.image} alt={myRecipe.name} />
+        </div>
       </div>
       <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
       <section className="flex justify-between">
