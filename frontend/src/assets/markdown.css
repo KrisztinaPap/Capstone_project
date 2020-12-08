@@ -5,3 +5,11 @@
 .markdown ul {
   list-style: disc;
 }
+
+.markdown h1 {
+  @apply text-2xl;
+}
+
+.markdown h2 {
+  @apply text-xl;
+}
