@@ -137,7 +137,7 @@ function Recipes() {
               </button>
             </Link>
           </section>
-          <table className="w-full mx-auto mt-1 ">
+          <table className="w-full mx-auto mt-1">
             <tbody className="mb-2">
               {recipes.map(recipes => (
                 <tr key={recipes.id} className="border-2 m-2 p-2 flex flex-row rounded shadow">
@@ -159,7 +159,7 @@ function Recipes() {
                         </button>
                       }
                       {sure && sureID === recipes.id &&
-                        <div className="flex-row flex-wrap justify-end">
+                        <div className="flex flex-row flex-wrap justify-end">
                           <span className="block md:inline">Are you sure?</span>
                           <button onClick={ () => deleteRecipe(recipes.id) } className="md:mx-2 h-12 bg-red-500 text-white font-bold py-2 px-4 rounded shadow hover:bg-red-700 focus:outline-none focus:shadow-outline">
                             YES
