@@ -441,7 +441,7 @@ function Recipe(){
   if (editing) {
     return (
       <>
-        <div className="container mx-2 my-4 w-full">
+        <div className="container my-4 w-full">
           <div className="block text-left my-4">
             <h1 className="font-bold text-lg">Editing Recipe - {myRecipe.name}</h1>
           </div>
