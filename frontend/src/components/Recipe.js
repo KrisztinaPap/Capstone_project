@@ -141,6 +141,9 @@ function Recipe(){
       validationErrorList.push(validationErrorMsg);
     }
     setValidationErrors(validationErrorList);
+
+    // Scroll to Top
+    window.scrollTo(0, 0);
   }
 
   function EditRecipe(event) {
