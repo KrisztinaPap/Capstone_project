@@ -77,10 +77,10 @@ export const RecipeList = ({isLoading, error, recipes, recipeCategories, retry})
                       className="my-6 w-24 bg-white flex flex-col items-center justify-center mx-2 lg:my-0 lg:justify-start lg:flex-row lg:w-64"
                       style={getRecipesDragStyle(draggableProps.style, snapshot)}
                     >
-                      <div className="bg-gray-200 w-full h-20 lg:mr-2 lg:w-20">
+                      <div className="bg-gray-200 w-full h-20 lg:mr-2 lg:w-2/5">
                         <img className="object-cover w-full h-full" src={recipes.image} alt=""/>
                       </div>
-                      <p className="px-2 break-normal text-center lg:text-left">{recipes.name}</p>
+                      <p className="px-2 break-normal text-center lg:text-left lg:w-3/5">{recipes.name}</p>
                     </div>
                   )}
                 </Draggable>
