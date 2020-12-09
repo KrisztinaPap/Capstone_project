@@ -53,6 +53,8 @@ const MealPlan = () => {
 
   const [isEditing, setEdit] = useState(false);
 
+  const [recipeCategories, setRecipeCategories] = useState([]);
+
   // Citation
   // https://stackoverflow.com/questions/46586165/react-conditionally-render-based-on-viewport-size
   const [viewWidth, setViewWidth] = useState(window.innerWidth);
@@ -75,6 +77,7 @@ const MealPlan = () => {
 
   useEffect(() => {
     populateRecipes();
+    getRecipeCategories();
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   async function populateRecipes() {
@@ -93,6 +96,17 @@ const MealPlan = () => {
       setError(true);
       setLoading(false);
     }
+  }
+
+  async function getRecipeCategories() {
+    // Summary:
+    //   This function will obtain the recipe categories currently in the database and set the measurement list for the user to choose from.
+    const res = await axios.get('/api/recipecategories/options', {
+      headers: {
+        'Authorization': `Bearer ${user.token}`
+      }
+    });
+    setRecipeCategories(res.data);
   }
 
   useEffect(() => {
@@ -287,6 +301,7 @@ const MealPlan = () => {
               error={error}
               recipes={recipes}
               retry={populateRecipes}
+              recipeCategories={recipeCategories}
             />
           }
 
