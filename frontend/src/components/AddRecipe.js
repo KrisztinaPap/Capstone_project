@@ -486,7 +486,7 @@ const AddRecipe = () => {
               <textarea className="block input-field w-3/4 h-full lg:w-1/2 focus:outline-none focus:shadow-outline resize-none" id="addRecipeExtraNotes" onChange={HandleFormChange} />
             </div>
           </section>
-          <input className=" my-6 cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" />
+          <input className=" my-6 cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline" type="submit" value="Submit" />
           </form>
         </div>
     </>
