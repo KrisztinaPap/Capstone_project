@@ -558,7 +558,7 @@ function Recipe(){
               </div>
             </section>
             <section className="flex flex-row justify-around my-8">
-              <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline mt-8 mb-5 w-1/4" type="submit"/>
+              <input className="cursor-pointer purple-button hover:bg-purple-700 focus:outline-none focus:shadow-outline mt-8 mb-5 w-1/4" type="submit" value="Submit"/>
               <button className="cursor-pointer red-button hover:bg-red-700 focus:outline-none focus:shadow-outline ml-5 mt-8 mb-5 w-1/4" type="submit" onClick={toggleEditMode}>
                 Cancel Editing
               </button>
