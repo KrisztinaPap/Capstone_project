@@ -1,12 +1,24 @@
-# Capstone Project - Yummy by PuddleJumpers
+# TECHCareers Capstone Project
 
-## Project Summary
-- Our web application simplifies users’ lives by enabling them to plan their meals for the next day or week in advance, using their own favourite recipes. By doing so, it reduces stress, decision-fatigue, and cuts down on last-minute grocery store trips
+## Project Name: Yummy
 
-### Problem Statement
+## Team Name: Puddlejumpers
+
+## Team Members:
+- Krisztina Pap
+- Aaron Barthel
+- Kenji Au
+- Lindsey Graham
+- Tosin Olaniyi
+
+## Problem Statement
 - Deciding on what to eat or what meal to serve the family three times a day can be a source of significant stress for many. We aim to provide our users with a convenient and easy-to-use repository for their favourite recipes and a way to organize them into daily or weekly meal plans. This could save them a lot of last minute decision-making, headaches about what ingredients they do or do not have on hand, and most importantly those energy- and time-consuming last minute trips to pick up that crucial missing ingredient.
 
-### Project Documents and Reports
+## How Yummy solves the problem:
+- Yummy enables users to keep a collection of their favourite recipes in a private user profile
+- It simplifies users’ lives by enabling them to plan their meals for the next day or week in advance. By doing so, it reduces stress, decision-fatigue, and cuts down on last-minute grocery store trips.
+
+## Project Documents and Reports
 - [Approved Project Plan](./planning/Capstone_Project_Plan_Puddlejumpers.md)
 - [Project Trello Board](https://trello.com/b/zUabU848/capstone-puddlejumpers)
 - [Project Wireframes (Figma)](https://www.figma.com/file/iGsjkmFikAAyslTBFRk2Bs/Capstone%3A-Wireframes?node-id=0%3A1)
@@ -15,18 +27,11 @@
 - [Yummy User Manual](./planning/Yummy_User_Manual.md)
 - [Yummy Testing Manual](./planning/Yummy_Testing_Manual.md)
 
-### DEMO USER LOGIN INFORMATION:
+## DEMO USER LOGIN INFORMATION:
 - Email: demo@example.com
 - Password: Demo1!
 
-### Team Members:
-- Krisztina Pap
-- Aaron Barthel
-- Kenji Au
-- Lindsey Graham
-- Tosin Olaniyi
-
-### Stack Used
+## Stack Used
 - .NET Core
 - React
 - MariaDB
