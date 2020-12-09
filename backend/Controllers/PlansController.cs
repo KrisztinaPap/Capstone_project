@@ -13,14 +13,6 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Api.Controllers
 {
-
-  /*
-   * TODO
-   * Shorten the API EndPoints by removing all User & UserId references when Identity/User Authentication is implemented on the frontend as well
-   * Recommendations from Aaron
-   */
-
-
   [ApiController]
   [Route("api/[controller]")]
   public class PlansController : ControllerBase
