@@ -236,6 +236,9 @@ const Signup = () => {
         setEmail("");
         setPassword("");
         setPassword2("");
+
+        // Redirect to Login
+        history.push("/login");
       }
     })
     .catch(error => {
