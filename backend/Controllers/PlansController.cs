@@ -85,11 +85,17 @@ namespace Api.Controllers
             MealTime time = mealTimes
               .First(x => x.Name.Equals(incomingMeal.MealTime, StringComparison.OrdinalIgnoreCase));
 
+            Recipe incomingRecipe = _context.Recipes.Where(x => x.Id == incomingMeal.Recipes.First()).SingleOrDefault();
+
+            if(incomingRecipe == null) {
+              continue;
+            }
+
             var newMeal = new Meal() {
               MealTimeId = time.Id
             };
 
-            newMeal.MealRecipes.Add(new MealRecipe() { RecipeId = incomingMeal.Recipes.First() });
+            newMeal.MealRecipes.Add(new MealRecipe() { RecipeId = incomingRecipe.Id });
             currentPlan.Meals.Add(newMeal);
           }
         }
