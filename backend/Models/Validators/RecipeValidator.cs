@@ -34,10 +34,6 @@ namespace Api.Models.Validators
         .Must((x, y) => RecipeIdsMatch(x, y))
         .WithMessage("Ingredient recipeId must match recipe id.");
 
-
-      // TODO: Add validation for unique recipe names per user
-      //       Blocked waiting for identity.
-
       CommonRules();
     }
 

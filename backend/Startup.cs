@@ -151,12 +151,6 @@ namespace Api
             // enable server start via Debugger.IsAttached check
             // See: https://stackoverflow.com/questions/48461396/how-to-detect-if-debugging/48471950#48471950
 
-            // TODO: Keeping this line around just in case we want the VS
-            //       debugger to activate the front end.
-            //       Remove before project end.
-
-            // spa.UseReactDevelopmentServer(npmScript: "start");
-
             int spaServerPort = Configuration.GetValue(FrontendPort, 3000);
             spa.UseProxyToSpaDevelopmentServer(new UriBuilder("http", "localhost", 3000).Uri);
         }
