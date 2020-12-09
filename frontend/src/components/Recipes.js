@@ -144,7 +144,7 @@ function Recipes() {
                   <td className="w-full flex justify-between align-center">
                     <div className="flex align-center justify-start">
                       <Link className="flex align-center justify-start items-center" to={`/recipes/${recipes.id}`}>
-                        <img className="p-2 w-12 h-12 border rounded" src={recipes.image} alt={recipes.name}/>
+                        <img className="p-2 w-12 h-12 border rounded overflow-hidden" src={recipes.image} alt={recipes.name}/>
                         <div className="px-4 text-gray-800 hover:text-purple-500 focus:text-purple-500">
                           {recipes.name}
                           <span className="block text-sm">KCal: {(parseInt(recipes.fat) * 9) + (parseInt(recipes.protein) * 4) + (parseInt(recipes.carbohydrates) * 4)} | C: {recipes.carbohydrates} | F: {recipes.fat} | P: {recipes.protein}</span>

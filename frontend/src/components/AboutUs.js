@@ -12,7 +12,7 @@ const AboutUs = () => {
           <div className="flex flex-col md:flex-row justify-evenly -m-4">
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
-                <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
+                <img alt="Aaron" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
                      src="/Aaron.png"/>
                 <div className="w-full">
                   <h2 className="title-font font-medium text-lg text-gray-900">Aaron Barthel</h2>
@@ -46,7 +46,7 @@ const AboutUs = () => {
             </div>
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
-                <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
+                <img alt="Kenji" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
                      src="/kenji.png"/>
                 <div className="w-full">
                   <h2 className="title-font font-medium text-lg text-gray-900">Kenji Au</h2>
@@ -79,7 +79,7 @@ const AboutUs = () => {
             </div>
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
-                <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
+                <img alt="Krisztina" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
                      src="/Krisztina.png"/>
                 <div className="w-full">
                   <h2 className="title-font font-medium text-lg text-gray-900">Krisztina Pap</h2>
@@ -115,7 +115,7 @@ const AboutUs = () => {
           <div className="flex flex-col md:flex-row justify-evenly mb-4 ml-4 mr-4">
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
-                <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
+                <img alt="Lindsey" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
                      src="/Lindsey.jpg" />
                   <div className="w-full">
                     <h2 className="title-font font-medium text-lg text-gray-900">Lindsey Graham</h2>
@@ -149,7 +149,7 @@ const AboutUs = () => {
             </div>
             <div className="p-4 lg:w-1/4 md:w-1/2">
               <div className="h-full flex flex-col items-center text-center">
-                <img alt="team" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
+                <img alt="Tosin" className="flex-shrink-0 rounded-lg w-full h-56 object-cover object-center mb-4"
                      src="/Tosin.JPG" />
                   <div className="w-full">
                     <h2 className="title-font font-medium text-lg text-gray-900">Tosin Olaniyi</h2>
