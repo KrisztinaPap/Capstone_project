@@ -358,7 +358,7 @@ const AddRecipe = () => {
 
   return (
     <>
-      <div className="container mx-4 my-4 w-full">
+      <div className="container my-4 w-full">
         <div className="block text-center my-4">
           <h1 className="font-bold text-lg">Add a New Recipe</h1>
         </div>

@@ -574,7 +574,7 @@ function Recipe(){
   // If no axios Errors, and data is returned, render page...
   return(
     <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
-      <div className="container mx-2 md:mx-auto max-w-screen-lg my-8">
+      <div className="container md:mx-auto max-w-screen-lg my-8">
         <section className="flex justify-center my-8">
           {editSuccess && EditSuccess()}
         </section>
@@ -583,7 +583,7 @@ function Recipe(){
         </div>
       </div>
       <h1 className="text-4xl text-bold my-8">{myRecipe.name}</h1>
-      <section className="flex justify-between">
+      <section className="flex-col md:flex-row flex justify-between">
         <p className="text-md font-bold">Servings: <span className="font-normal">{myRecipe.servings}</span></p>
         <p className="text-md font-bold">Prep Time: <span className="font-normal">{myRecipe.prepTime} minutes</span></p>
         <p className="text-md font-bold">Cook Time: <span className="font-normal">{myRecipe.cookTime} minutes</span></p>
