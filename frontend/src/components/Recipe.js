@@ -54,6 +54,9 @@ function Recipe(){
   }
 
   function toggleEditMode(){
+    // Scroll to Top
+    window.scrollTo(0, 0);
+    
     if (editing){
       setEditing(false);
     } else {
@@ -384,6 +387,9 @@ function Recipe(){
   }
 
   function EditSuccess(){
+    // Scroll to Top
+    window.scrollTo(0, 0);
+
     return(
           <p className={"p-2 bg-green-500 font-bold text-white text-center border rounded w-2/3 justify-center"}>
             Successfully Updated Recipe!
